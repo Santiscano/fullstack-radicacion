@@ -1,0 +1,104 @@
+.layout {
+    min-height: 100vh;
+    background-color: #eff5fc;
+}
+.layout-section {
+    display: flex;
+    flex-direction: row;
+}
+.layout-left {
+    width: 100%;
+}
+.layout-right {
+    width: 100%;
+}
+
+.container__createFiling{
+    padding: 25px 0 0 50px;
+    margin-left: 1.5rem;
+}
+.createFiling {
+    font-size: 28px;
+    font-weight: bold;
+    color: #182031;
+    font-family: 'Source Sans Pro';
+}
+/* cuadro archivo */
+.filing-first {
+    padding: 15px;
+    background-color: white;
+    margin: 0 5vw 30px;
+    border-radius: 25px;
+}
+.filing {
+    padding: 15px;
+    background-color: white;
+    margin: 30px 5vw;
+    border-radius: 25px;
+}
+
+
+.inputFile {
+    max-width: 350px;
+}
+.border-color{
+    border-color: #c4c4c4
+}
+
+.division--containers {
+  width: 49.5%;
+}
+
+/* button */
+.button{
+    display: block;
+    background-color: #2759cd;
+    color: white;
+    padding: .6rem;
+    margin: .5rem;
+    border-radius: .5rem;
+    font-weight: 500;
+    align-items: flex-end;
+}
+
+/* table roudend */
+.viewTable {
+    padding: 15px;
+    background-color: white;
+    margin: 30px 1.5vw;
+    border-radius: 25px;
+    height: 580px;
+}
+.viewTableEdit {
+    padding: 0;
+    background-color: white;
+    margin: 0;
+    border-radius: 25px;
+    height: 580px;
+}
+
+/* pdf preview */
+.previewPdf {
+    padding: 15px;
+    background-color: white;
+    margin: 95px 1.5vw;
+    border-radius: 25px;
+    height: 580px;
+}
+
+.buttonHover:hover .arrow{
+  transform: translateX(-5px);
+}
+.buttonHover .arrow{
+  transition: all .3s ease-in-out;
+}
+button:active{
+  transform: scale(0.95);
+}
+
+@media screen and (max-width: 768px ) {
+    .layout {
+        flex-wrap: wrap;
+    }
+}
+

@@ -1,0 +1,19 @@
+.layout {
+  min-height: 100vh;
+  background-color: #eff5fc;
+}
+.layout-section {
+  display: flex;
+  flex-direction: row;
+}
+.layout-left {
+  width: 100%;
+}
+
+.home .filing-home {
+  padding: 15px;
+  background-color: white;
+  margin: 90px 5vw;
+  border-radius: 25px;
+  height: 280px;
+}

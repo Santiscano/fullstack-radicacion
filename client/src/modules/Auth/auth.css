@@ -1,0 +1,27 @@
+:root {
+    --primary-color   :#092C9F;
+    --secundary-color :#00a7ff;
+    --tertiary-color  :#0c71c3;
+};
+
+
+.text-test{
+    color: var(--tertiary-color)
+}
+
+.bg-rigth{
+    background: rgb(0,65,131);
+    background: radial-gradient(circle, #004183 0%, #092c9f 40% ,#001f4c 100% );
+}
+
+.buttonSubmit {
+    background-color: var(--primary-color);
+    color: white;
+}
+.login{
+    display: flex;
+    flex-direction: column;
+}
+
+
+

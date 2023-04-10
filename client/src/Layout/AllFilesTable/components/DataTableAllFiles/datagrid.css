@@ -1,0 +1,11 @@
+.willExpireSoon{
+  color: #f44336;
+  font-weight: 700;
+}
+
+.overduePending{
+  color: #ffb74d;
+  font-weight: 700;
+};
+
+

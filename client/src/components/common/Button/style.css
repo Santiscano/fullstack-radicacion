@@ -1,0 +1,11 @@
+/* button */
+.button{
+    display: block;
+    background-color: #2759cd;
+    color: white;
+    padding: .6rem;
+    margin: .5rem;
+    border-radius: .5rem;
+    font-weight: 500;
+    align-items: flex-end;
+}
