@@ -1,10 +1,8 @@
+import "dotenv/config";
 import { initializeApp } from "firebase/app";
 import admin from "firebase-admin";
-import serviceAccount from "./serviceAccountKey.json"
+import serviceAccount from "../keys/serviceAccountKey.json"
 import { ServiceAccount } from "firebase-admin";
-import * as dotenv from "dotenv";
-
-dotenv.config();
 
 const firebaseConfig = {
     apiKey: process.env.API_KEY_FIREBASE,

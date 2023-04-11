@@ -2,13 +2,8 @@ node_modules/
 dist/
 companyFiles/
 temp/
+keys/
 
 # dotenv environment variables file
 .env
 .env.test
-
-#Firebase files
-serviceAccountKey.json
-
-#Google
-key.json

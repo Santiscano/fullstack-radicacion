@@ -1,9 +1,8 @@
 import  "dotenv/config";
 import fs from 'fs';
-import path from "path";
 import { Request, Response } from 'express';
 import { upload } from '../../helpers/multerAddPdf';
-import { uploadFile } from '../../config/googleCloud/storage';
+import { uploadFile } from '../../config/gcp/storage';
 import { connection } from '../../config/database/db';
 import { editPDF } from '../../utilities/PDF/editPDF';
 
