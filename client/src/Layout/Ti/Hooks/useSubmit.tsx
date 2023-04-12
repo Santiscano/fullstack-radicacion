@@ -11,6 +11,7 @@ import {
   createArea,
   createCostCenter,
   createSubArea,
+  getArea,
 } from "../../../services/CenterCost.routes";
 import { numberToStringWithTwoDigitNumber as numberToString } from "../../../Utilities/formatted.utility";
 import { deleteFile } from "../../../services/Files.routes";
@@ -83,7 +84,10 @@ function useSubmit() {
 
     const allRoles = await getRoles();
     console.log("allRoles: ", allRoles);
-    setOptionsRol(allRoles);
+    const createUser = allRoles.filter(
+      (rol: { roles: string }) => rol.roles !== "ADMINISTRADOR"
+    );
+    setOptionsRol(createUser);
   };
   /**
    * metodo para pasar entre crear rol, cedi.... etc
@@ -182,6 +186,7 @@ function useSubmit() {
   };
   const handleSubmitCreateUser = async (e: any) => {
     try {
+      console.log(addressUser);
       setPreLoad(true);
       e.preventDefault();
       const res = await createUser(
@@ -247,6 +252,7 @@ function useSubmit() {
         setOpenSnackbar(true);
         setAreaNumber(NaN);
         setAreaName("");
+        getArea();
       }
       if (res?.status !== 200) {
         setMessageSnackbar(
@@ -316,12 +322,6 @@ function useSubmit() {
   };
   const handleSubmitCreateCostCenter = async (e: any) => {
     try {
-      console.log(
-        "values: ",
-        connectionSubArea,
-        costCenterNumber,
-        costCenterName
-      );
       setPreLoad(true);
       e.preventDefault();
       const res = await createCostCenter(
@@ -395,6 +395,9 @@ function useSubmit() {
   useEffect(() => {
     handleGetCitys();
   }, []);
+  useEffect(() => {
+    handleGetCitys();
+  }, [setMessageSnackbar]);
 
   return {
     showValue,
@@ -446,6 +449,7 @@ function useSubmit() {
     setAreaNumber,
     areaName,
     setAreaName,
+    setMessageSnackbar,
     // crear sub Area
     handleSubmitCreateSubArea,
     subAreaNumber,

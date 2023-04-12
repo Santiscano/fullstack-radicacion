@@ -73,7 +73,6 @@ export default function ModalInfoFile(props: any) {
     console.log("getFilesFromSettled: ", getFilesFromSettled);
     setListRoutesPDF(getFilesFromSettled?.data.rutas);
     getFilesFromSettled?.status == 200 && setViewPDF(true);
-    // console.log("listroutesPDF", listRoutesPDF);
   };
 
   useEffect(() => {

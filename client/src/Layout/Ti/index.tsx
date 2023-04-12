@@ -68,6 +68,7 @@ function TI() {
     setAreaNumber,
     areaName,
     setAreaName,
+    setMessageSnackbar,
     // crear sub Area
     handleSubmitCreateSubArea,
     subAreaNumber,
@@ -98,9 +99,6 @@ function TI() {
           <div className="container__createFiling">
             <h3 className="createFiling">
               Administracion & Gestion de Plataforma Web
-            </h3>
-            <h3 className="createFiling">
-              falta hacer funcional crear centro de costos
             </h3>
           </div>
           <article className="filing-ti">
@@ -304,7 +302,7 @@ function TI() {
                         Numero de documento
                       </label>
                       <TextFieldOutlined
-                        type={"text"}
+                        type={"number"}
                         label={"Numero"}
                         value={identificationNumber}
                         setValue={setIdentificationNumber}
@@ -345,9 +343,9 @@ function TI() {
                       </label>
                       <TextFieldOutlined
                         type={"text"}
-                        label={"Direccion"}
-                        value={addressUser}
-                        setValue={setAddressUser}
+                        label={"Direccion Ubicacion"}
+                        value={address}
+                        setValue={setAddress}
                         required
                       />
                     </article>
@@ -356,7 +354,7 @@ function TI() {
                         Telefono
                       </label>
                       <TextFieldOutlined
-                        type={"text"}
+                        type={"number"}
                         label={"numero"}
                         value={phone}
                         setValue={setPhone}
@@ -370,7 +368,7 @@ function TI() {
                         Correo Electronico
                       </label>
                       <TextFieldOutlined
-                        type={"text"}
+                        type={"email"}
                         label={"Email"}
                         value={email}
                         setValue={setEmail}
@@ -382,7 +380,7 @@ function TI() {
                         Contraseña
                       </label>
                       <TextFieldOutlined
-                        type={"text"}
+                        type={"password"}
                         label={"contraseña"}
                         value={password}
                         setValue={setPassword}
@@ -414,7 +412,7 @@ function TI() {
                   <div className="md:flex md:flex-wrap">
                     <article className="md:w-1/2">
                       <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                        Numero Area
+                        Numero Operacion
                       </label>
                       <TextFieldOutlined
                         type={"number"}
@@ -426,7 +424,7 @@ function TI() {
                     </article>
                     <article className="md:w-1/2">
                       <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                        Nombre Area
+                        Nombre Operacion
                       </label>
                       <TextFieldOutlined
                         type={"text"}
@@ -444,7 +442,7 @@ function TI() {
                   <div className="md:flex md:flex-wrap">
                     <article className="md:w-1/2">
                       <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                        Numero Sub-Area
+                        Numero Cedi
                       </label>
                       <TextFieldOutlined
                         type={"number"}
@@ -456,7 +454,7 @@ function TI() {
                     </article>
                     <article className="md:w-1/2">
                       <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                        Nombre Sub-Area
+                        Nombre Cedi
                       </label>
                       <TextFieldOutlined
                         type={"text"}
@@ -474,6 +472,7 @@ function TI() {
                       onChangeArea={handleConnectionArea}
                       valueSubArea={connectionSubArea}
                       onChangeSubArea={handleConnectionSubArea}
+                      update={setMessageSnackbar}
                     />
                   </div>
                   <Button name="Crear SubArea" />
@@ -483,7 +482,7 @@ function TI() {
                   <div className="md:flex md:flex-wrap">
                     <article className="md:w-1/2">
                       <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                        Numero Centro de Costos
+                        Numero Dependiencia
                       </label>
                       <TextFieldOutlined
                         type={"number"}
@@ -495,7 +494,7 @@ function TI() {
                     </article>
                     <article className="md:w-1/2">
                       <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                        Nombre Centro de Costos
+                        Nombre Dependencia
                       </label>
                       <TextFieldOutlined
                         type={"text"}

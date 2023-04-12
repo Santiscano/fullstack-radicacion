@@ -107,36 +107,36 @@ export default function InputSelect(props: any) {
     <>
       <div className="inline-block w-1/2">
         <List
-          title="Agregar Area "
-          placeholder="Selecciona centro de costos"
+          title="Agregar Operacion "
+          placeholder="Selecciona Operacion"
           value={props.valueArea}
           onChange={props.onChangeArea}
           required
-          itemDefault="Asigna un Centro de Costos"
+          itemDefault="Asigna una Operacion"
           listItems={area}
         />
       </div>
       <div className="inline-block w-1/2">
         <List
-          title="Agregar SubArea"
-          placeholder="Selecciona centro de costos"
+          title="Agregar Cedi"
+          placeholder="Selecciona Cedi"
           value={props.valueSubArea}
           onChange={props.onChangeSubArea}
           required
           disabled={!props.valueArea}
-          itemDefault="Asigna un Centro de Costos"
+          itemDefault="Asigna una Cedi"
           listItems={subArea}
         />
       </div>
       <div className="inline-block w-1/2">
         <List
-          title="Agregar Centro de Costos"
-          placeholder="Selecciona centro de costos"
+          title="Agregar Dependencia"
+          placeholder="Selecciona Dependencia"
           value={props.valueCostCenter}
           onChange={props.onChangeCostCenter}
           required
           disabled={!props.valueSubArea}
-          itemDefault="Asigna un Centro de Costos"
+          itemDefault="Asigna un Dependencia"
           listItems={costCenter}
         />
       </div>

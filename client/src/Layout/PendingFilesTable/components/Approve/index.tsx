@@ -6,6 +6,9 @@ import { get, roles } from "../../../../components/tools/SesionSettings";
 import { editFile } from "../../../../services/Files.routes";
 import InputsSelectCenterCost from "../common/InputsSelectCenterCost";
 import { GeneralValuesContext } from "./../../../../Context/GeneralValuesContext";
+import Upload from "../../../../components/common/Upload";
+import { uploadfile } from "../../../../services/Pdf.routes";
+import { createFilePath } from "../../../../services/FilesPath.routes";
 
 function Approve({
   user,
@@ -35,6 +38,8 @@ function Approve({
   });
   const [codeAccounting, setCodeAccounting] = useState("");
   const [comments, setComments] = useState("");
+  const [filePDFGoogle, setFilePDFGoogle] = useState("");
+  const [fileName, setFileName] = useState("");
 
   const {
     setPreLoad,
@@ -67,8 +72,31 @@ function Approve({
     handleOpenModalAuth();
   };
 
+  const handleFileSubmit = async (e: any) => {
+    try {
+      e.preventDefault();
+      setPreLoad(true);
+      const idFile = user.idfiles;
+      const responseUploadFile = await uploadfile(filePDFGoogle, idFile); // guarda PDF
+      const pathFileUpload = await responseUploadFile?.data.pathFile; //almacena ruta asignada en variable
+
+      // relaciona el idfiles con la ruta asignada es decir pathFileupload
+      const responseConcatFilePath = await createFilePath(
+        idFile,
+        pathFileUpload,
+        comments,
+        get("idusers")
+      ); // relaciona pdf y archivo
+    } catch (error) {
+      console.log("error: ", error);
+    } finally {
+      setPreLoad(false);
+    }
+  };
+
   const handleSubmit = async (e: any) => {
     try {
+      handleFileSubmit();
       setPreLoad(true);
       e.preventDefault();
       const response = await editFile(
@@ -102,6 +130,17 @@ function Approve({
     }
   };
 
+  /**
+   * metodo para mostrar a la vista el nombre del archivo seleccionado
+   * @param e
+   */
+  const handleChangeFile = (e: SelectChangeEvent) => {
+    // @ts-ignore
+    setFilePDFGoogle(e.target.files[0]);
+    const fileNameEvent = e.target.value.replace(/^.*\\/, ""); // renombrar archivo
+    setFileName(fileNameEvent);
+  };
+
   return (
     <section className="flex flex-wrap w-full items-center justify-between ">
       <form className="w-full my-0" onSubmit={handleSubmit}>
@@ -130,6 +169,14 @@ function Approve({
               />
             </article>
           )}
+        <div className="flex flex-col mt-4 w-f">
+          <Upload
+            file={filePDFGoogle}
+            fileName={fileName}
+            handleChangeFile={handleChangeFile}
+            required={get("idroles") == roles.Tesoreria || roles.Contaduria}
+          />
+        </div>
         <div className="flex mt-4 w-full">
           <textarea
             name="Comentario"
