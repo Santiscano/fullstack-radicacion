@@ -60,8 +60,8 @@ export const postCostSubArea = async (req: Request, res: Response) => {
         };
         const data = twoCharactersValidator(cost_center_subarea)
         const [ validate ] = await connection.query(`
-            SELECT count(*) AS contador FROM cost_center_subarea WHERE cost_center_subarea = ?;`,
-            [ data ]);
+            SELECT count(*) AS contador FROM cost_center_subarea WHERE cost_center_subarea = ? AND idcost_center_area = ?;`,
+            [ data, idcost_center_area ]);
         // @ts-ignore
         if( validate[0].contador !== 0 || data === 'INVALID_VALUED' ) {
             return res.status(201).json({ error: true, message: `Sub Area del centro de costos: ${data} no es valido o ya se encuentra registrada en la Base de Datos`});

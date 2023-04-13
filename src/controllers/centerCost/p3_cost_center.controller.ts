@@ -60,8 +60,8 @@ export const postCostCenter = async (req: Request, res: Response) => {
         };
         const data = twoCharactersValidator(cost_center)
         const [ validate ] = await connection.query(`
-            SELECT count(*) AS contador FROM cost_center WHERE cost_center = ?;`,
-                [ data ]);
+            SELECT count(*) AS contador FROM cost_center WHERE cost_center = ? AND idcost_center_subarea = ?;`,
+                [ data, idcost_center_subarea ]);
         // @ts-ignore
         if( validate[0].contador !== 0 || data === 'INVALID_VALUED' ) {
             return res.status(201).json({ error: true, message: `Centro de costos: ${ data } es invalido o ya se encuentra registrada en la Base de Datos`});
