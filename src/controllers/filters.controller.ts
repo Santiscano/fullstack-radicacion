@@ -47,9 +47,9 @@ export const getTypeIdentification  = async ( req: Request, res: Response ) => {
         };
         const  data: JsonObject  = [
             { typeDocument: 'CEDULA CIUDADANIA' }, 
-            { typeDocument: 'NIT' }, 
-            { typeDocument: 'PASAPORTE' }, 
             { typeDocument: 'CEDULA EXTRANJERIA' },
+            { typeDocument: 'NIT' },
+            { typeDocument: 'PASAPORTE' }, 
             { typeDocument: 'RUT' }
         ];
         return res.status(200).json({ error: false, data });
