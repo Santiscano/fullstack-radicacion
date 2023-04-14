@@ -111,12 +111,12 @@ function SelectArea({
       {isArea && (
         <div className="inline-block w-1/2">
           <List
-            title="Conectar Con Operacion "
-            placeholder="Selecciona Operacion A Conectar"
+            title="Conectar Con Unidad De Negocio "
+            placeholder="Selecciona Unidad De Negocio A Conectar"
             value={valueArea}
             onChange={onChangeArea}
             required
-            itemDefault="Asigna Una Operacion"
+            itemDefault="Asigna Una Unidad De Negocio"
             listItems={area}
           />
         </div>

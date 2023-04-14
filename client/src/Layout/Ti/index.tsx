@@ -16,6 +16,7 @@ import useSubmit from "./Hooks/useSubmit";
 import "./TI.css";
 import SelectArea from "./components/common/SelectArea";
 import AlertDialogSlide from "./components/common/AlertDialogSlide";
+import { roles } from "../../components/tools/SesionSettings";
 
 function TI() {
   const {
@@ -43,6 +44,7 @@ function TI() {
     assignRole,
     handleRol,
     optionsRol,
+    onlyRolProvider,
     cedi,
     handleCedi,
     optionsCedisIdName,
@@ -113,7 +115,8 @@ function TI() {
                   <Tab label="Inicio" {...a11yProps(0)} />
                   <Tab label="Crear Cedi" {...a11yProps(1)} />
                   <Tab label="Crear Usuario" {...a11yProps(2)} />
-                  <Tab label="Crear Centro de Costos" {...a11yProps(3)} />
+                  <Tab label="Crear Proveedor" {...a11yProps(3)} />
+                  <Tab label="Crear Centro de Costos" {...a11yProps(4)} />
                 </Tabs>
               </Box>
               <TabPanel value={showValue} index={0}>
@@ -160,6 +163,7 @@ function TI() {
                   </Snackbar>
                 </form>
               </TabPanel>
+
               <TabPanel value={showValue} index={1}>
                 <form onSubmit={() => handleSubmitCreateCedi(event)}>
                   <div className="md:flex md:flex-wrap">
@@ -198,11 +202,11 @@ function TI() {
                   <div className="md:flex md:flex-wrap">
                     <article className="md:w-1/2">
                       <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                        Direccion
+                        Dirección
                       </label>
                       <TextFieldOutlined
                         type={"text"}
-                        label={"Direccion Ubicacion"}
+                        label={"Dirección Ubicacion"}
                         value={address}
                         setValue={setAddress}
                         required
@@ -254,165 +258,296 @@ function TI() {
                   </Snackbar>
                 </form>
               </TabPanel>
-              <TabPanel value={showValue} index={2}>
-                <form onSubmit={(event) => handleSubmitCreateUser(event)}>
-                  <div className="md:flex md:flex-wrap">
-                    <article className="md:w-1/2">
-                      <InputSelectRol
-                        type={"text"}
-                        title="Asignar Rol"
-                        placeholder="Rol"
-                        name="role"
-                        required
-                        value={assignRole}
-                        onChange={handleRol}
-                        itemDefault="selecciona una opcion"
-                        items={optionsRol}
-                      />
-                    </article>
-                    <article className="md:w-1/2">
-                      <InputSelectCedi
-                        type={"text"}
-                        title="Asignar Cedi"
-                        placeholder="Cedi"
-                        name="cedi"
-                        required
-                        value={cedi}
-                        onChange={handleCedi}
-                        itemDefault="selecciona una opcion"
-                        items={optionsCedisIdName}
-                      />
-                    </article>
-                  </div>
-                  <div className="md:flex md:flex-wrap">
-                    <article className="md:w-1/2">
-                      <InputSelectDocType
-                        type={"text"}
-                        title="Tipo de Documento"
-                        placeholder="C.C, NIT..."
-                        name="type"
-                        required
-                        value={identificationType}
-                        onChange={handleCedity}
-                        itemDefault="selecciona un tipo"
-                      />
-                    </article>
-                    <article className="md:w-1/2">
-                      <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                        Numero de documento
-                      </label>
-                      <TextFieldOutlined
-                        type={"number"}
-                        label={"Numero"}
-                        value={identificationNumber}
-                        setValue={setIdentificationNumber}
-                        required
-                      />
-                    </article>
-                  </div>
-                  <div className="md:flex md:flex-wrap">
-                    <article className="md:w-1/2">
-                      <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                        Nombres
-                      </label>
-                      <TextFieldOutlined
-                        type={"text"}
-                        label={"Nombre"}
-                        value={firstName}
-                        setValue={setFirstname}
-                        required
-                      />
-                    </article>
-                    <article className="md:w-1/2">
-                      <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                        Apellidos
-                      </label>
-                      <TextFieldOutlined
-                        type={"text"}
-                        label={"Apellidos"}
-                        value={lastName}
-                        setValue={setLastName}
-                        required
-                      />
-                    </article>
-                  </div>
-                  <div className="md:flex md:flex-wrap">
-                    <article className="md:w-1/2">
-                      <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                        Direccion
-                      </label>
-                      <TextFieldOutlined
-                        type={"text"}
-                        label={"Direccion Ubicacion"}
-                        value={address}
-                        setValue={setAddress}
-                        required
-                      />
-                    </article>
-                    <article className="md:w-1/2">
-                      <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                        Telefono
-                      </label>
-                      <TextFieldOutlined
-                        type={"number"}
-                        label={"numero"}
-                        value={phone}
-                        setValue={setPhone}
-                        required
-                      />
-                    </article>
-                  </div>
-                  <div className="md:flex md:flex-wrap">
-                    <article className="md:w-1/2">
-                      <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                        Correo Electronico
-                      </label>
-                      <TextFieldOutlined
-                        type={"email"}
-                        label={"Email"}
-                        value={email}
-                        setValue={setEmail}
-                        required
-                      />
-                    </article>
-                    <article className="md:w-1/2">
-                      <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                        Contraseña
-                      </label>
-                      <TextFieldOutlined
-                        type={"password"}
-                        label={"contraseña"}
-                        value={password}
-                        setValue={setPassword}
-                        required
-                      />
-                    </article>
-                  </div>
-                  <Button name="Crear Usuario" />
-                  <Snackbar
-                    open={openSnackbar}
-                    autoHideDuration={6000}
-                    TransitionComponent={TransitionLeft}
-                    onClose={handleCloseSnackbar}
-                  >
-                    <Alert
-                      // @ts-ignore
+              {(roles.AuditorTI || roles.Administrador) && (
+                <TabPanel value={showValue} index={2}>
+                  <form onSubmit={(event) => handleSubmitCreateUser(event)}>
+                    <div className="md:flex md:flex-wrap">
+                      <article className="md:w-1/2">
+                        <InputSelectRol
+                          type={"text"}
+                          title="Asignar Rol"
+                          placeholder="Rol"
+                          name="role"
+                          required
+                          value={assignRole}
+                          onChange={handleRol}
+                          itemDefault="selecciona una opcion"
+                          items={optionsRol}
+                        />
+                      </article>
+                      <article className="md:w-1/2">
+                        <InputSelectCedi
+                          type={"text"}
+                          title="Asignar Cedi"
+                          placeholder="Cedi"
+                          name="cedi"
+                          required
+                          value={cedi}
+                          onChange={handleCedi}
+                          itemDefault="selecciona una opcion"
+                          items={optionsCedisIdName}
+                        />
+                      </article>
+                    </div>
+                    <div className="md:flex md:flex-wrap">
+                      <article className="md:w-1/2">
+                        <InputSelectDocType
+                          type={"text"}
+                          title="Tipo de Documento"
+                          placeholder="C.C, NIT..."
+                          name="type"
+                          required
+                          value={identificationType}
+                          onChange={handleCedity}
+                          itemDefault="selecciona un tipo"
+                        />
+                      </article>
+                      <article className="md:w-1/2">
+                        <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
+                          Numero de documento
+                        </label>
+                        <TextFieldOutlined
+                          type={"number"}
+                          label={"Numero"}
+                          value={identificationNumber}
+                          setValue={setIdentificationNumber}
+                          required
+                        />
+                      </article>
+                    </div>
+                    <div className="md:flex md:flex-wrap">
+                      <article className="md:w-1/2">
+                        <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
+                          Nombres
+                        </label>
+                        <TextFieldOutlined
+                          type={"text"}
+                          label={"Nombre"}
+                          value={firstName}
+                          setValue={setFirstname}
+                          required
+                        />
+                      </article>
+                      <article className="md:w-1/2">
+                        <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
+                          Apellidos
+                        </label>
+                        <TextFieldOutlined
+                          type={"text"}
+                          label={"Apellidos"}
+                          value={lastName}
+                          setValue={setLastName}
+                          required
+                        />
+                      </article>
+                    </div>
+                    <div className="md:flex md:flex-wrap">
+                      <article className="md:w-1/2">
+                        <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
+                          Dirección
+                        </label>
+                        <TextFieldOutlined
+                          type={"text"}
+                          label={"Dirección Ubicacion"}
+                          value={address}
+                          setValue={setAddress}
+                          required
+                        />
+                      </article>
+                      <article className="md:w-1/2">
+                        <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
+                          Telefono
+                        </label>
+                        <TextFieldOutlined
+                          type={"number"}
+                          label={"numero"}
+                          value={phone}
+                          setValue={setPhone}
+                          required
+                        />
+                      </article>
+                    </div>
+                    <div className="md:flex md:flex-wrap">
+                      <article className="md:w-1/2">
+                        <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
+                          Correo Electronico
+                        </label>
+                        <TextFieldOutlined
+                          type={"email"}
+                          label={"Email"}
+                          value={email}
+                          setValue={setEmail}
+                          required
+                        />
+                      </article>
+                      <article className="md:w-1/2">
+                        <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
+                          Contraseña
+                        </label>
+                        <TextFieldOutlined
+                          type={"password"}
+                          label={"contraseña"}
+                          value={password}
+                          setValue={setPassword}
+                          required
+                        />
+                      </article>
+                    </div>
+                    <Button name="Crear Usuario" />
+                    <Snackbar
+                      open={openSnackbar}
+                      autoHideDuration={6000}
+                      TransitionComponent={TransitionLeft}
                       onClose={handleCloseSnackbar}
-                      // @ts-ignore
-                      severity={severitySnackbar}
-                      sx={{ width: "100%", fontSize: "18px" }}
                     >
-                      {messageSnackbar}
-                    </Alert>
-                  </Snackbar>
-                </form>
-              </TabPanel>
-              <TabPanel value={showValue} index={3}>
+                      <Alert
+                        // @ts-ignore
+                        onClose={handleCloseSnackbar}
+                        // @ts-ignore
+                        severity={severitySnackbar}
+                        sx={{ width: "100%", fontSize: "18px" }}
+                      >
+                        {messageSnackbar}
+                      </Alert>
+                    </Snackbar>
+                  </form>
+                </TabPanel>
+              )}
+              {(roles.Contaduria || roles.Administrador) && (
+                <TabPanel value={showValue} index={3}>
+                  <form onSubmit={(event) => handleSubmitCreateUser(event)}>
+                    <div className="md:flex md:flex-wrap">
+                      <article className="md:w-1/2">
+                        <InputSelectRol
+                          type={"text"}
+                          title="Asignar Rol"
+                          placeholder="Rol"
+                          name="role"
+                          required
+                          value={assignRole}
+                          onChange={handleRol}
+                          itemDefault="selecciona una opcion"
+                          items={onlyRolProvider}
+                        />
+                      </article>
+                      <article className="md:w-1/2">
+                        <InputSelectCedi
+                          type={"text"}
+                          title="Asignar Cedi"
+                          placeholder="Cedi"
+                          name="cedi"
+                          required
+                          value={cedi}
+                          onChange={handleCedi}
+                          itemDefault="selecciona una opcion"
+                          items={optionsCedisIdName}
+                        />
+                      </article>
+                    </div>
+                    <div className="md:flex md:flex-wrap">
+                      <article className="md:w-1/2">
+                        <InputSelectDocType
+                          type={"text"}
+                          title="Tipo de Documento"
+                          placeholder="C.C, NIT..."
+                          name="type"
+                          required
+                          value={identificationType}
+                          onChange={handleCedity}
+                          itemDefault="selecciona un tipo"
+                        />
+                      </article>
+                      <article className="md:w-1/2">
+                        <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
+                          Numero de documento
+                        </label>
+                        <TextFieldOutlined
+                          type={"number"}
+                          label={"Numero"}
+                          value={identificationNumber}
+                          setValue={setIdentificationNumber}
+                          required
+                        />
+                      </article>
+                    </div>
+                    <div className="md:flex md:flex-wrap">
+                      <article className="md:w-1/2">
+                        <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
+                          Nombres
+                        </label>
+                        <TextFieldOutlined
+                          type={"text"}
+                          label={"Nombre"}
+                          value={firstName}
+                          setValue={setFirstname}
+                          required
+                        />
+                      </article>
+                      <article className="md:w-1/2">
+                        <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
+                          Dirección
+                        </label>
+                        <TextFieldOutlined
+                          type={"text"}
+                          label={"Dirección Ubicacion"}
+                          value={address}
+                          setValue={setAddress}
+                          required
+                        />
+                      </article>
+                    </div>
+                    <div className="md:flex md:flex-wrap">
+                      <article className="md:w-1/2">
+                        <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
+                          Telefono
+                        </label>
+                        <TextFieldOutlined
+                          type={"number"}
+                          label={"numero"}
+                          value={phone}
+                          setValue={setPhone}
+                          required
+                        />
+                      </article>
+                      <article className="md:w-1/2">
+                        <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
+                          Correo Electronico
+                        </label>
+                        <TextFieldOutlined
+                          type={"email"}
+                          label={"Email"}
+                          value={email}
+                          setValue={setEmail}
+                          required
+                        />
+                      </article>
+                    </div>
+                    <Button name="Crear Usuario" />
+                    <Snackbar
+                      open={openSnackbar}
+                      autoHideDuration={6000}
+                      TransitionComponent={TransitionLeft}
+                      onClose={handleCloseSnackbar}
+                    >
+                      <Alert
+                        // @ts-ignore
+                        onClose={handleCloseSnackbar}
+                        // @ts-ignore
+                        severity={severitySnackbar}
+                        sx={{ width: "100%", fontSize: "18px" }}
+                      >
+                        {messageSnackbar}
+                      </Alert>
+                    </Snackbar>
+                  </form>
+                </TabPanel>
+              )}
+              <TabPanel value={showValue} index={4}>
                 <form onSubmit={(event) => handleSubmitCreateArea(event)}>
                   <div className="md:flex md:flex-wrap">
                     <article className="md:w-1/2">
                       <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                        Numero Operacion
+                        Numero Unidad De Negocio
                       </label>
                       <TextFieldOutlined
                         type={"number"}
@@ -424,7 +559,7 @@ function TI() {
                     </article>
                     <article className="md:w-1/2">
                       <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                        Nombre Operacion
+                        Nombre Unidad De Negocio
                       </label>
                       <TextFieldOutlined
                         type={"text"}

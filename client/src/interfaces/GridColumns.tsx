@@ -22,7 +22,7 @@ export const columnsEdit: GridColDef[] = [
   },
   {
     field: "files_code_accounting",
-    headerName: "Codigo Contabilidad",
+    headerName: "Codigo Causación",
     width: 70,
   },
   {
@@ -37,7 +37,7 @@ export const columnsEdit: GridColDef[] = [
   },
   {
     field: "files_code_treasury",
-    headerName: "Codigo Tesoreria",
+    headerName: "Numero De Egreso",
     width: 70,
   },
   {
@@ -223,7 +223,7 @@ export const columnsAllFiles: GridColDef[] = [
   },
   {
     field: "files_code_accounting",
-    headerName: "Codigo Contabilidad",
+    headerName: "Codigo Causación",
     width: 70,
   },
   {
@@ -238,7 +238,7 @@ export const columnsAllFiles: GridColDef[] = [
   },
   {
     field: "files_code_treasury",
-    headerName: "Codigo Tesoreria",
+    headerName: "Numero De Egreso",
     width: 70,
   },
   {

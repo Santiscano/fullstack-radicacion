@@ -158,11 +158,11 @@ function Approve({
           Number(get("idroles")) == roles.Contaduria && (
             <article className="md:w-1/2">
               <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                Codigo Contabilidad
+                Codigo Causación
               </label>
               <TextFieldOutlined
                 type={"text"}
-                label={"Codigo Contabilidad"}
+                label={"Codigo Causación"}
                 value={codeAccounting}
                 setValue={setCodeAccounting}
                 required

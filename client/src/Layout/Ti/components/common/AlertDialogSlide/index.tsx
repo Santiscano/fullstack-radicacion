@@ -19,6 +19,8 @@ const Transition = forwardRef(function Transition(
 });
 
 function AlertDialogSlide(inputDeleted: any) {
+  const valueDelete = inputDeleted.inputDeleted;
+  console.log("inputDeleted: ", valueDelete);
   const [open, setOpen] = useState(false);
 
   const handleClickOpenDialogDelete = () => {
@@ -33,8 +35,18 @@ function AlertDialogSlide(inputDeleted: any) {
 
   return (
     <div>
-      <Button variant="outlined" onClick={handleClickOpenDialogDelete}>
-        Slide in alert dialog
+      <Button
+        variant="contained"
+        // color="#ef4444"
+        style={{
+          color: "#fff",
+          background: "#ef4444",
+          marginTop: "12px",
+          marginLeft: "18px",
+        }}
+        onClick={handleClickOpenDialogDelete}
+      >
+        Eliminar
       </Button>
       <Dialog
         open={open}
@@ -43,18 +55,36 @@ function AlertDialogSlide(inputDeleted: any) {
         onClose={handleCloseDialogDelete}
         aria-describedby="alert-dialog-slide-description"
       >
-        <DialogTitle>
-          {"Buscas una razon para cambiar de trabajo da click al boton?"}
+        <DialogTitle style={{ fontWeight: "bold" }}>
+          {`Estas seguro de querer Eliminar este archivo? `}
         </DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-slide-description">
-            Al carajo todo, aqui murio este archivo y mi vida laboral
+          <DialogContentText
+            id="alert-dialog-slide-description"
+            color="error"
+            style={{ fontWeight: "bolder" }}
+          >
+            Ten en cuenta que NO podras recuperar esta informacion despues de
+            eliminar el archivo: "{`${valueDelete}`}".
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseDialogDelete}>pensarlo de nuevo</Button>
-          <Button onClick={handleDeleteFile}>
-            Estoy seguro y quiero que me despidan
+          <Button
+            variant="contained"
+            onClick={handleCloseDialogDelete}
+            style={{ marginBottom: "15px", marginRight: "10px" }}
+          >
+            Cancelar
+          </Button>
+          <Button
+            variant="contained"
+            onClick={(e) =>
+              handleDeleteFile(e, valueDelete, handleCloseDialogDelete)
+            }
+            color="error"
+            style={{ marginBottom: "15px", marginRight: "15px" }}
+          >
+            Eliminar
           </Button>
         </DialogActions>
       </Dialog>

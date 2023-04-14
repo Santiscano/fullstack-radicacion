@@ -90,11 +90,11 @@ function Finally({ user, endActivitySelect }: any) {
           Number(get("idroles")) == roles.Tesoreria && (
             <article className="md:w-1/2">
               <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                Codigo Tesoreria
+                Numero De Egreso
               </label>
               <TextFieldOutlined
                 type={"text"}
-                label={"Codigo Tesoreria"}
+                label={"Numero De Egreso"}
                 value={codeTreasury}
                 setValue={setCodeTreasury}
                 required
