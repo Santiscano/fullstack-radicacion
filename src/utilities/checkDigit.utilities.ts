@@ -1,5 +1,5 @@
 
-export const calcularDigitoVerificacion = ( myNit: string ) => {
+export const calcularDigitoVerificacion = ( myNit: string ): number => {
     try {
         let vpri: any, x: number, y: any, z: number;
         myNit = myNit.replace ( /\s/g, "" ) ; // Espacios
@@ -37,6 +37,6 @@ export const calcularDigitoVerificacion = ( myNit: string ) => {
         return( y > 1 ) ? 11 - y : y 
     } catch (error) {
         console.log(error);
-        return "Error en el digito de verificación"
+        return NaN
     };
 };
