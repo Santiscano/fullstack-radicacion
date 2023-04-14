@@ -14,6 +14,7 @@ export const optionsRedirectToOperativo = [
 export const optionAccountType = [
   'CUENTA COBRO',
   'FACTURA PROVEEDOR',
+  'MANIFIESTO DE CARGA'
 ];
 export const optionDocumentType = [
   'CEDULA CIUDADANIA',

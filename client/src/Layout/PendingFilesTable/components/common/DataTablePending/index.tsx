@@ -124,6 +124,7 @@ export default function DataTablePending({ row }: any) {
                 users_providers_expiration_date: false,
                 users_providers_paydays: false,
                 users_status: false,
+                UserAssignedName: false,
               },
             },
           }}

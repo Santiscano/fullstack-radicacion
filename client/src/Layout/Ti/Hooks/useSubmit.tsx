@@ -11,6 +11,7 @@ import {
   createArea,
   createCostCenter,
   createSubArea,
+  getArea,
 } from "../../../services/CenterCost.routes";
 import { numberToStringWithTwoDigitNumber as numberToString } from "../../../Utilities/formatted.utility";
 import { deleteFile } from "../../../services/Files.routes";
@@ -36,6 +37,7 @@ function useSubmit() {
   // create user
   const [assignRole, setAssignRole] = useState<any>();
   const [optionsRol, setOptionsRol] = useState<any>([]);
+  const [onlyRolProvider, setOnlyRolProvider] = useState<any>([]);
   const [cedi, setCedi] = useState<any>();
   const [optionsCedisIdName, setOptionsCedisIdName] = useState<any>([]);
   const [identificationType, setIdentificationType] = useState("");
@@ -81,9 +83,20 @@ function useSubmit() {
     console.log("allCedis: ", allCedis);
     setOptionsCedisIdName(allCedis);
 
+    // crear usuarios
     const allRoles = await getRoles();
     console.log("allRoles: ", allRoles);
-    setOptionsRol(allRoles);
+    const createUser = allRoles.filter(
+      (rol: { roles: string }) =>
+        rol.roles !== "ADMINISTRADOR" && rol.roles !== "PROVEEDOR"
+    );
+    setOptionsRol(createUser);
+
+    // crear proveedores
+    const createProvider = allRoles.filter(
+      (rol: { roles: string }) => rol.roles === "PROVEEDOR"
+    );
+    setOnlyRolProvider(createProvider);
   };
   /**
    * metodo para pasar entre crear rol, cedi.... etc
@@ -182,6 +195,7 @@ function useSubmit() {
   };
   const handleSubmitCreateUser = async (e: any) => {
     try {
+      console.log(addressUser);
       setPreLoad(true);
       e.preventDefault();
       const res = await createUser(
@@ -203,6 +217,7 @@ function useSubmit() {
         setPreLoad(false);
         setOpenSnackbar(true);
         setAssignRole("");
+        setOptionsRol("");
         setCedi("");
         setIdentificationType("");
         setIdentificationNumber("");
@@ -247,6 +262,7 @@ function useSubmit() {
         setOpenSnackbar(true);
         setAreaNumber(NaN);
         setAreaName("");
+        getArea();
       }
       if (res?.status !== 200) {
         setMessageSnackbar(
@@ -316,12 +332,6 @@ function useSubmit() {
   };
   const handleSubmitCreateCostCenter = async (e: any) => {
     try {
-      console.log(
-        "values: ",
-        connectionSubArea,
-        costCenterNumber,
-        costCenterName
-      );
       setPreLoad(true);
       e.preventDefault();
       const res = await createCostCenter(
@@ -363,38 +373,52 @@ function useSubmit() {
       setOpenSnackbar(true);
     }
   };
-  const handleDeleteFile = async (e: any) => {
+  const handleDeleteFile = async (
+    e: any,
+    valueDelete: any,
+    handleCloseDialogDelete: any
+  ) => {
     console.log("funciono a la perfeccion");
-    // try {
-    //   setPreLoad(true);
-    //   e.preventDefault();
-    //   const res = await deleteFile(inputDeleted);
-    //   console.log("res: ", res);
-    //   if (res?.status == 200) {
-    //     setInputDeleted("");
-    //     setMessageSnackbar("Archivo Eliminado Con Exito");
-    //     setSeveritySnackbar("success");
-    //     setPreLoad(false);
-    //     setOpenSnackbar(true);
-    //   }
-    //   if (res?.status !== 200) {
-    //     setMessageSnackbar("No se pudo Eliminar archivo, Ocurrio Un Error");
-    //     setSeveritySnackbar("error");
-    //     setPreLoad(false);
-    //     setOpenSnackbar(true);
-    //   }
-    // } catch (error) {
-    //   console.log("error: ", error);
-    //   setMessageSnackbar("Ocurrio Un Error Intenta De Nuevo");
-    //   setSeveritySnackbar("error");
-    //   setOpenSnackbar(true);
-    // }
+    try {
+      setPreLoad(true);
+      e.preventDefault();
+      const res = await deleteFile(valueDelete);
+      console.log("res: ", res);
+      if (res?.status == 200) {
+        setInputDeleted("");
+        setMessageSnackbar("Archivo Eliminado Con Exito");
+        setSeveritySnackbar("success");
+        handleCloseDialogDelete();
+        setPreLoad(false);
+        setOpenSnackbar(true);
+      }
+      if (res?.status !== 200) {
+        setMessageSnackbar(
+          `No se pudo Eliminar archivo ${inputDeleted}, Ocurrio Un Error`
+        );
+        setSeveritySnackbar("error");
+        setPreLoad(false);
+        setOpenSnackbar(true);
+        handleCloseDialogDelete();
+      }
+    } catch (error) {
+      console.log("error: ", error);
+      setMessageSnackbar("Ocurrio Un Error Intenta De Nuevo");
+      setSeveritySnackbar("error");
+      setOpenSnackbar(true);
+      handleCloseDialogDelete();
+    } finally {
+      setPreLoad(false);
+    }
   };
 
   // --------------------------Effects-------------------------------//
   useEffect(() => {
     handleGetCitys();
   }, []);
+  useEffect(() => {
+    handleGetCitys();
+  }, [setMessageSnackbar]);
 
   return {
     showValue,
@@ -421,6 +445,7 @@ function useSubmit() {
     assignRole,
     handleRol,
     optionsRol,
+    onlyRolProvider,
     cedi,
     handleCedi,
     optionsCedisIdName,
@@ -446,6 +471,7 @@ function useSubmit() {
     setAreaNumber,
     areaName,
     setAreaName,
+    setMessageSnackbar,
     // crear sub Area
     handleSubmitCreateSubArea,
     subAreaNumber,

@@ -24,18 +24,28 @@ function SelectArea({
   onChangeArea,
   valueSubArea,
   onChangeSubArea,
+  update,
 }: any) {
   const [area, setArea] = useState<any>();
   const [subArea, setSubArea] = useState<any>();
 
+  /**
+   * ejecuta las 2 funciones area y subarea
+   */
   const handleList = () => {
     handleArea();
     handleSubArea();
   };
+  /**
+   * traer de nuevo todas las areas
+   */
   const handleArea = async () => {
     const area = await getArea();
     setArea(area?.data.data);
   };
+  /**
+   * trae de nuevo todas las subareas
+   */
   const handleSubArea = async () => {
     const subArea = await getAllSubAreas();
     setSubArea(subArea?.data.data);
@@ -80,7 +90,7 @@ function SelectArea({
             {Array.isArray(listItems) &&
               listItems.map((item: any, index: any) => (
                 <MenuItem key={index} value={item.id}>
-                  {item.name} - {item.number}
+                  {item.number} - {item.name}
                 </MenuItem>
               ))}
           </Select>
@@ -92,18 +102,21 @@ function SelectArea({
   useEffect(() => {
     handleList();
   }, []);
+  // useEffect(() => {
+  //   handleList();
+  // }, [update]);
 
   return (
     <>
       {isArea && (
         <div className="inline-block w-1/2">
           <List
-            title="Conectar Con Area "
-            placeholder="Selecciona Area A Conectar"
+            title="Conectar Con Unidad De Negocio "
+            placeholder="Selecciona Unidad De Negocio A Conectar"
             value={valueArea}
             onChange={onChangeArea}
             required
-            itemDefault="Asigna Un Area"
+            itemDefault="Asigna Una Unidad De Negocio"
             listItems={area}
           />
         </div>
@@ -111,12 +124,12 @@ function SelectArea({
       {isSubArea && (
         <div className="inline-block w-1/2">
           <List
-            title="Conectar Con Sub-Area"
-            placeholder="Selecciona Una Sub-Area A Conectar"
+            title="Conectar Con Cedi"
+            placeholder="Selecciona Una Cedi A Conectar"
             value={valueSubArea}
             onChange={onChangeSubArea}
             required
-            itemDefault="Asigna Sub-Area"
+            itemDefault="Asigna Cedi"
             listItems={subArea}
           />
         </div>

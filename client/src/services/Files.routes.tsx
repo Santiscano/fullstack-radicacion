@@ -32,10 +32,13 @@ export const addFile = async (
   try {
     console.log(
       "info que envio: settledNumber: ",
+      idUser,
       settledNumber,
       price,
       redirectTo,
-      idsedes
+      idsedes,
+      files_account_type,
+      files_account_type_number
     );
     const response = await axios.post(
       Routes.api.files.addFile,

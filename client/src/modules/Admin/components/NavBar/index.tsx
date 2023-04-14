@@ -21,8 +21,8 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { useNavigate } from "react-router-dom";
 
 // img
-import logo from "../../../assets/images/logo-white.png";
-import userIcon from "../../../assets/icons/avatar.png";
+import logo from "../../../../assets/images/logo-white.png";
+import userIcon from "../../../../assets/icons/avatar.png";
 
 // css
 import "./navbar.css";
@@ -33,9 +33,9 @@ import {
   remove,
   removeAll,
   viewDisplayRol,
-} from "../../tools/SesionSettings";
+} from "../../../../components/tools/SesionSettings";
 import { useContext } from "react";
-import { GeneralValuesContext } from "../../../Context/GeneralValuesContext";
+import { GeneralValuesContext } from "../../../../Context/GeneralValuesContext";
 
 export default function MenuAppBar(props: any) {
   // navigation

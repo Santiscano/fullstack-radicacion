@@ -45,6 +45,7 @@ import { PDFViewer } from "@react-pdf/renderer";
 import { width } from "@mui/system";
 // import { savePDF, printPDF } from "./components/PDF/print";
 import { ChildModalPdf } from "../../components/common/ModalUploadFile";
+import InputDouble from "./components/InputDouble";
 
 function GenerateFiles() {
   // ------------------------------VARIABLES------------------------------//
@@ -82,6 +83,7 @@ function GenerateFiles() {
   const [price, setPrice] = useState(""); // numero escrito en el input
   const [redirectTo, setRedirectTo] = useState<number>(); // selecionado de usuarios rol !== provider && radication
   const [accountNumber, setAccountNumber] = useState(""); // numero de cuenta relacionado a tipo de cuenta;
+  const [preAccountNumber, setPreAccountNumber] = useState("");
 
   // valores formulario file
   const [filePDFGoogle, setFilePDFGoogle] = useState("");
@@ -262,7 +264,7 @@ function GenerateFiles() {
         // @ts-ignore
         cedi.idsedes,
         accountType,
-        accountNumber,
+        preAccountNumber + accountNumber,
         get("idusers")
       );
       // console.log("addFileResponse: ", addFileResponse);
@@ -565,14 +567,20 @@ function GenerateFiles() {
                       <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
                         numero de cuenta
                       </label>
-                      <TextFieldOutlined
-                        type={"text"}
-                        label={"numero"}
-                        value={accountNumber}
-                        setValue={setAccountNumber}
-                        required
-                        iconEnd={<PostAddIcon />}
-                      />
+                      <div>
+                        <InputDouble
+                          type1={"text"}
+                          label1={"prefijo"}
+                          value1={preAccountNumber}
+                          setValue1={setPreAccountNumber}
+                          required1
+                          type2={"number"}
+                          label2={"numero"}
+                          value2={accountNumber}
+                          setValue2={setAccountNumber}
+                          required2
+                        />
+                      </div>
                     </article>
                   </div>
 
@@ -606,7 +614,7 @@ function GenerateFiles() {
                   docIdentity={docIdentity}
                   price={price}
                   accountType={accountType}
-                  accountNumber={accountNumber}
+                  accountNumber={preAccountNumber + "-" + accountNumber}
                   invoiceType={invoiceType}
                   redirectTo={redirectTo}
                   optionsRedirectTo={optionsRedirectTo}

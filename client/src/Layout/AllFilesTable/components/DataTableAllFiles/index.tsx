@@ -72,6 +72,11 @@ function getRowId(row: any) {
   return row.idfiles;
 }
 
+/**
+ * con esta funcion se validara si el archivo esta por vencer
+ * @param params valor que recibire con el que se validara si esta por expirar para mostrar por color
+ * @returns
+ */
 const delayAlerts = (params: any) => {
   console.log("params", params);
   if (params.row.files_type == "ADMINISTRATIVO" && params.row.idfiles !== 199) {
@@ -85,8 +90,6 @@ const delayAlerts = (params: any) => {
 };
 
 export default function DataTableAllFiles({ row }: any) {
-  // console.log("row: ", row);
-  // console.log("rowprice: ", row.files_price);
   return (
     <>
       <LoadingMUI />
@@ -104,7 +107,7 @@ export default function DataTableAllFiles({ row }: any) {
           rowsPerPageOptions={[7]}
           disableSelectionOnClick
           experimentalFeatures={{ newEditingApi: true }}
-          getRowClassName={delayAlerts}
+          // getRowClassName={delayAlerts}
           components={{
             Toolbar: GridToolbarConfig,
             NoRowsOverlay: CustomNoRowsOverlay,

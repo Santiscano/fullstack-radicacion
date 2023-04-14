@@ -1,9 +1,9 @@
-import * as React from 'react';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
-import { alpha, styled } from '@mui/material/styles'
+import * as React from "react";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+import { alpha, styled } from "@mui/material/styles";
 
 const Selecting = styled(FormControl)({
   "& .MuiOutlinedInput-root": {
@@ -13,17 +13,20 @@ const Selecting = styled(FormControl)({
   },
 });
 export default function InputSelect(props: any) {
-
   return (
     <div>
-      <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white" >{props.title}</label>
-      <Selecting sx={{ m: 1, width: 0.98 }} >
-        <InputLabel id={`${props.placeholder}-label`}>{props.placeholder}</InputLabel>
+      <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
+        {props.title}
+      </label>
+      <Selecting sx={{ m: 1, width: 0.98 }}>
+        <InputLabel id={`${props.placeholder}-label`}>
+          {props.placeholder}
+        </InputLabel>
         <Select
           key={props.index}
           label={props.placeholder}
           labelId={`${props.placeholder}-label`}
-          id= {props.placeholder}
+          id={props.placeholder}
           value={props.value}
           onChange={props.onChange}
           autoWidth
@@ -36,7 +39,7 @@ export default function InputSelect(props: any) {
             <em>{props.itemDefault}</em>
           </MenuItem>
 
-          {props.items.map((item:any, index:any) => (
+          {props.items.map((item: any, index: any) => (
             <MenuItem
               key={index}
               value={item.idroles}

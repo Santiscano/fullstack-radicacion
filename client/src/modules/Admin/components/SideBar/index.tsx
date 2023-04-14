@@ -14,22 +14,22 @@ import CloseIcon from "@mui/icons-material/Close";
 import AssignmentRoundedIcon from "@mui/icons-material/AssignmentRounded";
 import CreateNewFolderRoundedIcon from "@mui/icons-material/CreateNewFolderRounded";
 
-import rutero from "../../../routes/RutesSidebar";
+import rutero from "../../../../routes/RutesSidebar";
 import { Link, useNavigate } from "react-router-dom";
-import enviexpress from "../../../assets/images/LOGOTIPO_ENVIEXPRESS_horizontal_150x50.png";
-import working from "../../../assets/icons/data-analysis-case-study.png";
+import enviexpress from "../../../../assets/images/LOGOTIPO_ENVIEXPRESS_horizontal_150x50.png";
+import working from "../../../../assets/icons/data-analysis-case-study.png";
 import { Collapse } from "@mui/material";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
 import VerifiedRoundedIcon from "@mui/icons-material/VerifiedRounded";
-import { session } from "../../tools/SesionSettings";
-import { WithRoleAllowedRoutes } from "./../../../Middlewares/WithRoleAllowed";
+import { session } from "../../../../components/tools/SesionSettings";
+import { WithRoleAllowedRoutes } from "../../../../Middlewares/WithRoleAllowed";
 import {
   optionsViewsSettled,
   optionsViewsAuth,
   optionsViewsAllFiles,
   optionsViewsTI,
   optionsViewsDigitization,
-} from "../../tools/OptionsValuesSelects";
+} from "../../../../components/tools/OptionsValuesSelects";
 
 const drawerWidth = 240;
 const DrawerHeader = styled("div")(({ theme }) => ({
@@ -116,30 +116,30 @@ function index(props: any) {
       </WithRoleAllowedRoutes>
 
       <WithRoleAllowedRoutes allowedRolesList={optionsViewsAuth}>
-        <List>
-          <ListItemButton onClick={handleOpenAuth}>
-            <ListItemIcon>
-              <VerifiedRoundedIcon sx={{ color: "#293184" }} />
-            </ListItemIcon>
-            <ListItemText primary="Autorizaciones" />
-            {openAuths ? <ExpandLess /> : <ExpandMore />}
-          </ListItemButton>
-          <Collapse in={openAuths} timeout="auto" unmountOnExit>
-            <List component="div" disablePadding>
-              {rutero.online.authorizations.map((list, index) => (
-                <ListItem key={index} disablePadding>
-                  <ListItemButton
-                    sx={{ pl: 4 }}
-                    onClick={() => navigate(`${list.url}`)}
-                  >
-                    <ListItemIcon>{list.icon}</ListItemIcon>
-                    <ListItemText primary={list.name} />
-                  </ListItemButton>
-                </ListItem>
-              ))}
-            </List>
-          </Collapse>
+        {/* <List> */}
+        {/* <ListItemButton onClick={handleOpenAuth}>
+          <ListItemIcon>
+            <VerifiedRoundedIcon sx={{ color: "#293184" }} />
+          </ListItemIcon>
+          <ListItemText primary="Autorizaciones" />
+          {openAuths ? <ExpandLess /> : <ExpandMore />}
+        </ListItemButton> */}
+        {/* <Collapse in={openAuths} timeout="auto" unmountOnExit> */}
+        <List component="div" disablePadding>
+          {rutero.online.authorizations.map((list, index) => (
+            <ListItem key={index} disablePadding>
+              <ListItemButton
+                // sx={{ pl: 4 }}
+                onClick={() => navigate(`${list.url}`)}
+              >
+                <ListItemIcon>{list.icon}</ListItemIcon>
+                <ListItemText primary={list.name} />
+              </ListItemButton>
+            </ListItem>
+          ))}
         </List>
+        {/* </Collapse> */}
+        {/* </List> */}
         <Divider />
       </WithRoleAllowedRoutes>
 

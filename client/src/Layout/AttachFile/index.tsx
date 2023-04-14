@@ -1,7 +1,7 @@
 import Button from "../../components/common/Button";
 import Upload from "../../components/common/Upload";
 import TextFieldOutlined from "../../components/common/TextFieldOutline";
-import { useContext, useEffect, useState } from "react";
+import { SyntheticEvent, useContext, useEffect, useState } from "react";
 import { GeneralValuesContext } from "./../../Context/GeneralValuesContext";
 import {
   SearchWithDocument,
@@ -11,7 +11,7 @@ import {
 import LoadingMUI from "../../components/common/LoadingMUI";
 import InputSelect from "./../../components/common/InputSelect";
 import { optionAccountType } from "../../components/tools/OptionsValuesSelects";
-import { SelectChangeEvent } from "@mui/material/Select";
+import { SelectChangeEvent, Slide } from "@mui/material";
 import { TabPanel, a11yProps } from "../../components/tools/MultiViewPanel";
 import "./AttachFile.css";
 import Box from "@mui/material/Box";
@@ -24,6 +24,8 @@ import { get } from "../../components/tools/SesionSettings";
 import ModalSuccess from "../../components/common/ModalSuccess";
 import SearchSettled from "./../../components/common/SearchSettled/index";
 import InputSelectOnlyValue from "../../components/common/InputSelectOnlyValue";
+import { Alert, Snackbar, Tooltip } from "@mui/material";
+import { TransitionProps } from "@mui/material/transitions";
 // const optionAccountType = ["CUENTA COBRO", "FACTURA PROVEEDOR"];
 
 function AttachFile() {
@@ -53,9 +55,12 @@ function AttachFile() {
   const [fileName, setFileName] = useState("");
   const [comments, setComments] = useState("");
   const [modalSuccess, setModalSuccess] = useState(false); // status 200 filePath para mostrar hijo modal
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [messageSnackbar, setMessageSnackbar] = useState("");
+  const [severitySnackbar, setSeveritySnackbar] = useState("");
+  const [listRoutesPDF, setListRoutesPDF] = useState<any>("");
 
   const { setPreLoad } = useContext(GeneralValuesContext);
-  const listRoutesPDF = ["ruta1", "ruta2", "ruta3", "ruta4", "ruta5", "ruta6"];
 
   // --------------SETSTATES ---------------//
   const onType = (newValue: any) => {
@@ -103,19 +108,6 @@ function AttachFile() {
   const handleChange = (e: React.SyntheticEvent, newValue: number) => {
     setShowValue(newValue);
   };
-  // const handleAccountType = (e: SelectChangeEvent) => {
-  //   onType(e.target.value);
-  // };
-
-  // const getAllRegisteredFiles = async () => {
-  //   try {
-  //     const Settleds = await GetAllSettled();
-  //     console.log("Settleds: ", Settleds?.data.data);
-  //   } catch (error) {
-  //     console.log("error: ", error);
-  //   } finally {
-  //   }
-  // };
 
   /**
    * consulta por radicado para traer info y almacena info
@@ -127,6 +119,8 @@ function AttachFile() {
       setPreLoad(true);
       e.preventDefault();
       const searchFile = await SearchWithSettled(settled);
+      setListRoutesPDF(searchFile?.data.rutas);
+      console.log("list pdf:", searchFile?.data);
       if (searchFile?.status == 200) {
         setSuccess(true);
         setNotFile(false);
@@ -216,8 +210,13 @@ function AttachFile() {
         get("idusers")
       ); // relaciona pdf y file
 
-      const status = responseConcatFilePath?.status;
-      status === 200 && setModalSuccess(true);
+      if (responseConcatFilePath?.status == 200) {
+        // setModalSuccess(true);
+        setMessageSnackbar("PDF Cargado Con Exito");
+        setSeveritySnackbar("success");
+        setPreLoad(false);
+        setOpenSnackbar(true);
+      }
     } catch (error) {
     } finally {
       setPreLoad(false);
@@ -226,12 +225,22 @@ function AttachFile() {
     }
   };
 
+  const handleCloseSnackbar = (
+    event?: SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpenSnackbar(false);
+  };
+  function TransitionLeft(props: TransitionProps) {
+    // @ts-ignore
+    return <Slide {...props} direction="left" />;
+  }
+
   //cerrar modal success
   const handleCloseModalChild = () => setModalSuccess(false);
-
-  useEffect(() => {
-    // getAllRegisteredFiles();
-  }, []);
 
   return (
     <div className="layout">
@@ -419,11 +428,16 @@ function AttachFile() {
                 <article className="filing-attachFile">
                   <h2 className="font-bold text-2xl ml-3">Archivos Cargados</h2>
                   <div className="flex flex-wrap my-3">
-                    {listRoutesPDF.map((pdf, index) => (
-                      <a key={index} href={pdf} target="_blank">
-                        <button className="button">
-                          abrir archivo {index + 1}
-                        </button>
+                    {listRoutesPDF.map((pdf: any, index: any) => (
+                      <a key={index} href={pdf.files_path} target="_blank">
+                        <Tooltip
+                          title={pdf.files_path_observation}
+                          placement="top"
+                        >
+                          <button className="button">
+                            abrir archivo {index + 1}
+                          </button>
+                        </Tooltip>
                       </a>
                     ))}
                   </div>
@@ -453,6 +467,22 @@ function AttachFile() {
                   type="radicado"
                   identification={file.settled}
                 />
+                <Snackbar
+                  open={openSnackbar}
+                  autoHideDuration={6000}
+                  TransitionComponent={TransitionLeft}
+                  onClose={handleCloseSnackbar}
+                >
+                  <Alert
+                    // @ts-ignore
+                    onClose={handleCloseSnackbar}
+                    // @ts-ignore
+                    severity={severitySnackbar}
+                    sx={{ width: "100%", height: "40px", fontSize: "18px" }}
+                  >
+                    {messageSnackbar}
+                  </Alert>
+                </Snackbar>
               </>
             )}
           </div>
