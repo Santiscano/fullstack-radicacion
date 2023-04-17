@@ -64,6 +64,8 @@ function useSubmit() {
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [messageSnackbar, setMessageSnackbar] = useState("");
   const [severitySnackbar, setSeveritySnackbar] = useState("");
+  // reset forms
+  const [reset, setReset] = useState(false);
   // --------------------------Context-------------------------------//
   const { setPreLoad } = useContext(GeneralValuesContext);
   // --------------------------handles-------------------------------//
@@ -217,7 +219,7 @@ function useSubmit() {
         setPreLoad(false);
         setOpenSnackbar(true);
         setAssignRole("");
-        setOptionsRol("");
+        setReset(true);
         setCedi("");
         setIdentificationType("");
         setIdentificationNumber("");
@@ -246,11 +248,11 @@ function useSubmit() {
       setSeveritySnackbar("error");
       setOpenSnackbar(true);
     } finally {
+      setReset(false);
     }
   };
   const handleSubmitCreateArea = async (e: any) => {
     try {
-      // console.log("values: ", areaNumber, areaName);
       setPreLoad(true);
       e.preventDefault();
       const res = await createArea(numberToString(areaNumber), areaName);
@@ -380,15 +382,16 @@ function useSubmit() {
   ) => {
     console.log("funciono a la perfeccion");
     try {
+      handleCloseDialogDelete();
       setPreLoad(true);
       e.preventDefault();
       const res = await deleteFile(valueDelete);
       console.log("res: ", res);
       if (res?.status == 200) {
         setInputDeleted("");
-        setMessageSnackbar("Archivo Eliminado Con Exito");
+        setMessageSnackbar(`Archivo ${inputDeleted}, Eliminado Con Exito`);
         setSeveritySnackbar("success");
-        handleCloseDialogDelete();
+        // handleCloseDialogDelete();
         setPreLoad(false);
         setOpenSnackbar(true);
       }
@@ -444,6 +447,7 @@ function useSubmit() {
     handleSubmitCreateUser,
     assignRole,
     handleRol,
+    reset,
     optionsRol,
     onlyRolProvider,
     cedi,

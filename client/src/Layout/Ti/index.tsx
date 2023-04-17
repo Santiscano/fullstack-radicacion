@@ -43,6 +43,7 @@ function TI() {
     handleSubmitCreateUser,
     assignRole,
     handleRol,
+    reset,
     optionsRol,
     onlyRolProvider,
     cedi,
@@ -112,7 +113,7 @@ function TI() {
                   aria-label="Area TI"
                   variant="scrollable"
                 >
-                  <Tab label="Inicio" {...a11yProps(0)} />
+                  <Tab label="Eliminar Archivo" {...a11yProps(0)} />
                   <Tab label="Crear Cedi" {...a11yProps(1)} />
                   <Tab label="Crear Usuario" {...a11yProps(2)} />
                   <Tab label="Crear Proveedor" {...a11yProps(3)} />
@@ -121,143 +122,149 @@ function TI() {
               </Box>
               <TabPanel value={showValue} index={0}>
                 <h3 className="font-bold text-2xl">Panel Administrativo</h3>
-                <h3 className="font-bold mt-6 text-xl">Eliminar Archivo</h3>
-                <h3 className="text-lg mt-2 text-red-500 font-bold">
-                  *Tenga presente que una vez eliminado un archivo, tanto la
-                  trazabilidad como el archivo no podran ser recuperados*
-                </h3>
-                <form>
-                  <div className="md:flex md:flex-wrap mt-4">
-                    <article className="md:w-1/2">
-                      <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                        Numero De Radicado Del Archivo
-                      </label>
-                      <TextFieldOutlined
-                        type={"text"}
-                        label={"Numero Radicado"}
-                        value={inputDeleted}
-                        setValue={setInputDeleted}
-                        required
+                {roles.Administrador && (
+                  <>
+                    <h3 className="font-bold mt-6 text-xl">Eliminar Archivo</h3>
+                    <h3 className="text-lg mt-2 text-red-500 font-bold">
+                      *Tenga presente que una vez eliminado un archivo, tanto la
+                      trazabilidad como el archivo no podran ser recuperados*
+                    </h3>
+                    <form>
+                      <div className="md:flex md:flex-wrap mt-4">
+                        <article className="md:w-1/2">
+                          <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
+                            Numero De Radicado Del Archivo
+                          </label>
+                          <TextFieldOutlined
+                            type={"text"}
+                            label={"Numero Radicado"}
+                            value={inputDeleted}
+                            setValue={setInputDeleted}
+                            required
+                          />
+                        </article>
+                      </div>
+                      <AlertDialogSlide
+                        handleDeleteFile={handleDeleteFile}
+                        inputDeleted={inputDeleted}
                       />
-                    </article>
-                  </div>
-                  <AlertDialogSlide
-                    handleDeleteFile={handleDeleteFile}
-                    inputDeleted={inputDeleted}
-                  />
-                  <Snackbar
-                    open={openSnackbar}
-                    autoHideDuration={6000}
-                    TransitionComponent={TransitionLeft}
-                    onClose={handleCloseSnackbar}
-                  >
-                    <Alert
-                      // @ts-ignore
-                      onClose={handleCloseSnackbar}
-                      // @ts-ignore
-                      severity={severitySnackbar}
-                      sx={{ width: "100%" }}
-                    >
-                      {messageSnackbar}
-                    </Alert>
-                  </Snackbar>
-                </form>
+                      <Snackbar
+                        open={openSnackbar}
+                        autoHideDuration={6000}
+                        TransitionComponent={TransitionLeft}
+                        onClose={handleCloseSnackbar}
+                      >
+                        <Alert
+                          // @ts-ignore
+                          onClose={handleCloseSnackbar}
+                          // @ts-ignore
+                          severity={severitySnackbar}
+                          sx={{ width: "100%" }}
+                        >
+                          {messageSnackbar}
+                        </Alert>
+                      </Snackbar>
+                    </form>
+                  </>
+                )}
               </TabPanel>
 
-              <TabPanel value={showValue} index={1}>
-                <form onSubmit={() => handleSubmitCreateCedi(event)}>
-                  <div className="md:flex md:flex-wrap">
-                    {listDepartment && (
+              {(roles.AuditorTI || roles.Administrador) && (
+                <TabPanel value={showValue} index={1}>
+                  <form onSubmit={(event) => handleSubmitCreateCedi(event)}>
+                    <div className="md:flex md:flex-wrap">
+                      {listDepartment && (
+                        <article className="md:w-1/2">
+                          <InputSelectOnlyValue
+                            type={"text"}
+                            name="departament"
+                            title="Departamento"
+                            placeholder="Seleccione el Departamento"
+                            required
+                            value={department}
+                            onChange={handleDepartment}
+                            itemDefault="Selecciona el Departamento"
+                            items={listDepartment}
+                          />
+                        </article>
+                      )}
+                      {listDepartment && (
+                        <article className="md:w-1/2">
+                          <InputSelectCity
+                            type={"text"}
+                            name="city"
+                            title="Ciudad"
+                            placeholder="Seleccione la Ciudad"
+                            required
+                            disabled={!department}
+                            value={city}
+                            onChange={handleCity}
+                            itemDefault="Selecciona el Departamento"
+                            items={listCitys}
+                          />
+                        </article>
+                      )}
+                    </div>
+                    <div className="md:flex md:flex-wrap">
+                      <article className="md:w-1/2">
+                        <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
+                          Dirección
+                        </label>
+                        <TextFieldOutlined
+                          type={"text"}
+                          label={"Dirección Ubicacion"}
+                          value={address}
+                          setValue={setAddress}
+                          required
+                        />
+                      </article>
+                      <article className="md:w-1/2">
+                        <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
+                          Nombre Cedi
+                        </label>
+                        <TextFieldOutlined
+                          type={"text"}
+                          label={"Cedi"}
+                          value={cediName}
+                          setValue={setCediName}
+                          required
+                        />
+                      </article>
+                    </div>
+                    <div className="md:flex md:flex-wrap">
                       <article className="md:w-1/2">
                         <InputSelectOnlyValue
                           type={"text"}
-                          name="departament"
-                          title="Departamento"
-                          placeholder="Seleccione el Departamento"
+                          title="Tipo de Cedi"
+                          placeholder="Propio - Nacional"
                           required
-                          value={department}
-                          onChange={handleDepartment}
-                          itemDefault="Selecciona el Departamento"
-                          items={listDepartment}
+                          value={type}
+                          onChange={handleCediType}
+                          itemDefault="selecciona el tipo de Cedi"
+                          items={optionCediType}
                         />
                       </article>
-                    )}
-                    {listDepartment && (
-                      <article className="md:w-1/2">
-                        <InputSelectCity
-                          type={"text"}
-                          name="city"
-                          title="Ciudad"
-                          placeholder="Seleccione la Ciudad"
-                          required
-                          disabled={!department}
-                          value={city}
-                          onChange={handleCity}
-                          itemDefault="Selecciona el Departamento"
-                          items={listCitys}
-                        />
-                      </article>
-                    )}
-                  </div>
-                  <div className="md:flex md:flex-wrap">
-                    <article className="md:w-1/2">
-                      <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                        Dirección
-                      </label>
-                      <TextFieldOutlined
-                        type={"text"}
-                        label={"Dirección Ubicacion"}
-                        value={address}
-                        setValue={setAddress}
-                        required
-                      />
-                    </article>
-                    <article className="md:w-1/2">
-                      <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                        Nombre Cedi
-                      </label>
-                      <TextFieldOutlined
-                        type={"text"}
-                        label={"Cedi"}
-                        value={cediName}
-                        setValue={setCediName}
-                        required
-                      />
-                    </article>
-                  </div>
-                  <div className="md:flex md:flex-wrap">
-                    <article className="md:w-1/2">
-                      <InputSelectOnlyValue
-                        type={"text"}
-                        title="Tipo de Cedi"
-                        placeholder="Propio - Nacional"
-                        required
-                        value={type}
-                        onChange={handleCediType}
-                        itemDefault="selecciona el tipo de Cedi"
-                        items={optionCediType}
-                      />
-                    </article>
-                  </div>
-                  <Button name="Crear Cedi" />
-                  <Snackbar
-                    open={openSnackbar}
-                    autoHideDuration={6000}
-                    TransitionComponent={TransitionLeft}
-                    onClose={handleCloseSnackbar}
-                  >
-                    <Alert
-                      // @ts-ignore
+                    </div>
+                    <Button name="Crear Cedi" />
+                    <Snackbar
+                      open={openSnackbar}
+                      autoHideDuration={6000}
+                      TransitionComponent={TransitionLeft}
                       onClose={handleCloseSnackbar}
-                      // @ts-ignore
-                      severity={severitySnackbar}
-                      sx={{ width: "100%" }}
                     >
-                      {messageSnackbar}
-                    </Alert>
-                  </Snackbar>
-                </form>
-              </TabPanel>
+                      <Alert
+                        // @ts-ignore
+                        onClose={handleCloseSnackbar}
+                        // @ts-ignore
+                        severity={severitySnackbar}
+                        sx={{ width: "100%" }}
+                      >
+                        {messageSnackbar}
+                      </Alert>
+                    </Snackbar>
+                  </form>
+                </TabPanel>
+              )}
               {(roles.AuditorTI || roles.Administrador) && (
                 <TabPanel value={showValue} index={2}>
                   <form onSubmit={(event) => handleSubmitCreateUser(event)}>
@@ -284,6 +291,7 @@ function TI() {
                           required
                           value={cedi}
                           onChange={handleCedi}
+                          reset={reset}
                           itemDefault="selecciona una opcion"
                           items={optionsCedisIdName}
                         />
@@ -413,7 +421,7 @@ function TI() {
                   </form>
                 </TabPanel>
               )}
-              {(roles.Contaduria || roles.Administrador) && (
+              {(roles.Contabilidad || roles.Administrador) && (
                 <TabPanel value={showValue} index={3}>
                   <form onSubmit={(event) => handleSubmitCreateUser(event)}>
                     <div className="md:flex md:flex-wrap">
@@ -542,130 +550,134 @@ function TI() {
                   </form>
                 </TabPanel>
               )}
-              <TabPanel value={showValue} index={4}>
-                <form onSubmit={(event) => handleSubmitCreateArea(event)}>
-                  <div className="md:flex md:flex-wrap">
-                    <article className="md:w-1/2">
-                      <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                        Numero Unidad De Negocio
-                      </label>
-                      <TextFieldOutlined
-                        type={"number"}
-                        label={"Numero"}
-                        value={areaNumber}
-                        setValue={setAreaNumber}
-                        required
-                      />
-                    </article>
-                    <article className="md:w-1/2">
-                      <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                        Nombre Unidad De Negocio
-                      </label>
-                      <TextFieldOutlined
-                        type={"text"}
-                        label={"Nombre"}
-                        value={areaName}
-                        setValue={setAreaName}
-                        required
-                      />
-                    </article>
-                  </div>
-                  <Button name="Crear Area" />
-                </form>
+              {(roles.Contabilidad || roles.Administrador) && (
+                <TabPanel value={showValue} index={4}>
+                  <form onSubmit={(event) => handleSubmitCreateArea(event)}>
+                    <div className="md:flex md:flex-wrap">
+                      <article className="md:w-1/2">
+                        <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
+                          Numero Unidad De Negocio
+                        </label>
+                        <TextFieldOutlined
+                          type={"number"}
+                          label={"Numero"}
+                          value={areaNumber}
+                          setValue={setAreaNumber}
+                          required
+                        />
+                      </article>
+                      <article className="md:w-1/2">
+                        <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
+                          Nombre Unidad De Negocio
+                        </label>
+                        <TextFieldOutlined
+                          type={"text"}
+                          label={"Nombre"}
+                          value={areaName}
+                          setValue={setAreaName}
+                          required
+                        />
+                      </article>
+                    </div>
+                    <Button name="Crear Area" />
+                  </form>
 
-                <form onSubmit={(event) => handleSubmitCreateSubArea(event)}>
-                  <div className="md:flex md:flex-wrap">
-                    <article className="md:w-1/2">
-                      <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                        Numero Cedi
-                      </label>
-                      <TextFieldOutlined
-                        type={"number"}
-                        label={"Numero"}
-                        value={subAreaNumber}
-                        setValue={setSubAreaNumber}
-                        required
+                  <form onSubmit={(event) => handleSubmitCreateSubArea(event)}>
+                    <div className="md:flex md:flex-wrap">
+                      <article className="md:w-1/2">
+                        <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
+                          Numero Cedi
+                        </label>
+                        <TextFieldOutlined
+                          type={"number"}
+                          label={"Numero"}
+                          value={subAreaNumber}
+                          setValue={setSubAreaNumber}
+                          required
+                        />
+                      </article>
+                      <article className="md:w-1/2">
+                        <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
+                          Nombre Cedi
+                        </label>
+                        <TextFieldOutlined
+                          type={"text"}
+                          label={"Nombre"}
+                          value={subAreaName}
+                          setValue={setSubAreaName}
+                          required
+                        />
+                      </article>
+                    </div>
+                    <div className="md:flex md:flex-wrap">
+                      <SelectArea
+                        isArea
+                        valueArea={connectionArea}
+                        onChangeArea={handleConnectionArea}
+                        valueSubArea={connectionSubArea}
+                        onChangeSubArea={handleConnectionSubArea}
+                        update={setMessageSnackbar}
                       />
-                    </article>
-                    <article className="md:w-1/2">
-                      <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                        Nombre Cedi
-                      </label>
-                      <TextFieldOutlined
-                        type={"text"}
-                        label={"Nombre"}
-                        value={subAreaName}
-                        setValue={setSubAreaName}
-                        required
-                      />
-                    </article>
-                  </div>
-                  <div className="md:flex md:flex-wrap">
-                    <SelectArea
-                      isArea
-                      valueArea={connectionArea}
-                      onChangeArea={handleConnectionArea}
-                      valueSubArea={connectionSubArea}
-                      onChangeSubArea={handleConnectionSubArea}
-                      update={setMessageSnackbar}
-                    />
-                  </div>
-                  <Button name="Crear SubArea" />
-                </form>
+                    </div>
+                    <Button name="Crear SubArea" />
+                  </form>
 
-                <form onSubmit={(event) => handleSubmitCreateCostCenter(event)}>
-                  <div className="md:flex md:flex-wrap">
-                    <article className="md:w-1/2">
-                      <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                        Numero Dependiencia
-                      </label>
-                      <TextFieldOutlined
-                        type={"number"}
-                        label={"Numero"}
-                        value={costCenterNumber}
-                        setValue={setCostCenterNumber}
-                        required
-                      />
-                    </article>
-                    <article className="md:w-1/2">
-                      <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                        Nombre Dependencia
-                      </label>
-                      <TextFieldOutlined
-                        type={"text"}
-                        label={"Nombre"}
-                        value={costCenterName}
-                        setValue={setCostCenterName}
-                        required
-                      />
-                    </article>
-                  </div>
-                  <div className="md:flex md:flex-wrap">
-                    <SelectArea
-                      isSubArea
-                      valueSubArea={connectionSubArea}
-                      onChangeSubArea={handleConnectionSubArea}
-                    />
-                  </div>
-                  <Button name="Crear Centro De Costos" />
-                </form>
-                <Snackbar
-                  open={openSnackbar}
-                  autoHideDuration={6000}
-                  TransitionComponent={TransitionLeft}
-                  onClose={handleCloseSnackbar}
-                >
-                  <Alert
-                    // @ts-ignore
-                    onClose={handleCloseSnackbar}
-                    // @ts-ignore
-                    severity={severitySnackbar}
-                    sx={{ width: "100%", height: "40px", fontSize: "18px" }}
+                  <form
+                    onSubmit={(event) => handleSubmitCreateCostCenter(event)}
                   >
-                    {messageSnackbar}
-                  </Alert>
-                </Snackbar>
-              </TabPanel>
+                    <div className="md:flex md:flex-wrap">
+                      <article className="md:w-1/2">
+                        <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
+                          Numero Dependiencia
+                        </label>
+                        <TextFieldOutlined
+                          type={"number"}
+                          label={"Numero"}
+                          value={costCenterNumber}
+                          setValue={setCostCenterNumber}
+                          required
+                        />
+                      </article>
+                      <article className="md:w-1/2">
+                        <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
+                          Nombre Dependencia
+                        </label>
+                        <TextFieldOutlined
+                          type={"text"}
+                          label={"Nombre"}
+                          value={costCenterName}
+                          setValue={setCostCenterName}
+                          required
+                        />
+                      </article>
+                    </div>
+                    <div className="md:flex md:flex-wrap">
+                      <SelectArea
+                        isSubArea
+                        valueSubArea={connectionSubArea}
+                        onChangeSubArea={handleConnectionSubArea}
+                      />
+                    </div>
+                    <Button name="Crear Centro De Costos" />
+                  </form>
+                  <Snackbar
+                    open={openSnackbar}
+                    autoHideDuration={6000}
+                    TransitionComponent={TransitionLeft}
+                    onClose={handleCloseSnackbar}
+                  >
+                    <Alert
+                      // @ts-ignore
+                      onClose={handleCloseSnackbar}
+                      // @ts-ignore
+                      severity={severitySnackbar}
+                      sx={{ width: "100%", height: "40px", fontSize: "18px" }}
+                    >
+                      {messageSnackbar}
+                    </Alert>
+                  </Snackbar>
+                </TabPanel>
+              )}
             </Box>
           </article>
         </div>
