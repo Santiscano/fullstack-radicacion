@@ -15,7 +15,7 @@ export const getCostSubArea = async (req: Request, res: Response) => {
                     idcost_center_area AS fk, 
                     cost_center_subarea AS number, 
                     cost_center_subarea_name AS name 
-                        FROM cost_center_subarea;`);
+                        FROM cost_center_subarea ORDER BY cost_center_subarea ASC;`);
         return res.status(200).json({ error: false, data });
     } catch (error) {
         console.log(error);
@@ -38,7 +38,7 @@ export const getCostSubAreaById = async (req: Request, res: Response) => {
                     idcost_center_area AS fk, 
                     cost_center_subarea AS number, 
                     cost_center_subarea_name AS name 
-                        FROM cost_center_subarea WHERE idcost_center_area = ?;`, [ idcost_center_area ]);
+                        FROM cost_center_subarea WHERE idcost_center_area = ? ORDER BY cost_center_subarea ASC;`, [ idcost_center_area ]);
         //@ts-ignore
         if ( data.length === 0 ) {
             return res.status(203).json({ error: true, message: `La Area con id: ${ idcost_center_area }, no se encuentra registrada en el sistema` });
