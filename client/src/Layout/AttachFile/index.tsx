@@ -386,7 +386,7 @@ function AttachFile() {
                       </span>
                     </p>
                     <p className="font-bold inline-block mr-4">
-                      Telefono
+                      Teléfono
                       <span className="text-slate-600 font-normal">
                         {` ${capitalizeFirstLatterUppercase(file.phone)}`}
                       </span>

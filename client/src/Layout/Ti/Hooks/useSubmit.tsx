@@ -3,7 +3,7 @@ import { TransitionProps } from "@mui/material/transitions";
 import { SyntheticEvent, useContext, useEffect, useState } from "react";
 import { AllCedis } from "../../../interfaces/Cedis";
 import { createCedi, getCedis } from "../../../services/Cedis.routes";
-import { createUser } from "../../../services/Users.routes";
+import { createProvider, createUser } from "../../../services/Users.routes";
 import { getCitys } from "../../../services/getCitysColombia";
 import { getRoles } from "../../../services/Roles.routes";
 import { GeneralValuesContext } from "./../../../Context/GeneralValuesContext";
@@ -48,6 +48,8 @@ function useSubmit() {
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [limitDaysPayment, setLimitDaysPayment] = useState<number>();
+  const [documentationUpdate, setDocumentationUpdate] = useState<Date>();
   // create Area Cost
   const [areaNumber, setAreaNumber] = useState<number>(NaN);
   const [areaName, setAreaName] = useState("");
@@ -132,9 +134,9 @@ function useSubmit() {
   };
   const handleCedi = (e: SelectChangeEvent) => {
     const cedi = e.target.value;
-    console.log(e.target.value);
+    console.log("cedi", e.target.value);
     // @ts-ignore
-    setCedi(cedi.idsedes);
+    setCedi(e.target.value);
   };
   const handleCedity = (e: SelectChangeEvent) => {
     setIdentificationType(e.target.value);
@@ -215,6 +217,63 @@ function useSubmit() {
       console.log("res: ", res);
       if (res?.status == 200 && res.statusText == "OK") {
         setMessageSnackbar(`Usuario ${firstName} Creado Con Exito`);
+        setSeveritySnackbar("success");
+        setPreLoad(false);
+        setOpenSnackbar(true);
+        setAssignRole("");
+        setReset(true);
+        setCedi("");
+        setIdentificationType("");
+        setIdentificationNumber("");
+        setFirstname("");
+        setLastName("");
+        setAddress("");
+        setPhone("");
+        setEmail("");
+        setPassword("");
+      }
+      if (res?.status !== 200) {
+        setMessageSnackbar(
+          `Usuario ${firstName}: ${
+            res?.data.message
+              ? res?.data.message
+              : "No Fue Creada Ocurrio Un Error"
+          }`
+        );
+        setSeveritySnackbar("error");
+        setPreLoad(false);
+        setOpenSnackbar(true);
+      }
+    } catch (error) {
+      console.log("error: ", error);
+      setMessageSnackbar("Ocurrio Un Error Intenta De Nuevo");
+      setSeveritySnackbar("error");
+      setOpenSnackbar(true);
+    } finally {
+      setReset(false);
+    }
+  };
+  const handleSubmitCreateProvider = async (e: any) => {
+    try {
+      console.log(addressUser);
+      setPreLoad(true);
+      e.preventDefault();
+      console.log(cedi);
+      const res = await createProvider(
+        assignRole,
+        cedi,
+        identificationType,
+        identificationNumber,
+        firstName,
+        address,
+        phone,
+        email,
+        limitDaysPayment,
+        documentationUpdate
+      );
+      console.log("res: ", res);
+      if (res?.status == 200 && res.statusText == "OK") {
+        setMessageSnackbar(`Proveedor ${firstName} Creado Con Exito`);
         setSeveritySnackbar("success");
         setPreLoad(false);
         setOpenSnackbar(true);
@@ -445,11 +504,13 @@ function useSubmit() {
     severitySnackbar,
     messageSnackbar,
     handleSubmitCreateUser,
+    handleSubmitCreateProvider,
     assignRole,
     handleRol,
     reset,
     optionsRol,
     onlyRolProvider,
+    // create user
     cedi,
     handleCedi,
     optionsCedisIdName,
@@ -469,6 +530,10 @@ function useSubmit() {
     setEmail,
     password,
     setPassword,
+    limitDaysPayment,
+    setLimitDaysPayment,
+    documentationUpdate,
+    setDocumentationUpdate,
     // create Area
     handleSubmitCreateArea,
     areaNumber,

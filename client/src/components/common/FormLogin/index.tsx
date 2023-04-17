@@ -63,7 +63,7 @@ function index() {
       <form onSubmit={handleSubmit(onSubmit)} className="mt-8">
         <div className="mb-6">
           <label className="block mb-2 text-sm font-medium text-gray-900 ">
-            Correo
+            Correo Electrónico
           </label>
           <input
             type="text"
