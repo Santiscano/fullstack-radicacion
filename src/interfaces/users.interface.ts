@@ -8,6 +8,7 @@ enum UsersIdentificationType {
 };
 
 export interface Users {
+    api_key: string;
     idroles: number, 
     idsedes: number, 
     users_identification_type: UsersIdentificationType, 

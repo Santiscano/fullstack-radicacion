@@ -12,15 +12,14 @@ import { number } from "joi";
 export const getUsers = async (req: Request, res: Response) =>{
     const { api_key } = req.body;
     try {
-        if( api_key == process.env.API_KEY ){
-            const [rows] = await connection.query(`
-            SELECT * FROM users U 
-                LEFT JOIN roles R ON U.idroles = R.idroles 
-                LEFT JOIN sedes S ON U.idsedes = S.idsedes`);
-            return res.status(200).json({error: false, rows});
-        } else {
+        if( api_key !== process.env.API_KEY ){
             return res.status(401).json({error: true, message: "No cuentas con el permiso para acceder a esta información"})
         };
+        const [rows] = await connection.query(`
+        SELECT * FROM users U 
+            LEFT JOIN roles R ON U.idroles = R.idroles 
+            LEFT JOIN sedes S ON U.idsedes = S.idsedes`);
+        return res.status(200).json({error: false, rows});
     } catch (err) {
         console.log(err);
         return res.status(508).json({error: true, message: "Error del servidor al traer los usuarios"});
@@ -30,8 +29,11 @@ export const getUsers = async (req: Request, res: Response) =>{
 // Crear un usuario
 export const postUsers = async (req: Request, res: Response) => {
     try {
-        let { idroles, idsedes, users_identification_type, users_identification, users_name, users_lastname, users_address, users_password, users_phone, users_email, users_providers_paydays, users_providers_expiration_date }: Users = req.body;
+        let { api_key, idroles, idsedes, users_identification_type, users_identification, users_name, users_lastname, users_address, users_password, users_phone, users_email, users_providers_paydays, users_providers_expiration_date }: Users = req.body;
         const values: ( string | number | undefined | Date )[] =  [ idroles, idsedes, users_identification_type, users_identification, users_name, users_address, users_phone, users_email ];
+        if( api_key !== process.env.API_KEY ){
+            return res.status(401).json({error: true, message: "No cuentas con el permiso para acceder a esta información"})
+        };
         if (nullValidator(values)) {
             return res.status(422).json({ error: true, message: "MISSING_VALUES" })
         };
@@ -76,7 +78,7 @@ export const postUsers = async (req: Request, res: Response) => {
         );
         if (users_password){
             const firebase = await auth.createUser(users_email, users_password);
-            return res.status(200).json({ error: true, message: `Usuario con ${ users_identification_type }: ${ users_identification } y email: ${users_email}, creado satisfactoriamente`, usurio: infoUsuario, firebase})
+            return res.status(200).json({ error: false, message: `Usuario con ${ users_identification_type }: ${ users_identification } y email: ${users_email}, creado satisfactoriamente`, usurio: infoUsuario, firebase})
         };
         return res.status(200).json({error: false, message: `Usuario con ${ users_identification_type }: ${ users_identification } y email: ${users_email}, creado satisfactoriamente`, usurio: infoUsuario})
     } catch (err) {
