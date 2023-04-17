@@ -86,6 +86,51 @@ export const createUser = async (
     console.log(error);
   }
 };
+export const createProvider = async (
+  idroles: number,
+  idsedes: number,
+  identification_type: string,
+  identification_number: string,
+  name: string,
+  address: string,
+  phone: string,
+  email: string,
+  users_providers_paydays: number | undefined,
+  users_providers_expiration_date: Date | undefined
+) => {
+  try {
+    console.log(
+      idroles,
+      idsedes,
+      identification_type,
+      identification_number,
+      name,
+      address,
+      phone,
+      email
+    );
+    const response = await axios.post(
+      Routes.api.users.createUser,
+      {
+        idroles: idroles,
+        idsedes: idsedes,
+        users_identification_type: identification_type,
+        users_identification: identification_number,
+        users_name: name,
+        users_address: address,
+        users_phone: phone,
+        users_email: email,
+        users_providers_paydays,
+        users_providers_expiration_date,
+      },
+      getHeader()
+    );
+    console.log("create user: ", response);
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 export const editUser = async () => {
   try {

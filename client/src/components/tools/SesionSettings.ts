@@ -75,6 +75,7 @@ export function getHeader() {
     headers: {
       "Content-Type": "application/json",
       authorization: `Bearer ` + get("accessToken"),
+      "api_key": import.meta.env.VITE_API_KEY,
     },
   };
 }
@@ -88,6 +89,7 @@ export function getHeaderMultipart() {
     headers: {
       "Content-Type": "multipart/form-data",
       Authorization: `Bearer ` + get("accessToken"),
+      "api_key": import.meta.env.VITE_API_KEY,
     },
   };
 }

@@ -100,12 +100,9 @@ function GenerateFiles() {
   const [telephone, setTelephone] = useState(""); // su valor es extraido del objectUser
 
   // sin identificar uso
-  const [documentNumber, setDocumentNumber] = useState("");
-  const [documentDate, setDocumentDate] = useState("");
   const [fileName, setFileName] = useState("");
-  const [role, setRole] = useState("radicacion");
 
-  const { preLoad, setPreLoad } = useContext(GeneralValuesContext);
+  const { setPreLoad } = useContext(GeneralValuesContext);
 
   // -----------------------METHODS INPUTS--------------------------------//
 
@@ -118,14 +115,17 @@ function GenerateFiles() {
   const handleGetUsersCedis = async () => {
     // cedis
     const allCedis: AllCedis[] = await getCedis();
+    console.log("allCedis: ", allCedis);
     setAllCedis(allCedis);
 
     // users
     const getAllUsers = await getUsers();
-    setAllUsers(getAllUsers);
+    console.log("getAllUsers: ", getAllUsers.rows);
+    const allUsers = getAllUsers.rows;
+    setAllUsers(allUsers);
 
     // options redirectTo Administration
-    const filterAuditors = getAllUsers?.filter(
+    const filterAuditors = allUsers?.filter(
       (user: { idroles: number }) =>
         user.idroles == roles.AuditorGH ||
         user.idroles == roles.AuditorCRTL ||
@@ -267,11 +267,9 @@ function GenerateFiles() {
         preAccountNumber + accountNumber,
         get("idusers")
       );
-      // console.log("addFileResponse: ", addFileResponse);
 
       //muestro input file y textarea
       if (addFileResponse?.status == 200) {
-        // savePDF(cediType, settledNumber, accountType);
         setStatusFileResponse(true);
       }
 
@@ -373,6 +371,8 @@ function GenerateFiles() {
     setStatusFileResponse(false);
     setFilePDFGoogle("");
     setComments("");
+    setPreAccountNumber("");
+    setAccountNumber("");
     setModalSuccess(false);
     setStatusResponse(false);
   };
@@ -488,11 +488,11 @@ function GenerateFiles() {
                   <div className="md:flex md:flex-wrap">
                     <article className="md:w-1/2">
                       <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                        Telefono
+                        Teléfono
                       </label>
                       <TextFieldOutlined
                         type={"text"}
-                        label={"Telefono"}
+                        label={"Teléfono"}
                         value={telephone}
                         setValue={setTelephone}
                         required

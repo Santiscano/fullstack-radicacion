@@ -1,7 +1,3 @@
-// @ts-nocheck
-import React, { useState } from "react";
-import { SelectChangeEvent } from "@mui/material";
-
 // icons
 import CloudUploadOutlinedIcon from "@mui/icons-material/CloudUploadOutlined";
 import VerifiedOutlinedIcon from "@mui/icons-material/VerifiedOutlined";

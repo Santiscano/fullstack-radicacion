@@ -1,9 +1,12 @@
-import * as React from "react";
+import { useEffect, useState } from "react";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { alpha, styled } from "@mui/material/styles";
+import axios from "axios";
+import Routes from "../../../services/Routes";
+import { getHeader } from "../../tools/SesionSettings";
 
 const Selecting = styled(FormControl)({
   "& .MuiOutlinedInput-root": {
@@ -13,6 +16,26 @@ const Selecting = styled(FormControl)({
   },
 });
 export default function index(props: any) {
+  const [cedis, setCedis] = useState([]);
+
+  const handleGetCedis = async () => {
+    try {
+      const getCedis = await axios.post(
+        Routes.api.cedis.get,
+        { api_key: import.meta.env.VITE_API_KEY },
+        getHeader()
+      );
+      console.log("res:", getCedis.data);
+      setCedis(getCedis.data);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  useEffect(() => {
+    handleGetCedis();
+  }, []);
+
   return (
     <>
       <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
@@ -39,7 +62,7 @@ export default function index(props: any) {
             <em>{props.itemDefault}</em>
           </MenuItem>
 
-          {props.items.map((item: any, index: any) => (
+          {cedis.map((item: any, index: any) => (
             <MenuItem key={index} value={item} sx={{ m: 1, minWidth: 300 }}>
               {item.sedes_city}
             </MenuItem>
