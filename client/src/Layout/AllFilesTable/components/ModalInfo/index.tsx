@@ -59,7 +59,7 @@ export default function ModalInfoFile(props: any) {
     files_account_type,
     files_account_type_number,
     files_type,
-    idfiles,
+    files_states,
     sedes_type,
     sedes_name,
     idfiles_states,
@@ -158,7 +158,7 @@ export default function ModalInfoFile(props: any) {
                   </span>
                 </p>
                 <p className="font-bold inline-block">
-                  Estado:
+                  Estado Usuario:
                   <span className="text-slate-600 font-normal">
                     {` ${capitalizeFirstLatterUppercase(users_status)}`}
                   </span>
@@ -200,9 +200,9 @@ export default function ModalInfoFile(props: any) {
                   </span>
                 </p>
                 <p className="font-bold inline-block">
-                  ID Del Archivo:
+                  Estado Archivo:
                   <span className="text-slate-600 font-normal">
-                    {` ${idfiles}`}
+                    {` ${capitalizeFirstLatterUppercase(files_states)}`}
                   </span>
                 </p>
               </div>

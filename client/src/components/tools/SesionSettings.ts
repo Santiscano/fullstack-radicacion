@@ -7,7 +7,7 @@ export const roles:Roles = Object.freeze({
   AuditorCRTL : 4,
   AuditorRG   : 5,
   Gerencia    : 6,
-  Contaduria  : 7,
+  Contabilidad: 7,
   Tesoreria   : 8,
   AuditorTI   : 9,
   Administrador: 10,

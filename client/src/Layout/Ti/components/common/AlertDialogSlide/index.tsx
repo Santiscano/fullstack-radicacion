@@ -8,6 +8,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
 import { TransitionProps } from "@mui/material/transitions";
 import useSubmit from "../../../Hooks/useSubmit";
+import { Alert, Snackbar } from "@mui/material";
 
 const Transition = forwardRef(function Transition(
   props: TransitionProps & {
@@ -31,7 +32,14 @@ function AlertDialogSlide(inputDeleted: any) {
     setOpen(false);
   };
 
-  const { handleDeleteFile } = useSubmit();
+  const {
+    handleDeleteFile,
+    openSnackbar,
+    severitySnackbar,
+    TransitionLeft,
+    handleCloseSnackbar,
+    messageSnackbar,
+  } = useSubmit();
 
   return (
     <div>
@@ -88,6 +96,22 @@ function AlertDialogSlide(inputDeleted: any) {
           </Button>
         </DialogActions>
       </Dialog>
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={6000}
+        TransitionComponent={TransitionLeft}
+        onClose={handleCloseSnackbar}
+      >
+        <Alert
+          // @ts-ignore
+          onClose={handleCloseSnackbar}
+          // @ts-ignore
+          severity={severitySnackbar}
+          sx={{ width: "100%" }}
+        >
+          {messageSnackbar}
+        </Alert>
+      </Snackbar>
     </div>
   );
 }

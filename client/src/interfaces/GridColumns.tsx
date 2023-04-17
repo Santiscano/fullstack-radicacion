@@ -8,7 +8,7 @@ export const columnsEdit: GridColDef[] = [
   {
     field: "files_registered",
     headerName: "Radicado",
-    width: 230,
+    width: 180,
   },
   {
     field: "files_account_type",
@@ -28,7 +28,7 @@ export const columnsEdit: GridColDef[] = [
   {
     field: "users_name",
     headerName: "Razon Social",
-    width: 120,
+    width: 180,
   },
   {
     field: "files_cost_center",
@@ -43,7 +43,7 @@ export const columnsEdit: GridColDef[] = [
   {
     field: "files_price",
     headerName: "Precio",
-    width: 100,
+    width: 120,
     valueFormatter: (params) => formattedAmount(params.value),
   },
   {
@@ -59,7 +59,7 @@ export const columnsEdit: GridColDef[] = [
   {
     field: "idfiles_states",
     headerName: "ID Estado Archivo",
-    width: 105,
+    width: 120,
   },
   {
     field: "files_states",
@@ -209,7 +209,7 @@ export const columnsAllFiles: GridColDef[] = [
   {
     field: "files_registered",
     headerName: "Radicado",
-    width: 230,
+    width: 180,
   },
   {
     field: "files_account_type",
@@ -229,7 +229,7 @@ export const columnsAllFiles: GridColDef[] = [
   {
     field: "users_name",
     headerName: "Razon Social",
-    width: 120,
+    width: 180,
   },
   {
     field: "files_cost_center",
@@ -244,7 +244,7 @@ export const columnsAllFiles: GridColDef[] = [
   {
     field: "files_price",
     headerName: "Precio",
-    width: 100,
+    width: 120,
     valueFormatter: (params) => formattedAmount(params.value),
   },
   {
@@ -265,7 +265,7 @@ export const columnsAllFiles: GridColDef[] = [
   {
     field: "files_states",
     headerName: "Estado Archivo",
-    width: 160,
+    width: 120,
   },
   {
     field: "UserAssignedName",

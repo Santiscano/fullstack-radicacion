@@ -46,14 +46,14 @@ export const optionsViewsSettled = [
 export const optionsViewsAuth = [
   roles.AuditorGH, roles.AuditorCRTL,
   roles.AuditorRG, roles.AuditorTI, roles.Gerencia,
-  roles.Contaduria, roles.Tesoreria,  roles.Administrador,
+  roles.Contabilidad, roles.Tesoreria,  roles.Administrador,
 ];
 export const optionsViewsAllFiles = [
   roles.Radicacion, roles.Administrador,
-  roles.Gerencia, roles.Contaduria, roles.Tesoreria,
+  roles.Gerencia, roles.Contabilidad, roles.Tesoreria,
 ];
 export const optionsViewsTI = [
-  roles.Contaduria, roles.Administrador,
+  roles.Contabilidad, roles.Administrador, roles.AuditorTI
 ];
 export const optionsViewsDigitization = [
   roles.Administrador

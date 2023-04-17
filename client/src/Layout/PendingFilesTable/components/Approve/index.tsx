@@ -110,7 +110,7 @@ function Approve({
           ? `${area?.number}${subArea?.number}${centerCost?.number}`
           : user.files_cost_center,
         user.files_code_accounting == null &&
-          Number(get("idroles")) == roles.Contaduria
+          Number(get("idroles")) == roles.Contabilidad
           ? codeAccounting
           : user.files_code_accounting,
         user.files_code_treasury,
@@ -155,7 +155,7 @@ function Approve({
           />
         )}
         {user.files_code_accounting == null &&
-          Number(get("idroles")) == roles.Contaduria && (
+          Number(get("idroles")) == roles.Contabilidad && (
             <article className="md:w-1/2">
               <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
                 Codigo Causación
@@ -174,7 +174,7 @@ function Approve({
             file={filePDFGoogle}
             fileName={fileName}
             handleChangeFile={handleChangeFile}
-            required={get("idroles") == roles.Tesoreria || roles.Contaduria}
+            required={get("idroles") == roles.Tesoreria || roles.Contabilidad}
           />
         </div>
         <div className="flex mt-4 w-full">

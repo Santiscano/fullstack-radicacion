@@ -5,7 +5,7 @@ export interface Roles {
   AuditorCRTL : number;
   AuditorRG   : number;
   Gerencia    : number;
-  Contaduria  : number;
+  Contabilidad: number;
   Tesoreria   : number;
   AuditorTI   : number;
   Administrador: number;

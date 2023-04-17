@@ -61,7 +61,7 @@ export const useModalForm = () => {
         return isRG(states, getAllUsers);
       } else if (Number(get("idroles")) == roles.Gerencia) {
         return isGerencia(states, getAllUsers);
-      } else if (Number(get("idroles")) == roles.Contaduria) {
+      } else if (Number(get("idroles")) == roles.Contabilidad) {
         return isContaduria(states, getAllUsers);
       } else if (Number(get("idroles")) == roles.Tesoreria) {
         return isTesoreria(states, getAllUsers);
@@ -142,7 +142,7 @@ export const useModalForm = () => {
 
     const nextAuditor = auditors?.filter(
       (user: { idroles: number; idusers: number }) =>
-        user.idroles == roles.Contaduria
+        user.idroles == roles.Contabilidad
     );
     setOptionsRedirectTo(nextAuditor);
   };
