@@ -90,11 +90,11 @@ function useSubmit() {
     // crear usuarios
     const allRoles = await getRoles();
     // console.log("allRoles: ", allRoles);
-    const createUser = allRoles.filter(
+    const optionsCreateUser = allRoles.filter(
       (rol: { roles: string }) =>
         rol.roles !== "ADMINISTRADOR" && rol.roles !== "PROVEEDOR"
     );
-    setOptionsRol(createUser);
+    setOptionsRol(optionsCreateUser);
 
     // crear proveedores
     const createProvider = allRoles.filter(
@@ -199,9 +199,9 @@ function useSubmit() {
   };
   const handleSubmitCreateUser = async (e: any) => {
     try {
-      // console.log(addressUser);
       setPreLoad(true);
       e.preventDefault();
+      console.log("key", import.meta.env.VITE_API_KEY);
       const res = await createUser(
         import.meta.env.VITE_API_KEY,
         assignRole,
@@ -215,7 +215,7 @@ function useSubmit() {
         email,
         password
       );
-      // console.log("res: ", res);
+      console.log("res: ", res);
       if (res?.status == 200 && res.statusText == "OK") {
         setMessageSnackbar(`Usuario ${firstName} Creado Con Exito`);
         setSeveritySnackbar("success");

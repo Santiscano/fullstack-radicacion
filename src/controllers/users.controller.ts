@@ -35,6 +35,7 @@ export const postUsers = async (req: Request, res: Response) => {
             return res.status(401).json({error: true, message: "No cuentas con el permiso para acceder a esta información"})
         };
         if (nullValidator(values)) {
+            console.log('entro al if')
             return res.status(422).json({ error: true, message: "MISSING_VALUES" })
         };
         users_lastname === undefined ? users_lastname = "" : users_lastname;
