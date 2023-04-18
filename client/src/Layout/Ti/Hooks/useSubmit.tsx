@@ -203,6 +203,7 @@ function useSubmit() {
       setPreLoad(true);
       e.preventDefault();
       const res = await createUser(
+        import.meta.env.VITE_API_KEY,
         assignRole,
         cedi,
         identificationType,
