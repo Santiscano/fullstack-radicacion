@@ -38,10 +38,11 @@ export const getUsers = async () => {
 };
 
 export const createUser = async (
+  api_key: any,
   idroles: number,
   idsedes: number,
-  identification_type: string,
-  identification_number: string,
+  users_identification_type: string,
+  users_identification: string,
   name: string,
   lastname: string,
   address: string,
@@ -53,10 +54,11 @@ export const createUser = async (
     const response = await axios.post(
       Routes.api.users.createUser,
       {
-        idroles: idroles,
-        idsedes: idsedes,
-        users_identification_type: identification_type,
-        users_identification: identification_number,
+        api_key,
+        idroles,
+        idsedes,
+        users_identification_type,
+        users_identification,
         users_name: name,
         users_lastname: lastname,
         users_address: address,
