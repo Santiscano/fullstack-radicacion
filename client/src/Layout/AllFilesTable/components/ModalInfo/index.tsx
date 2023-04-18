@@ -143,7 +143,7 @@ export default function ModalInfoFile(props: any) {
                   </span>
                 </p>
                 <p className="font-bold inline-block">
-                  Telefono:
+                  Teléfono:
                   <span className="text-slate-600 font-normal">
                     {` ${capitalizeFirstLatterUppercase(users_phone)}`}
                   </span>

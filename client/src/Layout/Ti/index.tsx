@@ -16,7 +16,8 @@ import useSubmit from "./Hooks/useSubmit";
 import "./TI.css";
 import SelectArea from "./components/common/SelectArea";
 import AlertDialogSlide from "./components/common/AlertDialogSlide";
-import { roles } from "../../components/tools/SesionSettings";
+import { roles, get } from "../../components/tools/SesionSettings";
+import CalendarInput from "./components/common/CalendarInput";
 
 function TI() {
   const {
@@ -41,6 +42,7 @@ function TI() {
     severitySnackbar,
     messageSnackbar,
     handleSubmitCreateUser,
+    handleSubmitCreateProvider,
     assignRole,
     handleRol,
     reset,
@@ -65,6 +67,10 @@ function TI() {
     setEmail,
     password,
     setPassword,
+    limitDaysPayment,
+    setLimitDaysPayment,
+    documentationUpdate,
+    setDocumentationUpdate,
     // create Area
     handleSubmitCreateArea,
     areaNumber,
@@ -122,7 +128,7 @@ function TI() {
               </Box>
               <TabPanel value={showValue} index={0}>
                 <h3 className="font-bold text-2xl">Panel Administrativo</h3>
-                {roles.Administrador && (
+                {Number(get("idroles")) == roles.Administrador && (
                   <>
                     <h3 className="font-bold mt-6 text-xl">Eliminar Archivo</h3>
                     <h3 className="text-lg mt-2 text-red-500 font-bold">
@@ -169,7 +175,8 @@ function TI() {
                 )}
               </TabPanel>
 
-              {(roles.AuditorTI || roles.Administrador) && (
+              {(Number(get("idroles")) == roles.AuditorTI ||
+                Number(get("idroles")) == roles.Administrador) && (
                 <TabPanel value={showValue} index={1}>
                   <form onSubmit={(event) => handleSubmitCreateCedi(event)}>
                     <div className="md:flex md:flex-wrap">
@@ -265,7 +272,8 @@ function TI() {
                   </form>
                 </TabPanel>
               )}
-              {(roles.AuditorTI || roles.Administrador) && (
+              {(Number(get("idroles")) == roles.AuditorTI ||
+                Number(get("idroles")) == roles.Administrador) && (
                 <TabPanel value={showValue} index={2}>
                   <form onSubmit={(event) => handleSubmitCreateUser(event)}>
                     <div className="md:flex md:flex-wrap">
@@ -293,7 +301,7 @@ function TI() {
                           onChange={handleCedi}
                           reset={reset}
                           itemDefault="selecciona una opcion"
-                          items={optionsCedisIdName}
+                          // items={optionsCedisIdName}
                         />
                       </article>
                     </div>
@@ -364,7 +372,7 @@ function TI() {
                       </article>
                       <article className="md:w-1/2">
                         <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                          Telefono
+                          Teléfono
                         </label>
                         <TextFieldOutlined
                           type={"number"}
@@ -421,9 +429,10 @@ function TI() {
                   </form>
                 </TabPanel>
               )}
-              {(roles.Contabilidad || roles.Administrador) && (
+              {(Number(get("idroles")) == roles.Contabilidad ||
+                Number(get("idroles")) == roles.Administrador) && (
                 <TabPanel value={showValue} index={3}>
-                  <form onSubmit={(event) => handleSubmitCreateUser(event)}>
+                  <form onSubmit={(event) => handleSubmitCreateProvider(event)}>
                     <div className="md:flex md:flex-wrap">
                       <article className="md:w-1/2">
                         <InputSelectRol
@@ -448,7 +457,6 @@ function TI() {
                           value={cedi}
                           onChange={handleCedi}
                           itemDefault="selecciona una opcion"
-                          items={optionsCedisIdName}
                         />
                       </article>
                     </div>
@@ -507,7 +515,7 @@ function TI() {
                     <div className="md:flex md:flex-wrap">
                       <article className="md:w-1/2">
                         <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                          Telefono
+                          Teléfono
                         </label>
                         <TextFieldOutlined
                           type={"number"}
@@ -530,6 +538,49 @@ function TI() {
                         />
                       </article>
                     </div>
+                    <div className="md:flex md:flex-wrap">
+                      <article className="md:w-1/2">
+                        <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
+                          Dias de Limite de Pago
+                        </label>
+                        <TextFieldOutlined
+                          type={"number"}
+                          label={"numero de Días"}
+                          value={limitDaysPayment}
+                          setValue={setLimitDaysPayment}
+                          required
+                        />
+                      </article>
+                      <article className="md:w-1/2">
+                        <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
+                          Fecha de Actualización
+                        </label>
+                        <TextFieldOutlined
+                          type={"date"}
+                          label={""}
+                          value={documentationUpdate}
+                          setValue={setDocumentationUpdate}
+                          required
+                        />
+                        {/* <TextFieldOutlined
+                          type={"email"}
+                          label={"Fecha"}
+                          value={documentationUpdate}
+                          setValue={setDocumentationUpdate}
+                          required
+                        /> */}
+                        {/* <CalendarInput
+                          name="selectedDate"
+                          label="Fecha Expiración"
+                          value={documentationUpdate}
+                          onChange={(event: any) =>
+                            setDocumentationUpdate(event.target.value)
+                          }
+                          disableFuture={true}
+                          format="dd/MM/yyyy"
+                        /> */}
+                      </article>
+                    </div>
                     <Button name="Crear Usuario" />
                     <Snackbar
                       open={openSnackbar}
@@ -550,7 +601,8 @@ function TI() {
                   </form>
                 </TabPanel>
               )}
-              {(roles.Contabilidad || roles.Administrador) && (
+              {(Number(get("idroles")) == roles.Contabilidad ||
+                Number(get("idroles")) == roles.Administrador) && (
                 <TabPanel value={showValue} index={4}>
                   <form onSubmit={(event) => handleSubmitCreateArea(event)}>
                     <div className="md:flex md:flex-wrap">
