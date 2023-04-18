@@ -201,11 +201,12 @@ function useSubmit() {
     try {
       setPreLoad(true);
       e.preventDefault();
-      console.log("key", import.meta.env.VITE_API_KEY);
+      // console.log(cedi);
+      // console.log("key", import.meta.env.VITE_API_KEY);
       const res = await createUser(
         import.meta.env.VITE_API_KEY,
         assignRole,
-        cedi,
+        cedi.idsedes,
         identificationType,
         identificationNumber,
         firstName,
