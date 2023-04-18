@@ -51,6 +51,7 @@ export const createUser = async (
   password: string
 ) => {
   try {
+    console.log("ruta", Routes.api.users.createUser);
     const response = await axios.post(
       Routes.api.users.createUser,
       {
@@ -70,10 +71,10 @@ export const createUser = async (
       },
       getHeader()
     );
-    // console.log("create user: ", response);
+    console.log("create user: ", response);
     return response;
   } catch (error) {
-    // console.log(error);
+    console.log(error);
   }
 };
 export const createProvider = async (
