@@ -15,10 +15,10 @@ export const getArea = async () => {
       },
       getHeader()
     );
-    console.log("response: ", response);
+    // console.log("response: ", response);
     return response;
   } catch (error) {
-    console.log("error: ", error);
+    // console.log("error: ", error);
   }
 };
 export const createArea = async (
@@ -34,10 +34,10 @@ export const createArea = async (
       },
       getHeader()
     );
-    console.log("response: ", response);
+    // console.log("response: ", response);
     return response;
   } catch (error) {
-    console.log("error: ", error);
+    // console.log("error: ", error);
   }
 };
 export const deleteArea = async () => {
@@ -46,10 +46,10 @@ export const deleteArea = async () => {
       Routes.api.centerCost.area.deleteCostArea,
       getHeader()
     );
-    console.log("response: ", response);
+    // console.log("response: ", response);
     return response;
   } catch (error) {
-    console.log("error: ", error);
+    // console.log("error: ", error);
   }
 };
 /**
@@ -62,10 +62,10 @@ export const getAllSubAreas = async () => {
       { api_key: import.meta.env.VITE_API_KEY },
       getHeader()
     );
-    console.log("response:", response);
+    // console.log("response:", response);
     return response;
   } catch (error) {
-    console.log("error: ", error);
+    // console.log("error: ", error);
   }
 };
 export const getSubAreaById = async (id: any) => {
@@ -78,10 +78,10 @@ export const getSubAreaById = async (id: any) => {
       },
       getHeader()
     );
-    console.log("response:", response);
+    // console.log("response:", response);
     return response;
   } catch (error) {
-    console.log("error: ", error);
+    // console.log("error: ", error);
   }
 };
 export const createSubArea = async (
@@ -99,10 +99,10 @@ export const createSubArea = async (
       },
       getHeader()
     );
-    console.log("response:", response);
+    // console.log("response:", response);
     return response;
   } catch (error) {
-    console.log("error: ", error);
+    // console.log("error: ", error);
   }
 };
 export const deleteSubArea = async () => {
@@ -111,10 +111,10 @@ export const deleteSubArea = async () => {
       Routes.api.centerCost.subArea.deleteCostSubArea,
       getHeader()
     );
-    console.log("response:", response);
+    // console.log("response:", response);
     return response;
   } catch (error) {
-    console.log("error: ", error);
+    // console.log("error: ", error);
   }
 };
 /**
@@ -129,7 +129,7 @@ export const getCostCenter = async () => {
       // @ts-ignore
       getHeader()
     );
-    console.log("getCostCenter:", response);
+    // console.log("getCostCenter:", response);
     return response;
   } catch (error) {
   } finally {
@@ -147,7 +147,7 @@ export const getCostCenterById = async (id: any) => {
       // @ts-ignore
       getHeader()
     );
-    console.log("getCostCenter:", response);
+    // console.log("getCostCenter:", response);
     return response;
   } catch (error) {
   } finally {
@@ -168,10 +168,10 @@ export const createCostCenter = async (
       },
       getHeader()
     );
-    // console.log("response:", response);
+    console.log("response:", response);
     return response;
   } catch (error) {
-    console.log("error: ", error);
+    // console.log("error: ", error);
   }
 };
 export const deleteCostCenter = async () => {
@@ -180,9 +180,9 @@ export const deleteCostCenter = async () => {
       Routes.api.centerCost.CenterCost.deleteCostCenter,
       getHeader()
     );
-    console.log("response:", response);
+    // console.log("response:", response);
     return response;
   } catch (error) {
-    console.log("error: ", error);
+    // console.log("error: ", error);
   }
 };

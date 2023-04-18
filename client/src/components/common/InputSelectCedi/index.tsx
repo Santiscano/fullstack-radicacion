@@ -25,10 +25,10 @@ export default function index(props: any) {
         { api_key: import.meta.env.VITE_API_KEY },
         getHeader()
       );
-      console.log("res:", getCedis.data);
+      // console.log("res:", getCedis.data);
       setCedis(getCedis.data);
     } catch (e) {
-      console.log(e);
+      // console.log(e);
     }
   };
 

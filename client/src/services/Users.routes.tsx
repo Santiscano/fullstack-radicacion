@@ -16,7 +16,7 @@ export const validateUser = async () => {
     // console.log('response: ', response);
     return response;
   } catch (error) {
-    console.log(error);
+    // console.log(error);
   }
 };
 
@@ -33,7 +33,7 @@ export const getUsers = async () => {
     const users = response.data;
     return users;
   } catch (error) {
-    console.log(error);
+    // console.log(error);
   }
 };
 
@@ -50,18 +50,6 @@ export const createUser = async (
   password: string
 ) => {
   try {
-    console.log(
-      idroles,
-      idsedes,
-      identification_type,
-      identification_number,
-      name,
-      lastname,
-      address,
-      phone,
-      email,
-      password
-    );
     const response = await axios.post(
       Routes.api.users.createUser,
       {
@@ -80,10 +68,10 @@ export const createUser = async (
       },
       getHeader()
     );
-    console.log("create user: ", response);
+    // console.log("create user: ", response);
     return response;
   } catch (error) {
-    console.log(error);
+    // console.log(error);
   }
 };
 export const createProvider = async (
@@ -99,16 +87,6 @@ export const createProvider = async (
   users_providers_expiration_date: Date | undefined
 ) => {
   try {
-    console.log(
-      idroles,
-      idsedes,
-      identification_type,
-      identification_number,
-      name,
-      address,
-      phone,
-      email
-    );
     const response = await axios.post(
       Routes.api.users.createUser,
       {
@@ -125,10 +103,10 @@ export const createProvider = async (
       },
       getHeader()
     );
-    console.log("create user: ", response);
+    // console.log("create user: ", response);
     return response;
   } catch (error) {
-    console.log(error);
+    // console.log(error);
   }
 };
 
@@ -151,10 +129,10 @@ export const editUser = async () => {
       users_providers_expiration_date: null,
       users_status: "ACTIVO",
     });
-    console.log("response edit user: ", response);
+    // console.log("response edit user: ", response);
     return response;
   } catch (error) {
-    console.log(error);
+    // console.log(error);
   }
 };
 
@@ -166,6 +144,6 @@ export const deleteUser = async () => {
     );
     return response;
   } catch (error) {
-    console.log(error);
+    // console.log(error);
   }
 };

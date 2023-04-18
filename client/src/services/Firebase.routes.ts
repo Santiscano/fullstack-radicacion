@@ -9,9 +9,9 @@ export const createUser = async (users_email:string, users_password:string) => {
       users_email,
       users_password,
     },getHeader())
-    console.log('response: ', response);
+    // console.log('response: ', response);
   } catch(error) {
-    console.log('error: ', error);
+    // console.log('error: ', error);
   }
 }
 
@@ -50,7 +50,7 @@ export const login = async (users_email:string, users_password:string) => {
     }
     return response;
   } catch(error) {
-    console.log('error login: ', error);
+    // console.log('error login: ', error);
   }
 };
 
@@ -75,7 +75,7 @@ export const changePassword = async (users_email: string) => {
     const response = await axios.post(Routes.api.firebase.changePassword,{
       users_email,
     },getHeader())
-    console.log('response: ', response);
+    // console.log('response: ', response);
     return response;
   } catch(error) {}
 };

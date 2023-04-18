@@ -77,19 +77,19 @@ function useSubmit() {
    */
   const handleGetCitys = async () => {
     const departmentsResponse: any = await getCitys();
-    console.log("departmentsResponse: ", departmentsResponse);
+    // console.log("departmentsResponse: ", departmentsResponse);
     setListDepartment(departmentsResponse?.Department);
 
     setListCitys(departmentsResponse?.DepartamentCity);
     setAllCitys(departmentsResponse?.DepartamentCity);
 
     const allCedis: AllCedis[] = await getCedis();
-    console.log("allCedis: ", allCedis);
+    // console.log("allCedis: ", allCedis);
     setOptionsCedisIdName(allCedis);
 
     // crear usuarios
     const allRoles = await getRoles();
-    console.log("allRoles: ", allRoles);
+    // console.log("allRoles: ", allRoles);
     const createUser = allRoles.filter(
       (rol: { roles: string }) =>
         rol.roles !== "ADMINISTRADOR" && rol.roles !== "PROVEEDOR"
@@ -130,11 +130,11 @@ function useSubmit() {
 
   const handleRol = (e: SelectChangeEvent) => {
     setAssignRole(e.target.value);
-    console.log(e.target.value);
+    // console.log(e.target.value);
   };
   const handleCedi = (e: SelectChangeEvent) => {
     const cedi = e.target.value;
-    console.log("cedi", e.target.value);
+    // console.log("cedi", e.target.value);
     // @ts-ignore
     setCedi(e.target.value);
   };
@@ -173,7 +173,7 @@ function useSubmit() {
         type,
         department
       );
-      console.log("res: ", res);
+      // console.log("res: ", res);
       setCity("");
       setAddress("");
       setCediName("");
@@ -191,7 +191,7 @@ function useSubmit() {
         setOpenSnackbar(true);
       }
     } catch (error) {
-      console.log("error: ", error);
+      // console.log("error: ", error);
       setMessageSnackbar("Ocurrio Un Error Intenta De Nuevo");
       setSeveritySnackbar("error");
       setOpenSnackbar(true);
@@ -199,7 +199,7 @@ function useSubmit() {
   };
   const handleSubmitCreateUser = async (e: any) => {
     try {
-      console.log(addressUser);
+      // console.log(addressUser);
       setPreLoad(true);
       e.preventDefault();
       const res = await createUser(
@@ -214,7 +214,7 @@ function useSubmit() {
         email,
         password
       );
-      console.log("res: ", res);
+      // console.log("res: ", res);
       if (res?.status == 200 && res.statusText == "OK") {
         setMessageSnackbar(`Usuario ${firstName} Creado Con Exito`);
         setSeveritySnackbar("success");
@@ -245,7 +245,7 @@ function useSubmit() {
         setOpenSnackbar(true);
       }
     } catch (error) {
-      console.log("error: ", error);
+      // console.log("error: ", error);
       setMessageSnackbar("Ocurrio Un Error Intenta De Nuevo");
       setSeveritySnackbar("error");
       setOpenSnackbar(true);
@@ -255,10 +255,10 @@ function useSubmit() {
   };
   const handleSubmitCreateProvider = async (e: any) => {
     try {
-      console.log(addressUser);
+      // console.log(addressUser);
       setPreLoad(true);
       e.preventDefault();
-      console.log(cedi);
+      // console.log(cedi);
       const res = await createProvider(
         assignRole,
         cedi,
@@ -271,7 +271,7 @@ function useSubmit() {
         limitDaysPayment,
         documentationUpdate
       );
-      console.log("res: ", res);
+      // console.log("res: ", res);
       if (res?.status == 200 && res.statusText == "OK") {
         setMessageSnackbar(`Proveedor ${firstName} Creado Con Exito`);
         setSeveritySnackbar("success");
@@ -302,7 +302,7 @@ function useSubmit() {
         setOpenSnackbar(true);
       }
     } catch (error) {
-      console.log("error: ", error);
+      // console.log("error: ", error);
       setMessageSnackbar("Ocurrio Un Error Intenta De Nuevo");
       setSeveritySnackbar("error");
       setOpenSnackbar(true);
@@ -315,7 +315,7 @@ function useSubmit() {
       setPreLoad(true);
       e.preventDefault();
       const res = await createArea(numberToString(areaNumber), areaName);
-      console.log("res: ", res);
+      // console.log("res: ", res);
       if (res?.status == 200) {
         setMessageSnackbar(`Area ${areaName} Creada Con Exito`);
         setSeveritySnackbar("success");
@@ -338,7 +338,7 @@ function useSubmit() {
         setOpenSnackbar(true);
       }
     } catch (error) {
-      console.log("error: ", error);
+      // console.log("error: ", error);
       setMessageSnackbar("Ocurrio Un Error En El Servidor Intenta De Nuevo");
       setSeveritySnackbar("error");
       setOpenSnackbar(true);
@@ -349,7 +349,7 @@ function useSubmit() {
   };
   const handleSubmitCreateSubArea = async (e: any) => {
     try {
-      console.log("values: ", subAreaNumber, subAreaName, connectionArea);
+      // console.log("values: ", subAreaNumber, subAreaName, connectionArea);
       setPreLoad(true);
       e.preventDefault();
       const res = await createSubArea(
@@ -357,7 +357,7 @@ function useSubmit() {
         subAreaNumber,
         subAreaName
       );
-      console.log("res: ", res);
+      // console.log("res: ", res);
       if (res?.status == 200) {
         setMessageSnackbar(
           `Sub-Area: ${subAreaName} Conectada al Area con ID ${connectionArea} Exitoso`
@@ -382,7 +382,7 @@ function useSubmit() {
         setOpenSnackbar(true);
       }
     } catch (error) {
-      console.log("error: ", error);
+      // console.log("error: ", error);
       setMessageSnackbar("Ocurrio Un Error En El Servidor Intenta De Nuevo");
       setSeveritySnackbar("error");
       setOpenSnackbar(true);
@@ -400,7 +400,7 @@ function useSubmit() {
         costCenterNumber,
         costCenterName
       );
-      console.log("res: ", res);
+      // console.log("res: ", res);
       if (res?.status == 200) {
         setMessageSnackbar(
           `Centro De Costos: ${costCenterName} Conectado al SubArea con ID ${connectionSubArea} Exitoso`
@@ -425,7 +425,7 @@ function useSubmit() {
         setOpenSnackbar(true);
       }
     } catch (error) {
-      console.log("error: ", error);
+      // console.log("error: ", error);
       setMessageSnackbar("Ocurrio Un Error En El Servidor Intenta De Nuevo");
       setSeveritySnackbar("error");
       setOpenSnackbar(true);
@@ -439,13 +439,13 @@ function useSubmit() {
     valueDelete: any,
     handleCloseDialogDelete: any
   ) => {
-    console.log("funciono a la perfeccion");
+    // console.log("funciono a la perfeccion");
     try {
       handleCloseDialogDelete();
       setPreLoad(true);
       e.preventDefault();
       const res = await deleteFile(valueDelete);
-      console.log("res: ", res);
+      // console.log("res: ", res);
       if (res?.status == 200) {
         setInputDeleted("");
         setMessageSnackbar(`Archivo ${inputDeleted}, Eliminado Con Exito`);
@@ -464,7 +464,7 @@ function useSubmit() {
         handleCloseDialogDelete();
       }
     } catch (error) {
-      console.log("error: ", error);
+      // console.log("error: ", error);
       setMessageSnackbar("Ocurrio Un Error Intenta De Nuevo");
       setSeveritySnackbar("error");
       setOpenSnackbar(true);

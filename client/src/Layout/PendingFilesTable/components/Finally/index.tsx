@@ -9,7 +9,7 @@ import { uploadfile } from "../../../../services/Pdf.routes";
 import { GeneralValuesContext } from "./../../../../Context/GeneralValuesContext";
 
 function Finally({ user, endActivitySelect }: any) {
-  console.log("user: ", user);
+  // console.log("user: ", user);
   const [codeTreasury, setCodeTreasury] = useState("");
   const [filePDF, setFilePDF] = useState("");
   const [fileName, setFileName] = useState("");
@@ -27,7 +27,7 @@ function Finally({ user, endActivitySelect }: any) {
   };
   const handleChangeFile = (e: SelectChangeEvent) => {
     // @ts-ignore
-    console.log("archivo capturado", e.target.files[0]);
+    // console.log("archivo capturado", e.target.files[0]);
     // @ts-ignore
     setFilePDF(e.target.files[0]);
     const fileNameEvent = e.target.value.replace(/^.*\\/, ""); // renombrar archivo
@@ -57,7 +57,7 @@ function Finally({ user, endActivitySelect }: any) {
         handleFileSubmit(e);
       }
     } catch (error) {
-      console.log("error: ", error);
+      // console.log("error: ", error);
     } finally {
       setPreLoad(false);
     }
@@ -79,7 +79,7 @@ function Finally({ user, endActivitySelect }: any) {
         handleOpenModalAuth();
       }
     } catch (error) {
-      console.log("error: ", error);
+      // console.log("error: ", error);
     } finally {
     }
   };

@@ -52,7 +52,7 @@ function LocationsSelect({
         users_identification_type: users_identification,
       })
       .then((res) => {
-        console.log(res.data.data);
+        // console.log(res.data.data);
         setCities(res.data.data);
       });
   };

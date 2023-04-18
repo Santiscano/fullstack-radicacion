@@ -14,7 +14,7 @@ export const getSedes = async ( req: Request, res: Response ) =>{
         const [ sedes ] = await connection.query('SELECT * FROM sedes;');
         return res.status(200).json(sedes);
     } catch (err) {
-        console.log(err);
+        // console.log(err);
         return res.status(508).json({error: "Error del servidor al traer los sedes"});
     };
 };
@@ -43,7 +43,7 @@ export const postSede = async ( req: Request, res: Response ) => {
             [ sedes_address.toUpperCase(), sedes_city.toUpperCase() ])
         return res.status(200).json({error: false, message: "Sede creada satisfactoriamente", created: sedes});
     } catch (error) {
-        console.log(error)
+        // console.log(error)
         return res.status(508).json({ error: true, message: "Error del servidor para crear una sede" });
     };
 };
@@ -74,7 +74,7 @@ export const putSede =async ( req: Request, res: Response ) => {
             return res.status(200).json({ error: false, message:"Sede editada satisfactoriamente", Edited: sede });
         };
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         return res.status(508).json({ error: true, message: "Error del servidor para editar una sede" });
     };
 };
@@ -95,7 +95,7 @@ export const deleteSede = async ( req: Request, res: Response ) => {
             return res.status(200).json( { error: false, message: `Sede con id: ${ idsedes }, eliminada satisfactoriamente` } );
         };
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         return res.status(508).json({ error: true, message: "Error del servidor para eliminar un servidor" });
     };
 };

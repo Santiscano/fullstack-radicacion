@@ -17,7 +17,6 @@ import "./TI.css";
 import SelectArea from "./components/common/SelectArea";
 import AlertDialogSlide from "./components/common/AlertDialogSlide";
 import { roles, get } from "../../components/tools/SesionSettings";
-import CalendarInput from "./components/common/CalendarInput";
 
 function TI() {
   const {

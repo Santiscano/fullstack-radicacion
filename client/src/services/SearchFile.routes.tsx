@@ -15,7 +15,7 @@ export const SearchWithSettled = async (settled: any) => {
     );
     return response;
   } catch (error) {
-    console.log("error", error);
+    // console.log("error", error);
   }
 };
 
@@ -36,7 +36,7 @@ export const SearchWithDocument = async (
     // console.log("res:", response);
     return response;
   } catch (error) {
-    console.log("error", error);
+    // console.log("error", error);
   }
 };
 
@@ -49,9 +49,9 @@ export const GetAllSettled = async () => {
       },
       getHeader()
     );
-    console.log("response: ", response);
+    // console.log("response: ", response);
     return response;
   } catch (error) {
-    console.log("error: ", error);
+    // console.log("error: ", error);
   }
 };

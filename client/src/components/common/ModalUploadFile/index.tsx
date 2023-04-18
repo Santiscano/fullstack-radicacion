@@ -70,7 +70,7 @@ const UploadFileModal: FC<Props> = ({
     const auditorSelected = allAuditors.filter(
       (user: { idusers: number }) => user.idusers === redirectTo
     );
-    console.log("auditorSelected", auditorSelected);
+    // console.log("auditorSelected", auditorSelected);
     const nameSelected = `${auditorSelected[0].users_name} ${auditorSelected[0].users_lastname}`;
     setNameAuditorSelected(nameSelected);
   };

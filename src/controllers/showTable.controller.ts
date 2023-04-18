@@ -12,10 +12,10 @@ export const showTable = async ( req: Request, res: Response ) => {
         };
         const [ dataInfo ] = await connection.query(`
         SELECT * FROM ShowTable;`);
-            console.log(dataInfo)
+            // console.log(dataInfo)
         return res.status(200).json({dataInfo});
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         return res.status(508).json({ error: true, message: `Error del servidor para mostrar la tabla de autorización` });
     };
 };
@@ -33,7 +33,7 @@ export const pendingTable = async (req: Request, res: Response) => {
         SELECT * FROM ShowTable WHERE idusers = ?`, [ idusers ]);
         return res.status(200).json({ dataInfo });
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         return res.status(508).json({error: true, message: "Error del servidor para mostrar la tabla de pendientes"})
     };
 };

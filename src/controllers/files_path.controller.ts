@@ -16,7 +16,7 @@ export const getFilesPath = async ( req: Request, res: Response ) => {
             return res.status(401).json({ message: "No cuentas con los permisos para acceder a esta infomación" })
         };
     } catch (error) {
-        console.log(error)
+        // console.log(error)
         return res.status(508).json({ message: "Error del servidor para traer las rutas de los archivos" })
     };
 };
@@ -31,11 +31,11 @@ export const postChargeFilePath = async ( req: Request, res: Response ) => {
         };
         upload(req, res, async (err) => {
             if ( err ) {
-                console.log(err);
+                // console.log(err);
                 return res.status(404).send({ message: "Nombre de KEY equivocado para cargar el archivo" });
             }
             if ( req.file ) {
-                console.log( req.file );
+                // console.log( req.file );
                 const path = req.file.path;
                 await connection.query(`
                     INSERT INTO files_path (idfiles, files_path, files_path_date, files_path_observation) 
@@ -48,7 +48,7 @@ export const postChargeFilePath = async ( req: Request, res: Response ) => {
             };
         });
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         return res.status(508).json({ message: "Error con el servidor para cargar un archivo" });
     };
 };
@@ -71,7 +71,7 @@ export const postFilePath = async ( req: Request, res: Response ) => {
         postTraking(idfiles_states, parseInt(idfiles), parseInt(userSession), files_path_observation.toUpperCase());
         return res.status(200).json({ error: false, create: filePath, tracking: "Added tracking" });
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         return res.status(508).json({ message: "Error con el servidor para cargar un archivo" });
     };
 };
@@ -96,7 +96,7 @@ export const deleteFilePath = async ( req: Request, res: Response ) => {
             return res.status(404).json({ message: "No cuentas con los permisos para acceder a este modulo" })
         };
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         return res.status(508).json({ message: "Error del servidor para eliminar una ruta de archivo" })
     };
 };

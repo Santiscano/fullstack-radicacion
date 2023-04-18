@@ -16,7 +16,7 @@ export const getRoles = async (req: Request, res: Response) =>{
             return res.status(401).json({ message: "No cuentas con los permisos para acceder a esta información"})
         };
     } catch (err) {
-        console.log(err);
+        // console.log(err);
         return res.status(508).json({ error: "Error del servidor al traer los roles" });
     };
 };
@@ -40,7 +40,7 @@ export const postRol = async ( req: Request, res: Response ) => {
             return res.status(201).json({message: `El rol: ${ roles }, ya existe en la base de datos`});
         }
     } catch (err) {
-        console.log(err);
+        // console.log(err);
         return res.status(508).json({ error: "Error del servidor al crear un rol" });
     };
 };
@@ -63,7 +63,7 @@ export const putRol = async (req: Request, res: Response) => {
             return res.status(200).json({ menssage: `El rol: ${ idroles }, fue editado satisfactoriamente`, rol });
         };
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         return res.status(508).json(`Error del servidor para editar el rol`);
     };
 };
@@ -85,7 +85,7 @@ export const deleteRol = async (req: Request, res: Response) => {
             return res.status(401).json({ message: "No cuentas con los permisos para eliminar un rol" })
         };
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         return res.status(508).json({ Error: "Error del servidor para eliminar el rol" });
     };
 };

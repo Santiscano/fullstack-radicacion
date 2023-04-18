@@ -8,7 +8,7 @@ import Button from "../Button";
 function PreviewPDF() {
   // methods
   const openPdf = () => {
-    console.log("funcionando");
+    // console.log("funcionando");
     window.open(pdf);
   };
   return (

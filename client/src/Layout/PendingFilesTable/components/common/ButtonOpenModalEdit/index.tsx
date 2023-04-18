@@ -7,8 +7,8 @@ import { GeneralValuesContext } from "../../../../../Context/GeneralValuesContex
 
 export const ButtonOpenModalEdit = (params: GridRenderCellParams<any>) => {
   const { hasFocus, value } = params;
-  console.log("value: ", value);
-  console.log("params: ", params);
+  // console.log("value: ", value);
+  // console.log("params: ", params);
   const buttonElement = React.useRef<HTMLButtonElement | null>(null);
   const rippleRef = React.useRef<TouchRippleActions | null>(null);
 
@@ -21,7 +21,7 @@ export const ButtonOpenModalEdit = (params: GridRenderCellParams<any>) => {
 
   React.useLayoutEffect(() => {
     if (hasFocus) {
-      console.log("hasFocus: ", hasFocus);
+      // console.log("hasFocus: ", hasFocus);
       const input = buttonElement.current?.querySelector("input");
       input?.focus();
     } else if (rippleRef.current) {

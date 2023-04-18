@@ -18,7 +18,7 @@ export const getCostCenter = async (req: Request, res: Response) => {
                         FROM cost_center;`);
         return res.status(200).json({ error: false, data });
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         return res.status(508).json({ error: true, message: "Error del servidor al traer los centros de costo" });
     };
 };
@@ -45,7 +45,7 @@ export const getCostCenterById = async (req: Request, res: Response) => {
         };
         return res.status(200).json({ error: false, data });
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         return res.status(508).json({ error: true, message: "Error del servidor al traer los centros de costo" });
     };
 };
@@ -74,7 +74,7 @@ export const postCostCenter = async (req: Request, res: Response) => {
             [data])
         return res.status(200).json({ error: false, created: "Centro de costos creada satisfactoriamente", costCenter });
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         return res.status(508).json({ error: true, message: "Error del servidor para crear un centro de costos" });
     };
 };
@@ -102,7 +102,7 @@ export const deleteCostCenter = async (req: Request, res: Response) => {
                 [ data ]);
             return res.status(200).json({ error: false, message: `Cetro de costos: ${ data }, eliminada satisfactoriamente` })
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         return res.status(508).json({ error: true, message: "Error del servidor para eliminar el centro de costos" })
     };
 };

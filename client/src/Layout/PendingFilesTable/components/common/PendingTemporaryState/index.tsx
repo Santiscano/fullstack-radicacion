@@ -12,7 +12,7 @@ function PendingTemporaryState({
   activitySelect,
   setActivitySelect,
 }: any) {
-  console.log("user: ", user);
+  // console.log("user: ", user);
   const [comments, setComments] = useState("");
   const { handleOpenModalAuth, handleUpdateRows } =
     useContext(GeneralValuesContext);
@@ -42,7 +42,7 @@ function PendingTemporaryState({
       user.files_account_type_number,
       comments
     );
-    console.log(response);
+    // console.log(response);
     if (response?.status == 200) {
       handleClear();
       handleUpdateRows();

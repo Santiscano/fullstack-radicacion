@@ -16,7 +16,7 @@ function AllFilesTable() {
       setRow(rows ? rows : []);
       // console.log("row table--: ", rows);
     } catch (error) {
-      console.log("error: ", error);
+      // console.log("error: ", error);
     } finally {
       setPreLoad(false);
     }

@@ -115,12 +115,12 @@ function GenerateFiles() {
   const handleGetUsersCedis = async () => {
     // cedis
     const allCedis: AllCedis[] = await getCedis();
-    console.log("allCedis: ", allCedis);
+    // console.log("allCedis: ", allCedis);
     setAllCedis(allCedis);
 
     // users
     const getAllUsers = await getUsers();
-    console.log("getAllUsers: ", getAllUsers.rows);
+    // console.log("getAllUsers: ", getAllUsers.rows);
     const allUsers = getAllUsers.rows;
     setAllUsers(allUsers);
 
@@ -237,7 +237,7 @@ function GenerateFiles() {
       setSettledNumber(newSettled);
       newSettled ? setIsSettled(true) : setIsSettled(false);
     } catch (error) {
-      console.log("error: ", error);
+      // console.log("error: ", error);
     } finally {
       setPreLoad(false);
     }
@@ -277,7 +277,7 @@ function GenerateFiles() {
       // @ts-ignore
       setResult(addFileResponse);
     } catch (error) {
-      console.log("error: ", error);
+      // console.log("error: ", error);
     } finally {
       setPreLoad(false);
     }
@@ -315,7 +315,7 @@ function GenerateFiles() {
         setModalSuccess(true);
       }
     } catch (error) {
-      console.log("error: ", error);
+      // console.log("error: ", error);
     } finally {
       setPreLoad(false);
     }
@@ -653,7 +653,7 @@ function GenerateFiles() {
                           handleChangeFile={handleChangeFile}
                         />
                         <button
-                          className="button button--flex mt-4 relative top-4"
+                          className="button button--flex mt-4 relative top-12"
                           // type='submit'
                         >
                           Adjuntar Archivos

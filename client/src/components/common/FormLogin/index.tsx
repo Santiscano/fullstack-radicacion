@@ -33,10 +33,10 @@ function index() {
       setPreLoad(true);
       const loger = await login(data.email, data.password);
       setErrorLogin(loger?.data.message);
-      console.log("loger: ", loger);
+      // console.log("loger: ", loger);
       if (loger?.status === 200) {
         const userValidate = await validateUserFirebase();
-        console.log("userValidate: ", userValidate);
+        // console.log("userValidate: ", userValidate);
         if (
           userValidate?.status === 201 &&
           userValidate?.data.users_status === "ACTIVO"
@@ -51,7 +51,7 @@ function index() {
         // }
       }
     } catch (error) {
-      console.log("error login: ", error);
+      // console.log("error login: ", error);
       navigate("/errorServer500");
     } finally {
       setPreLoad(false);

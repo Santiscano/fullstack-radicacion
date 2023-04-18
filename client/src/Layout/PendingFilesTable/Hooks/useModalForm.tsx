@@ -205,7 +205,7 @@ export const useModalForm = () => {
   };
 
   const isReturn = (auditors: any) => {
-    console.log("ejecute isReturn: ");
+    // console.log("ejecute isReturn: ");
     const nextAuditor = auditors?.filter(
       (user: { idroles: number; idusers: number }) =>
         (user.idroles == roles.AuditorCRTL ||
@@ -215,7 +215,7 @@ export const useModalForm = () => {
           user.idroles == roles.Gerencia) &&
         user.idusers !== Number(get("idusers"))
     );
-    console.log("nextauditor", nextAuditor);
+    // console.log("nextauditor", nextAuditor);
     setOptionsReturnTo(nextAuditor);
   };
 

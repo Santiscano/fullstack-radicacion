@@ -13,7 +13,7 @@ export const getFileStates = async (req: Request, res: Response) => {
         const [ data ] = await connection.query('SELECT * FROM files_states;');
         return res.status(200).json({ error: false, data })
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         return res.status(508).json({ error: true, message: "Error del servidor para traer los estados de los archivos" });
     };
 };
@@ -44,7 +44,7 @@ export const postFileStates = async ( req: Request, res: Response ) => {
             return res.status(200).json({error: false, Created: fileState[0]});
         };
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         return res.status(508).json({ error: true, message: "Error del servidor para agregar un estado de archivo" })
     };
 };
@@ -72,7 +72,7 @@ export const putFileStates = async (req:Request, res: Response) => {
             return res.status(200).json({ error: false,  Edited: fileState[0] });
         };
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         return res.status(508).json({ error: true, message: "Error del servidor para editar un estado de archivo" });
     }
 };
@@ -97,7 +97,7 @@ export const deleteFileStates = async (req:Request, res:Response) => {
             return res.status(200).json({ error: false, deleted: `El estado de archivo con id: ${ idfiles_states }, fue eliminado satisfactoriamente` });
         };
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         return res.status(508).json({ error: true, message: "Error del servidor para eliminar el estado del archivo" })
     };
 };

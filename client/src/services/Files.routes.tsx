@@ -12,10 +12,10 @@ export const getFiles = async () => {
       },
       getHeader()
     );
-    console.log("response: ", response);
+    // console.log("response: ", response);
     return response;
   } catch (error) {
-    console.log("error: ", error);
+    // console.log("error: ", error);
   }
 };
 
@@ -30,16 +30,16 @@ export const addFile = async (
   IdUserSession: number
 ) => {
   try {
-    console.log(
-      "info que envio: settledNumber: ",
-      idUser,
-      settledNumber,
-      price,
-      redirectTo,
-      idsedes,
-      files_account_type,
-      files_account_type_number
-    );
+    // console.log(
+    //   "info que envio: settledNumber: ",
+    //   idUser,
+    //   settledNumber,
+    //   price,
+    //   redirectTo,
+    //   idsedes,
+    //   files_account_type,
+    //   files_account_type_number
+    // );
     const response = await axios.post(
       Routes.api.files.addFile,
       {
@@ -58,7 +58,7 @@ export const addFile = async (
     // console.log('response: ', response);
     return response;
   } catch (error) {
-    console.log("error: ", error);
+    // console.log("error: ", error);
   }
 };
 
@@ -78,23 +78,6 @@ export const editFile = async (
   tracking_observation: string
 ) => {
   try {
-    console.log(
-      "lo que estoy mandando a pufile:",
-      idfiles,
-      idproviders,
-      idusers,
-      idfiles_states,
-      files_type,
-      files_registered,
-      files_cost_center,
-      files_code_accounting,
-      files_code_treasury,
-      files_price,
-      files_account_type,
-      files_account_type_number,
-      tracking_observation,
-      get("idusers")
-    );
     const response = await axios.put(
       Routes.api.files.editFile,
       {
@@ -115,10 +98,10 @@ export const editFile = async (
       },
       getHeader()
     );
-    console.log("response putfile", response);
+    // console.log("response putfile", response);
     return response;
   } catch (error) {
-    console.log("error: ", error);
+    // console.log("error: ", error);
   }
 };
 
@@ -134,6 +117,6 @@ export const deleteFile = async (files_registered: string) => {
     );
     return response;
   } catch (error) {
-    console.log("error: ", error);
+    // console.log("error: ", error);
   }
 };

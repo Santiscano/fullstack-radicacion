@@ -13,9 +13,9 @@ export const usePending = () => {
       const table = await showTablePending();
       const rowsData = await table?.data.dataInfo;
       setRows(rowsData ? rowsData : []);
-      console.log("row table--: ", rowsData);
+      // console.log("row table--: ", rowsData);
     } catch (error) {
-      console.log("error: ", error);
+      // console.log("error: ", error);
     } finally {
       setPreLoad(false);
     }

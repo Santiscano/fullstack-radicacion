@@ -83,7 +83,7 @@ function AttachFile() {
     });
   };
   const onFile = (newValue: any) => {
-    console.log("newValue: ", newValue);
+    // console.log("newValue: ", newValue);
     setFile({
       idfiles: newValue.idfiles,
       accountType: newValue.files_account_type,
@@ -115,12 +115,12 @@ function AttachFile() {
    */
   const handleSubmitSettled = async (e: any) => {
     try {
-      console.log("se activo handleSubmitSettled");
+      // console.log("se activo handleSubmitSettled");
       setPreLoad(true);
       e.preventDefault();
       const searchFile = await SearchWithSettled(settled);
       setListRoutesPDF(searchFile?.data.rutas);
-      console.log("list pdf:", searchFile?.data);
+      // console.log("list pdf:", searchFile?.data);
       if (searchFile?.status == 200) {
         setSuccess(true);
         setNotFile(false);
@@ -132,7 +132,7 @@ function AttachFile() {
         onFile({});
       }
     } catch (error) {
-      console.log("error: ", error);
+      // console.log("error: ", error);
     } finally {
       setPreLoad(false);
     }
@@ -161,7 +161,7 @@ function AttachFile() {
         onFile({});
       }
     } catch (error) {
-      console.log("error: ", error);
+      // console.log("error: ", error);
     } finally {
       setPreLoad(false);
     }
@@ -173,7 +173,7 @@ function AttachFile() {
    */
   const handleChangeFile = (e: SelectChangeEvent) => {
     // @ts-ignore
-    console.log("archivo capturado", e.target.files[0]);
+    // console.log("archivo capturado", e.target.files[0]);
     // @ts-ignore
     setFilePDF(e.target.files[0]);
     const fileNameEvent = e.target.value.replace(/^.*\\/, ""); // renombrar archivo
@@ -200,7 +200,7 @@ function AttachFile() {
       setPreLoad(true);
       e.preventDefault();
       const responseUploadFile = await uploadfile(filePDF, file.idfiles);
-      console.log("responseUploadFile: ", responseUploadFile);
+      // console.log("responseUploadFile: ", responseUploadFile);
       const pathFileUpload = await responseUploadFile?.data.pathFile;
 
       const responseConcatFilePath = await createFilePath(
