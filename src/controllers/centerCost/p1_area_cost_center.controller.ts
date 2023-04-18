@@ -10,7 +10,7 @@ export const getCostArea = async (req: Request, res: Response) => {
         if ( api_key !== process.env.API_KEY ) {
             return res.status(401).json({ error: true, message: "No cuentas con los permisos para acceder a esta información" });
         };
-        const [ data ] = await connection.query('SELECT idcost_center_area AS id, cost_center_area AS number, cost_center_area_name AS name FROM cost_center_area;');
+        const [ data ] = await connection.query('SELECT idcost_center_area AS id, cost_center_area AS number, cost_center_area_name AS name FROM cost_center_area ORDER BY cost_center_area ASC; ');
         return res.status(200).json({ error: true, data });
     } catch (error) {
         // console.log(error);
