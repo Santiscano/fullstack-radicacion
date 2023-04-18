@@ -14,15 +14,15 @@ import { columnsEdit } from "../../../../../interfaces/GridColumns";
 let open: boolean = false;
 
 const openModalPDF = (params: any) => {
-  console.log("open: ", open);
+  // console.log("open: ", open);
   let parameters = params;
-  console.log("parameters: ", parameters);
+  // console.log("parameters: ", parameters);
   open = true;
-  console.log("open: ", open);
+  // console.log("open: ", open);
 };
 
 const openPdf = () => {
-  console.log("funcionando");
+  // console.log("funcionando");
   window.open(pdf);
 };
 

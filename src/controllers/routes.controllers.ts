@@ -16,7 +16,7 @@ export const routerApi = (req: Request, res: Response) => {
         });
         return res.status(200).json({ rutas })
     } catch (error) {
-        console.log(error)
+        // console.log(error)
         return res.status(508).json({ message: "Error del servidor para enviar las rutas" })
     };
 };

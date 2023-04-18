@@ -14,7 +14,7 @@ export const getCedis = async () => {
     const cedis = await response.data;
     return cedis;
   } catch (err) {
-    console.log(err);
+    // console.log(err);
   }
 };
 
@@ -39,10 +39,10 @@ export const createCedi = async (
       },
       getHeader()
     );
-    console.log("response create cedi: ", response);
+    // console.log("response create cedi: ", response);
     return response;
   } catch (err) {
-    console.log(err);
+    // console.log(err);
   }
 };
 
@@ -59,9 +59,9 @@ export const editCedi = async () => {
       },
       getHeader()
     );
-    console.log("response edit: ", response);
+    // console.log("response edit: ", response);
   } catch (error) {
-    console.log(error);
+    // console.log(error);
   }
 };
 
@@ -71,9 +71,9 @@ export const deleteCedi = async (id: number) => {
       Routes.api.cedis.delete + id,
       getHeader()
     );
-    console.log("response delete: ", response);
+    // console.log("response delete: ", response);
     return response;
   } catch (error) {
-    console.log(error);
+    // console.log(error);
   }
 };

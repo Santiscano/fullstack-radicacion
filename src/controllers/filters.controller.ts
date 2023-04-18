@@ -15,7 +15,7 @@ export const getAllRegisteredFile = async (req:Request, res: Response) => {
         const [ data ] = await connection.query(`SELECT files_registered FROM files;`);
         return res.status(200).json({ error: false, data });
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         return res.status(508).json({ error: true, message: "Error del servidor para traer los radicados" })
     };
 };
@@ -33,7 +33,7 @@ export const getIdentificationByType  = async ( req: Request, res: Response ) =>
         const [ data ] = await connection.query(`SELECT * FROM users WHERE users_identification_type = ? AND idroles = 1`, [ users_identification_type.toUpperCase() ]);
         return res.status(200).json({ error: false, data });
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         return res.status(508).json({ error: true, message: "Error del servidor para traer la información" })
     }
 };
@@ -54,7 +54,7 @@ export const getTypeIdentification  = async ( req: Request, res: Response ) => {
         ];
         return res.status(200).json({ error: false, data });
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         return res.status(508).json({ error: true, message: "Error del servidor para traer la información" })
     }
 };
@@ -84,7 +84,7 @@ export const registeredFilter = async (req: Request, res: Response) => {
             `,[ file ]);
         return res.status(200).json({ error: false, radicado: dataInfo, rutas: path });
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         return res.status(508).json({error: true, message: "Error del servidor para filtrar por registrado"});
     };
 };
@@ -117,7 +117,7 @@ export const accountTypeFilter = async ( req:Request, res: Response ) => {
         `,[ file ]);
         return res.status(200).json({ error: false, response, ruta: path });
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         return res.status(508).json({ error:true, message: "Error del servidor para mostrar la información" });
     };
 };

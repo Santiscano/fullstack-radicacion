@@ -28,7 +28,7 @@ export const getTrackings = async (req: Request, res: Response) => {
                     LEFT JOIN roles R ON U.idroles = R.idroles;`);
         return res.status(200).json({error: false, allTracking});
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         return res.status(508).json({ error:true, message: "Error del servidor para trer todas las trazabilidades" });
     }
 };
@@ -67,7 +67,7 @@ export const getTracking = async (req: Request, res: Response) => {
 		    			WHERE F.idfiles = ?;`, [ idfiles ]);
         return res.status(200).json({ error: false, tracking });
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         return res.status(508).json({ error:true, message: "Error del servidor para una trazabilidad" });
     }
 };
@@ -78,7 +78,7 @@ export const postTraking = async ( idfiles_states: number, idfiles: number, idus
             VALUES ( ?, ?, ?, ?, ? );`, [idfiles_states, idfiles, idusers, tracking_observation, new Date()]);
         return console.log("Tracking agregado");
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         return { error: true, message: "Error del servidor para agregar una trazabilidad" };
     }
 };

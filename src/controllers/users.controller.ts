@@ -21,7 +21,7 @@ export const getUsers = async (req: Request, res: Response) =>{
             LEFT JOIN sedes S ON U.idsedes = S.idsedes`);
         return res.status(200).json({error: false, rows});
     } catch (err) {
-        console.log(err);
+        // console.log(err);
         return res.status(508).json({error: true, message: "Error del servidor al traer los usuarios"});
     };
 };
@@ -82,7 +82,7 @@ export const postUsers = async (req: Request, res: Response) => {
         };
         return res.status(200).json({error: false, message: `Usuario con ${ users_identification_type }: ${ users_identification } y email: ${users_email}, creado satisfactoriamente`, usurio: infoUsuario})
     } catch (err) {
-        console.log(err);
+        // console.log(err);
         return res.status(508).json({ error: true, message: "Error del servidor al crear un usuario" });
     };
 };
@@ -140,7 +140,7 @@ export const putUsers = async (req:Request, res:Response) =>{
             return res.status(200).json({edited: `Usuario con ${ users_identification_type }: ${ users_identification } editado satisfactoriamente`,userInfo})
         };
     } catch(err){
-        console.log(err);
+        // console.log(err);
         return res.status(508).json({message: `Error del servidor para editar el usuario con ${ users_identification_type }: ${ users_identification }`})
     };
 };
@@ -162,7 +162,7 @@ export const deleteUser = async (req: Request, res: Response) => {
             return res.status(200).json({ message: `El usuario con la ${users_identification_type}: ${users_identification}, eliminado satisfactoriamente de la base de datos` });
         };
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         return res.status(508).json({message: "Error del servidor para eliminar al usuario"})
     };
 };

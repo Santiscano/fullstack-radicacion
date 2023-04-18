@@ -18,7 +18,7 @@ export const getCostSubArea = async (req: Request, res: Response) => {
                         FROM cost_center_subarea ORDER BY cost_center_subarea ASC;`);
         return res.status(200).json({ error: false, data });
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         return res.status(508).json({ error: true, message: "Error del servidor al traer Sub Areas de los centros de costo" });
     };
 };
@@ -45,7 +45,7 @@ export const getCostSubAreaById = async (req: Request, res: Response) => {
         };
         return res.status(200).json({ error: false, data });
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         return res.status(508).json({ error: true, message: "Error del servidor al traer Sub Areas de los centros de costo" });
     };
 };
@@ -74,7 +74,7 @@ export const postCostSubArea = async (req: Request, res: Response) => {
             [data])
         return res.status(200).json({ error: false, created: "Sub Area del centro de costos creada satisfactoriamente", costSubArea });
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         return res.status(508).json({ error: true, message: "Error del servidor para crear una Sub Area del centro de costos" });
     };
 };
@@ -102,7 +102,7 @@ export const deleteCostSubArea = async (req: Request, res: Response) => {
             [ data ]);
         return res.status(200).json({ error: false, deleted: `Sub Area del cetro de costos: ${ data }, eliminada satisfactoriamente` });
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         return res.status(508).json({ error: true, message: "Error del servidor para eliminar el Sub Area del centro de costos" })
     };
 };

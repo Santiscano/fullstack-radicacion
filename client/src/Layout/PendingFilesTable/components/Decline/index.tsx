@@ -32,7 +32,7 @@ function Decline({ user, activitySelect, setActivitySelect }: any) {
       user.files_account_type_number,
       comments
     );
-    console.log(response);
+    // console.log(response);
     if (response?.status == 200) {
       handleClear();
       handleUpdateRows();

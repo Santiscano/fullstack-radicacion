@@ -26,7 +26,7 @@ function SearchSettled({
   const getAllRegisteredFiles = async () => {
     try {
       const resSettleds = await GetAllSettled();
-      console.log("Settleds: ", resSettleds?.data.data);
+      // console.log("Settleds: ", resSettleds?.data.data);
       const elements = resSettleds?.data.data;
       const rows = [];
       selected.map((file: any) => {
@@ -36,7 +36,7 @@ function SearchSettled({
       });
       setListSettleds(elements);
     } catch (error) {
-      console.log("error: ", error);
+      // console.log("error: ", error);
     }
   };
   useEffect(() => {

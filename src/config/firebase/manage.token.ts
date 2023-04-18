@@ -21,7 +21,7 @@ export const decodeToken = async (_req: Request, res: Response, next: NextFuncti
         } else {
             return res.status(500).json({ message: "Internal Server Error" });
         };
-        console.log(error);
+        // console.log(error);
         return res.status(508).json({ message: "SERVER_ERROR" });
     };
 };

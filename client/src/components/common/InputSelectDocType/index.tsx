@@ -25,7 +25,7 @@ export default function InputSelect(props: any) {
         api_key: import.meta.env.VITE_API_KEY,
       })
       .then((res) => {
-        console.log(res.data.data);
+        // console.log(res.data.data);
         setDocumentType(res.data.data);
       });
   };

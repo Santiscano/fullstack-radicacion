@@ -59,7 +59,7 @@ function index(props: any) {
   const handleOpenDG = () => setOpenDG(!openDG);
 
   const handleRouteValidate = (nav: any) => {
-    console.log("session", session());
+    // console.log("session", session());
     !!session() ? navigate(`${nav.url}`) : navigate("/login");
   };
 

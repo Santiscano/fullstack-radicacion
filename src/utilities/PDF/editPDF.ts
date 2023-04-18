@@ -13,7 +13,7 @@ export const editPDF = async ( inputFilePath: string, outputFilePath: string, ra
         const pages = pdfDoc.getPages();
         const firstPage = pages[0];
         const { width, height } = firstPage.getSize();
-        console.log(width, height)
+        // console.log(width, height)
         // Posición y parametros para editar
         const optionsDestock: object = {
             x: 225,
@@ -39,9 +39,9 @@ export const editPDF = async ( inputFilePath: string, outputFilePath: string, ra
         // Guarda el PDF modificado en el archivo de salida
         const pdfBytes = await pdfDoc.save();
         await fs.writeFile(outputFilePath, pdfBytes);
-        console.log({error: false, message: 'PDF modificado con éxito'});
+        // console.log({error: false, message: 'PDF modificado con éxito'});
     } catch (err) {
-        console.log({error: true, err});
+        // console.log({error: true, err});
     };
 };
 

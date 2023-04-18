@@ -16,7 +16,7 @@ export const genFileRegistered = async ( req: Request, res: Response ) => {
         let result = await genRegistered();
         return res.status(200).json({ error: false, result });
     } catch (error) {
-        console.log(error)
+        // console.log(error)
         return res.status(508).json({ error: true, message: "Error del servidor para generar un radicado" });
     };
 };
@@ -31,7 +31,7 @@ export const getFiles = async ( req:Request, res:Response ) => {
         const [files] = await connection.query('SELECT * FROM files;');
         return res.status(200).json({error: false, files});
     } catch (err) {
-        console.log(err);
+        // console.log(err);
         return res.status(508).json({ error: true, message: "Error del servidor para traer los Archivos"})
     }
 };
@@ -76,8 +76,8 @@ export const postFile = async (req: Request, res: Response) => {
         postTraking(idfiles_states, file[0].idfiles, userSession, tracking_observation);
         // createPDF(files_registered.toUpperCase(), files_account_type.toUpperCase(), files_type.toUpperCase());
         return res.status(200).json({ error: false, tracking: "Cargado exitosamente", file });
-    } catch (error) {
-        console.log(error);
+    } catch (err) {
+        // console.log(err);
         return res.status(508).json({ error: true, message:"Error del servidor para guardar los archivos" });
     };
 };
@@ -127,7 +127,7 @@ export const putFile = async ( req:Request, res:Response ) => {
         //@ts-ignore
         return res.status(200).json({ error: false, tracking: "Cargado exitosamente", fileUpdated });
     } catch (error) {
-        console.log(error)
+        // console.log(error)
         return res.status(508).json({ error: true, message: "Error del servidor para edutar un archivo" })
     };
 };
@@ -151,14 +151,14 @@ export const deleteFile = async (req:Request, res:Response) => {
         //@ts-ignore
         const idfiles = data[0].idfiles;
         await connection.query(`DELETE FROM tracking WHERE idfiles = ?;`, [ idfiles ]);
-        console.log("Eliminado del tracking");
+        // console.log("Eliminado del tracking");
         await connection.query(`DELETE FROM files_path WHERE idfiles = ?;`, [ idfiles ])
-        console.log("Eliminado de las rutas");
+        // console.log("Eliminado de las rutas");
         await connection.query(`DELETE FROM files WHERE idfiles = ?;`, [ idfiles ]);
-        console.log("Eliminado del los archivos");
+        // console.log("Eliminado del los archivos");
         return res.status(200).json({error: false, message: `Archivo con radicado: ${files_registered}, ha sido eliminado`})
     } catch (error) {
-        console.log(error)
+        // console.log(error)
         return res.status(508).json({ error: true, message: "Error del servidor para eliminar un archivo" })
     };
 };

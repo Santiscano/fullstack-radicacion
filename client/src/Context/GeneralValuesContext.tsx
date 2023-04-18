@@ -53,7 +53,7 @@ const GeneralValuesProvider: FC = ({ children }: any) => {
       const rowsData = await table?.data.dataInfo;
       setRows(rowsData ? rowsData : []);
     } catch (error) {
-      console.log("error: ", error);
+      // console.log("error: ", error);
     } finally {
       setPreLoad(false);
     }

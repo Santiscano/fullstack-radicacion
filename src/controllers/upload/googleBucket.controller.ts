@@ -19,7 +19,7 @@ export const uploadFileDocument = async (req: Request, res: Response) => {
 
         upload(req, res, async (err) => {
             if (err) {
-                console.log(err);
+                // console.log(err);
                 return res.send({error: true, message: "FILE_UPLOAD_FAILED"});
             };
             if( req.file ) {
@@ -37,7 +37,7 @@ export const uploadFileDocument = async (req: Request, res: Response) => {
             };
         });
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         return res.status(508).json({error: true, message: "SERVER_ERROR"})
     };
 };

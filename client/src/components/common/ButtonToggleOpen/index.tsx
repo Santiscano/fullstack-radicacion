@@ -15,9 +15,9 @@ export const ButtonToggleOpen = (props: GridRenderCellParams<Date>) => {
   // Methods
   // ----------------------------------------
   const handleOpen = () => {
-    console.log(props);
+    // console.log(props);
     setOpen(true);
-    console.log("open: ", open);
+    // console.log("open: ", open);
   };
   const handleClose = () => setOpen(false);
 

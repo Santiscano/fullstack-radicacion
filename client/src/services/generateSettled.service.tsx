@@ -14,6 +14,6 @@ export const getSettled = async () => {
     const settled = response.data.result;
     return settled;
   } catch (error) {
-    console.log("error: ", error);
+    // console.log("error: ", error);
   }
 };

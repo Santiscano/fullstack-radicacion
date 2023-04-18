@@ -11,9 +11,9 @@ export const getFilesPath = async () => {
       },
       getHeader()
     );
-    console.log("response: ", response);
+    // console.log("response: ", response);
   } catch (error) {
-    console.log("error: ", error);
+    // console.log("error: ", error);
   }
 };
 export const createFilePath = async (
@@ -23,13 +23,6 @@ export const createFilePath = async (
   IdUserSession: any
 ) => {
   try {
-    console.log(
-      "envio lo siguiente: ",
-      idFiles,
-      pathFileUpload,
-      comments,
-      IdUserSession
-    );
     const response = await axios.post(
       Routes.api.filesPath.createFilePath,
       {
@@ -40,10 +33,10 @@ export const createFilePath = async (
       },
       getHeader()
     );
-    console.log("response createFilepath: ", response);
+    // console.log("response createFilepath: ", response);
     return response;
   } catch (error) {
-    console.log("error: ", error);
+    // console.log("error: ", error);
   }
 };
 
@@ -53,8 +46,8 @@ export const deleteFilePath = async () => {
       Routes.api.filesPath.deleteFilePath,
       getHeader()
     );
-    console.log("response: ", response);
+    // console.log("response: ", response);
   } catch (error) {
-    console.log("error: ", error);
+    // console.log("error: ", error);
   }
 };

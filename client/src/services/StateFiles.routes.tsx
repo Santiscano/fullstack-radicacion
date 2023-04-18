@@ -14,7 +14,7 @@ export const getStatesFiles = async () => {
     // console.log("response: ", response.data);
     return response;
   } catch (error) {
-    console.log("error: ", error);
+    // console.log("error: ", error);
   }
 };
 
@@ -29,10 +29,10 @@ export const addStateFile = async () => {
       },
       getHeader()
     );
-    console.log("response: ", response);
+    // console.log("response: ", response);
     return response;
   } catch (error) {
-    console.log("error: ", error);
+    // console.log("error: ", error);
   }
 };
 export const editStateFile = async () => {
@@ -47,10 +47,10 @@ export const editStateFile = async () => {
       },
       getHeader()
     );
-    console.log("response: ", response);
+    // console.log("response: ", response);
     return response;
   } catch (error) {
-    console.log("error: ", error);
+    // console.log("error: ", error);
   }
 };
 export const deleteStateFile = async () => {
@@ -59,9 +59,9 @@ export const deleteStateFile = async () => {
       Routes.api.stateFiles.deleteStateFile,
       getHeader()
     );
-    console.log("response: ", response);
+    // console.log("response: ", response);
     return response;
   } catch (error) {
-    console.log("error: ", error);
+    // console.log("error: ", error);
   }
 };

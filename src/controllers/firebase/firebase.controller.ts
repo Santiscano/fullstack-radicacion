@@ -26,7 +26,7 @@ export const logIn = async (req: Request, res: Response) => {
         };
         return res.status(201).json({ error: true, message: result.data.code }); 
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         return res.status(500).json(error);
     };
 };
@@ -46,7 +46,7 @@ export const validateUser = async (req: Request, res: Response) => {
                         LEFT JOIN roles R ON U.idroles = R.idroles 
                         LEFT JOIN sedes S ON U.idsedes = S.idsedes 
                         WHERE users_email = ? ;`, [ emailToken ]);
-        console.log(result)
+        // console.log(result)
         //@ts-ignore
         if(result.length == 0){
             return res.status(401).json([{email: emailToken, message: "Usuario registrado en Firebase, pero no existe en la base de datos" }]);
@@ -54,7 +54,7 @@ export const validateUser = async (req: Request, res: Response) => {
         //@ts-ignore
         return res.status(201).json(result[0]);
     } catch(error){
-        console.log(error)
+        // console.log(error)
         return res.status(401).json({ message: "Token no válido" });
     };
 };
@@ -65,7 +65,7 @@ export const changePassword = async (req:Request, res:Response) => {
         const result = await auth.sendPasswordEmail(users_email);
         return res.status(201).send(result);
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         return res.status(508).json({ message: "Error del servidor para cambiar la contraseña del usuario" })
     }
 }

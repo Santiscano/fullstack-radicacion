@@ -14,14 +14,14 @@ import "./datagrid.css";
 
 let open: boolean = false;
 const openModalPDF = (params: any) => {
-  console.log("open: ", open);
+  // console.log("open: ", open);
   let parameters = params;
-  console.log("parameters: ", parameters);
+  // console.log("parameters: ", parameters);
   open = true;
-  console.log("open: ", open);
+  // console.log("open: ", open);
 };
 const openPdf = () => {
-  console.log("funcionando");
+  // console.log("funcionando");
   window.open(pdf);
 };
 
@@ -78,11 +78,11 @@ function getRowId(row: any) {
  * @returns
  */
 const delayAlerts = (params: any) => {
-  console.log("params", params);
+  // console.log("params", params);
   if (params.row.files_type == "ADMINISTRATIVO" && params.row.idfiles !== 199) {
     return "willExpireSoon";
   } else if (params.row.idfiles == 199) {
-    console.log("resolvi por aqui", params.row);
+    // console.log("resolvi por aqui", params.row);
     return "overduePending";
   } else {
     return "good";

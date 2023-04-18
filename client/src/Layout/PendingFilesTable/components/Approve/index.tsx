@@ -17,7 +17,7 @@ function Approve({
   activitySelect,
   setActivitySelect,
 }: any) {
-  console.log("user: ", user);
+  // console.log("user: ", user);
   const [state, setState] = useState<any>();
   const [area, setArea] = useState<any>({
     id: 0,
@@ -88,7 +88,7 @@ function Approve({
         get("idusers")
       ); // relaciona pdf y archivo
     } catch (error) {
-      console.log("error: ", error);
+      // console.log("error: ", error);
     } finally {
       setPreLoad(false);
     }
@@ -124,7 +124,7 @@ function Approve({
         handleUpdateRows();
       }
     } catch (error) {
-      console.log("error: ", error);
+      // console.log("error: ", error);
     } finally {
       setPreLoad(true);
     }

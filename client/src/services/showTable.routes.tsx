@@ -17,7 +17,7 @@ export const showTablePending = async () => {
     // console.log("response showtablePending: ", response);
     return response;
   } catch (error) {
-    console.log("error: ", error);
+    // console.log("error: ", error);
   }
 };
 
@@ -33,6 +33,6 @@ export const showTableAllFiles = async () => {
     // console.log('response row: ', response);
     return response;
   } catch (error) {
-    console.log("error: ", error);
+    // console.log("error: ", error);
   }
 };

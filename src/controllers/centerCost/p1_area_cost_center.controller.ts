@@ -13,7 +13,7 @@ export const getCostArea = async (req: Request, res: Response) => {
         const [ data ] = await connection.query('SELECT idcost_center_area AS id, cost_center_area AS number, cost_center_area_name AS name FROM cost_center_area ORDER BY cost_center_area ASC; ');
         return res.status(200).json({ error: true, data });
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         return res.status(508).json({error: true, message: "Error del servidor al traer Areas de los centros de costo"});
     };
 };
@@ -42,7 +42,7 @@ export const postCostArea = async (req: Request, res: Response) => {
             [data])
         return res.status(200).json({ error: false, message: "Area del centro de costos creada satisfactoriamente", costArea });
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         return res.status(508).json({ error: true, message: "Error del servidor para crear una Area del centro de costos" });
     };
 };
@@ -70,7 +70,7 @@ export const deleteCostArea = async (req: Request, res: Response) => {
             [ data ]);
         return res.status(200).json({ error: true, message: `Area del cetro de costos: ${ data }, eliminada satisfactoriamente` })
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         return res.status(508).json({ error: true, message: "Error del servidor para eliminar el Area del centro de costos" })
     };
 };

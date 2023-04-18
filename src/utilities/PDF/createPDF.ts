@@ -55,9 +55,9 @@ export const createPDF = ( radicado: string, tipoCedi: string, tipoCuenta: strin
 
     pdf.create(content, options).toFile(`./temp/${radicado}.pdf`, function(err, res) {
         if (err){
-            console.log(err);
+            // console.log(err);
         } else {
-            console.log(res);
+            // console.log(res);
         }
     });
 };
@@ -136,7 +136,7 @@ const html = `
     </div>
 `;
 
-console.log(filename, output)
+// console.log(filename, output)
 // Leemos el archivo PDF existente
 const existingPdf = fs.readFileSync(filename);
 
@@ -147,5 +147,5 @@ pdf.create(html, options).toBuffer((error, buffer) => {
     // console.log({existingPdf, buffer})
     // Escribimos el nuevo archivo PDF en disco
     fs.writeFileSync(output, combinedPdf);
-    console.log('PDF modificado guardado en disco');
+    // console.log('PDF modificado guardado en disco');
 });

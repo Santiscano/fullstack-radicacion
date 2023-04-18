@@ -16,8 +16,8 @@ export default function InputSelect(props: any) {
   React.useEffect(() => {
     if (props.reset) {
       props.onChange(props.itemDefault);
-      console.log("props.itemDefault: ", props.itemDefault);
-      console.log("de debe resetear");
+      // console.log("props.itemDefault: ", props.itemDefault);
+      // console.log("de debe resetear");
     }
   }, [props.reset]);
   return (

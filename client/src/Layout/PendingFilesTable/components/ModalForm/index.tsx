@@ -22,13 +22,13 @@ import Finally from "../Finally";
 import Cancel from "../Cancel";
 
 export default function ModalInfoFile(props: any) {
-  console.log("props completas: ", props);
+  // console.log("props completas: ", props);
   // ------------------------------VARIABLES------------------------------//
   const [listRoutesPDF, setListRoutesPDF] = useState<any>("");
   const [viewPDF, setViewPDF] = useState(false);
   const { openModalAuth, handleOpenModalAuth, dataUser, setDataUser } =
     useContext(GeneralValuesContext);
-  console.log("datauser: ", dataUser);
+  // console.log("datauser: ", dataUser);
 
   const {
     users_name,
@@ -70,7 +70,7 @@ export default function ModalInfoFile(props: any) {
 
   const handleListFilesPDF = async () => {
     const getFilesFromSettled = await SearchWithSettled(files_registered);
-    console.log("getFilesFromSettled: ", getFilesFromSettled);
+    // console.log("getFilesFromSettled: ", getFilesFromSettled);
     setListRoutesPDF(getFilesFromSettled?.data.rutas);
     getFilesFromSettled?.status == 200 && setViewPDF(true);
   };

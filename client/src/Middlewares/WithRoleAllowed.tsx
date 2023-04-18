@@ -22,10 +22,10 @@ export function WithRoleAllowedRoutes({ children, allowedRolesList }: any) {
  * pero debo asimilarlo a la logica del otro middleware que valida y lleva al outlet
  */
 export function WithRoleAllowedComponent({ children, allowedRolesList }: any) {
-  console.log("Lista permitida: ", allowedRolesList);
+  // console.log("Lista permitida: ", allowedRolesList);
   const navigate = useNavigate();
   const allowed = validateHasRoleAllowed(allowedRolesList);
-  console.log("allowed: ", allowed);
+  // console.log("allowed: ", allowed);
 
   useEffect(() => {
     if (!allowed) {

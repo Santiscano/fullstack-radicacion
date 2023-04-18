@@ -38,7 +38,7 @@ function LocationsSelect({
         api_key: import.meta.env.VITE_API_KEY,
       })
       .then((res) => {
-        console.log(res.data.data);
+        // console.log(res.data.data);
         setDepartments(res.data.data);
       });
   };
@@ -50,7 +50,7 @@ function LocationsSelect({
         users_identification_type: users_identification,
       })
       .then((res) => {
-        console.log(res.data.data);
+        // console.log(res.data.data);
         setCities(res.data.data);
       });
   };

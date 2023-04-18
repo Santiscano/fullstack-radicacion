@@ -36,7 +36,7 @@ export const calcularDigitoVerificacion = ( myNit: string ): number => {
         y = x % 11 ;
         return( y > 1 ) ? 11 - y : y 
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         return NaN
     };
 };
