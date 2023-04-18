@@ -1,14 +1,25 @@
+import "dotenv/config";
 import express from "express";
 import morgan from "morgan";
 import cors from "cors";
 import swaggerJsdoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
-import "dotenv/config";
 import path from "path";
-
+import https from 'https';
+import fs from 'fs';
 import router from './routes/index.routes'
 
 const app = express();
+
+// const privateKey = fs.readFileSync(`${process.env.SSL_PRIVATE_KEY}`, 'utf8')
+// const certificate  = fs.readFileSync(`${process.env.SSL_CERTIFICATE}`, 'utf8')
+
+// const credentials = {
+//     key: privateKey,
+//     cert: certificate
+// };
+
+// const httpsServer = https.createServer(credentials, app);
 
 //Establecer conexión con Swagger 
 const swaggerSpec = {
@@ -60,7 +71,12 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerJsdoc(swaggerSpec))
 //Establecer puerto
 app.set("port", process.env.PORT || 3000);
 
-//Iniciar el servidor
+// Iniciar el servidor http://
 app.listen(app.get("port"), () => {
     console.log(`Server started at ${process.env.SERVER}:${app.get("port")}`);
 });
+
+// Iniciar el servidor https://
+// httpsServer.listen( 443, () => {
+//     console.log(`Server started at ${process.env.SERVER}:${app.get("port")}`);
+// });
