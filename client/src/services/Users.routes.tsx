@@ -78,6 +78,7 @@ export const createUser = async (
   }
 };
 export const createProvider = async (
+  api_key: any,
   idroles: number,
   idsedes: number,
   identification_type: string,
@@ -93,6 +94,7 @@ export const createProvider = async (
     const response = await axios.post(
       Routes.api.users.createUser,
       {
+        api_key,
         idroles: idroles,
         idsedes: idsedes,
         users_identification_type: identification_type,

@@ -262,8 +262,9 @@ function useSubmit() {
       e.preventDefault();
       // console.log(cedi);
       const res = await createProvider(
+        import.meta.env.VITE_API_KEY,
         assignRole,
-        cedi,
+        cedi.idsedes,
         identificationType,
         identificationNumber,
         firstName,
@@ -279,15 +280,18 @@ function useSubmit() {
         setSeveritySnackbar("success");
         setPreLoad(false);
         setOpenSnackbar(true);
-        setAssignRole("");
         setReset(true);
-        setCedi("");
+        // values
+        setAssignRole([]);
+        setCedi([]);
         setIdentificationType("");
         setIdentificationNumber("");
         setFirstname("");
         setLastName("");
         setAddress("");
         setPhone("");
+        setLimitDaysPayment(NaN);
+        setDocumentationUpdate(undefined);
         setEmail("");
         setPassword("");
       }
