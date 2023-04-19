@@ -106,5 +106,11 @@ router.post('/accountTypeFilter', accountTypeFilter);           // Filtro de los
 router.get('/routerApi', routerApi);                            // Traer las rutas que tiene el sistema
 
 
+// PRUEBA MODELO
+import { modelFuckers } from '../controllers/controller';
+router.post('/yourModelFucker', modelFuckers);
+
+
+
 // Exportando el router
 export default router;
