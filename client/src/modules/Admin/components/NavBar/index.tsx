@@ -3,14 +3,12 @@ import { useState } from "react";
 // components mui
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
-import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import Toolbar from "@mui/material/Toolbar";
 import Tooltip from "@mui/material/Tooltip";
-import Badge from "@mui/material/Badge";
-import NotificationsNoneRoundedIcon from "@mui/icons-material/NotificationsNoneRounded";
+import Typography from "@mui/material/Typography";
 
 // myself components
 
@@ -21,27 +19,20 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { useNavigate } from "react-router-dom";
 
 // img
-import logo from "../../../../assets/images/logo-white.png";
 import userIcon from "../../../../assets/icons/avatar.png";
+import logo from "../../../../assets/images/logo-white.png";
 
 // css
-import "./navbar.css";
 import Avatar from "@mui/material/Avatar";
-import { styled } from "@mui/material/styles";
-import {
-  get,
-  remove,
-  removeAll,
-  viewDisplayRol,
-} from "../../../../components/tools/SesionSettings";
-import { useContext } from "react";
-import { GeneralValuesContext } from "../../../../Context/GeneralValuesContext";
+import useContextProvider from "../../../../Context/GeneralValuesContext";
+import { removeAll } from "../../../../components/tools/SesionSettings";
+import "./navbar.css";
 
 export default function MenuAppBar(props: any) {
   // navigation
   const navigate = useNavigate();
 
-  const { user } = useContext(GeneralValuesContext);
+  const { user } = useContextProvider();
   // @ts-ignore
   const { users_name, users_lastname, idroles, roles } = user;
 

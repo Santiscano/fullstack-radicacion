@@ -1,25 +1,24 @@
-import * as React from "react";
 import Button from "@mui/material/Button";
-import { DataGrid, GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 import { TouchRippleActions } from "@mui/material/ButtonBase/TouchRipple";
+import { GridRenderCellParams } from "@mui/x-data-grid";
+import { useLayoutEffect, useRef } from "react";
+import useContextProvider from "../../../../../Context/GeneralValuesContext";
 import ModalInfoFile from "../../ModalForm";
-import { GeneralValuesContext } from "../../../../../Context/GeneralValuesContext";
 
 export const ButtonOpenModalEdit = (params: GridRenderCellParams<any>) => {
   const { hasFocus, value } = params;
   // console.log("value: ", value);
   // console.log("params: ", params);
-  const buttonElement = React.useRef<HTMLButtonElement | null>(null);
-  const rippleRef = React.useRef<TouchRippleActions | null>(null);
+  const buttonElement = useRef<HTMLButtonElement | null>(null);
+  const rippleRef = useRef<TouchRippleActions | null>(null);
 
   // useState
-  const { openModalAuth, handleOpenModalAuth } =
-    React.useContext(GeneralValuesContext);
+  const { openModalAuth, handleOpenModalAuth } = useContextProvider();
   // ----------------------------------------
   // Methods
   // ----------------------------------------
 
-  React.useLayoutEffect(() => {
+  useLayoutEffect(() => {
     if (hasFocus) {
       // console.log("hasFocus: ", hasFocus);
       const input = buttonElement.current?.querySelector("input");

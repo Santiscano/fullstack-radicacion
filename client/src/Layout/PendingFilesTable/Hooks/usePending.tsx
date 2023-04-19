@@ -1,11 +1,11 @@
-import { useContext, useEffect, useState } from "react";
-import { GeneralValuesContext } from "../../../Context/GeneralValuesContext";
+import { useEffect } from "react";
+import useContextProvider from "../../../Context/GeneralValuesContext";
 import { showTablePending } from "../../../services/showTable.routes";
 
 export const usePending = () => {
   // const [row, setRow] = useState([]);
   const { setPreLoad, handleCloseModalAuth, rows, setRows } =
-    useContext(GeneralValuesContext);
+    useContextProvider();
 
   const handleGetTableData = async () => {
     try {

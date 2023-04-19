@@ -1,20 +1,20 @@
 import { SelectChangeEvent, Slide } from "@mui/material";
 import { TransitionProps } from "@mui/material/transitions";
-import { SyntheticEvent, useContext, useEffect, useState } from "react";
+import { SyntheticEvent, useEffect, useState } from "react";
+import { numberToStringWithTwoDigitNumber as numberToString } from "../../../Utilities/formatted.utility";
 import { AllCedis } from "../../../interfaces/Cedis";
 import { createCedi, getCedis } from "../../../services/Cedis.routes";
-import { createProvider, createUser } from "../../../services/Users.routes";
-import { getCitys } from "../../../services/getCitysColombia";
-import { getRoles } from "../../../services/Roles.routes";
-import { GeneralValuesContext } from "./../../../Context/GeneralValuesContext";
 import {
   createArea,
   createCostCenter,
   createSubArea,
   getArea,
 } from "../../../services/CenterCost.routes";
-import { numberToStringWithTwoDigitNumber as numberToString } from "../../../Utilities/formatted.utility";
 import { deleteFile } from "../../../services/Files.routes";
+import { getRoles } from "../../../services/Roles.routes";
+import { createProvider, createUser } from "../../../services/Users.routes";
+import { getCitys } from "../../../services/getCitysColombia";
+import useContextProvider from "./../../../Context/GeneralValuesContext";
 
 function useSubmit() {
   // --------------------------Variable-------------------------------//
@@ -69,7 +69,7 @@ function useSubmit() {
   // reset forms
   const [reset, setReset] = useState(false);
   // --------------------------Context-------------------------------//
-  const { setPreLoad } = useContext(GeneralValuesContext);
+  const { setPreLoad, handleMessageSnackbar } = useContextProvider();
   // --------------------------handles-------------------------------//
   /**
    * traigo los departamentos, ciudades, cedis,
@@ -141,19 +141,6 @@ function useSubmit() {
   const handleCedity = (e: SelectChangeEvent) => {
     setIdentificationType(e.target.value);
   };
-  const handleCloseSnackbar = (
-    event?: SyntheticEvent | Event,
-    reason?: string
-  ) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setOpenSnackbar(false);
-  };
-  function TransitionLeft(props: TransitionProps) {
-    // @ts-ignore
-    return <Slide {...props} direction="left" />;
-  }
   const handleCloseModalChild = () => setModalSuccess(false);
 
   // --------------------------handles Submit-------------------------------//
@@ -179,30 +166,21 @@ function useSubmit() {
       setCediName("");
       setType("");
       if (res?.status == 200) {
-        setMessageSnackbar("Cedi Creada Con Exito");
-        setSeveritySnackbar("success");
+        handleMessageSnackbar("success", "Cedi Creada Con Exito");
         setPreLoad(false);
-        setOpenSnackbar(true);
       }
       if (res?.status !== 200) {
-        setMessageSnackbar("Cedi No Fue Creada Ocurrio Un Error");
-        setSeveritySnackbar("error");
+        handleMessageSnackbar("error", "Cedi No Fue Creada Ocurrio Un Error");
         setPreLoad(false);
-        setOpenSnackbar(true);
       }
     } catch (error) {
-      // console.log("error: ", error);
-      setMessageSnackbar("Ocurrio Un Error Intenta De Nuevo");
-      setSeveritySnackbar("error");
-      setOpenSnackbar(true);
+      handleMessageSnackbar("error", "Ocurrio Un Error Intenta De Nuevo");
     }
   };
   const handleSubmitCreateUser = async (e: any) => {
     try {
       setPreLoad(true);
       e.preventDefault();
-      // console.log(cedi);
-      // console.log("key", import.meta.env.VITE_API_KEY);
       const res = await createUser(
         import.meta.env.VITE_API_KEY,
         assignRole,
@@ -218,13 +196,14 @@ function useSubmit() {
       );
       console.log("res: ", res);
       if (res?.status == 200 && res.statusText == "OK") {
-        setMessageSnackbar(`Usuario ${firstName} Creado Con Exito`);
-        setSeveritySnackbar("success");
+        handleMessageSnackbar(
+          "success",
+          `Usuario ${firstName} Creado Con Exito`
+        );
         setPreLoad(false);
-        setOpenSnackbar(true);
-        setAssignRole("");
-        setReset(true);
-        setCedi("");
+        // dates
+        setAssignRole([]);
+        setCedi([]);
         setIdentificationType("");
         setIdentificationNumber("");
         setFirstname("");
@@ -235,32 +214,27 @@ function useSubmit() {
         setPassword("");
       }
       if (res?.status !== 200) {
-        setMessageSnackbar(
+        handleMessageSnackbar(
+          "error",
           `Usuario ${firstName}: ${
             res?.data.message
               ? res?.data.message
               : "No Fue Creada Ocurrio Un Error"
           }`
         );
-        setSeveritySnackbar("error");
         setPreLoad(false);
-        setOpenSnackbar(true);
       }
     } catch (error) {
       // console.log("error: ", error);
-      setMessageSnackbar("Ocurrio Un Error Intenta De Nuevo");
-      setSeveritySnackbar("error");
-      setOpenSnackbar(true);
+      handleMessageSnackbar("error", "Ocurrio Un Error Intenta De Nuevo");
     } finally {
       setReset(false);
     }
   };
   const handleSubmitCreateProvider = async (e: any) => {
     try {
-      // console.log(addressUser);
       setPreLoad(true);
       e.preventDefault();
-      // console.log(cedi);
       const res = await createProvider(
         import.meta.env.VITE_API_KEY,
         assignRole,
@@ -274,12 +248,13 @@ function useSubmit() {
         limitDaysPayment,
         documentationUpdate
       );
-      // console.log("res: ", res);
+      console.log("res: ", res);
       if (res?.status == 200 && res.statusText == "OK") {
-        setMessageSnackbar(`Proveedor ${firstName} Creado Con Exito`);
-        setSeveritySnackbar("success");
+        handleMessageSnackbar(
+          "success",
+          `Proveedor ${firstName} Creado Con Exito`
+        );
         setPreLoad(false);
-        setOpenSnackbar(true);
         setReset(true);
         // values
         setAssignRole([]);
@@ -290,28 +265,25 @@ function useSubmit() {
         setLastName("");
         setAddress("");
         setPhone("");
-        setLimitDaysPayment(NaN);
-        setDocumentationUpdate(undefined);
         setEmail("");
-        setPassword("");
+        setLimitDaysPayment(NaN);
+        // @ts-ignore
+        setDocumentationUpdate(new Date());
       }
       if (res?.status !== 200) {
-        setMessageSnackbar(
+        handleMessageSnackbar(
+          "error",
           `Usuario ${firstName}: ${
             res?.data.message
               ? res?.data.message
               : "No Fue Creada Ocurrio Un Error"
           }`
         );
-        setSeveritySnackbar("error");
         setPreLoad(false);
-        setOpenSnackbar(true);
       }
     } catch (error) {
       // console.log("error: ", error);
-      setMessageSnackbar("Ocurrio Un Error Intenta De Nuevo");
-      setSeveritySnackbar("error");
-      setOpenSnackbar(true);
+      handleMessageSnackbar("error", "Ocurrio Un Error Intenta De Nuevo");
     } finally {
       setReset(false);
     }
@@ -323,39 +295,35 @@ function useSubmit() {
       const res = await createArea(numberToString(areaNumber), areaName);
       // console.log("res: ", res);
       if (res?.status == 200) {
-        setMessageSnackbar(`Area ${areaName} Creada Con Exito`);
-        setSeveritySnackbar("success");
+        handleMessageSnackbar("success", `Area ${areaName} Creada Con Exito`);
         setPreLoad(false);
-        setOpenSnackbar(true);
         setAreaNumber(NaN);
         setAreaName("");
         getArea();
       }
       if (res?.status !== 200) {
-        setMessageSnackbar(
+        handleMessageSnackbar(
+          "error",
           `Area ${areaName}: ${
             res?.data.message
               ? res?.data.message
               : "No Fue Creada Ocurrio Un Error"
           }`
         );
-        setSeveritySnackbar("error");
         setPreLoad(false);
-        setOpenSnackbar(true);
       }
     } catch (error) {
       // console.log("error: ", error);
-      setMessageSnackbar("Ocurrio Un Error En El Servidor Intenta De Nuevo");
-      setSeveritySnackbar("error");
-      setOpenSnackbar(true);
+      handleMessageSnackbar(
+        "error",
+        "Ocurrio Un Error En El Servidor Intenta De Nuevo"
+      );
     } finally {
       setPreLoad(false);
-      setOpenSnackbar(true);
     }
   };
   const handleSubmitCreateSubArea = async (e: any) => {
     try {
-      // console.log("values: ", subAreaNumber, subAreaName, connectionArea);
       setPreLoad(true);
       e.preventDefault();
       const res = await createSubArea(
@@ -365,36 +333,33 @@ function useSubmit() {
       );
       // console.log("res: ", res);
       if (res?.status == 200) {
-        setMessageSnackbar(
+        handleMessageSnackbar(
+          "success",
           `Sub-Area: ${subAreaName} Conectada al Area con ID ${connectionArea} Exitoso`
         );
-        setSeveritySnackbar("success");
         setPreLoad(false);
-        setOpenSnackbar(true);
         setConnectionArea("");
         setSubAreaNumber("");
         setSubAreaName("");
       }
       if (res?.status !== 200) {
-        setMessageSnackbar(
+        handleMessageSnackbar(
+          "error",
           `Sub-Area ${subAreaName}: ${
             res?.data.message
               ? res?.data.message
               : "No Fue Creada Ocurrio Un Error"
           }`
         );
-        setSeveritySnackbar("error");
         setPreLoad(false);
-        setOpenSnackbar(true);
       }
     } catch (error) {
-      // console.log("error: ", error);
-      setMessageSnackbar("Ocurrio Un Error En El Servidor Intenta De Nuevo");
-      setSeveritySnackbar("error");
-      setOpenSnackbar(true);
+      handleMessageSnackbar(
+        "error",
+        "Ocurrio Un Error En El Servidor Intenta De Nuevo"
+      );
     } finally {
       setPreLoad(false);
-      setOpenSnackbar(true);
     }
   };
   const handleSubmitCreateCostCenter = async (e: any) => {
@@ -408,36 +373,34 @@ function useSubmit() {
       );
       // console.log("res: ", res);
       if (res?.status == 200) {
-        setMessageSnackbar(
+        handleMessageSnackbar(
+          "success",
           `Centro De Costos: ${costCenterName} Conectado al SubArea con ID ${connectionSubArea} Exitoso`
         );
-        setSeveritySnackbar("success");
         setPreLoad(false);
-        setOpenSnackbar(true);
         setConnectionSubArea("");
         setCostCenterNumber("");
         setCostCenterName("");
       }
       if (res?.status !== 200) {
-        setMessageSnackbar(
+        handleMessageSnackbar(
+          "error",
           `Centro De Costos ${costCenterName}: ${
             res?.data.message
               ? res?.data.message
               : "No Fue Creado Ocurrio Un Error"
           }`
         );
-        setSeveritySnackbar("error");
         setPreLoad(false);
-        setOpenSnackbar(true);
       }
     } catch (error) {
       // console.log("error: ", error);
-      setMessageSnackbar("Ocurrio Un Error En El Servidor Intenta De Nuevo");
-      setSeveritySnackbar("error");
-      setOpenSnackbar(true);
+      handleMessageSnackbar(
+        "error",
+        "Ocurrio Un Error En El Servidor Intenta De Nuevo"
+      );
     } finally {
       setPreLoad(false);
-      setOpenSnackbar(true);
     }
   };
   const handleDeleteFile = async (
@@ -454,26 +417,23 @@ function useSubmit() {
       // console.log("res: ", res);
       if (res?.status == 200) {
         setInputDeleted("");
-        setMessageSnackbar(`Archivo ${inputDeleted}, Eliminado Con Exito`);
-        setSeveritySnackbar("success");
-        // handleCloseDialogDelete();
+        handleMessageSnackbar(
+          "success",
+          `Archivo ${inputDeleted}, Eliminado Con Exito`
+        );
         setPreLoad(false);
-        setOpenSnackbar(true);
       }
       if (res?.status !== 200) {
-        setMessageSnackbar(
+        handleMessageSnackbar(
+          "error",
           `No se pudo Eliminar archivo ${inputDeleted}, Ocurrio Un Error`
         );
-        setSeveritySnackbar("error");
         setPreLoad(false);
-        setOpenSnackbar(true);
         handleCloseDialogDelete();
       }
     } catch (error) {
       // console.log("error: ", error);
-      setMessageSnackbar("Ocurrio Un Error Intenta De Nuevo");
-      setSeveritySnackbar("error");
-      setOpenSnackbar(true);
+      handleMessageSnackbar("error", "Ocurrio Un Error Intenta De Nuevo");
       handleCloseDialogDelete();
     } finally {
       setPreLoad(false);
@@ -505,8 +465,6 @@ function useSubmit() {
     type,
     handleCediType,
     openSnackbar,
-    handleCloseSnackbar,
-    TransitionLeft,
     severitySnackbar,
     messageSnackbar,
     handleSubmitCreateUser,

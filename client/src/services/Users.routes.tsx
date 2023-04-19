@@ -29,8 +29,8 @@ export const getUsers = async () => {
       },
       getHeader()
     );
-    // console.log('response getusers: ', response);
-    const users = response.data;
+    console.log("response getusers: ", response);
+    const users = response.data.data;
     return users;
   } catch (error) {
     // console.log(error);

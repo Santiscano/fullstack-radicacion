@@ -7,6 +7,7 @@ import { nullValidator } from '../utilities/nullValidator';
 export const showTable = async ( req: Request, res: Response ) => {
     const { api_key } = req.body;
     try {
+        console.log(api_key)
         if (api_key !== process.env.API_KEY) {
             return res.status(401).json({ error: true, message: "No cuentas con los permisos para acceder a esta información"});
         };
@@ -15,7 +16,7 @@ export const showTable = async ( req: Request, res: Response ) => {
             // console.log(dataInfo)
         return res.status(200).json({dataInfo});
     } catch (error) {
-        // console.log(error);
+        console.log(error);
         return res.status(508).json({ error: true, message: `Error del servidor para mostrar la tabla de autorización` });
     };
 };

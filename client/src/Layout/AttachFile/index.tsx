@@ -1,32 +1,27 @@
-import Button from "../../components/common/Button";
-import Upload from "../../components/common/Upload";
-import TextFieldOutlined from "../../components/common/TextFieldOutline";
-import { SyntheticEvent, useContext, useEffect, useState } from "react";
-import { GeneralValuesContext } from "./../../Context/GeneralValuesContext";
-import {
-  SearchWithDocument,
-  SearchWithSettled,
-  GetAllSettled,
-} from "./../../services/SearchFile.routes";
-import LoadingMUI from "../../components/common/LoadingMUI";
-import InputSelect from "./../../components/common/InputSelect";
-import { optionAccountType } from "../../components/tools/OptionsValuesSelects";
-import { SelectChangeEvent, Slide } from "@mui/material";
-import { TabPanel, a11yProps } from "../../components/tools/MultiViewPanel";
-import "./AttachFile.css";
+import { SelectChangeEvent, Tooltip } from "@mui/material";
 import Box from "@mui/material/Box";
 import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
+import { useState } from "react";
 import { capitalizeFirstLatterUppercase } from "../../Utilities/formatted.utility";
-import { uploadfile } from "../../services/Pdf.routes";
-import { createFilePath } from "../../services/FilesPath.routes";
-import { get } from "../../components/tools/SesionSettings";
-import ModalSuccess from "../../components/common/ModalSuccess";
-import SearchSettled from "./../../components/common/SearchSettled/index";
+import Button from "../../components/common/Button";
 import InputSelectOnlyValue from "../../components/common/InputSelectOnlyValue";
-import { Alert, Snackbar, Tooltip } from "@mui/material";
-import { TransitionProps } from "@mui/material/transitions";
-// const optionAccountType = ["CUENTA COBRO", "FACTURA PROVEEDOR"];
+import LoadingMUI from "../../components/common/LoadingMUI";
+import ModalSuccess from "../../components/common/ModalSuccess";
+import TextFieldOutlined from "../../components/common/TextFieldOutline";
+import Upload from "../../components/common/Upload";
+import { TabPanel, a11yProps } from "../../components/tools/MultiViewPanel";
+import { optionAccountType } from "../../components/tools/OptionsValuesSelects";
+import { get } from "../../components/tools/SesionSettings";
+import { createFilePath } from "../../services/FilesPath.routes";
+import { uploadfile } from "../../services/Pdf.routes";
+import useContextProvider from "./../../Context/GeneralValuesContext";
+import SearchSettled from "./../../components/common/SearchSettled/index";
+import {
+  SearchWithDocument,
+  SearchWithSettled,
+} from "./../../services/SearchFile.routes";
+import "./AttachFile.css";
 
 function AttachFile() {
   // ------------ STATES ---------------//
@@ -55,12 +50,9 @@ function AttachFile() {
   const [fileName, setFileName] = useState("");
   const [comments, setComments] = useState("");
   const [modalSuccess, setModalSuccess] = useState(false); // status 200 filePath para mostrar hijo modal
-  const [openSnackbar, setOpenSnackbar] = useState(false);
-  const [messageSnackbar, setMessageSnackbar] = useState("");
-  const [severitySnackbar, setSeveritySnackbar] = useState("");
   const [listRoutesPDF, setListRoutesPDF] = useState<any>("");
 
-  const { setPreLoad } = useContext(GeneralValuesContext);
+  const { setPreLoad, handleMessageSnackbar } = useContextProvider();
 
   // --------------SETSTATES ---------------//
   const onType = (newValue: any) => {
@@ -211,11 +203,8 @@ function AttachFile() {
       ); // relaciona pdf y file
 
       if (responseConcatFilePath?.status == 200) {
-        // setModalSuccess(true);
-        setMessageSnackbar("PDF Cargado Con Exito");
-        setSeveritySnackbar("success");
+        handleMessageSnackbar("success", "PDF Cargado Con Exito");
         setPreLoad(false);
-        setOpenSnackbar(true);
       }
     } catch (error) {
     } finally {
@@ -224,20 +213,6 @@ function AttachFile() {
       setFileName("");
     }
   };
-
-  const handleCloseSnackbar = (
-    event?: SyntheticEvent | Event,
-    reason?: string
-  ) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setOpenSnackbar(false);
-  };
-  function TransitionLeft(props: TransitionProps) {
-    // @ts-ignore
-    return <Slide {...props} direction="left" />;
-  }
 
   //cerrar modal success
   const handleCloseModalChild = () => setModalSuccess(false);
@@ -467,22 +442,6 @@ function AttachFile() {
                   type="radicado"
                   identification={file.settled}
                 />
-                <Snackbar
-                  open={openSnackbar}
-                  autoHideDuration={6000}
-                  TransitionComponent={TransitionLeft}
-                  onClose={handleCloseSnackbar}
-                >
-                  <Alert
-                    // @ts-ignore
-                    onClose={handleCloseSnackbar}
-                    // @ts-ignore
-                    severity={severitySnackbar}
-                    sx={{ width: "100%", height: "40px", fontSize: "18px" }}
-                  >
-                    {messageSnackbar}
-                  </Alert>
-                </Snackbar>
               </>
             )}
           </div>

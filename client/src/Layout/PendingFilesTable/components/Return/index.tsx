@@ -1,7 +1,7 @@
 import { Button } from "@mui/material";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { editFile } from "../../../../services/Files.routes";
-import { GeneralValuesContext } from "./../../../../Context/GeneralValuesContext";
+import useContextProvider from "./../../../../Context/GeneralValuesContext";
 
 function Return({
   user,
@@ -11,7 +11,7 @@ function Return({
   setActivitySelect,
 }: any) {
   const [comments, setComments] = useState("");
-  const { handleUpdateRows } = useContext(GeneralValuesContext);
+  const { handleUpdateRows } = useContextProvider();
 
   const handleComments = (e: any) => setComments(e.target.value);
   const handleClear = () => {

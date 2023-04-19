@@ -1,13 +1,12 @@
 import { Button } from "@mui/material";
-import { useContext, useState } from "react";
-import { GeneralValuesContext } from "./../../../../Context/GeneralValuesContext";
+import { useState } from "react";
+import useContextProvider from "./../../../../Context/GeneralValuesContext";
 import { editFile } from "./../../../../services/Files.routes";
 
 function Cancel({ user, activitySelect, setActivitySelect }: any) {
   // console.log("user: ", user);
   const [comments, setComments] = useState("");
-  const { handleOpenModalAuth, handleUpdateRows } =
-    useContext(GeneralValuesContext);
+  const { handleOpenModalAuth, handleUpdateRows } = useContextProvider();
 
   const handleComments = (e: any) => setComments(e.target.value);
   const handleClear = () => {

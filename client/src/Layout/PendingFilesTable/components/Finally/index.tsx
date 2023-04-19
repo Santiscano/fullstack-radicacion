@@ -1,12 +1,12 @@
 import { Button, SelectChangeEvent } from "@mui/material";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import TextFieldOutlined from "../../../../components/common/TextFieldOutline";
 import Upload from "../../../../components/common/Upload";
 import { get, roles } from "../../../../components/tools/SesionSettings";
 import { editFile } from "../../../../services/Files.routes";
 import { createFilePath } from "../../../../services/FilesPath.routes";
 import { uploadfile } from "../../../../services/Pdf.routes";
-import { GeneralValuesContext } from "./../../../../Context/GeneralValuesContext";
+import useContextProvider from "./../../../../Context/GeneralValuesContext";
 
 function Finally({ user, endActivitySelect }: any) {
   // console.log("user: ", user);
@@ -15,7 +15,7 @@ function Finally({ user, endActivitySelect }: any) {
   const [fileName, setFileName] = useState("");
   const [comments, setComments] = useState("");
   const { setPreLoad, handleOpenModalAuth, handleUpdateRows } =
-    useContext(GeneralValuesContext);
+    useContextProvider();
 
   const handleComments = (e: any) => setComments(e.target.value);
   const handleClear = () => {

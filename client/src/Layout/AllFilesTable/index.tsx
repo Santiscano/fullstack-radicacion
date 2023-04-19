@@ -1,12 +1,12 @@
-import DataTableAllFiles from "./components/DataTableAllFiles";
-import { useEffect, useState, useContext } from "react";
-import { showTableAllFiles } from "../../services/showTable.routes";
-import { GeneralValuesContext } from "./../../Context/GeneralValuesContext";
+import { useEffect, useState } from "react";
 import LoadingMUI from "../../components/common/LoadingMUI";
+import { showTableAllFiles } from "../../services/showTable.routes";
+import useContextProvider from "./../../Context/GeneralValuesContext";
+import DataTableAllFiles from "./components/DataTableAllFiles";
 
 function AllFilesTable() {
   const [row, setRow] = useState([]);
-  const { setPreLoad } = useContext(GeneralValuesContext);
+  const { setPreLoad } = useContextProvider();
 
   const handleGetTableData = async () => {
     try {

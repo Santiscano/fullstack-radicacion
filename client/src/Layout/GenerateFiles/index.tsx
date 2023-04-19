@@ -34,7 +34,9 @@ import { createFilePath } from "../../services/FilesPath.routes";
 import ModalSuccess from "../../components/common/ModalSuccess";
 import { AllCedis, CedisIdName } from "../../interfaces/Cedis";
 import InputSelectCedi from "../../components/common/InputSelectCedi";
-import { GeneralValuesContext } from "../../Context/GeneralValuesContext";
+import useContextProvider, {
+  GeneralValuesContext,
+} from "../../Context/GeneralValuesContext";
 import { roles } from "../../components/tools/SesionSettings";
 import { get } from "../../components/tools/SesionSettings";
 import SearchUser from "../../components/common/SearchUser";
@@ -102,7 +104,7 @@ function GenerateFiles() {
   // sin identificar uso
   const [fileName, setFileName] = useState("");
 
-  const { setPreLoad } = useContext(GeneralValuesContext);
+  const { setPreLoad } = useContextProvider();
 
   // -----------------------METHODS INPUTS--------------------------------//
 
@@ -115,13 +117,13 @@ function GenerateFiles() {
   const handleGetUsersCedis = async () => {
     // cedis
     const allCedis: AllCedis[] = await getCedis();
-    // console.log("allCedis: ", allCedis);
+    console.log("allCedis: ", allCedis);
     setAllCedis(allCedis);
 
     // users
     const getAllUsers = await getUsers();
-    // console.log("getAllUsers: ", getAllUsers.rows);
-    const allUsers = getAllUsers.rows;
+    console.log("getAllUsers: ", getAllUsers);
+    const allUsers = getAllUsers;
     setAllUsers(allUsers);
 
     // options redirectTo Administration

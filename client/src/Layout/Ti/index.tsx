@@ -36,8 +36,6 @@ function TI() {
     type,
     handleCediType,
     openSnackbar,
-    handleCloseSnackbar,
-    TransitionLeft,
     severitySnackbar,
     messageSnackbar,
     handleSubmitCreateUser,
@@ -118,7 +116,7 @@ function TI() {
                   aria-label="Area TI"
                   variant="scrollable"
                 >
-                  <Tab label="Eliminar Archivo" {...a11yProps(0)} />
+                  <Tab label="Inicio" {...a11yProps(0)} />
                   <Tab label="Crear Cedi" {...a11yProps(1)} />
                   <Tab label="Crear Usuario" {...a11yProps(2)} />
                   <Tab label="Crear Proveedor" {...a11yProps(3)} />
@@ -153,22 +151,6 @@ function TI() {
                         handleDeleteFile={handleDeleteFile}
                         inputDeleted={inputDeleted}
                       />
-                      <Snackbar
-                        open={openSnackbar}
-                        autoHideDuration={6000}
-                        TransitionComponent={TransitionLeft}
-                        onClose={handleCloseSnackbar}
-                      >
-                        <Alert
-                          // @ts-ignore
-                          onClose={handleCloseSnackbar}
-                          // @ts-ignore
-                          severity={severitySnackbar}
-                          sx={{ width: "100%" }}
-                        >
-                          {messageSnackbar}
-                        </Alert>
-                      </Snackbar>
                     </form>
                   </>
                 )}
@@ -252,22 +234,6 @@ function TI() {
                       </article>
                     </div>
                     <Button name="Crear Cedi" />
-                    <Snackbar
-                      open={openSnackbar}
-                      autoHideDuration={6000}
-                      TransitionComponent={TransitionLeft}
-                      onClose={handleCloseSnackbar}
-                    >
-                      <Alert
-                        // @ts-ignore
-                        onClose={handleCloseSnackbar}
-                        // @ts-ignore
-                        severity={severitySnackbar}
-                        sx={{ width: "100%" }}
-                      >
-                        {messageSnackbar}
-                      </Alert>
-                    </Snackbar>
                   </form>
                 </TabPanel>
               )}
@@ -298,9 +264,7 @@ function TI() {
                           required
                           value={cedi}
                           onChange={handleCedi}
-                          reset={reset}
                           itemDefault="selecciona una opcion"
-                          // items={optionsCedisIdName}
                         />
                       </article>
                     </div>
@@ -409,22 +373,6 @@ function TI() {
                       </article>
                     </div>
                     <Button name="Crear Usuario" />
-                    <Snackbar
-                      open={openSnackbar}
-                      autoHideDuration={6000}
-                      TransitionComponent={TransitionLeft}
-                      onClose={handleCloseSnackbar}
-                    >
-                      <Alert
-                        // @ts-ignore
-                        onClose={handleCloseSnackbar}
-                        // @ts-ignore
-                        severity={severitySnackbar}
-                        sx={{ width: "100%", fontSize: "18px" }}
-                      >
-                        {messageSnackbar}
-                      </Alert>
-                    </Snackbar>
                   </form>
                 </TabPanel>
               )}
@@ -561,42 +509,9 @@ function TI() {
                           setValue={setDocumentationUpdate}
                           required
                         />
-                        {/* <TextFieldOutlined
-                          type={"email"}
-                          label={"Fecha"}
-                          value={documentationUpdate}
-                          setValue={setDocumentationUpdate}
-                          required
-                        /> */}
-                        {/* <CalendarInput
-                          name="selectedDate"
-                          label="Fecha Expiración"
-                          value={documentationUpdate}
-                          onChange={(event: any) =>
-                            setDocumentationUpdate(event.target.value)
-                          }
-                          disableFuture={true}
-                          format="dd/MM/yyyy"
-                        /> */}
                       </article>
                     </div>
                     <Button name="Crear Usuario" />
-                    <Snackbar
-                      open={openSnackbar}
-                      autoHideDuration={6000}
-                      TransitionComponent={TransitionLeft}
-                      onClose={handleCloseSnackbar}
-                    >
-                      <Alert
-                        // @ts-ignore
-                        onClose={handleCloseSnackbar}
-                        // @ts-ignore
-                        severity={severitySnackbar}
-                        sx={{ width: "100%", fontSize: "18px" }}
-                      >
-                        {messageSnackbar}
-                      </Alert>
-                    </Snackbar>
                   </form>
                 </TabPanel>
               )}
@@ -711,22 +626,6 @@ function TI() {
                     </div>
                     <Button name="Crear Centro De Costos" />
                   </form>
-                  <Snackbar
-                    open={openSnackbar}
-                    autoHideDuration={6000}
-                    TransitionComponent={TransitionLeft}
-                    onClose={handleCloseSnackbar}
-                  >
-                    <Alert
-                      // @ts-ignore
-                      onClose={handleCloseSnackbar}
-                      // @ts-ignore
-                      severity={severitySnackbar}
-                      sx={{ width: "100%", height: "40px", fontSize: "18px" }}
-                    >
-                      {messageSnackbar}
-                    </Alert>
-                  </Snackbar>
                 </TabPanel>
               )}
             </Box>

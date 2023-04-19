@@ -1,10 +1,9 @@
-import "./home.css";
 import profile2 from "../../assets/images/LOGOTIPO_ENVIEXPRESS_horizontal_150x50.png";
-import { useContext } from "react";
-import { GeneralValuesContext } from "./../../Context/GeneralValuesContext";
+import useContextProvider from "./../../Context/GeneralValuesContext";
+import "./home.css";
 
 function Home() {
-  const { user } = useContext(GeneralValuesContext);
+  const { user } = useContextProvider();
   // @ts-ignore
   const { users_name, users_lastname, sedes_name, roles } = user;
 

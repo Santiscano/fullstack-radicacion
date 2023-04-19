@@ -1,13 +1,10 @@
-import { useContext } from "react";
 import Button from "@mui/material/Button";
-import { DataGrid, GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
-import { TouchRippleActions } from "@mui/material/ButtonBase/TouchRipple";
+import useContextProvider from "../../../../../Context/GeneralValuesContext";
 import ModalInfoFile from "../../ModalForm";
-import { GeneralValuesContext } from "../../../../../Context/GeneralValuesContext";
 
 function ButtonModalEdit(cellValues: any) {
   const { openModalAuth, handleOpenModalAuth, setDataUser } =
-    useContext(GeneralValuesContext);
+    useContextProvider();
 
   const handleClick = () => {
     // console.log("result en onclick: ", cellValues);

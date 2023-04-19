@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 
-import GeneralValuesProvider from "./Context/GeneralValuesContext";
+import { GeneralValuesProvider } from "./Context/GeneralValuesContext";
 import { Provider } from "react-redux";
 
 import { BrowserRouter } from "react-router-dom";

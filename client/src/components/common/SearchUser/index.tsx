@@ -143,7 +143,9 @@ function LocationsSelect({
       <article className="md:w-1/2">
         <List
           type={"departments"}
-          label={!labelDepartment ? "Tipo Documento" : labelDepartment}
+          label={
+            !labelDepartment ? "Tipo Documento Proveedor" : labelDepartment
+          }
           value={department}
           setValue={setDepartment}
           required={requiredDepartment}
@@ -157,7 +159,7 @@ function LocationsSelect({
       <article className="md:w-1/2">
         <List
           type={"cities"}
-          label={!labelCity ? "Numero Documento" : labelCity}
+          label={!labelCity ? "Numero Documento Proveedor" : labelCity}
           value={city}
           setValue={setCity}
           required={requiredCity}

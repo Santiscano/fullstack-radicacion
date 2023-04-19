@@ -1,33 +1,21 @@
+import { Divider, Tooltip } from "@mui/material";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import "animate.css";
+import { useEffect, useState } from "react";
 import {
   capitalizeFirstLatterUppercase,
   formattedAmount,
 } from "../../../../Utilities/formatted.utility";
-import { Divider, Tooltip } from "@mui/material";
-import { useContext, useEffect, useState } from "react";
-import InputSelectRedirectTo from "../../../../components/common/InputSelectRedirectTo";
-// import PendingTemporaryState from "../../../../components";
-// import PendingTemporaryState from "../common/PendingTemporaryState";
-// import Approve from "../Approve/index";
-import { GeneralValuesContext } from "../../../../Context/GeneralValuesContext";
-// import InputSelectStateFile from "../common/InputSelectStateFile";
-// import { useModalForm } from "../../Hooks/useModalForm";
+import useContextProvider from "../../../../Context/GeneralValuesContext";
 import { SearchWithSettled } from "./../../../../services/SearchFile.routes";
-import { stateFile } from "../../../../components/tools/SesionSettings";
-// import { InputSelectReturnTo } from "../common/InputSelectReturnTo";
-// import Return from "../Return";
-// import Decline from "../Decline";
-// import Finally from "../Finally";
 
 export default function ModalInfoFile(props: any) {
-  // console.log("props completas: ", props);
   // ------------------------------VARIABLES------------------------------//
   const [listRoutesPDF, setListRoutesPDF] = useState<any>("");
   const [viewPDF, setViewPDF] = useState(false);
   const { openModalAuth, handleOpenModalAuth, dataUser, setDataUser } =
-    useContext(GeneralValuesContext);
+    useContextProvider();
   // console.log("datauser: ", dataUser);
   const style = {
     position: "absolute" as "absolute",

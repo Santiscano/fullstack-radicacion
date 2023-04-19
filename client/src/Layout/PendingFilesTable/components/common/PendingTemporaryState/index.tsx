@@ -1,11 +1,8 @@
-import { Button, SelectChangeEvent } from "@mui/material";
-import { useContext, useState } from "react";
-import InputsSelectCenterCost from "../InputsSelectCenterCost";
-import InputSelectState from "../../../../../components/common/InputSelectState";
-import { optionsCostCenter } from "../../../../../components/tools/OptionsValuesSelects";
+import { Button } from "@mui/material";
+import { useState } from "react";
+import useContextProvider from "../../../../../Context/GeneralValuesContext";
 import { get } from "../../../../../components/tools/SesionSettings";
 import { editFile } from "../../../../../services/Files.routes";
-import { GeneralValuesContext } from "../../../../../Context/GeneralValuesContext";
 
 function PendingTemporaryState({
   user,
@@ -14,8 +11,7 @@ function PendingTemporaryState({
 }: any) {
   // console.log("user: ", user);
   const [comments, setComments] = useState("");
-  const { handleOpenModalAuth, handleUpdateRows } =
-    useContext(GeneralValuesContext);
+  const { handleOpenModalAuth, handleUpdateRows } = useContextProvider();
 
   const handleComments = (e: any) => setComments(e.target.value);
 

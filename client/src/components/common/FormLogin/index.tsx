@@ -1,10 +1,8 @@
-import { useForm, SubmitHandler } from "react-hook-form";
-import "./formLogin.css";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import useContextProvider from "../../../Context/GeneralValuesContext";
 import { login, validateUserFirebase } from "../../../services/Firebase.routes";
-import { useContext, useEffect } from "react";
-import { IsLoadingType } from "../../../interfaces/Loading";
-import { GeneralValuesContext } from "../../../Context/GeneralValuesContext";
-import { Navigate, redirect, useNavigate } from "react-router-dom";
+import "./formLogin.css";
 
 type Login = {
   email: string;
@@ -13,7 +11,8 @@ type Login = {
 
 function index() {
   const { setPreLoad, setErrorLogin, setUser, setIsLoading } =
-    useContext(GeneralValuesContext);
+    useContextProvider();
+
   const navigate = useNavigate();
 
   const reqExp = {

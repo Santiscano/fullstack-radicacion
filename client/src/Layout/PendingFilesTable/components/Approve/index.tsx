@@ -1,14 +1,14 @@
 // @ts-nocheck
 import { Button } from "@mui/material";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import TextFieldOutlined from "../../../../components/common/TextFieldOutline";
+import Upload from "../../../../components/common/Upload";
 import { get, roles } from "../../../../components/tools/SesionSettings";
 import { editFile } from "../../../../services/Files.routes";
-import InputsSelectCenterCost from "../common/InputsSelectCenterCost";
-import { GeneralValuesContext } from "./../../../../Context/GeneralValuesContext";
-import Upload from "../../../../components/common/Upload";
-import { uploadfile } from "../../../../services/Pdf.routes";
 import { createFilePath } from "../../../../services/FilesPath.routes";
+import { uploadfile } from "../../../../services/Pdf.routes";
+import InputsSelectCenterCost from "../common/InputsSelectCenterCost";
+import useContextProvider from "./../../../../Context/GeneralValuesContext";
 
 function Approve({
   user,
@@ -48,7 +48,7 @@ function Approve({
     rows,
     setRows,
     handleUpdateRows,
-  } = useContext(GeneralValuesContext);
+  } = useContextProvider();
 
   const handleState = (e: any) => setState(e.target.value);
   const handleArea = (e: any) => {

@@ -1,6 +1,8 @@
-import { createContext, FC, useContext, useState } from "react";
+import { createContext, FC, SyntheticEvent, useContext, useState } from "react";
 import { GeneralValuesType } from "../interfaces/GeneralValues";
 import { showTablePending } from "../services/showTable.routes";
+import { AlertColor, Slide } from "@mui/material";
+import { TransitionProps } from "@mui/material/transitions";
 
 export const GeneralValuesContext = createContext<GeneralValuesType>({
   preLoad: false,
@@ -33,6 +35,15 @@ export const GeneralValuesContext = createContext<GeneralValuesType>({
   rows: [],
   setRows: () => {},
   handleUpdateRows: () => {},
+  openSnackbar: false,
+  setOpenSnackbar: () => {},
+  messageSnackbar: "",
+  setMessageSnackbar: () => {},
+  severitySnackbar: undefined,
+  setSeveritySnackbar: () => {},
+  handleCloseSnackbar: () => {},
+  TransitionLeft: () => {},
+  handleMessageSnackbar: () => {},
 });
 
 const GeneralValuesProvider: FC = ({ children }: any) => {
@@ -43,6 +54,12 @@ const GeneralValuesProvider: FC = ({ children }: any) => {
   const [openModalAuth, setOpenModalAuth] = useState(false);
   const [dataUser, setDataUser] = useState();
   const [rows, setRows] = useState([]);
+  // snackbar
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [messageSnackbar, setMessageSnackbar] = useState("");
+  const [severitySnackbar, setSeveritySnackbar] = useState<
+    AlertColor | undefined
+  >();
 
   const handleOpenModalAuth = () => setOpenModalAuth(!openModalAuth);
   const handleCloseModalAuth = () => setOpenModalAuth(false);
@@ -57,6 +74,41 @@ const GeneralValuesProvider: FC = ({ children }: any) => {
     } finally {
       setPreLoad(false);
     }
+  };
+
+  /**
+   * cierra el snackbar
+   * @param event
+   * @param reason tecla que activara el evento
+   * @returns
+   */
+  const handleCloseSnackbar = (
+    event?: SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpenSnackbar(false);
+  };
+  /**
+   *
+   * @param props define la direccion de la transicion
+   * @returns
+   */
+  function TransitionLeft(props: TransitionProps) {
+    // @ts-ignore
+    return <Slide {...props} direction="left" />;
+  }
+  /**
+   * open, severity & message snackbar
+   * @param type success | info | warning | error
+   * @param message view info
+   */
+  const handleMessageSnackbar = (type: AlertColor, message: string) => {
+    setSeveritySnackbar(type);
+    setMessageSnackbar(message);
+    setOpenSnackbar(true);
   };
 
   return (
@@ -80,6 +132,16 @@ const GeneralValuesProvider: FC = ({ children }: any) => {
         rows,
         setRows,
         handleUpdateRows,
+        // snackbar
+        openSnackbar,
+        setOpenSnackbar,
+        TransitionLeft,
+        handleCloseSnackbar,
+        severitySnackbar,
+        setSeveritySnackbar,
+        messageSnackbar,
+        setMessageSnackbar,
+        handleMessageSnackbar,
       }}
     >
       {children}
@@ -87,4 +149,8 @@ const GeneralValuesProvider: FC = ({ children }: any) => {
   );
 };
 
-export default GeneralValuesProvider;
+export default function useContextProvider() {
+  return useContext(GeneralValuesContext);
+}
+
+export { GeneralValuesProvider };
