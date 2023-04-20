@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import {connection} from '../../config/database/db';
-import { nullValidator } from "../../utilities/missingData.utilities";
+import { missingData } from "../../utilities/missingData.utilities";
 import { twoCharactersValidator } from '../../utilities/twoCharactersValidator';
 
 // Traer los Areas de Costo
@@ -30,7 +30,7 @@ export const getCostSubAreaById = async (req: Request, res: Response) => {
         if ( api_key !== process.env.API_KEY ) {
             return res.status(401).json({ error: true, message: "No cuentas con los permisos para acceder a esta información" });
         };
-        if( nullValidator([idcost_center_area]) ){
+        if( missingData([idcost_center_area]) ){
             return res.status(422).json({ error: true, message: "MISSING_VALUES" });
         };
         const [ data ] = await connection.query(`
@@ -55,7 +55,7 @@ export const postCostSubArea = async (req: Request, res: Response) => {
     const { idcost_center_area, cost_center_subarea, cost_center_subarea_name } = req.body;
     const values: string[] = [ idcost_center_area, cost_center_subarea, cost_center_subarea_name ];
     try {
-        if( nullValidator(values) ){
+        if( missingData(values) ){
             return res.status(422).json({ error: true, message: "MISSING_VALUES" });
         };
         const data = twoCharactersValidator(cost_center_subarea)
@@ -86,7 +86,7 @@ export const deleteCostSubArea = async (req: Request, res: Response) => {
         if ( api_key !== process.env.API_KEY ) {
             return res.status(401).json({ error: true, message: "No cuentas con los permisos para eliminar Sub Areas del centro de costos" });
         };
-        if (nullValidator([cost_center_subarea])) {
+        if (missingData([cost_center_subarea])) {
             return res.status(422).json({ error: true, message: "MISSING_VALUES" });
         };
         const data = twoCharactersValidator(cost_center_subarea);

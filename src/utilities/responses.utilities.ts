@@ -8,10 +8,10 @@ interface Response {
     message: string;
     data?: Data;
     missing?: string | number | undefined | null;
-    firebase?: Data
+    firebase?: {error: boolean, data: any};
 }
 
-export const success = ( data?: Data, message?: string, firebase?: Data  ): Response => {
+export const success = ( data?: Data, message?: string, firebase?: {error: boolean, data: any}  ): Response => {
     message === undefined ? message = 'SUCCESS' : message;
     return { error: false, message, data, firebase };
 };

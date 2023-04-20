@@ -27,11 +27,12 @@ export const postUsers = async (req: Request, res: Response) => {
         const { idroles, idsedes, users_identification_type, users_identification, users_name, users_lastname, users_address, users_password, users_phone, users_email, users_providers_paydays, users_providers_expiration_date } = req.body;
         const validate = { idroles, idsedes, users_identification_type, users_identification, users_name, users_address, users_phone, users_email };
         const data: Users = { idroles, idsedes, users_identification_type, users_identification, users_name, users_lastname, users_address, users_password, users_phone, users_email, users_providers_paydays, users_providers_expiration_date };
+        
         if (api_key !== process.env.API_KEY) return res.status(401).json(unauthorized()) 
         if (missingDataObject(validate).error) return res.status(422).json(uncompleted(missingDataObject(validate).missing))
-        // const info = await postUsersModel(idroles, idsedes, users_identification_type, users_identification, users_name, users_lastname, users_address, users_password, users_phone, users_email, users_providers_paydays, users_providers_expiration_date)
-        const info = await postUsersModel(data);
-        return res.status(200).json(success(info.data, info.message, info.firebase));
+        
+            const info = await postUsersModel(data);
+            return res.status(200).json(success(info.data, info.message, info.firebase));
     } catch (error) {
         return res.status(512).json(unsuccessfully(error));
     };
@@ -39,18 +40,7 @@ export const postUsers = async (req: Request, res: Response) => {
 
 // Editar usuarios PUT
 export const putUsers = async (req:Request, res:Response) =>{
-    const { idroles, 
-            idsedes, 
-            users_identification_type, 
-            users_identification, 
-            users_name, 
-            users_lastname, 
-            users_address, 
-            users_phone, 
-            users_email,
-            users_providers_paydays,
-            users_providers_expiration_date,
-            users_status } = req.body;
+    const { idroles, idsedes, users_identification_type, users_identification, users_name, users_lastname, users_address, users_phone, users_email,users_providers_paydays,users_providers_expiration_date,users_status } = req.body;
     try {
         let [ validate ] = await connection.query(`
         SELECT count(*) AS contador FROM users WHERE users_identification = ? AND users_identification_type = ?;  

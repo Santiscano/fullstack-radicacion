@@ -1,11 +1,11 @@
 import 'dotenv/config'
 import { connection } from '../config/database/db';
 import { identificationDigitVerified } from '../utilities/identificationDigitVerified.utilities';
-import { UsersIdentificationType, Users } from '../interfaces/users.interface';
+import { Users } from '../interfaces/users.interface';
 import auth from '../config/firebase/auth';
-import { RowDataPacket, OkPacket, ResultSetHeader } from 'mysql2/promise';
+import { RowDataPacket, OkPacket, ResultSetHeader, FieldPacket } from 'mysql2/promise';
 
-type Data = RowDataPacket[] | RowDataPacket[][] | OkPacket | OkPacket[] | ResultSetHeader | ResultSetHeader
+type Data = RowDataPacket[] | RowDataPacket[][] | OkPacket | OkPacket[] | ResultSetHeader | ResultSetHeader 
 
 // TRAER USUARIOS
 export const getUsersModel = async() => {
@@ -17,7 +17,7 @@ export const getUsersModel = async() => {
 };
 
 // CREAR USUARIOS
-export const postUsersModel = async (data: Users ): Promise<{ message: string; data?: Data | undefined; firebase?: Data | undefined; }> => {
+export const postUsersModel = async ( data: Users ): Promise<{ message: string; data?: Data | undefined; firebase?: {error: boolean, data: any}  }> => {
         data.users_lastname === undefined ? data.users_lastname = "" : data.users_lastname;
         data.users_providers_paydays === undefined ? data.users_providers_paydays = null : data.users_providers_paydays;
         data.users_providers_expiration_date === undefined ? data.users_providers_expiration_date = null : data.users_providers_expiration_date;
@@ -51,3 +51,37 @@ export const postUsersModel = async (data: Users ): Promise<{ message: string; d
         };
         return { message: `Usuario con ${ data.users_identification_type }: ${ data.users_identification } y email: ${data.users_email}, creado satisfactoriamente`, data: userCreated}
 };
+
+// EDITAR USUARIOS
+export const putUsersModel = async ( data: Users ): Promise<{ message: string; data?: Data}> => {
+    const [ validate ] = await connection.query(`
+        SELECT count(*) AS contador FROM users WHERE idroles = ? AND users_identification = ? AND users_identification_type = ?;  
+        `, [ data.idroles, data.users_identification, data.users_identification_type ]);
+        // @ts-ignore
+        if(validate[0].contador === 0){
+            return{ message: `El Usuario con rol: ${data.idroles} con ${ data.users_identification_type }: ${data.users_identification}, no se encuentra registrado en la base de datos` }
+        } else {
+            await connection.query(`
+                UPDATE users SET idroles = ?, idsedes = ?, users_name = ?, users_lastname = ?, users_address = ?, users_phone = ?, users_email = ?, users_providers_paydays = ?, users_providers_expiration_date = ?, users_status = ?
+                    WHERE users_identification = ? AND users_identification_type = ?;`, 
+                    [   
+                        data.idroles,
+                        data.idsedes,
+                        data.users_name.toUpperCase(),
+                        data.users_lastname!.toUpperCase(),
+                        data.users_address.toUpperCase(),
+                        data.users_phone,
+                        data.users_email.toUpperCase(),
+                        data.users_providers_paydays,
+                        data.users_providers_expiration_date,
+                        data.users_status!.toUpperCase(),
+                        data.users_identification,
+                        data.users_identification_type 
+                    ]);
+            const [ userInfo ] = await connection.query(`
+                SELECT * FROM users WHERE users_identification = ? AND users_identification_type = ?;
+            `, [ data.users_identification, data.users_identification_type ]);
+            return { message: `Usuario con rol: ${data.idroles} y ${ data.users_identification_type }: ${ data.users_identification } editado correctamente`, data: userInfo};
+
+    }
+}
