@@ -40,16 +40,15 @@ export default function ModalInfoFile(props: any) {
     users_phone,
     users_address,
     users_status,
-    files_cost_center,
     files_registered,
     files_price,
     files_account_type,
     files_account_type_number,
+    files_code_accounting,
     files_type,
     files_states,
     sedes_type,
     sedes_name,
-    idfiles_states,
     UserAssignedName,
     UserAssignedLastname,
     UserAssignedRoles,
@@ -215,6 +214,14 @@ export default function ModalInfoFile(props: any) {
                     )} ${capitalizeFirstLatterUppercase(
                       UserAssignedLastname
                     )} / ${capitalizeFirstLatterUppercase(UserAssignedRoles)}`}
+                  </span>
+                </p>
+                <p className="font-bold inline-block">
+                  Numero Causacion:
+                  <span className="text-slate-600 font-normal">
+                    {` ${capitalizeFirstLatterUppercase(
+                      files_code_accounting
+                    )}`}
                   </span>
                 </p>
               </div>

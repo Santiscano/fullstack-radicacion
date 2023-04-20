@@ -92,7 +92,7 @@ const GeneralValuesProvider: FC = ({ children }: any) => {
     setOpenSnackbar(false);
   };
   /**
-   *
+   * crea la transicion desde donde aparece
    * @param props define la direccion de la transicion
    * @returns
    */
@@ -101,7 +101,7 @@ const GeneralValuesProvider: FC = ({ children }: any) => {
     return <Slide {...props} direction="left" />;
   }
   /**
-   * open, severity & message snackbar
+   * abre el snackbar y define el color y la info
    * @param type success | info | warning | error
    * @param message view info
    */

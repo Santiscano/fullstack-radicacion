@@ -6,6 +6,7 @@ import {
 } from "../components/tools/SesionSettings";
 
 export const uploadfile = async (file_pdf: any, idFiles: any) => {
+  console.log("file_pdf: ", file_pdf, idFiles);
   try {
     const response = await axios.post(
       `${Routes.api.Pdf.uploadfile}/${idFiles}`,
@@ -14,6 +15,7 @@ export const uploadfile = async (file_pdf: any, idFiles: any) => {
       },
       getHeaderMultipart()
     );
+    console.log("response: ", response);
     return response;
   } catch (error) {
     console.log(error);

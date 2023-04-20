@@ -74,10 +74,11 @@ function Approve({
 
   const handleFileSubmit = async (e: any) => {
     try {
-      e.preventDefault();
       setPreLoad(true);
       const idFile = user.idfiles;
+      console.log("idFile: ", idFile, filePDFGoogle);
       const responseUploadFile = await uploadfile(filePDFGoogle, idFile); // guarda PDF
+      console.log("responseUploadFile: ", responseUploadFile);
       const pathFileUpload = await responseUploadFile?.data.pathFile; //almacena ruta asignada en variable
 
       // relaciona el idfiles con la ruta asignada es decir pathFileupload
@@ -97,7 +98,7 @@ function Approve({
   const handleSubmit = async (e: any) => {
     try {
       handleFileSubmit();
-      setPreLoad(true);
+      console.log("ejecuta");
       e.preventDefault();
       const response = await editFile(
         user.idfiles,
@@ -183,7 +184,7 @@ function Approve({
             id="comentary"
             placeholder="Es necesario dejar alguna observacion"
             className="border-neutral-300 border-2 resize-none w-full my-1 h-24"
-            required
+            required={Number(get("idroles")) === 8}
             value={comments}
             onChange={handleComments}
           ></textarea>

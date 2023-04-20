@@ -29,9 +29,10 @@ export const uploadFileDocument = async (req: Request, res: Response) => {
                 let pathPDF: string = req.file.path;
                 //@ts-ignore
                 await editPDF(pathPDF, pathPDF, destino);
+                
                 // await editPDF(pathPDF, pathPDF, destino, file[0].files_account_type);
                 const pathFile = `https://storage.cloud.google.com/${process.env.BUCKET_NAME}/radicacion/administrativo/${destino}.pdf?authuser=3`
-                await uploadFile(ruta, `radicacion/administrativo/${destino}.pdf`);
+                await uploadFile(ruta, `${process.env.BUCKET_ASSIGN}/administrativo/${destino}.pdf`);
                 fs.unlinkSync(pathPDF);                            // Eliminar el archivo del servidor
                 return res.status(201).json({error: false, fileName: destino, pathFile, message: `Archivo cargado satisfactoriamente al bucker y almacenado en la base de datos`});
             };

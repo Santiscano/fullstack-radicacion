@@ -41,11 +41,12 @@ export default function ModalInfoFile(props: any) {
     users_phone,
     users_address,
     users_status,
-    files_cost_center,
     files_registered,
     files_price,
     files_account_type,
     files_account_type_number,
+    files_code_accounting,
+    files_code_treasury,
     files_type,
     files_states,
     sedes_type,
@@ -221,6 +222,28 @@ export default function ModalInfoFile(props: any) {
                     )} / ${capitalizeFirstLatterUppercase(UserAssignedRoles)}`}
                   </span>
                 </p>
+                {files_code_accounting && (
+                  <p className="font-bold inline-block">
+                    Numero de Causacion:
+                    <span className="text-slate-600 font-normal">
+                      {` ${capitalizeFirstLatterUppercase(
+                        files_code_accounting
+                      )}`}
+                    </span>
+                  </p>
+                )}
+              </div>
+              <div className="flex mt-4 w-full">
+                {files_code_treasury && (
+                  <p className="font-bold inline-block">
+                    Numero de Tesoreria:
+                    <span className="text-slate-600 font-normal">
+                      {` ${capitalizeFirstLatterUppercase(
+                        files_code_treasury
+                      )}`}
+                    </span>
+                  </p>
+                )}
               </div>
 
               {viewPDF && (

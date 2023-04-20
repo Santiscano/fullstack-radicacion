@@ -14,7 +14,7 @@ function AllFilesTable() {
       const table = await showTableAllFiles();
       const rows = await table?.data.dataInfo;
       setRow(rows ? rows : []);
-      // console.log("row table--: ", rows);
+      console.log("row table--: ", rows);
     } catch (error) {
       // console.log("error: ", error);
     } finally {

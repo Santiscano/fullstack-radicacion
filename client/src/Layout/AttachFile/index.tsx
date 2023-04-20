@@ -189,8 +189,8 @@ function AttachFile() {
    */
   const handleFileSubmitAddPDF = async (e: any) => {
     try {
-      setPreLoad(true);
       e.preventDefault();
+      setPreLoad(true);
       const responseUploadFile = await uploadfile(filePDF, file.idfiles);
       // console.log("responseUploadFile: ", responseUploadFile);
       const pathFileUpload = await responseUploadFile?.data.pathFile;

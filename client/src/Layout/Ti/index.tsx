@@ -1,4 +1,3 @@
-import { Alert, Snackbar } from "@mui/material";
 import Box from "@mui/material/Box";
 import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
@@ -12,11 +11,11 @@ import LoadingMUI from "../../components/common/LoadingMUI";
 import TextFieldOutlined from "../../components/common/TextFieldOutline";
 import { TabPanel, a11yProps } from "../../components/tools/MultiViewPanel";
 import { optionCediType } from "../../components/tools/OptionsValuesSelects";
+import { get, roles } from "../../components/tools/SesionSettings";
 import useSubmit from "./Hooks/useSubmit";
 import "./TI.css";
-import SelectArea from "./components/common/SelectArea";
 import AlertDialogSlide from "./components/common/AlertDialogSlide";
-import { roles, get } from "../../components/tools/SesionSettings";
+import SelectArea from "./components/common/SelectArea";
 
 function TI() {
   const {
@@ -35,19 +34,14 @@ function TI() {
     setCediName,
     type,
     handleCediType,
-    openSnackbar,
-    severitySnackbar,
-    messageSnackbar,
     handleSubmitCreateUser,
     handleSubmitCreateProvider,
     assignRole,
     handleRol,
-    reset,
     optionsRol,
     onlyRolProvider,
     cedi,
     handleCedi,
-    optionsCedisIdName,
     identificationType,
     handleCedity,
     identificationNumber,
@@ -56,8 +50,6 @@ function TI() {
     setFirstname,
     lastName,
     setLastName,
-    addressUser,
-    setAddressUser,
     phone,
     setPhone,
     email,

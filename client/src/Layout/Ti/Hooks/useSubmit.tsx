@@ -130,11 +130,9 @@ function useSubmit() {
 
   const handleRol = (e: SelectChangeEvent) => {
     setAssignRole(e.target.value);
-    // console.log(e.target.value);
   };
   const handleCedi = (e: SelectChangeEvent) => {
     const cedi = e.target.value;
-    // console.log("cedi", e.target.value);
     // @ts-ignore
     setCedi(e.target.value);
   };
@@ -219,7 +217,7 @@ function useSubmit() {
           `Usuario ${firstName}: ${
             res?.data.message
               ? res?.data.message
-              : "No Fue Creada Ocurrio Un Error"
+              : "No Fue Creado Ocurrio Un Error"
           }`
         );
         setPreLoad(false);
