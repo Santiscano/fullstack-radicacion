@@ -2,7 +2,7 @@ import 'dotenv/config';
 import { Request, Response } from 'express';
 import { connection } from '../config/database/db';
 import { genRegistered } from '../utilities/generate_file_registered.controller';
-import { nullValidator } from '../utilities/nullValidator';
+import { missingData } from '../utilities/missingData.utilities';
 import { postTraking } from './tracking.controller';
 import { createPDF } from '../utilities/PDF/createPDF';
 
@@ -43,7 +43,7 @@ export const postFile = async (req: Request, res: Response) => {
     const idfiles_states = 1;                     // ESTADO ASIGNADO
     const tracking_observation = `INICIO DEL PROCESO DEL ${files_registered} EXITOSO`;
     try {
-        if(nullValidator(valores)) {
+        if(missingData(valores)) {
             return res.status(422).json({error: true, message: "MISSING_VALUES"});
         };
         const [ registeredVal ] = await connection.query(`
@@ -87,7 +87,7 @@ export const putFile = async ( req:Request, res:Response ) => {
     const { idfiles, idproviders, idusers, idfiles_states, files_type, files_registered, files_cost_center, files_code_accounting, files_code_treasury, files_price,files_account_type, files_account_type_number,userSession, tracking_observation } = req.body;
     const values = [idfiles, idproviders, idusers, idfiles_states, files_type, files_registered, files_price, files_account_type, files_account_type_number, userSession, tracking_observation]
     try {
-        if (nullValidator(values)){
+        if (missingData(values)){
             return res.status(422).json({error: true, message: "MISSING_VALUES"});
         };
         const [ data ] = await connection.query(`SELECT count(*) AS contador FROM files WHERE idfiles = ? OR files_registered = ?;`,
@@ -140,7 +140,7 @@ export const deleteFile = async (req:Request, res:Response) => {
         if( api_key !== process.env.API_KEY) {
             return res.status(401).json({ error: true, message: "No cuentas con los permisos para eliminar un archivo" })
         };
-        if (nullValidator(values)) {
+        if (missingData(values)) {
             return res.status(422).json({error: true, message: "MISSING_VALUES"});
         };
         const [ data ] = await connection.query(`SELECT idfiles FROM files WHERE files_registered = ?;`, files_registered );

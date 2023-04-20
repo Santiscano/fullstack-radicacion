@@ -1,6 +1,6 @@
 import 'dotenv/config';
 import { Request, Response } from 'express';
-import { nullValidator } from '../utilities/nullValidator';
+import { missingData } from '../utilities/missingData.utilities';
 import { connection } from '../config/database/db';
 import { upload } from '../helpers/multerAddPdf';
 import { postTraking } from './tracking.controller';
@@ -26,7 +26,7 @@ export const postChargeFilePath = async ( req: Request, res: Response ) => {
     const { idfiles, files_path_observation, userSession } = req.params;
     const values = [ idfiles, files_path_observation, userSession ];
     try {
-        if (nullValidator(values)){
+        if (missingData(values)){
             return res.status(400).json({ message: "ERROR_MISSING_VALUES" });
         };
         upload(req, res, async (err) => {
@@ -59,7 +59,7 @@ export const postFilePath = async ( req: Request, res: Response ) => {
     const values = [idfiles, files_path, files_path_observation, userSession];
     let idfiles_states = 2;                         // ESTADO ARCHIVO CARGADO
     try {
-        if ( nullValidator(values) ){
+        if ( missingData(values) ){
             return res.status(400).json({ message: "ERROR_MISSING_VALUES" });
         };
         await connection.query(`

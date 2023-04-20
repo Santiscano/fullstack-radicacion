@@ -1,7 +1,7 @@
 import 'dotenv/config';
 import { Request, Response } from 'express';
 import { connection } from '../config/database/db';
-import { nullValidator } from '../utilities/nullValidator';
+import { missingData } from '../utilities/missingData.utilities';
 
 // Traer los estados de los archivos
 export const getFileStates = async (req: Request, res: Response) => {
@@ -23,7 +23,7 @@ export const postFileStates = async ( req: Request, res: Response ) => {
     const { files_states, files_states_description } = req.body;
     const values: string[] = [files_states, files_states_description];
     try {
-        if(nullValidator(values)){
+        if(missingData(values)){
             return res.status(400).json({ error: true, message: "MISSING_VALUES" });
         };
         const [ fileValidate ] = await connection.query(`
@@ -54,7 +54,7 @@ export const putFileStates = async (req:Request, res: Response) => {
     const { idfiles_states, files_states, files_states_description } = req.body;
     const values: string[] = [idfiles_states, files_states, files_states_description]
     try {
-        if(nullValidator(values)){
+        if(missingData(values)){
             return res.status(400).json({ error: true, message: "MISSING_VALUES" });
         };
         const [ fileValidate ] = await connection.query(`
@@ -85,7 +85,7 @@ export const deleteFileStates = async (req:Request, res:Response) => {
         if ( api_key !== process.env.API_KEY) {
             return res.status(401).json({ error: true, message: "No cuentas con los permisos para eliminar un estado" })
         };
-        if(nullValidator(values)){
+        if(missingData(values)){
             return res.status(400).json({ error: true, message: "MISSING_VALUES" });
         };
         let [ validate ] = await connection.query(`SELECT count(*) AS contador FROM files_states WHERE idfiles_states = ?;`, [ idfiles_states ]);

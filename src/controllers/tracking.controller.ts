@@ -1,6 +1,6 @@
 import "dotenv/config";
 import { Request, Response } from 'express';
-import { nullValidator } from "../utilities/nullValidator";
+import { missingData } from "../utilities/missingData.utilities";
 import { connection } from '../config/database/db';
 
 export const getTrackings = async (req: Request, res: Response) => {
@@ -39,7 +39,7 @@ export const getTracking = async (req: Request, res: Response) => {
         if( api_key !== process.env.API_KEY ){
             return res.status(401).json({error: true, message: "No cuentas con los permisos para acceder a esta información"});
         };
-        if (nullValidator([idfiles])){
+        if (missingData([idfiles])){
             return res.status(400).json({ error: true, message: "MISSING_VALUES" });
         };
         const [ validate ] = await connection.query(`SELECT count(*) as contador FROM tracking WHERE idfiles = ?;`, [ idfiles ])

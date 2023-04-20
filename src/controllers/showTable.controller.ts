@@ -1,7 +1,7 @@
 import 'dotenv/config';
 import { Request, Response } from 'express';
 import { connection } from '../config/database/db';
-import { nullValidator } from '../utilities/nullValidator';
+import { missingData } from '../utilities/missingData.utilities';
 
 
 export const showTable = async ( req: Request, res: Response ) => {
@@ -26,7 +26,7 @@ export const pendingTable = async (req: Request, res: Response) => {
         if (api_key !== process.env.API_KEY) {
             return res.status(401).json({ message: "No cuentas con los permisos para acceder a esta información"});
         };
-        if (nullValidator([idusers])){
+        if (missingData([idusers])){
             return res.status(400).json({ message: "ERROR_MISSING_VALUES" });
         };
         const [ dataInfo ] = await connection.query(`

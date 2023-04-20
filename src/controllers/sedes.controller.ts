@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { connection } from '../config/database/db';
 import 'dotenv/config';
-import { nullValidator } from '../utilities/nullValidator';
+import { missingData } from '../utilities/missingData.utilities';
 
 
 // Traer sedes GET
@@ -27,7 +27,7 @@ export const postSede = async ( req: Request, res: Response ) => {
         if (api_key !== process.env.API_KEY){
             return res.status(401).json({error:true, meesage: "No cuentas con los permisos para acceder a esta información"});
         };
-        if (nullValidator(values)) {
+        if (missingData(values)) {
             return res.status(500).json({ error: true, message: "MISSING_VALUES" });
         };
         const [ validate ] = await connection.query(`
@@ -56,7 +56,7 @@ export const putSede =async ( req: Request, res: Response ) => {
     const { idsedes, sedes_city, sedes_country, sedes_address, sedes_name, sedes_type, sedes_state } = req.body;
     const values = [ idsedes, sedes_city, sedes_country, sedes_address, sedes_name, sedes_type, sedes_state ];
     try {
-        if (nullValidator(values)) {
+        if (missingData(values)) {
             return res.status(500).json({ error: true, message: "MISSING_VALUES" });
         };
         const [ validatePut ] = await connection.query('SELECT count(*) AS contador FROM sedes WHERE idsedes = ?;', [ idsedes ]);

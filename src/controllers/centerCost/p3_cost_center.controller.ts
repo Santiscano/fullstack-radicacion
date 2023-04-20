@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import {connection} from '../../config/database/db';
-import { nullValidator } from "../../utilities/nullValidator";
+import { nullValidator } from "../../utilities/missingData.utilities";
 import { twoCharactersValidator } from '../../utilities/twoCharactersValidator';
 
 // Traer los Centros de costo
