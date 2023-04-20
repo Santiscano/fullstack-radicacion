@@ -3,7 +3,7 @@ import { Router } from 'express';
 // Importando controladores de las rutas
 import { getRoles, postRol, putRol, deleteRol } from '../controllers/roles.controller';
 import { getSedes, postSede, putSede, deleteSede } from '../controllers/sedes.controller';
-import { getUsers, postUsers, putUsers, deleteUser } from '../controllers/users.controller';
+import { getUsers, postUsers, putUsers, deleteUser, postMassiveUsers } from '../controllers/users.controller';
 import { getFiles, postFile, putFile, deleteFile, genFileRegistered } from '../controllers/files.controller';
 import { getFileStates, postFileStates, putFileStates, deleteFileStates } from '../controllers/files_states.controller';
 import { getCostArea, postCostArea, deleteCostArea } from '../controllers/centerCost/p1_area_cost_center.controller';
@@ -104,6 +104,9 @@ router.post('/accountTypeFilter', accountTypeFilter);           // Filtro de los
 
 // API routes
 router.get('/routerApi', routerApi);                            // Traer las rutas que tiene el sistema
+
+// E-CONTROL
+router.post('/postMassiveUsers', postMassiveUsers);
 
 
 // Exportando el router

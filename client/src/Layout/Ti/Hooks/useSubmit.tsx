@@ -221,9 +221,9 @@ function useSubmit() {
         setSeveritySnackbar("success");
         setPreLoad(false);
         setOpenSnackbar(true);
-        setAssignRole("");
+        setAssignRole([]);
         setReset(true);
-        setCedi("");
+        setCedi([]);
         setIdentificationType("");
         setIdentificationNumber("");
         setFirstname("");
@@ -278,9 +278,9 @@ function useSubmit() {
         setSeveritySnackbar("success");
         setPreLoad(false);
         setOpenSnackbar(true);
-        setAssignRole("");
+        setAssignRole([]);
         setReset(true);
-        setCedi("");
+        setCedi([]);
         setIdentificationType("");
         setIdentificationNumber("");
         setFirstname("");

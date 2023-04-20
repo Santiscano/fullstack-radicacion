@@ -88,6 +88,62 @@ export const postUsers = async (req: Request, res: Response) => {
     };
 };
 
+// Crear un usuario masivos
+export const postMassiveUsers = async (req: Request, res: Response) => {
+    try {
+        let { api_key, rows }: any = req.body;
+        if( api_key !== process.env.API_KEY ){
+            return res.status(401).json({error: true, message: "No cuentas con el permiso para acceder a esta información"})
+        };
+        for (let i = 0; i < rows.length; i++){
+            const values: ( string | number | undefined | Date )[] =  [ rows[i].idroles, rows[i].idsedes, rows[i].users_identification_type, rows[i].users_identification, rows[i].users_name, rows[i].users_address, rows[i].users_phone, rows[i].users_email ];            
+            if (nullValidator(values)) {
+                return res.status(422).json({ error: true, message: "MISSING_VALUES" })
+            };
+            rows[i].users_lastname === undefined ? rows[i].users_lastname = "" : rows[i].users_lastname;
+            rows[i].users_providers_paydays === undefined ? rows[i].users_providers_paydays = null : rows[i].users_providers_paydays;
+            rows[i].users_providers_expiration_date === undefined ? rows[i].users_providers_expiration_date = null : rows[i].users_providers_expiration_date;
+            const digitalCheck: number = calcularDigitoVerificacion(rows[i].users_identification);
+            const [ userEmail ] = await connection.query(`
+                SELECT count(*) AS contador FROM users WHERE users_email = ?;
+            `, [ rows[i].users_email ]);
+            const [ userDocumentRol ] = await connection.query(`
+            SELECT count(*) AS contador FROM users WHERE
+                users_identification = ? AND users_identification_type = ? AND idroles = ?;
+            `, [ rows[i].users_identification, rows[i].users_identification_type, rows[i].idroles ]);
+            // @ts-ignore
+            if( userEmail[0].contador !== 0 ){
+                return res.status(401).json({ error: true, message: `El email: ${rows[i].users_email.toUpperCase()}, ya se encuentra registrado en la base de datos.` })
+            };
+            // @ts-ignore
+            if( userDocumentRol[0].contador !== 0 ){
+                return res.status(401).json({ error: true, message: `El usuario con rol: ${rows[i].idroles} y ${rows[i].users_identification_type}: ${rows[i].users_identification.toUpperCase()}, ya se encuentra registrado en la base de datos.` })
+            };
+            await connection.query(`
+            INSERT INTO users ( idroles, idsedes, users_identification_type, users_identification, users_name, users_lastname, users_address, users_phone, users_email, users_providers_paydays, users_providers_expiration_date, users_identification_digital_check )
+                VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? );
+            `, [ 
+                rows[i].idroles, 
+                rows[i].idsedes, 
+                rows[i].users_identification_type,
+                rows[i].users_identification.toUpperCase(),
+                rows[i].users_name.toUpperCase(),
+                rows[i].users_lastname.toUpperCase(),
+                rows[i].users_address.toUpperCase(),
+                rows[i].users_phone,
+                rows[i].users_email.toUpperCase(),
+                rows[i].users_providers_paydays,
+                rows[i].users_providers_expiration_date,
+                digitalCheck ]);
+                console.log({error: false, message: `Usuario con ${ rows[i].users_identification_type }: ${ rows[i].users_identification } y email: ${rows[i].users_email}, creado satisfactoriamente`})
+            }
+            return res.status(200).json({error: false, message: "TODO MELO"})
+    } catch (err) {
+        // console.log(err);
+        return res.status(508).json({ error: true, message: "Error del servidor al crear un usuario" });
+    };
+};
+
 // Editar usuarios PUT
 export const putUsers = async (req:Request, res:Response) =>{
     const { idroles, 
