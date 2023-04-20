@@ -29,7 +29,9 @@ export const getUsers = async (req: Request, res: Response) =>{
 // Crear un usuario
 export const postUsers = async (req: Request, res: Response) => {
     try {
+
         let { api_key, idroles, idsedes, users_identification_type, users_identification, users_name, users_lastname, users_address, users_password, users_phone, users_email, users_providers_paydays, users_providers_expiration_date }: Users = req.body;
+        console.log("lo que llega",api_key, idroles, idsedes, users_identification_type, users_identification, users_name, users_lastname, users_address, users_password, users_phone, users_email, users_providers_paydays, users_providers_expiration_date)
         const values: ( string | number | undefined | Date )[] =  [ idroles, idsedes, users_identification_type, users_identification, users_name, users_address, users_phone, users_email ];
         if( api_key !== process.env.API_KEY ){
             return res.status(401).json({error: true, message: "No cuentas con el permiso para acceder a esta información"})
