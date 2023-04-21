@@ -16,6 +16,7 @@ import useSubmit from "./Hooks/useSubmit";
 import "./TI.css";
 import AlertDialogSlide from "./components/common/AlertDialogSlide";
 import SelectArea from "./components/common/SelectArea";
+import UsersTable from "./components/Tables/UsersTable";
 
 function TI() {
   const {
@@ -232,6 +233,7 @@ function TI() {
               {(Number(get("idroles")) == roles.AuditorTI ||
                 Number(get("idroles")) == roles.Administrador) && (
                 <TabPanel value={showValue} index={2}>
+                  <UsersTable />
                   <form onSubmit={(event) => handleSubmitCreateUser(event)}>
                     <div className="md:flex md:flex-wrap">
                       <article className="md:w-1/2">

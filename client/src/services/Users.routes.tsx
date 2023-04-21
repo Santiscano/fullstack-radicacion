@@ -29,7 +29,7 @@ export const getUsers = async () => {
       },
       getHeader()
     );
-    console.log("response getusers: ", response);
+    console.log("response getusers: ", response.data.data);
     const users = response.data.data;
     return users;
   } catch (error) {
