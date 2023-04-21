@@ -2,6 +2,7 @@ import "dotenv/config";
 import { Request, Response } from 'express';
 import { nullValidator } from "../utilities/nullValidator";
 import { connection } from '../config/database/db';
+import moment from 'moment-timezone'
 
 export const getTrackings = async (req: Request, res: Response) => {
     const { api_key } = req.body;
@@ -74,8 +75,9 @@ export const getTracking = async (req: Request, res: Response) => {
 
 export const postTraking = async ( idfiles_states: number, idfiles: number, idusers: number, tracking_observation: string ) => {
     try {
+        const day = moment.tz(new Date(), "America/Bogota").format();
         await connection.query(`INSERT INTO tracking (idfiles_states, idfiles, idusers, tracking_observation, tracking_date)
-            VALUES ( ?, ?, ?, ?, ? );`, [idfiles_states, idfiles, idusers, tracking_observation, new Date()]);
+            VALUES ( ?, ?, ?, ?, ? );`, [idfiles_states, idfiles, idusers, tracking_observation, day]);
         return console.log("Tracking agregado");
     } catch (error) {
         // console.log(error);
