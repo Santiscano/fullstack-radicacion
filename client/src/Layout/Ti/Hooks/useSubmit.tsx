@@ -233,6 +233,7 @@ function useSubmit() {
     try {
       setPreLoad(true);
       e.preventDefault();
+      console.log("valor rol:", assignRole);
       const res = await createProvider(
         import.meta.env.VITE_API_KEY,
         assignRole,

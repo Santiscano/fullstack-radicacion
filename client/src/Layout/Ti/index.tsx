@@ -503,7 +503,7 @@ function TI() {
                         />
                       </article>
                     </div>
-                    <Button name="Crear Usuario" />
+                    <Button name="Crear Proveedor" />
                   </form>
                 </TabPanel>
               )}
