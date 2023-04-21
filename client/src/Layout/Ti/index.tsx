@@ -434,16 +434,14 @@ function TI() {
                   <form onSubmit={(event) => handleSubmitCreateProvider(event)}>
                     <div className="md:flex md:flex-wrap">
                       <article className="md:w-1/2">
-                        <InputSelectRol
+                        <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
+                          Asignar Rol
+                        </label>
+                        <TextFieldOutlined
                           type={"text"}
-                          title="Asignar Rol"
-                          placeholder="Rol"
-                          name="role"
-                          required
-                          value={assignRole}
-                          onChange={handleRol}
-                          itemDefault="selecciona una opcion"
-                          items={onlyRolProvider}
+                          label={"Rol"}
+                          value={"PROVEEDOR"}
+                          disabled
                         />
                       </article>
                       <article className="md:w-1/2">

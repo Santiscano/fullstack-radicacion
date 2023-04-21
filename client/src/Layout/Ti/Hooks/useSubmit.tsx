@@ -263,7 +263,7 @@ function useSubmit() {
       // console.log(cedi);
       const res = await createProvider(
         import.meta.env.VITE_API_KEY,
-        assignRole,
+        1,
         cedi.idsedes,
         identificationType,
         identificationNumber,
