@@ -7,11 +7,15 @@ export enum UsersIdentificationType {
     'RUT'
 };
 
-export interface Users {
-    idroles: number; 
-    idsedes: number; 
-    users_identification_type: UsersIdentificationType; 
+export interface UserDocumentRol {
+    idroles: number;
+    users_identification_type: UsersIdentificationType;
     users_identification: string; 
+}
+
+
+export interface Users extends UserDocumentRol {
+    idsedes: number;
     users_name: string;
     users_lastname?: string;
     users_address: string;
@@ -22,3 +26,4 @@ export interface Users {
     users_providers_expiration_date?: (Date | null);
     users_status?: string;
 };
+
