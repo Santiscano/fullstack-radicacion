@@ -33,7 +33,7 @@ export const postUsers = async (req: Request, res: Response) => {
     };
 };
 
-// Editar usuarios PUT
+// EDITAR USUARIOS
 export const putUsers = async ( req:Request, res:Response ) => {
     const { api_key } = req.headers;
     const { idroles, idsedes, users_identification_type, users_identification, users_name, users_lastname, users_address, users_phone, users_email, users_providers_paydays,users_providers_expiration_date,users_status } = req.body;
@@ -45,11 +45,11 @@ export const putUsers = async ( req:Request, res:Response ) => {
         const info = await putUsersModel(data);
         return res.status(200).json(success(info.data, info.message));
     } catch (error) {
-        return res.status(512).json(unsuccessfully(error))
+        return res.status(512).json(unsuccessfully(error));
     };
 };
 
-// Eliminar usuario DELETE
+// ELIMINIAR USUARIOS
 export const deleteUser = async (req: Request, res: Response) => {
     const { api_key } = req.headers;
     const { idroles, users_identification, users_identification_type } = req.body;

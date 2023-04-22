@@ -1,35 +1,19 @@
 import "dotenv/config";
 import { Request, Response } from 'express';
-import { missingData } from "../utilities/missingData.utilities";
+import { missingData, missingDataObject } from "../utilities/missingData.utilities";
 import { connection } from '../config/database/db';
+import { apiKeyValidate } from '../utilities/apiKeyValidate.utilities';
+import { success, unsuccessfully, unauthorized, uncompleted } from "../utilities/responses.utilities";
+import { getTrackingsModel } from '../models/tracking.model';
 
 export const getTrackings = async (req: Request, res: Response) => {
-    const { api_key } = req.body;
+    const { api_key } = req.headers;
     try {
-        if (api_key !== process.env.API_KEY) {
-            return res.status(401).json({error: true, message: "No cuentas con los permisos para acceder a esta información"})
-        };
-        const [ allTracking ] = await connection.query(`
-        SELECT 	T.idtracking, 
-		    T.tracking_date, 
-            T.tracking_observation, 
-            FS.files_states, 
-            FS.files_states_description, 
-            U.idusers, 
-            U.users_name, 
-            U.users_lastname, 
-            F.idfiles, 
-            F.files_registered,
-            R.roles
-		    	FROM tracking T
-		    		LEFT JOIN files_states FS ON T.idfiles_states = FS.idfiles_states
-		    		LEFT JOIN users U ON T.idusers = U.idusers
-		    		LEFT JOIN files F ON T.idfiles = F.idfiles
-                    LEFT JOIN roles R ON U.idroles = R.idroles;`);
-        return res.status(200).json({error: false, allTracking});
+        if (apiKeyValidate(api_key)) return res.status(401).json(unauthorized());
+        const info = await getTrackingsModel();
+        return res.status(200).json(success(info.data));
     } catch (error) {
-        // console.log(error);
-        return res.status(508).json({ error:true, message: "Error del servidor para trer todas las trazabilidades" });
+        return res.status(508).json(unsuccessfully(error));
     }
 };
 

@@ -1,9 +1,9 @@
 import 'dotenv/config';
 
-// API_KEY
+// VALIDAR API_KEY
 export const apiKeyValidate = ( apiKey: string | string[] | undefined ): boolean => {
     if( apiKey !== process.env.API_KEY ){
-        return true             // CON ACCESO
+        return true             // SIN ACCESO
     };
-    return false                // SIN ACCESO
+    return false                // TIENE ACCESO
 };
