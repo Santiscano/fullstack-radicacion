@@ -172,7 +172,7 @@ function LocationsSelect({
             <Box component="li" {...props} key={index}>
               {option.users_identification}-
               {option.users_identification_digital_check}/ {option.users_name}{" "}
-              {option.users_lastname}
+              {option.users_lastname ? option.users_lastname : ""}
             </Box>
           )}
         />
