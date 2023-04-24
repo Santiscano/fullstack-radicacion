@@ -1,67 +1,45 @@
+import 'dotenv/config';
 import { Request, Response } from 'express';
 import { connection } from '../config/database/db';
-import * as dotenv from 'dotenv'
+import { apiKeyValidate } from '../utilities/apiKeyValidate.utilities';
+import { success, unauthorized, uncompleted, unsuccessfully } from '../utilities/responses.utilities';
+import { getRolesModel, postRolesModel } from '../models/roles.model';
+import { missingDataObject } from '../utilities/missingData.utilities';
 
-dotenv.config();
-
-
-// Traer roles GET
+// TRAER ROLES
 export const getRoles = async (req: Request, res: Response) =>{
-    const { api_key } = req.body;
+    const { api_key } = req.headers;
     try {
-        if (api_key == process.env.API_KEY){
-            const [ roles ] = await connection.query('SELECT * FROM roles;')
-            return res.status(200).json({ roles });
-        } else { 
-            return res.status(401).json({ message: "No cuentas con los permisos para acceder a esta información"})
-        };
-    } catch (err) {
-        // console.log(err);
-        return res.status(508).json({ error: "Error del servidor al traer los roles" });
+        if (apiKeyValidate(api_key)) return res.status(401).json(unauthorized());
+        return res.status(200).json(success((await getRolesModel()).data));
+    } catch (error) {
+        return res.status(508).json(unsuccessfully(error));
     };
 };
 
-// Crear rol POST
+// CREAR ROLES
 export const postRol = async ( req: Request, res: Response ) => {
+    const { api_key } = req.headers;
+    const { roles, roles_description } = req.body;
+    const data = { roles, roles_description };
     try {
-        const { roles, roles_description } = req.body;
-        const [ rol ] = await connection.query(`
-            SELECT count(*) AS contador FROM roles WHERE roles = ?;
-        `, roles);
-        // @ts-ignore
-        if ( rol[0].contador === 0 ) {
-            await connection.query(`
-                INSERT INTO roles (roles, roles_description)
-                VALUES ( ?, ? );
-                `, [roles.toUpperCase(), roles_description.toUpperCase()]);
-            const [ rolCreated ] = await connection.query(`SELECT * FROM roles WHERE roles = ?`, [ roles.toUpperCase() ]);
-            return res.status(200).json({message: `Rol creado satisfactoriamente`, rolCreated})
-        } else {
-            return res.status(201).json({message: `El rol: ${ roles }, ya existe en la base de datos`});
-        }
-    } catch (err) {
-        // console.log(err);
-        return res.status(508).json({ error: "Error del servidor al crear un rol" });
+        if(apiKeyValidate(api_key)) return res.status(401).json(unauthorized());
+        if(missingDataObject(data).error) return res.status(422).json(uncompleted(missingDataObject(data).missing));
+        const info = await postRolesModel(data);
+        return res.status(200).json(success(info.data, info.message));
+    } catch (error) {
+        return res.status(508).json(unsuccessfully(error));
     };
 };
 
-// Editar roles PUT 
+// EDITAR ROLES
 export const putRol = async (req: Request, res: Response) => {
+    const { api_key } = req.headers;
+    const { idroles, roles, roles_description } = req.body;
     try {
-        const { idroles, roles, roles_description } = req.body;
-        const [ validate ] = await connection.query(`
-            SELECT count(*) AS contador FROM roles WHERE idroles = ?;
-        `, idroles );
-        // @ts-ignore
-        if( validate[0].contador === 0 ) {
-            return res.status(201).json(`El rol con id:${ idroles }, no se encuentra registrado en la base de datos`)
-        } else {
-            await connection.query(`
-                UPDATE roles SET roles = ?, roles_description = ? WHERE idroles = ?;
-            `, [ roles_description.toUpperCase(), roles.toUpperCase(), idroles ]);
-            const [ rol ] = await connection.query(`SELECT * FROM roles WHERE idroles = ?;`,[ idroles ]);
-            return res.status(200).json({ menssage: `El rol: ${ idroles }, fue editado satisfactoriamente`, rol });
-        };
+        if(apiKeyValidate(api_key)) return res.status(401).json(unauthorized());
+        
+        
     } catch (error) {
         // console.log(error);
         return res.status(508).json(`Error del servidor para editar el rol`);
