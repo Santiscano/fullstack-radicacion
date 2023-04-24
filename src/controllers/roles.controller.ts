@@ -1,6 +1,4 @@
-import 'dotenv/config';
 import { Request, Response } from 'express';
-import { connection } from '../config/database/db';
 import { apiKeyValidate } from '../utilities/apiKeyValidate.utilities';
 import { success, unauthorized, uncompleted, unsuccessfully } from '../utilities/responses.utilities';
 import { deleteRolModel, getRolesModel, postRolesModel, putRolModel } from '../models/roles.model';
@@ -13,7 +11,7 @@ export const getRoles = async (req: Request, res: Response) =>{
         if (apiKeyValidate(api_key)) return res.status(401).json(unauthorized());
         return res.status(200).json(success((await getRolesModel()).data));
     } catch (error) {
-        return res.status(508).json(unsuccessfully(error));
+        return res.status(512).json(unsuccessfully(error));
     };
 };
 
@@ -28,7 +26,7 @@ export const postRol = async ( req: Request, res: Response ) => {
         const info = await postRolesModel(data);
         return res.status(200).json(success(info.data, info.message));
     } catch (error) {
-        return res.status(508).json(unsuccessfully(error));
+        return res.status(512).json(unsuccessfully(error));
     };
 };
 
@@ -43,7 +41,7 @@ export const putRol = async (req: Request, res: Response) => {
         const info = await putRolModel(data)
         return res.status(200).json(success(info.data, info.message));
     } catch (error) {
-        return res.status(508).json(unsuccessfully(error));
+        return res.status(512).json(unsuccessfully(error));
     };
 };
 
@@ -56,6 +54,6 @@ export const deleteRol = async (req: Request, res: Response) => {
         if (missingDataObject({idroles}).error) return res.status(422).json(uncompleted(missingDataObject({idroles}).missing));
         return res.status(200).json(success(undefined, (await deleteRolModel(idroles)).message));
     } catch (error) {
-        return res.status(508).json(unsuccessfully(error));
+        return res.status(512).json(unsuccessfully(error));
     };
 };

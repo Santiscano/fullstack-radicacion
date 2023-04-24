@@ -26,10 +26,10 @@ import { routerApi } from '../controllers/routes.controllers'
 const router = Router();
 
 // Roles
-router.post('/getRoles', getRoles);                             // Traer roles
-router.post('/postRol', postRol);                               // Crear un rol
-router.put('/putRol', putRol);                                  // Editar un rol
-router.post('/deleteRol', deleteRol);                         // Eliminar un rol
+router.post('/getRoles', decodeToken, getRoles);                             // Traer roles
+router.post('/postRol', decodeToken, postRol);                               // Crear un rol
+router.put('/putRol', decodeToken, putRol);                                  // Editar un rol
+router.post('/deleteRol', decodeToken, deleteRol);                         // Eliminar un rol
 
 // Sedes
 router.post('/getSedes', decodeToken, getSedes);                             // Traer sedes
