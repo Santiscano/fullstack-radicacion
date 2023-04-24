@@ -98,70 +98,90 @@ const UploadFileModal: FC<Props> = ({
           <div className="border-neutral-300 border-2 rounded p-2.5 ">
             <section>
               <div className="flex justify-between flex-wrap">
-                <div className="text-2xl font-bold mr-8">
-                  {capitalizeFirstLatterUppercase(companyName)}{" "}
-                  {capitalizeFirstLatterUppercase(lastname)}
-                </div>
+                {companyName && lastname && (
+                  <div className="text-2xl font-bold mr-8">
+                    {capitalizeFirstLatterUppercase(companyName)}{" "}
+                    {capitalizeFirstLatterUppercase(lastname)}
+                  </div>
+                )}
                 <span className="text-blue-700 text-lg">
                   (ID: {docIdentity})
                 </span>
-                <p className="mr-8 font-bold text-lg">
-                  {formattedAmount(price)}
-                </p>
+                {price && (
+                  <p className="mr-8 font-bold text-lg">
+                    {formattedAmount(price)}
+                  </p>
+                )}
               </div>
 
               <div className="flex mt-4">
                 <p className="font-bold inline-block mr-4 w-1/2">
                   Tipo De Cuenta:
-                  <span className="text-slate-600 font-normal">
-                    {` ${capitalizeFirstLatterUppercase(accountType)}`}
-                  </span>
+                  {accountType && (
+                    <span className="text-slate-600 font-normal">
+                      {` ${capitalizeFirstLatterUppercase(accountType)}`}
+                    </span>
+                  )}
                 </p>
                 <p className="font-bold inline-block mr-4">
                   Numero de Cuenta:
-                  <span className="text-slate-600 font-normal">
-                    {` ${accountNumber}`}
-                  </span>
+                  {accountNumber && (
+                    <span className="text-slate-600 font-normal">
+                      {` ${accountNumber}`}
+                    </span>
+                  )}
                 </p>
               </div>
 
               <div className="flex">
                 <p className="font-bold inline-block mr-4 w-1/2">
                   Para:
-                  <span className="text-slate-600 font-normal">
-                    {` ${capitalizeFirstLatterUppercase(nameAuditorSelected)}`}
-                  </span>
+                  {nameAuditorSelected && (
+                    <span className="text-slate-600 font-normal">
+                      {` ${capitalizeFirstLatterUppercase(
+                        nameAuditorSelected
+                      )}`}
+                    </span>
+                  )}
                 </p>
                 <p className="font-bold inline-block mr-4">
                   correo:
-                  <span className="text-slate-600 font-normal">
-                    {` ${email.toLowerCase()}`}
-                  </span>
+                  {email && (
+                    <span className="text-slate-600 font-normal">
+                      {` ${email.toLowerCase()}`}
+                    </span>
+                  )}
                 </p>
               </div>
 
               <div className="flex">
-                <p className="font-bold inline-block mr-4 w-1/2">
-                  Radicado:
-                  <span className="text-slate-600 font-normal">
-                    {` ${settledNumber}`}
-                  </span>
-                </p>
-                <p className="font-bold inline-block">
-                  Cedi:
-                  <span className="text-slate-600 font-normal">
-                    {` ${capitalizeFirstLatterUppercase(cedi)}`}
-                  </span>
-                </p>
+                {settledNumber && (
+                  <p className="font-bold inline-block mr-4 w-1/2">
+                    Radicado:
+                    <span className="text-slate-600 font-normal">
+                      {` ${settledNumber}`}
+                    </span>
+                  </p>
+                )}
+                {cedi && (
+                  <p className="font-bold inline-block">
+                    Cedi:
+                    <span className="text-slate-600 font-normal">
+                      {` ${capitalizeFirstLatterUppercase(cedi)}`}
+                    </span>
+                  </p>
+                )}
               </div>
 
               <div className="flex">
-                <p className="font-bold inline-block mr-4">
-                  Area:
-                  <span className="text-slate-600 font-normal">
-                    {` ${capitalizeFirstLatterUppercase(invoiceType)}`}
-                  </span>
-                </p>
+                {invoiceType && (
+                  <p className="font-bold inline-block mr-4">
+                    Area:
+                    <span className="text-slate-600 font-normal">
+                      {` ${capitalizeFirstLatterUppercase(invoiceType)}`}
+                    </span>
+                  </p>
+                )}
               </div>
             </section>
           </div>
