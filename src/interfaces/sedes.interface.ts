@@ -1,5 +1,6 @@
 
 export interface Sedes {
+    idsedes?: number;
     sedes_country: string; 
     sedes_state: string
     sedes_city: string;
