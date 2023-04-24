@@ -1,4 +1,3 @@
-import "dotenv/config";
 import { Request, Response } from 'express';
 import { missingDataObject } from '../utilities/missingData.utilities';
 import { apiKeyValidate } from '../utilities/apiKeyValidate.utilities';
