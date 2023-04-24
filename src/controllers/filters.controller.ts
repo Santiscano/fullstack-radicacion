@@ -5,7 +5,7 @@ import { connection } from '../config/database/db';
 import { missingData, missingDataObject } from '../utilities/missingData.utilities';
 import { apiKeyValidate } from '../utilities/apiKeyValidate.utilities';
 import { success, unauthorized, uncompleted, unsuccessfully } from '../utilities/responses.utilities';
-import { getAllRegisteredFileModel,getIdentificationByTypeModel } from '../models/filters.models';
+import { getAllRegisteredFileModel,getIdentificationByTypeModel, getTypeIdentificationModel } from '../models/filters.models';
 
 
 // TRAER TODOS LOS RADICADOS (SOLO RADICADO)
@@ -35,19 +35,10 @@ export const getIdentificationByType  = async ( req: Request, res: Response ) =>
 
 // Traer la información de los radicados según el tipo de documento
 export const getTypeIdentification  = async ( req: Request, res: Response ) => {
-    const { api_key } = req.body;
+    const { api_key } = req.headers;
     try {
-        if ( api_key !== process.env.API_KEY ){
-            return res.status(401).json({ error: true, message: "No cuentas con los permisos para ingresar esta información" });
-        };
-        const  data: JsonObject  = [
-            { typeDocument: 'CEDULA CIUDADANIA' }, 
-            { typeDocument: 'CEDULA EXTRANJERIA' },
-            { typeDocument: 'NIT' },
-            { typeDocument: 'PASAPORTE' }, 
-            { typeDocument: 'RUT' }
-        ];
-        return res.status(200).json({ error: false, data });
+        if (apiKeyValidate(api_key)) return res.status(401).json(unauthorized());
+        return res.status(200).json(success(getTypeIdentificationModel().data));
     } catch (error) {
         // console.log(error);
         return res.status(508).json({ error: true, message: "Error del servidor para traer la información" })

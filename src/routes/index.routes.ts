@@ -26,31 +26,31 @@ import { routerApi } from '../controllers/routes.controllers'
 const router = Router();
 
 // Roles
-router.post('/getRoles', decodeToken, getRoles);                             // Traer roles
+router.get('/getRoles', decodeToken, getRoles);                             // Traer roles
 router.post('/postRol', decodeToken, postRol);                               // Crear un rol
 router.put('/putRol', decodeToken, putRol);                                  // Editar un rol
 router.post('/deleteRol', decodeToken, deleteRol);                         // Eliminar un rol
 
 // Sedes
-router.post('/getSedes', decodeToken, getSedes);                             // Traer sedes
+router.get('/getSedes', decodeToken, getSedes);                             // Traer sedes
 router.post('/postSede', decodeToken, postSede);                             // Crear sedes
 router.put('/putSede', decodeToken, putSede);                                // Editar sedes
 router.post('/deleteSede', decodeToken, deleteSede);                       // Eliminar sedes
 
 // Usuarios
-router.post('/getUsers', decodeToken, getUsers);                             // Traer usuarios
+router.get('/getUsers', decodeToken, getUsers);                             // Traer usuarios
 router.post('/postUser', decodeToken, postUsers);                            // Crear usuario
 router.put('/putUser', decodeToken, putUsers);                               // Editar usuario
 router.post('/deleteUser', decodeToken, deleteUser);                       // Eliminar un usuario
 
 // Estado de archivos
-router.post('/getStatesFiles', getFileStates);                  // Traer los estados de los archivos
+router.get('/getStatesFiles', getFileStates);                  // Traer los estados de los archivos
 router.post('/postStatesFile', postFileStates);                 // Agregar los estados de los archivos
 router.put('/putStatesFile', putFileStates);                    // Editar los estados de los archivos
 router.post('/deleteStatesFile', deleteFileStates);           // Eliminar un estado de archivo
 
 // Archivos
-router.post('/genFileRegistered', genFileRegistered);           // Generar un radicado (No DB)
+router.get('/genFileRegistered', genFileRegistered);           // Generar un radicado (No DB)
 router.post('/getFiles', getFiles);                             // Traer los archivos
 router.post('/postFile', postFile);                             // Agregar un archivo
 router.put('/putFile', putFile);                                // Editar un archivo
@@ -63,8 +63,8 @@ router.post('/postFilePath', postFilePath);                     // Crear la ruta
 router.post('/deleteFilePath', deleteFilePath);               // Crear la ruta de los archivos
 
 // Tracking
-router.post('/getTrackings', decodeToken, getTrackings);                     // Traer todos la trazabilidad
-router.post('/getTracking', decodeToken, getTracking);                       // Traer una ruta en especifico
+router.get('/getTrackings', decodeToken, getTrackings);                     // Traer todos la trazabilidad
+router.get('/getTracking', decodeToken, getTracking);                       // Traer una ruta en especifico
 
 // Centros de costos
 
@@ -95,13 +95,13 @@ router.post('/changePassword', changePassword);                 // Cambiar la co
 router.post('/uploadFileDocument/:idfiles', uploadFileDocument);         // Cargar una imagen en el bucket
 
 //Tablas
-router.post('/showTable', decodeToken, showTable);                           // Todos los archivos
+router.get('/showTable', decodeToken, showTable);                           // Todos los archivos
 router.post('/pendingTable', decodeToken, pendingTable);                     // Pendientes
 
 // Filtros
-router.post('/getAllRegisteredFile', getAllRegisteredFile);     // Filtro de los archivos según el radicado
+router.get('/getAllRegisteredFile', getAllRegisteredFile);     // Filtro de los archivos según el radicado
 router.post('/getIdentificationByType', getIdentificationByType);     // Filtro de los archivos según el radicado
-router.post('/getTypeIdentification', getTypeIdentification);     // Filtro de los archivos según el radicado
+router.get('/getTypeIdentification', getTypeIdentification);     // Filtro de los archivos según el radicado
 router.post('/registeredFilter', registeredFilter);             // Filtro de los archivos según el radicado
 router.post('/accountTypeFilter', accountTypeFilter);           // Filtro de los archivos según cuenta de cobro y numero de la cuenta
 

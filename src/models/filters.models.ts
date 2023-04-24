@@ -15,3 +15,14 @@ export const getIdentificationByTypeModel = async( identification: string ): Pro
     return { data };
 };
 
+export const getTypeIdentificationModel = () => {
+    const  data = [
+        { typeDocument: 'CEDULA CIUDADANIA' }, 
+        { typeDocument: 'CEDULA EXTRANJERIA' },
+        { typeDocument: 'NIT' },
+        { typeDocument: 'PASAPORTE' }, 
+        { typeDocument: 'RUT' }
+    ];
+    return { data };
+};
+
