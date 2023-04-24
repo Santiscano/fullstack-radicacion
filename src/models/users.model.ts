@@ -8,7 +8,7 @@ import { RowDataPacket, OkPacket, ResultSetHeader } from 'mysql2/promise';
 type Data = RowDataPacket[] | RowDataPacket[][] | OkPacket | OkPacket[] | ResultSetHeader | ResultSetHeader 
 
 // TRAER USUARIOS
-export const getUsersModel = async() => {
+export const getUsersModel = async(): Promise<Data> => {
     const [ data ] = await connection.query(`
         SELECT * FROM users U 
             LEFT JOIN roles R ON U.idroles = R.idroles 
