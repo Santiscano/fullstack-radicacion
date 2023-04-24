@@ -68,6 +68,9 @@ function useSubmit() {
   const [severitySnackbar, setSeveritySnackbar] = useState("");
   // reset forms
   const [reset, setReset] = useState(false);
+  // view tables
+  const [isCreateUser, setIsCreateUser] = useState(false);
+  const [isCreateProvider, setIsCreateProvider] = useState(false);
   // --------------------------Context-------------------------------//
   const { setPreLoad, handleMessageSnackbar } = useContextProvider();
   // --------------------------handles-------------------------------//
@@ -210,6 +213,7 @@ function useSubmit() {
         setPhone("");
         setEmail("");
         setPassword("");
+        setIsCreateUser(false);
       }
       if (res?.status !== 200) {
         handleMessageSnackbar(
@@ -268,6 +272,7 @@ function useSubmit() {
         setLimitDaysPayment(NaN);
         // @ts-ignore
         setDocumentationUpdate(new Date());
+        setIsCreateProvider(false);
       }
       if (res?.status !== 200) {
         handleMessageSnackbar(
@@ -523,6 +528,11 @@ function useSubmit() {
     inputDeleted,
     setInputDeleted,
     handleDeleteFile,
+    // view tables
+    isCreateUser,
+    setIsCreateUser,
+    isCreateProvider,
+    setIsCreateProvider,
   };
 }
 

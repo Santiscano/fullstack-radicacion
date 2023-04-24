@@ -25,6 +25,7 @@ export default function index(props: any) {
         { api_key: import.meta.env.VITE_API_KEY },
         getHeader()
       );
+      console.log("getCedis: ", getCedis);
       const filterCedis = getCedis.data.filter(
         (cedi: any) => cedi.sedes_type.toUpperCase() == props.cediType
       );

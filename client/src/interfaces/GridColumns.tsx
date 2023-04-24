@@ -409,34 +409,88 @@ export const columnsAllFiles: GridColDef[] = [
 export const columnsUsers: GridColDef[] = [
   {
     field: "users_name",
-    headerName: "Nombre Usuario",
+    headerName: "Nombre",
     width: 120,
   },
   {
     field: "users_lastname",
     headerName: "Apellidos",
-    width: 170,
+    width: 120,
   },
   {
-    field: "users_phone",
-    headerName: "Telefono",
-    width: 70,
+    field: "users_identification_type",
+    headerName: "Tipo Documento",
+    width: 130
   },
   {
-    field: "users_email",
-    headerName: "Email",
-    width: 70,
+    field: "users_identification",
+    headerName: "Numero Documento",
+    width: 130
   },
   {
     field: "roles",
     headerName: "Rol",
-    width: 70,
+    width: 160,
   },
-  // {
-  //   field: "action",
-  //   headerName: "Acciones",
-  //   width: 90,
-  //   filterable: false,
-  //   renderCell: (cellValues: any) => ButtonModalAllFiles(cellValues),
-  // },
+  {
+    field: "sedes_city",
+    headerName: "ciudad",
+    width: 120,
+  },
+  {
+    field: "users_email",
+    headerName: "Email",
+    width: 190,
+  },
+  {
+    field: "action",
+    headerName: "Acciones",
+    width: 120,
+    filterable: false,
+    renderCell: (cellValues: any) => ButtonModalAllFiles(cellValues),
+  },
+];
+export const columnsProvider: GridColDef[] = [
+  {
+    field: "users_name",
+    headerName: "Nombre",
+    width: 120,
+  },
+  {
+    field: "users_lastname",
+    headerName: "Apellidos",
+    width: 120,
+  },
+  {
+    field: "users_identification_type",
+    headerName: "Tipo Documento",
+    width: 130
+  },
+  {
+    field: "users_identification",
+    headerName: "Numero Documento",
+    width: 130
+  },
+  {
+    field: "roles",
+    headerName: "Rol",
+    width: 160,
+  },
+  {
+    field: "sedes_city",
+    headerName: "ciudad",
+    width: 120,
+  },
+  {
+    field: "users_email",
+    headerName: "Email",
+    width: 190,
+  },
+  {
+    field: "action",
+    headerName: "Acciones",
+    width: 120,
+    filterable: false,
+    renderCell: (cellValues: any) => ButtonModalAllFiles(cellValues),
+  },
 ];
