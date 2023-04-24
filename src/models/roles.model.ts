@@ -32,17 +32,31 @@ export const postRolesModel = async (data: Roles): Promise<{message:string, data
 };
 
 // EDITAR ROLES
-export const putRolModel = async(data: Roles): Promise<{ message:string, data?: Data }> => {
+export const putRolModel = async( data: Roles ): Promise<{ message:string, data?: Data }> => {
     const [ validate ] = await connection.query(`
             SELECT count(*) AS contador FROM roles WHERE idroles = ?;`, data.idroles );
-        // @ts-ignore
-        if( validate[0].contador === 0 ) {
-            return {`El rol con id:${ data.idroles }, no se encuentra registrado en la base de datos`};
-        } else {
-            await connection.query(`
-                UPDATE roles SET roles = ?, roles_description = ? WHERE idroles = ?;
-            `, [ roles_description.toUpperCase(), roles.toUpperCase(), idroles ]);
-            const [ rol ] = await connection.query(`SELECT * FROM roles WHERE idroles = ?;`,[ idroles ]);
-            return res.status(200).json({ menssage: `El rol: ${ idroles }, fue editado satisfactoriamente`, rol });
-        };
-}
+    // @ts-ignore
+    if( validate[0].contador === 0 ) {
+        return { message: `El rol con id:${ data.idroles }, no se encuentra registrado en el sistema.` };
+    };
+    await connection.query(`
+        UPDATE roles SET roles = ?, roles_description = ? WHERE idroles = ?;`, 
+        [ 
+            data.roles_description.toUpperCase(), 
+            data.roles.toUpperCase(), 
+            data.idroles 
+        ]);
+    const [ dataRol ] = await connection.query(`SELECT * FROM roles WHERE idroles = ?;`,[ data.idroles ]);
+    return { message: `El rol: ${ data.idroles }, fue editado satisfactoriamente`, data: dataRol };
+};
+
+// DELETE ROL
+export const deleteRolModel = async(data: number): Promise<{message:string}> => {
+    const [ rolValidate ] = await connection.query(`SELECT count(*) AS contador FROM roles WHERE idroles = ?;`, [ data ]);
+    // @ts-ignore
+    if ( rolValidate[0].contador === 0){
+        return { message: `El rol: ${ data }, no se encuetra regristrado en la base de datos` };
+    };
+    await connection.query(`DELETE FROM roles WHERE idroles = ?;`, [ data ]);
+    return { message: `El rol: ${ data }, fue eliminado con éxito.` };
+};

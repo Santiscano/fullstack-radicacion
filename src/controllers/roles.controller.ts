@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import { connection } from '../config/database/db';
 import { apiKeyValidate } from '../utilities/apiKeyValidate.utilities';
 import { success, unauthorized, uncompleted, unsuccessfully } from '../utilities/responses.utilities';
-import { getRolesModel, postRolesModel } from '../models/roles.model';
+import { deleteRolModel, getRolesModel, postRolesModel, putRolModel } from '../models/roles.model';
 import { missingDataObject } from '../utilities/missingData.utilities';
 
 // TRAER ROLES
@@ -17,7 +17,7 @@ export const getRoles = async (req: Request, res: Response) =>{
     };
 };
 
-// CREAR ROLES
+// CREAR ROL
 export const postRol = async ( req: Request, res: Response ) => {
     const { api_key } = req.headers;
     const { roles, roles_description } = req.body;
@@ -32,38 +32,30 @@ export const postRol = async ( req: Request, res: Response ) => {
     };
 };
 
-// EDITAR ROLES
+// EDITAR ROL
 export const putRol = async (req: Request, res: Response) => {
     const { api_key } = req.headers;
     const { idroles, roles, roles_description } = req.body;
+    const data = { idroles, roles, roles_description };
     try {
         if(apiKeyValidate(api_key)) return res.status(401).json(unauthorized());
-        
-        
+        if(missingDataObject(data).error) return res.status(422).json(uncompleted(missingDataObject(data).missing));
+        const info = await putRolModel(data)
+        return res.status(200).json(success(info.data, info.message));
     } catch (error) {
-        // console.log(error);
-        return res.status(508).json(`Error del servidor para editar el rol`);
+        return res.status(508).json(unsuccessfully(error));
     };
 };
 
-// Eliminar un rol DELETE
+// ELIMINAR ROL
 export const deleteRol = async (req: Request, res: Response) => {
-    const { api_key, idroles } = req.body;
+    const { api_key } = req.headers;
+    const { idroles } = req.body;
     try {
-        if ( api_key === process.env.API_KEY ){
-            const [ rolValidate ] = await connection.query(`SELECT * FROM roles WHERE idroles = ?;`, [ idroles ]);
-            // @ts-ignore
-            if ( rolValidate.length == 0){
-                return res.status(201).json({ message: `El rol: ${ idroles }, no se encuetra regristrado en la base de datos` });
-            } else {
-                await connection.query(`DELETE FROM roles WHERE idroles = ?;`, [ idroles ]);
-                return res.status(200).json({ message: `El rol: ${ idroles }, fue eliminado satisfactoriamente` });
-            };
-        } else {
-            return res.status(401).json({ message: "No cuentas con los permisos para eliminar un rol" })
-        };
+        if (apiKeyValidate(api_key)) return res.status(401).json(unauthorized());
+        if (missingDataObject({idroles}).error) return res.status(422).json(uncompleted(missingDataObject({idroles}).missing));
+        return res.status(200).json(success(undefined, (await deleteRolModel(idroles)).message));
     } catch (error) {
-        // console.log(error);
-        return res.status(508).json({ Error: "Error del servidor para eliminar el rol" });
+        return res.status(508).json(unsuccessfully(error));
     };
 };
