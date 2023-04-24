@@ -1,10 +1,11 @@
 import 'dotenv/config'
 import { connection } from '../config/database/db';
-import { identificationDigitVerified } from '../utilities/identificationDigitVerified.utilities';
 import { RowDataPacket, OkPacket, ResultSetHeader } from 'mysql2/promise';
 
 type Data = RowDataPacket[] | RowDataPacket[][] | OkPacket | OkPacket[] | ResultSetHeader | ResultSetHeader 
 
+
+// TRAER TODOS LOS TRACKINGS
 export const getTrackingsModel = async(): Promise<{ data?: Data}> => {
     const [ allTracking ] = await connection.query(`
         SELECT 	T.idtracking, 
@@ -26,6 +27,7 @@ export const getTrackingsModel = async(): Promise<{ data?: Data}> => {
         return { data: allTracking };
 };
 
+// TREAER UN TRACKING
 export const getTrackingModel = async( data: number ): Promise<{ message: string, data?: Data}> => {
     const [ validate ] = await connection.query(`SELECT count(*) as contador FROM tracking WHERE idfiles = ?;`, [ data ])
         //@ts-ignore
@@ -51,4 +53,11 @@ export const getTrackingModel = async( data: number ): Promise<{ message: string
                         LEFT JOIN roles R ON U.idroles = R.idroles
 		        			WHERE F.idfiles = ?;`, [ data ]);
         return { message: "SUCCESS", data: tracking };
+};
+
+// AGREGAR UN TRACKING
+export const postTrakingModel = async ( idfiles_states: number, idfiles: number, idusers: number, tracking_observation: string ): Promise<void> => {
+    await connection.query(`INSERT INTO tracking (idfiles_states, idfiles, idusers, tracking_observation, tracking_date)
+        VALUES ( ?, ?, ?, ?, ? );`, [idfiles_states, idfiles, idusers, tracking_observation, new Date()]);
+    return console.log("ADDED_TRACKING");
 };

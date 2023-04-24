@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import { connection } from '../config/database/db';
 import { genRegistered } from '../utilities/generate_file_registered.controller';
 import { missingData } from '../utilities/missingData.utilities';
-import { postTraking } from './tracking.controller';
+import { postTrakingModel } from '../models/tracking.model';
 import { createPDF } from '../utilities/PDF/createPDF';
 
 // Generar un radicado 
@@ -73,7 +73,7 @@ export const postFile = async (req: Request, res: Response) => {
                     files_account_type_number.toUpperCase() ]);
         const [ file ] = await connection.query('SELECT * FROM files WHERE files_registered = ?;', [ files_registered ]);
         //@ts-ignore
-        postTraking(idfiles_states, file[0].idfiles, userSession, tracking_observation);
+        postTrakingModel(idfiles_states, file[0].idfiles, userSession, tracking_observation);
         // createPDF(files_registered.toUpperCase(), files_account_type.toUpperCase(), files_type.toUpperCase());
         return res.status(200).json({ error: false, tracking: "Cargado exitosamente", file });
     } catch (err) {
@@ -123,7 +123,7 @@ export const putFile = async ( req:Request, res:Response ) => {
         const [ fileUpdated ] = await connection.query(`
             SELECT * FROM files WHERE idfiles = ? OR files_registered = ?;`,
             [ idfiles, files_registered ]);
-        postTraking(idfiles_states, idfiles, userSession, tracking_observation.toUpperCase());
+        postTrakingModel(idfiles_states, idfiles, userSession, tracking_observation.toUpperCase());
         //@ts-ignore
         return res.status(200).json({ error: false, tracking: "Cargado exitosamente", fileUpdated });
     } catch (error) {

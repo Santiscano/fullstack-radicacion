@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import { missingData } from '../utilities/missingData.utilities';
 import { connection } from '../config/database/db';
 import { upload } from '../helpers/multerAddPdf';
-import { postTraking } from './tracking.controller';
+import { postTrakingModel } from '../models/tracking.model';
 
 // Traer una ruta del arvhivo
 export const getFilesPath = async ( req: Request, res: Response ) => {
@@ -43,7 +43,7 @@ export const postChargeFilePath = async ( req: Request, res: Response ) => {
                     `, [ idfiles, path, new Date(), files_path_observation ]);
                 const [ filePath ] = await connection.query(`
                     SELECT * FROM files_path WHERE files_path = ?;`, [ path ]);
-                postTraking(1, parseInt(idfiles), parseInt(userSession), files_path_observation);
+                postTrakingModel(1, parseInt(idfiles), parseInt(userSession), files_path_observation);
                 return res.status(200).json({ error: false, create: filePath, tracking: "Added tracking" });
             };
         });
@@ -68,7 +68,7 @@ export const postFilePath = async ( req: Request, res: Response ) => {
             `, [ idfiles, files_path, new Date(), files_path_observation.toUpperCase() ]);
         const [ filePath ] = await connection.query(`
             SELECT * FROM files_path WHERE files_path = ?;`, [ files_path ]);
-        postTraking(idfiles_states, parseInt(idfiles), parseInt(userSession), files_path_observation.toUpperCase());
+        postTrakingModel(idfiles_states, parseInt(idfiles), parseInt(userSession), files_path_observation.toUpperCase());
         return res.status(200).json({ error: false, create: filePath, tracking: "Added tracking" });
     } catch (error) {
         // console.log(error);
