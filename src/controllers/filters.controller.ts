@@ -2,39 +2,34 @@ import 'dotenv/config';
 import { Request, Response } from 'express';
 import { JsonObject } from 'swagger-ui-express';
 import { connection } from '../config/database/db';
-import { missingData } from '../utilities/missingData.utilities';
+import { missingData, missingDataObject } from '../utilities/missingData.utilities';
+import { apiKeyValidate } from '../utilities/apiKeyValidate.utilities';
+import { success, unauthorized, uncompleted, unsuccessfully } from '../utilities/responses.utilities';
+import { getAllRegisteredFileModel,getIdentificationByTypeModel } from '../models/filters.models';
 
 
-// Traer todos los radicados
+// TRAER TODOS LOS RADICADOS (SOLO RADICADO)
 export const getAllRegisteredFile = async (req:Request, res: Response) => {
-    const { api_key } = req.body;
+    const { api_key } = req.headers;
     try {
-        if ( api_key !== process.env.API_KEY ) {
-            return res.status(401).json({ error: true, message: "No cuentas con los permisos para acceder a esta información" });
-        };
-        const [ data ] = await connection.query(`SELECT files_registered FROM files;`);
-        return res.status(200).json({ error: false, data });
+        if ( apiKeyValidate(api_key) ) return res.status(401).json(unauthorized());
+        return res.status(200).json(success((await getAllRegisteredFileModel()).data));
     } catch (error) {
-        // console.log(error);
-        return res.status(508).json({ error: true, message: "Error del servidor para traer los radicados" })
+        return res.status(512).json(unsuccessfully(error));
     };
 };
 
-// Traer la información de los radicados según el tipo de documento de un proveedor
+// TRAER LOS USUARIOS (PROVEEDOR) SEGUN TIPO DE DOCUMENTO
 export const getIdentificationByType  = async ( req: Request, res: Response ) => {
-    const { api_key, users_identification_type } = req.body;
+    const { api_key } = req.headers;
+    const { users_identification_type } = req.body;
     try {
-        if ( api_key !== process.env.API_KEY ){
-            return res.status(401).json({ error: true, message: "No cuentas con los permisos para ingresar esta información" });
-        };
-        if (missingData([users_identification_type])){
-            return res.status(400).json({ error: true, message: "ERROR_MISSING_VALUES" });
-        };
-        const [ data ] = await connection.query(`SELECT * FROM users WHERE users_identification_type = ? AND idroles = 1`, [ users_identification_type.toUpperCase() ]);
-        return res.status(200).json({ error: false, data });
+        if (apiKeyValidate(api_key)) return res.status(401).json(unauthorized());
+        if (missingDataObject({users_identification_type}).error) return res.status(422).json(uncompleted(missingDataObject({users_identification_type}).missing));
+        const info = await getIdentificationByTypeModel(users_identification_type);
+        return res.status(200).json(success(info.data));
     } catch (error) {
-        // console.log(error);
-        return res.status(508).json({ error: true, message: "Error del servidor para traer la información" })
+        return res.status(512).json(unsuccessfully(error));
     }
 };
 
