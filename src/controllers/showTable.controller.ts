@@ -1,12 +1,14 @@
-import 'dotenv/config';
 import { Request, Response } from 'express';
-import { connection } from '../config/database/db';
-import { nullValidator } from '../utilities/nullValidator';
+import { missingDataObject } from '../utilities/missingData.utilities';
+import { success, unsuccessfully, unauthorized, uncompleted } from '../utilities/responses.utilities';
+import { apiKeyValidate } from '../utilities/apiKeyValidate.utilities';
+import { showTableModel } from '../models/showTable.model';
 
 
 export const showTable = async ( req: Request, res: Response ) => {
-    const { api_key } = req.body;
+    const { api_key } = req.headers;
     try {
+<<<<<<< HEAD
         console.log(api_key)
         if (api_key !== process.env.API_KEY) {
             return res.status(401).json({ error: true, message: "No cuentas con los permisos para acceder a esta información"});
@@ -18,23 +20,23 @@ export const showTable = async ( req: Request, res: Response ) => {
     } catch (error) {
         console.log(error);
         return res.status(508).json({ error: true, message: `Error del servidor para mostrar la tabla de autorización` });
+=======
+        if (apiKeyValidate(api_key)) return res.status(401).json(unauthorized());
+        return res.status(200).json(success((await showTableModel()).data));
+    } catch (error) {
+        return res.status(512).json(unsuccessfully(error));
+>>>>>>> 18db29e5cd691572f6a5e5440718bbb43dc72d6a
     };
 };
 
 export const pendingTable = async (req: Request, res: Response) => {
-    const { api_key, idusers } = req.body;
+    const { api_key } = req.headers;
+    const { idusers } = req.body;
     try {
-        if (api_key !== process.env.API_KEY) {
-            return res.status(401).json({ message: "No cuentas con los permisos para acceder a esta información"});
-        };
-        if (nullValidator([idusers])){
-            return res.status(400).json({ message: "ERROR_MISSING_VALUES" });
-        };
-        const [ dataInfo ] = await connection.query(`
-        SELECT * FROM ShowTable WHERE idusers = ?`, [ idusers ]);
-        return res.status(200).json({ dataInfo });
+        if (apiKeyValidate(api_key)) return res.status(401).json(unauthorized());
+        if (missingDataObject({idusers}).error) return res.status(422).json(uncompleted(missingDataObject({idusers}).missing));
+        return res.status(200).json(success((await showTableModel(idusers)).data));
     } catch (error) {
-        // console.log(error);
-        return res.status(508).json({error: true, message: "Error del servidor para mostrar la tabla de pendientes"})
+        return res.status(512).json(unsuccessfully(error));
     };
 };

@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import {connection} from '../../config/database/db';
-import { nullValidator } from "../../utilities/nullValidator";
+import { missingData } from "../../utilities/missingData.utilities";
 import { twoCharactersValidator } from '../../utilities/twoCharactersValidator';
 
 // Traer los Centros de costo
@@ -30,7 +30,7 @@ export const getCostCenterById = async (req: Request, res: Response) => {
         if ( api_key !== process.env.API_KEY ) {
             return res.status(401).json({ error: true, message: "No cuentas con los permisos para acceder a esta información" });
         };
-        if( nullValidator([ idcost_center_subarea ]) ){
+        if( missingData([ idcost_center_subarea ]) ){
             return res.status(422).json({ error: true, message: "MISSING_VALUES" });
         };
         const [ data ] = await connection.query(`
@@ -55,7 +55,7 @@ export const postCostCenter = async (req: Request, res: Response) => {
     const { idcost_center_subarea, cost_center, cost_center_name } = req.body;
     const values: string[] = [ idcost_center_subarea, cost_center, cost_center_name ];
     try {
-        if( nullValidator(values) ){
+        if( missingData(values) ){
             return res.status(422).json({ error: true, message: "MISSING_VALUES" });
         };
         const data = twoCharactersValidator(cost_center)
@@ -86,7 +86,7 @@ export const deleteCostCenter = async (req: Request, res: Response) => {
         if ( api_key !== process.env.API_KEY ) {
             return res.status(401).json({ message: "No cuentas con los permisos para eliminar el centro de costos" });
         };
-        if( nullValidator([cost_center]) ){
+        if( missingData([cost_center]) ){
             return res.status(422).json({ error: true, message: "MISSING_VALUES" });
         };
         const data = twoCharactersValidator(cost_center);

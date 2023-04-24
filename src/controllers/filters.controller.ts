@@ -2,7 +2,7 @@ import 'dotenv/config';
 import { Request, Response } from 'express';
 import { JsonObject } from 'swagger-ui-express';
 import { connection } from '../config/database/db';
-import { nullValidator } from '../utilities/nullValidator';
+import { missingData } from '../utilities/missingData.utilities';
 
 
 // Traer todos los radicados
@@ -27,7 +27,7 @@ export const getIdentificationByType  = async ( req: Request, res: Response ) =>
         if ( api_key !== process.env.API_KEY ){
             return res.status(401).json({ error: true, message: "No cuentas con los permisos para ingresar esta información" });
         };
-        if (nullValidator([users_identification_type])){
+        if (missingData([users_identification_type])){
             return res.status(400).json({ error: true, message: "ERROR_MISSING_VALUES" });
         };
         const [ data ] = await connection.query(`SELECT * FROM users WHERE users_identification_type = ? AND idroles = 1`, [ users_identification_type.toUpperCase() ]);
@@ -65,7 +65,7 @@ export const registeredFilter = async (req: Request, res: Response) => {
         if( api_key !== process.env.API_KEY ) {
             return res.status(401).json({ error: true, message: "No cuentas con los permisos para acceder a esta información" });
         };
-        if( nullValidator([files_registered]) ){
+        if( missingData([files_registered]) ){
             return res.status(400).json({ error: true, message: "ERROR_MISSING_VALUES" });
         };
         const [ dataInfo ] = await connection.query(`
@@ -97,7 +97,7 @@ export const accountTypeFilter = async ( req:Request, res: Response ) => {
         if( api_key !== process.env.API_KEY ) {
             return res.status(401).json({ error: true, message: "No cuentas con los permisos para acceder a esta información" });
         };
-        if( nullValidator(values) ){
+        if( missingData(values) ){
             return res.status(400).json({ error:true, message: "ERROR_MISSING_VALUES" });
         };
         const [ response ] = await connection.query(`

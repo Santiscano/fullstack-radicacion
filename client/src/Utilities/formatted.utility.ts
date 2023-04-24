@@ -22,6 +22,9 @@ export const  formattedAmount = (amount:any) => {
  * @returns resultado convertido
  */
 export function capitalizeFirstLatterUppercase(text: string): string {
+  if(text == null){
+    return ' '
+  }
   const words = text.toLowerCase().split(' ');
   const capitalizedWords = words.map((word) => {
     return word.charAt(0).toUpperCase() + word.slice(1);

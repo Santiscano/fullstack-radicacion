@@ -1,5 +1,5 @@
 
-export const calcularDigitoVerificacion = ( myNit: string ): number => {
+export const identificationDigitVerified = ( myNit: string ): number => {
     try {
         let vpri: any, x: number, y: any, z: number;
         myNit = myNit.replace ( /\s/g, "" ) ; // Espacios

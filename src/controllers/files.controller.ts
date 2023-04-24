@@ -2,8 +2,8 @@ import 'dotenv/config';
 import { Request, Response } from 'express';
 import { connection } from '../config/database/db';
 import { genRegistered } from '../utilities/generate_file_registered.controller';
-import { nullValidator } from '../utilities/nullValidator';
-import { postTraking } from './tracking.controller';
+import { missingData } from '../utilities/missingData.utilities';
+import { postTrakingModel } from '../models/tracking.model';
 import { createPDF } from '../utilities/PDF/createPDF';
 
 // Generar un radicado 
@@ -43,7 +43,7 @@ export const postFile = async (req: Request, res: Response) => {
     const idfiles_states = 1;                     // ESTADO ASIGNADO
     const tracking_observation = `INICIO DEL PROCESO DEL ${files_registered} EXITOSO`;
     try {
-        if(nullValidator(valores)) {
+        if(missingData(valores)) {
             return res.status(422).json({error: true, message: "MISSING_VALUES"});
         };
         const [ registeredVal ] = await connection.query(`
@@ -73,7 +73,7 @@ export const postFile = async (req: Request, res: Response) => {
                     files_account_type_number.toUpperCase() ]);
         const [ file ] = await connection.query('SELECT * FROM files WHERE files_registered = ?;', [ files_registered ]);
         //@ts-ignore
-        postTraking(idfiles_states, file[0].idfiles, userSession, tracking_observation);
+        postTrakingModel(idfiles_states, file[0].idfiles, userSession, tracking_observation);
         // createPDF(files_registered.toUpperCase(), files_account_type.toUpperCase(), files_type.toUpperCase());
         return res.status(200).json({ error: false, tracking: "Cargado exitosamente", file });
     } catch (err) {
@@ -87,7 +87,7 @@ export const putFile = async ( req:Request, res:Response ) => {
     const { idfiles, idproviders, idusers, idfiles_states, files_type, files_registered, files_cost_center, files_code_accounting, files_code_treasury, files_price,files_account_type, files_account_type_number,userSession, tracking_observation } = req.body;
     const values = [idfiles, idproviders, idusers, idfiles_states, files_type, files_registered, files_price, files_account_type, files_account_type_number, userSession, tracking_observation]
     try {
-        if (nullValidator(values)){
+        if (missingData(values)){
             return res.status(422).json({error: true, message: "MISSING_VALUES"});
         };
         const [ data ] = await connection.query(`SELECT count(*) AS contador FROM files WHERE idfiles = ? OR files_registered = ?;`,
@@ -123,7 +123,7 @@ export const putFile = async ( req:Request, res:Response ) => {
         const [ fileUpdated ] = await connection.query(`
             SELECT * FROM files WHERE idfiles = ? OR files_registered = ?;`,
             [ idfiles, files_registered ]);
-        postTraking(idfiles_states, idfiles, userSession, tracking_observation.toUpperCase());
+        postTrakingModel(idfiles_states, idfiles, userSession, tracking_observation.toUpperCase());
         //@ts-ignore
         return res.status(200).json({ error: false, tracking: "Cargado exitosamente", fileUpdated });
     } catch (error) {
@@ -140,7 +140,7 @@ export const deleteFile = async (req:Request, res:Response) => {
         if( api_key !== process.env.API_KEY) {
             return res.status(401).json({ error: true, message: "No cuentas con los permisos para eliminar un archivo" })
         };
-        if (nullValidator(values)) {
+        if (missingData(values)) {
             return res.status(422).json({error: true, message: "MISSING_VALUES"});
         };
         const [ data ] = await connection.query(`SELECT idfiles FROM files WHERE files_registered = ?;`, files_registered );

@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import {connection} from '../../config/database/db';
-import { nullValidator } from "../../utilities/nullValidator";
+import { missingData } from "../../utilities/missingData.utilities";
 import { twoCharactersValidator } from '../../utilities/twoCharactersValidator';
 
 // Traer los Areas de Costo
@@ -23,7 +23,7 @@ export const postCostArea = async (req: Request, res: Response) => {
     const { cost_center_area, cost_center_area_name } = req.body;
     const values: string[] = [cost_center_area, cost_center_area_name]; 
     try {
-        if ( nullValidator(values) ) {
+        if ( missingData(values) ) {
             return res.status(422).json({ error: true, message: "MISSING_VALUES" });
         };
         let data = twoCharactersValidator(cost_center_area);
@@ -54,7 +54,7 @@ export const deleteCostArea = async (req: Request, res: Response) => {
         if ( api_key !== process.env.API_KEY ) {
             return res.status(401).json({ error: true, message: "No cuentas con los permisos para eliminar Areas del centro de costos" });
         };
-        if (nullValidator([cost_center_area])) {
+        if (missingData([cost_center_area])) {
             return res.status(422).json({ error: true, message: "MISSING_VALUES" });
         };
         const data = twoCharactersValidator(cost_center_area);

@@ -99,8 +99,8 @@ const UploadFileModal: FC<Props> = ({
             <section>
               <div className="flex justify-between flex-wrap">
                 <div className="text-2xl font-bold mr-8">
-                  {capitalizeFirstLatterUppercase(companyName)}{" "}
-                  {capitalizeFirstLatterUppercase(lastname)}
+                  <span>{capitalizeFirstLatterUppercase(companyName)} </span>
+                  <span>{capitalizeFirstLatterUppercase(lastname)}</span>
                 </div>
                 <span className="text-blue-700 text-lg">
                   (ID: {docIdentity})

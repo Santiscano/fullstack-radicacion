@@ -1,53 +1,35 @@
+import 'dotenv/config';
 import { Request, Response } from 'express';
 import { connection } from '../config/database/db';
-import 'dotenv/config';
-import { nullValidator } from '../utilities/nullValidator';
+import { missingData, missingDataObject } from '../utilities/missingData.utilities';
+import { apiKeyValidate } from '../utilities/apiKeyValidate.utilities';
+import { success, unauthorized, uncompleted, unsuccessfully } from '../utilities/responses.utilities';
+import { getSedesModel, postSedeModel } from '../models/sedes.model';
 
 
-// Traer sedes GET
+// TRAER CEDIS
 export const getSedes = async ( req: Request, res: Response ) =>{
-    const { api_key } = req.body;
+    const { api_key } = req.headers;
     try {
-        if (api_key !== process.env.API_KEY){
-            return res.status(401).json({error:true, meesage: "No cuentas con los permisos para acceder a esta información"});
-        };
-        const [ sedes ] = await connection.query('SELECT * FROM sedes;');
-        return res.status(200).json(sedes);
-    } catch (err) {
-        // console.log(err);
-        return res.status(508).json({error: "Error del servidor al traer los sedes"});
+        if (apiKeyValidate(api_key)) return res.status(401).json(unauthorized());
+        return res.status(200).json(success((await getSedesModel()).data));
+    } catch (error) {
+        return res.status(512).json(unsuccessfully(error));
     };
 };
 
-// Crear sedes POST
+// CREAR CEDI
 export const postSede = async ( req: Request, res: Response ) => {
-    let { api_key, sedes_city, sedes_country, sedes_address, sedes_name, sedes_type, sedes_state } = req.body;
-    const values = [ sedes_city, sedes_country, sedes_address, sedes_name, sedes_type, sedes_state ];
+    const { api_key } = req.headers;
+    const { sedes_country, sedes_state, sedes_city, sedes_address, sedes_name, sedes_type} = req.body;
+    const values = { sedes_country, sedes_state, sedes_city, sedes_address, sedes_name, sedes_type };
     try {
-        if (api_key !== process.env.API_KEY){
-            return res.status(401).json({error:true, meesage: "No cuentas con los permisos para acceder a esta información"});
-        };
-        if (nullValidator(values)) {
-            return res.status(500).json({ error: true, message: "MISSING_VALUES" });
-        };
-        const [ validate ] = await connection.query(`
-            SELECT count(*) AS contador FROM sedes WHERE sedes_city = ? AND sedes_address = ?;`,
-            [sedes_city, sedes_address]);
-        //@ts-ignore
-        if ( validate[0].contador !== 0){
-            return res.status(201).json({error: true, message: `La Sede en la ciudad: ${sedes_city} y con dirección: ${sedes_address}, ya se encuentra registrada`});
-        };
-        await connection.query(`
-            INSERT INTO sedes (sedes_city, sedes_country, sedes_address, sedes_name, sedes_type, sedes_state)
-                VALUES ( ?, ?, ?, ?, ?, ? );
-        `, [ sedes_city.toUpperCase(), sedes_country.toUpperCase(), sedes_address.toUpperCase(), sedes_name.toUpperCase(), sedes_type.toUpperCase(), sedes_state.toUpperCase() ]);
-        const [ sedes ] = await connection.query(`
-                SELECT * FROM sedes WHERE sedes_address = ? AND sedes_city = ?;`, 
-            [ sedes_address.toUpperCase(), sedes_city.toUpperCase() ])
-        return res.status(200).json({error: false, message: "Sede creada satisfactoriamente", created: sedes});
+        if (apiKeyValidate(api_key)) return res.status(401).json(unauthorized());
+        if (missingDataObject(values).error) return res.status(422).json(uncompleted(missingDataObject(values).missing));
+        const info = await postSedeModel(values)
+        return res.status(200).json(success(info.data, info.message));
     } catch (error) {
-        // console.log(error)
-        return res.status(508).json({ error: true, message: "Error del servidor para crear una sede" });
+        return res.status(512).json(unsuccessfully(error));
     };
 };
 
@@ -56,7 +38,7 @@ export const putSede =async ( req: Request, res: Response ) => {
     const { idsedes, sedes_city, sedes_country, sedes_address, sedes_name, sedes_type, sedes_state } = req.body;
     const values = [ idsedes, sedes_city, sedes_country, sedes_address, sedes_name, sedes_type, sedes_state ];
     try {
-        if (nullValidator(values)) {
+        if (missingData(values)) {
             return res.status(500).json({ error: true, message: "MISSING_VALUES" });
         };
         const [ validatePut ] = await connection.query('SELECT count(*) AS contador FROM sedes WHERE idsedes = ?;', [ idsedes ]);

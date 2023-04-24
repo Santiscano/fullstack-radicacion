@@ -56,10 +56,10 @@ app.use("/api/", (req, res, next) => {
 });
 
 // Rutas del frontend
-app.use(express.static(path.join(__dirname, '../client/dist')))
-app.get("*", (req, res)=>{
-    res.sendFile(path.join(__dirname, '../client/dist/index.html'))
-});
+// app.use(express.static(path.join(__dirname, '../client/dist')))
+// app.get("*", (req, res)=>{
+//     res.sendFile(path.join(__dirname, '../client/dist/index.html'))
+// });
 
 
 //routes
@@ -69,14 +69,14 @@ app.use('/', router)
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerJsdoc(swaggerSpec)))
 
 //Establecer puerto
-app.set("port", process.env.PORT || 3000);
+app.set("port", process.env.LOCAL_PORT || 3000);
 
 // Iniciar el servidor http://
 app.listen(app.get("port"), () => {
-    console.log(`Server started at ${process.env.SERVER}:${app.get("port")}`);
+    console.log(`Server started at ${process.env.URL_LOCAL}:${app.get("port")}`);
 });
 
 // Iniciar el servidor https://
 // httpsServer.listen( 443, () => {
-//     console.log(`Server started at ${process.env.SERVER}:443`);
+//     console.log(`Server started at ${process.env.URL_SERVER}:${process.env.SERVER_PORT}`);
 // });
