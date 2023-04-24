@@ -9,7 +9,8 @@ import { getSedesModel, postSedeModel } from '../models/sedes.model';
 
 // TRAER CEDIS
 export const getSedes = async ( req: Request, res: Response ) =>{
-    const { api_key } = req.headers;
+    const { api_key, authorization } = req.headers;
+    console.log('api_key enviada: ', api_key, authorization);
     try {
         if (apiKeyValidate(api_key)) return res.status(401).json(unauthorized());
         return res.status(200).json(success((await getSedesModel()).data));

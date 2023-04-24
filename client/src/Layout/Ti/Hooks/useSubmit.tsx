@@ -80,7 +80,6 @@ function useSubmit() {
    */
   const handleGetCitys = async () => {
     const departmentsResponse: any = await getCitys();
-    // console.log("departmentsResponse: ", departmentsResponse);
     setListDepartment(departmentsResponse?.Department);
 
     setListCitys(departmentsResponse?.DepartamentCity);
@@ -92,11 +91,12 @@ function useSubmit() {
 
     // crear usuarios
     const allRoles = await getRoles();
-    // console.log("allRoles: ", allRoles);
+    console.log("allRoles: ", allRoles);
     const optionsCreateUser = allRoles.filter(
       (rol: { roles: string }) =>
         rol.roles !== "ADMINISTRADOR" && rol.roles !== "PROVEEDOR"
     );
+    console.log("optionsCreateUser", optionsCreateUser);
     setOptionsRol(optionsCreateUser);
 
     // crear proveedores

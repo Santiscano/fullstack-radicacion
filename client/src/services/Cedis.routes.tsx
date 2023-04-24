@@ -6,9 +6,7 @@ export const getCedis = async () => {
   try {
     const response = await axios.post(
       Routes.api.cedis.get,
-      {
-        api_key: import.meta.env.VITE_API_KEY,
-      },
+      { hola: "hola" },
       getHeader()
     );
     const cedis = await response.data;

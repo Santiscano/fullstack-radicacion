@@ -74,8 +74,8 @@ export function getHeader() {
   return {
     headers: {
       "Content-Type": "application/json",
+      "api_key": "37323a416eb548626b3e668255c4d436",
       authorization: `Bearer ` + get("accessToken"),
-      "api_key": import.meta.env.VITE_API_KEY,
     },
   };
 }
