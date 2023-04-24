@@ -24,7 +24,7 @@ export const getTracking = async (req: Request, res: Response) => {
         if (apiKeyValidate(api_key)) return res.status(401).json(unauthorized());
         if (missingDataObject({idfiles}).error) return res.status(422).json(uncompleted(missingDataObject({idfiles}).missing));
         const info = await getTrackingModel(idfiles);
-        return res.status(200).json(success(info.data));
+        return res.status(200).json(success(info.data, info.message));
     } catch (error) {
         return res.status(512).json(unsuccessfully(error));
     }
