@@ -12,7 +12,7 @@ export const getCedis = async () => {
     const cedis = await response.data;
     return cedis;
   } catch (err) {
-    // console.log(err);
+    console.log(err);
   }
 };
 
