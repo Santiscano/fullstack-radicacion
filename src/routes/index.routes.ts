@@ -99,11 +99,11 @@ router.get('/showTable', decodeToken, showTable);                           // T
 router.post('/pendingTable', decodeToken, pendingTable);                     // Pendientes
 
 // Filtros
-router.get('/getAllRegisteredFile', getAllRegisteredFile);     // Filtro de los archivos según el radicado
-router.post('/getIdentificationByType', getIdentificationByType);     // Filtro de los archivos según el radicado
-router.get('/getTypeIdentification', getTypeIdentification);     // Filtro de los archivos según el radicado
-router.post('/registeredFilter', registeredFilter);             // Filtro de los archivos según el radicado
-router.post('/accountTypeFilter', accountTypeFilter);           // Filtro de los archivos según cuenta de cobro y numero de la cuenta
+router.get('/getAllRegisteredFile', decodeToken, getAllRegisteredFile);     // Filtro de los archivos según el radicado
+router.post('/getIdentificationByType', decodeToken, getIdentificationByType);     // Filtro de los archivos según el radicado
+router.get('/getTypeIdentification', decodeToken, getTypeIdentification);     // Filtro de los archivos según el radicado
+router.post('/registeredFilter', decodeToken, registeredFilter);             // Filtro de los archivos según el radicado
+router.post('/accountTypeFilter', decodeToken, accountTypeFilter);           // Filtro de los archivos según cuenta de cobro y numero de la cuenta
 
 // API routes
 router.get('/routerApi', routerApi);                            // Traer las rutas que tiene el sistema
