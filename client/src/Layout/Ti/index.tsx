@@ -17,6 +17,9 @@ import "./TI.css";
 import SelectArea from "./components/common/SelectArea";
 import AlertDialogSlide from "./components/common/AlertDialogSlide";
 import { roles, get } from "../../components/tools/SesionSettings";
+import GetCedisToDependenci from "./components/common/GetCedisToDependenci";
+import { useContext } from "react";
+import { GeneralValuesContext } from "../../Context/GeneralValuesContext";
 
 function TI() {
   const {
@@ -85,6 +88,8 @@ function TI() {
     setSubAreaName,
     connectionArea,
     handleConnectionArea,
+    relationCedi,
+    handleRelationCedi,
     //
     handleSubmitCreateCostCenter,
     costCenterNumber,
@@ -98,6 +103,7 @@ function TI() {
     setInputDeleted,
     handleDeleteFile,
   } = useSubmit();
+  const { cediConection } = useContext(GeneralValuesContext);
 
   return (
     <div className="layout">
@@ -628,10 +634,18 @@ function TI() {
                         />
                       </article>
                     </div>
-                    <Button name="Crear Area" />
+                    <Button name="Crear Unidad negocio" />
                   </form>
 
                   <form onSubmit={(event) => handleSubmitCreateSubArea(event)}>
+                    <div className="md:flex md:flex-wrap">
+                      <article className="md:w-1/2">
+                        <SelectArea
+                          valueArea={relationCedi}
+                          onChangeArea={handleRelationCedi}
+                        />
+                      </article>
+                    </div>
                     <div className="md:flex md:flex-wrap">
                       <article className="md:w-1/2">
                         <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
@@ -658,22 +672,32 @@ function TI() {
                         />
                       </article>
                     </div>
-                    <div className="md:flex md:flex-wrap">
-                      <SelectArea
-                        isArea
-                        valueArea={connectionArea}
-                        onChangeArea={handleConnectionArea}
-                        valueSubArea={connectionSubArea}
-                        onChangeSubArea={handleConnectionSubArea}
-                        update={setMessageSnackbar}
-                      />
-                    </div>
-                    <Button name="Crear SubArea" />
+
+                    {/* <div className="md:flex md:flex-wrap">
+                      <BusinessUnitCedi />
+                    </div> */}
+                    <Button name="Crear Cedi" />
                   </form>
 
                   <form
                     onSubmit={(event) => handleSubmitCreateCostCenter(event)}
                   >
+                    <div className="md:flex md:flex-wrap">
+                      <article className="md:w-1/2">
+                        <SelectArea
+                          valueArea={connectionArea}
+                          onChangeArea={handleConnectionArea}
+                        />
+                      </article>
+                      <article className="md:w-1/2">
+                        {connectionArea && (
+                          <GetCedisToDependenci
+                            // @ts-ignore
+                            BusinessUnit={connectionArea.id}
+                          />
+                        )}
+                      </article>
+                    </div>
                     <div className="md:flex md:flex-wrap">
                       <article className="md:w-1/2">
                         <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
@@ -700,14 +724,18 @@ function TI() {
                         />
                       </article>
                     </div>
-                    <div className="md:flex md:flex-wrap">
-                      <SelectArea
-                        isSubArea
-                        valueSubArea={connectionSubArea}
-                        onChangeSubArea={handleConnectionSubArea}
-                      />
+
+                    <div className="text-xl ml-4">
+                      Centro de costos a crear:{" "}
+                      <strong>
+                        {/* @ts-ignore */}
+                        {`${connectionArea && connectionArea.number}-${
+                          // @ts-ignore
+                          cediConection && cediConection.number
+                        }-${costCenterNumber}`}
+                      </strong>
                     </div>
-                    <Button name="Crear Centro De Costos" />
+                    <Button name="Crear Dependencia" />
                   </form>
                   <Snackbar
                     open={openSnackbar}

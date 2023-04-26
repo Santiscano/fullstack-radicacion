@@ -33,7 +33,7 @@ import { formattedAmount } from "../../Utilities/formatted.utility";
 import { createFilePath } from "../../services/FilesPath.routes";
 import ModalSuccess from "../../components/common/ModalSuccess";
 import { AllCedis, CedisIdName } from "../../interfaces/Cedis";
-import InputSelectCedi from "../../components/common/InputSelectCedi";
+import InputSelectCedi from "./components/InputSelectCedi";
 import { GeneralValuesContext } from "../../Context/GeneralValuesContext";
 import { roles } from "../../components/tools/SesionSettings";
 import { get } from "../../components/tools/SesionSettings";
@@ -131,8 +131,7 @@ function GenerateFiles() {
         user.idroles == roles.AuditorCRTL ||
         user.idroles == roles.AuditorRG ||
         user.idroles == roles.Gerencia ||
-        user.idroles == roles.Contabilidad ||
-        user.idroles == roles.Tesoreria
+        user.idroles == roles.AuditorTI
     );
     setOptionsRedirectTo(filterAuditors);
 

@@ -33,6 +33,8 @@ export const GeneralValuesContext = createContext<GeneralValuesType>({
   rows: [],
   setRows: () => {},
   handleUpdateRows: () => {},
+  cediConection: "",
+  setCediConection: () => {},
 });
 
 const GeneralValuesProvider: FC = ({ children }: any) => {
@@ -43,6 +45,7 @@ const GeneralValuesProvider: FC = ({ children }: any) => {
   const [openModalAuth, setOpenModalAuth] = useState(false);
   const [dataUser, setDataUser] = useState();
   const [rows, setRows] = useState([]);
+  const [cediConection, setCediConection] = useState<any>();
 
   const handleOpenModalAuth = () => setOpenModalAuth(!openModalAuth);
   const handleCloseModalAuth = () => setOpenModalAuth(false);
@@ -80,6 +83,8 @@ const GeneralValuesProvider: FC = ({ children }: any) => {
         rows,
         setRows,
         handleUpdateRows,
+        cediConection,
+        setCediConection,
       }}
     >
       {children}
