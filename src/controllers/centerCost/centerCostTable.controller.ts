@@ -8,6 +8,7 @@ export const centerCostTable = async(req: Request, res: Response) => {
         if( api_key !== process.env.API_KEY ) return res.status(401).json({ error: true, message: "No cuentas con los permisos para eliminar Areas del centro de costos" });
         const [ data ] = await connection.query(`
             SELECT 
+                idcost_center AS id,
                 cost_center_area_name AS OP, 
                 cost_center_area AS OPERACION, 
                 cost_center_subarea_name AS CD, 

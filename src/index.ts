@@ -11,6 +11,8 @@ import router from './routes/index.routes'
 
 const app = express();
 
+
+// VARIABLES SSL
 const privateKey = fs.readFileSync(`${process.env.SSL_PRIVATE_KEY}`, 'utf8')
 const certificate  = fs.readFileSync(`${process.env.SSL_CERTIFICATE}`, 'utf8')
 
@@ -21,7 +23,7 @@ const credentials = {
 
 const httpsServer = https.createServer(credentials, app);
 
-//Establecer conexión con Swagger 
+// DOCUMENTACIÓN SWAGGER 
 const swaggerSpec = {
     definition: {
         openapi: '3.0.0',
@@ -32,7 +34,7 @@ const swaggerSpec = {
         },
         servers: [
             {
-                url: `http://localhost:${process.env.PORT}/`,
+                url: `http://localhost:${process.env.LOCAL_PORT}/`,
                 description: "Local"
             },
             {
@@ -45,38 +47,37 @@ const swaggerSpec = {
 };
 
 
-//Midelware
+// MIDDELWARE
 app.use(express.json());
 app.use(morgan("dev"));
 app.use(cors());
 
-//verificar si esta en produccion el backend
+// VERIFICACIÓN BACKEND PRODUCCIÓN
 app.use("/api/", (req, res, next) => {
     res.send("Digitalización EnviExpress");
 });
 
-// Rutas del frontend
+// ROUTES
+app.use('/', router)
+
+// SWAGGER
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerJsdoc(swaggerSpec)))
+
+// CONEXIÓN FRONTEND
 app.use(express.static(path.join(__dirname, '../client/dist')))
 app.get("*", (req, res)=>{
     res.sendFile(path.join(__dirname, '../client/dist/index.html'))
 });
 
-
-//routes
-app.use('/', router)
-
-//Swagger
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerJsdoc(swaggerSpec)))
-
-//Establecer puerto
+// PUERTO DEL SERVIDOR
 app.set("port", process.env.LOCAL_PORT || 3000);
 
-// Iniciar el servidor http://
+//INICIAR SERVIDOR http://
 // app.listen(app.get("port"), () => {
 //     console.log(`Server started at ${process.env.URL_LOCAL}:${app.get("port")}`);
 // });
 
-// Iniciar el servidor https://
+// INICIAR SERVIDOR https://
 httpsServer.listen( 443, () => {
     console.log(`Server started at ${process.env.URL_SERVER}:${process.env.SERVER_PORT}`);
 });
