@@ -57,6 +57,7 @@ function useSubmit() {
   const [subAreaNumber, setSubAreaNumber] = useState("");
   const [subAreaName, setSubAreaName] = useState("");
   const [connectionArea, setConnectionArea] = useState("");
+  const [relationCedi, setRelationCedi] = useState("");
   // create Center Cost
   const [costCenterNumber, setCostCenterNumber] = useState("");
   const [costCenterName, setCostCenterName] = useState("");
@@ -69,7 +70,7 @@ function useSubmit() {
   // reset forms
   const [reset, setReset] = useState(false);
   // --------------------------Context-------------------------------//
-  const { setPreLoad } = useContext(GeneralValuesContext);
+  const { setPreLoad, cediConection } = useContext(GeneralValuesContext);
   // --------------------------handles-------------------------------//
   /**
    * traigo los departamentos, ciudades, cedis,
@@ -127,6 +128,8 @@ function useSubmit() {
     setConnectionArea(e.target.value);
   const handleConnectionSubArea = (e: SelectChangeEvent) =>
     setConnectionSubArea(e.target.value);
+  const handleRelationCedi = (e: SelectChangeEvent) =>
+    setRelationCedi(e.target.value);
 
   const handleRol = (e: SelectChangeEvent) => {
     setAssignRole(e.target.value);
@@ -352,18 +355,21 @@ function useSubmit() {
   };
   const handleSubmitCreateSubArea = async (e: any) => {
     try {
-      // console.log("values: ", subAreaNumber, subAreaName, connectionArea);
+      // @ts-ignore
+      console.log("values: ", subAreaNumber, subAreaName, relationCedi.id);
       setPreLoad(true);
       e.preventDefault();
       const res = await createSubArea(
-        connectionArea,
+        // @ts-ignore
+        relationCedi.id,
         subAreaNumber,
         subAreaName
       );
-      // console.log("res: ", res);
+      console.log("res: ", res);
       if (res?.status == 200) {
         setMessageSnackbar(
-          `Sub-Area: ${subAreaName} Conectada al Area con ID ${connectionArea} Exitoso`
+          // @ts-ignore
+          `Sub-Area: ${subAreaName} Conectado al Area ${relationCedi.name} Exitosamente`
         );
         setSeveritySnackbar("success");
         setPreLoad(false);
@@ -399,11 +405,12 @@ function useSubmit() {
       setPreLoad(true);
       e.preventDefault();
       const res = await createCostCenter(
-        connectionSubArea,
+        // @ts-ignore
+        cediConection.id,
         costCenterNumber,
         costCenterName
       );
-      // console.log("res: ", res);
+      console.log("res: ", res);
       if (res?.status == 200) {
         setMessageSnackbar(
           `Centro De Costos: ${costCenterName} Conectado al SubArea con ID ${connectionSubArea} Exitoso`
@@ -552,6 +559,8 @@ function useSubmit() {
     setSubAreaName,
     connectionArea,
     handleConnectionArea,
+    relationCedi,
+    handleRelationCedi,
     //
     handleSubmitCreateCostCenter,
     costCenterNumber,

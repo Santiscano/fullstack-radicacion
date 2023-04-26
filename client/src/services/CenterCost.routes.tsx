@@ -68,13 +68,13 @@ export const getAllSubAreas = async () => {
     // console.log("error: ", error);
   }
 };
-export const getSubAreaById = async (id: any) => {
+export const getSubAreaById = async (idcost_center_area: any) => {
   try {
     const response = await axios.post(
       Routes.api.centerCost.subArea.getCostSubAreaById,
       {
         api_key: import.meta.env.VITE_API_KEY,
-        idcost_center_area: id,
+        idcost_center_area,
       },
       getHeader()
     );
