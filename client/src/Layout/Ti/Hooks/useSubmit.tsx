@@ -70,7 +70,8 @@ function useSubmit() {
   // reset forms
   const [reset, setReset] = useState(false);
   // --------------------------Context-------------------------------//
-  const { setPreLoad, cediConection } = useContext(GeneralValuesContext);
+  const { setPreLoad, cediConection, setCediConection } =
+    useContext(GeneralValuesContext);
   // --------------------------handles-------------------------------//
   /**
    * traigo los departamentos, ciudades, cedis,
@@ -413,18 +414,20 @@ function useSubmit() {
       console.log("res: ", res);
       if (res?.status == 200) {
         setMessageSnackbar(
-          `Centro De Costos: ${costCenterName} Conectado al SubArea con ID ${connectionSubArea} Exitoso`
+          // @ts-ignore
+          `Dependencia: ${costCenterName} Conectado a la cedi ${cediConection.name} de manera Exitosa`
         );
         setSeveritySnackbar("success");
         setPreLoad(false);
         setOpenSnackbar(true);
-        setConnectionSubArea("");
+        setConnectionArea("");
+        setCediConection("");
         setCostCenterNumber("");
         setCostCenterName("");
       }
       if (res?.status !== 200) {
         setMessageSnackbar(
-          `Centro De Costos ${costCenterName}: ${
+          `Dependencia: ${costCenterName}: ${
             res?.data.message
               ? res?.data.message
               : "No Fue Creado Ocurrio Un Error"

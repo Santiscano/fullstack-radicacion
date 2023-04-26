@@ -41,6 +41,7 @@ function GetCediToDependenci({ BusinessUnit }: any) {
   };
 
   useEffect(() => {
+    setCediConection("");
     handleDocumentNumber(BusinessUnit);
   }, [BusinessUnit]);
 

@@ -729,7 +729,10 @@ function TI() {
                       Centro de costos a crear:{" "}
                       <strong>
                         {/* @ts-ignore */}
-                        {`${connectionArea.number}-${cediConection.number}-${costCenterNumber}`}
+                        {`${connectionArea && connectionArea.number}-${
+                          // @ts-ignore
+                          cediConection && cediConection.number
+                        }-${costCenterNumber}`}
                       </strong>
                     </div>
                     <Button name="Crear Dependencia" />
