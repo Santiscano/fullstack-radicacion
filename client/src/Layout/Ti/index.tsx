@@ -129,7 +129,6 @@ function TI() {
                   <Tab label="Crear Usuario" {...a11yProps(2)} />
                   <Tab label="Crear Proveedor" {...a11yProps(3)} />
                   <Tab label="Crear Centro de Costos" {...a11yProps(4)} />
-                  <Tab label="Ver Centros de Costos" {...a11yProps(5)} />
                 </Tabs>
               </Box>
               <TabPanel value={showValue} index={0}>
