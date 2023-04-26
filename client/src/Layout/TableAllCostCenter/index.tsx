@@ -18,8 +18,9 @@ const TableAllCostCenter = () => {
     try {
       setPreLoad(true);
       const table = await centerCostTable();
-      console.log("rows: ", table);
-      setRow(table ? table : []);
+      console.log("rows: ", table.data);
+      const rows = table?.data;
+      setRow(rows ? rows : []);
     } catch (error) {
       console.log("error: ", error);
     } finally {
@@ -51,7 +52,7 @@ const TableAllCostCenter = () => {
                   <DataGrid
                     rows={row}
                     // @ts-ignore
-                    getRowId={(row) => row.id}
+                    getRowId={(row) => (row.id ? row.id : 0)}
                     columns={columnsCenterCosts}
                     pageSize={9}
                     rowsPerPageOptions={[9]}
