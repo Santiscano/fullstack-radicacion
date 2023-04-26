@@ -6,6 +6,7 @@ import { getSedes, postSede, putSede, deleteSede } from '../controllers/sedes.co
 import { getUsers, postUsers, putUsers, deleteUser, postMassiveUsers } from '../controllers/users.controller';
 import { getFiles, postFile, putFile, deleteFile, genFileRegistered } from '../controllers/files.controller';
 import { getFileStates, postFileStates, putFileStates, deleteFileStates } from '../controllers/files_states.controller';
+import { centerCostTable } from '../controllers/centerCost/centerCostTable.controller';
 import { getCostArea, postCostArea, deleteCostArea } from '../controllers/centerCost/p1_area_cost_center.controller';
 import { getCostSubArea, getCostSubAreaById, postCostSubArea, deleteCostSubArea } from '../controllers/centerCost/p2_sub_area_cost_center.controller';
 import { getCostCenter, getCostCenterById, postCostCenter, deleteCostCenter } from '../controllers/centerCost/p3_cost_center.controller';
@@ -64,6 +65,9 @@ router.post('/getTrackings', getTrackings);                     // Traer todos l
 router.post('/getTracking', getTracking);                       // Traer una ruta en especifico
 
 // Centros de costos
+
+// Table
+router.get('/centerCostTable', centerCostTable);                // TABLA CENTRO DE COSTOS
 
 // Area
 router.post('/getCostArea', getCostArea);                       // Traer area del centro de costo
