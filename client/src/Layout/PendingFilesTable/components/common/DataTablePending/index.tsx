@@ -88,8 +88,8 @@ export default function DataTablePending({ row }: any) {
           rows={row}
           getRowId={(row) => row.idfiles}
           columns={columnsEdit}
-          pageSize={7}
-          rowsPerPageOptions={[7]}
+          // pageSize={7}
+          rowsPerPageOptions={[5, 10, 25, 50, 100]}
           disableSelectionOnClick
           experimentalFeatures={{ newEditingApi: true }}
           components={{
@@ -127,6 +127,7 @@ export default function DataTablePending({ row }: any) {
                 UserAssignedName: false,
               },
             },
+            pagination: { pageSize: 5 },
           }}
         />
       </Box>

@@ -412,6 +412,7 @@ export const columnsCenterCosts = [
     field: "id",
     headerName: "ID",
     width: 50,
+    filterable: false,
   },
   {
     field: "OP",

@@ -1,48 +1,41 @@
-import { ChangeEventHandler, useContext, useEffect, useState } from "react";
-import "./provider.css";
 import { SelectChangeEvent } from "@mui/material/Select";
-import InputSelect from "../../components/common/InputSelect";
-import Upload from "../../components/common/Upload";
+import { useContext, useEffect, useState } from "react";
 import Button from "../../components/common/Button";
+import InputSelectRedirectTo from "../../components/common/InputSelectRedirectTo";
+import UploadFileModal from "../../components/common/ModalUploadFile";
 import TextFieldOutlined from "../../components/common/TextFieldOutline";
+import Upload from "../../components/common/Upload";
 import {
   optionAccountType,
   optionCediType,
 } from "../../components/tools/OptionsValuesSelects";
-import InputSelectRedirectTo from "../../components/common/InputSelectRedirectTo";
-import UploadFileModal from "../../components/common/ModalUploadFile";
+import "./provider.css";
 
-import NumbersRoundedIcon from "@mui/icons-material/NumbersRounded";
-import PermIdentityRoundedIcon from "@mui/icons-material/PermIdentityRounded";
-import LocationOnRoundedIcon from "@mui/icons-material/LocationOnRounded";
-import PhoneAndroidRoundedIcon from "@mui/icons-material/PhoneAndroidRounded";
+import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
 import AttachEmailRoundedIcon from "@mui/icons-material/AttachEmailRounded";
 import AttachMoneyRoundedIcon from "@mui/icons-material/AttachMoneyRounded";
-import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
-import PostAddIcon from "@mui/icons-material/PostAdd";
-import { Box, Modal, TextField } from "@mui/material";
+import LocationOnRoundedIcon from "@mui/icons-material/LocationOnRounded";
+import NumbersRoundedIcon from "@mui/icons-material/NumbersRounded";
+import PermIdentityRoundedIcon from "@mui/icons-material/PermIdentityRounded";
+import PhoneAndroidRoundedIcon from "@mui/icons-material/PhoneAndroidRounded";
 
 import "animate.css";
 import { getCedis } from "../../services/Cedis.routes";
+import { addFile, getFiles } from "../../services/Files.routes";
+import { uploadfile } from "../../services/Pdf.routes";
 import { getUsers } from "../../services/Users.routes";
 import { getSettled } from "../../services/generateSettled.service";
-import { uploadfile } from "../../services/Pdf.routes";
-import { getFiles, addFile } from "../../services/Files.routes";
 
-import { formattedAmount } from "../../Utilities/formatted.utility";
-import { createFilePath } from "../../services/FilesPath.routes";
-import ModalSuccess from "../../components/common/ModalSuccess";
-import { AllCedis, CedisIdName } from "../../interfaces/Cedis";
-import InputSelectCedi from "./components/InputSelectCedi";
 import { GeneralValuesContext } from "../../Context/GeneralValuesContext";
-import { roles } from "../../components/tools/SesionSettings";
-import { get } from "../../components/tools/SesionSettings";
-import SearchUser from "../../components/common/SearchUser";
-import { AllUsers } from "./../../interfaces/User";
+import { formattedAmount } from "../../Utilities/formatted.utility";
 import InputSelectOnlyValue from "../../components/common/InputSelectOnlyValue";
+import ModalSuccess from "../../components/common/ModalSuccess";
+import SearchUser from "../../components/common/SearchUser";
+import { get, roles } from "../../components/tools/SesionSettings";
+import { AllCedis, CedisIdName } from "../../interfaces/Cedis";
+import { createFilePath } from "../../services/FilesPath.routes";
+import InputSelectCedi from "./components/InputSelectCedi";
 // import PDF from "./components/PDF";
-import { PDFViewer } from "@react-pdf/renderer";
-import { width } from "@mui/system";
 // import { savePDF, printPDF } from "./components/PDF/print";
 import { ChildModalPdf } from "../../components/common/ModalUploadFile";
 import InputDouble from "./components/InputDouble";

@@ -43,19 +43,14 @@ const TableAllCostCenter = () => {
             </h3>
             <div className="filing">
               <section className="viewTableEdit">
-                <div className="flex flex-row justify-between">
-                  <label className="block mb-2 ml-4 text-base font-semibold dark:text-white">
-                    Centros De Costos
-                  </label>
-                </div>
-                <Box sx={{ height: "90%", width: "100%" }}>
+                <Box sx={{ height: "95%", width: "100%" }}>
                   <DataGrid
                     rows={row}
                     // @ts-ignore
                     getRowId={(row) => (row.id ? row.id : 0)}
                     columns={columnsCenterCosts}
-                    pageSize={9}
-                    rowsPerPageOptions={[9]}
+                    // pageSize={5}
+                    rowsPerPageOptions={[5, 10, 25, 50, 100]}
                     disableSelectionOnClick
                     experimentalFeatures={{ newEditingApi: true }}
                     components={{
@@ -68,6 +63,7 @@ const TableAllCostCenter = () => {
                           id: false,
                         },
                       },
+                      pagination: { pageSize: 5 },
                     }}
                   />
                 </Box>

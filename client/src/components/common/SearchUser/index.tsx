@@ -29,9 +29,9 @@ function LocationsSelect({
   disabledCity,
   disabledDepartment,
 }: any) {
-  const [departments, setDepartments] = useState([]);
+  const [documentType, setDocumentType] = useState([]);
   // const documents = ["CEDULA CIUDADANIA", "NIT", "CEDULA EXTRANGERIA"];
-  const [cities, setCities] = useState([]);
+  const [documentNumber, setdocumentNumber] = useState([]);
   const [disabledCityAction, setDisabledCityAction] = useState(false);
 
   const handleTypeIdentification = () => {
@@ -41,7 +41,7 @@ function LocationsSelect({
       })
       .then((res) => {
         // console.log(res.data.data);
-        setDepartments(res.data.data);
+        setDocumentType(res.data.data);
       });
   };
 
@@ -53,7 +53,7 @@ function LocationsSelect({
       })
       .then((res) => {
         // console.log(res.data.data);
-        setCities(res.data.data);
+        setDocumentNumber(res.data.data);
       });
   };
 
@@ -150,7 +150,7 @@ function LocationsSelect({
           disabled={disabledDepartment}
           readOnly={readOnlyDepartment}
           // @ts-ignore
-          options={departments.map((type) => type.typeDocument)}
+          options={documentType.map((type) => type.typeDocument)}
         />
       </article>
 
@@ -163,7 +163,7 @@ function LocationsSelect({
           required={requiredCity}
           disabled={disabledCityAction}
           readOnly={readOnlyCity}
-          options={cities.map(
+          options={documentNumber.map(
             (user) =>
               // @ts-ignore
               `${user.users_identification}-${user.users_identification_digital_check}-${user.users_name} ${user.users_lastname}`

@@ -1,9 +1,6 @@
-import * as React from "react";
 import Button from "@mui/material/Button";
-import { DataGrid, GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 import { TouchRippleActions } from "@mui/material/ButtonBase/TouchRipple";
-import BasicModal from "../../../Layout/PendingFilesTable/components/ModalForm";
-import UploadFileModal from "../ModalUploadFile";
+import * as React from "react";
 
 const ButtonOpenUploadFile = (props: any) => {
   const { hasFocus, value } = props;
