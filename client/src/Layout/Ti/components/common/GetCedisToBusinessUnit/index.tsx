@@ -19,7 +19,7 @@ const Selecting = styled(FormControl)({
   },
 });
 
-function GetCediToDependenci({ BusinessUnit }: any) {
+function GetCediToBusinessUnit({ BusinessUnit }: any) {
   const { cediConection, setCediConection } = useContext(GeneralValuesContext);
   // const [cedi, setCedi] = useState<any>();
   const [listCedis, setListCedis] = useState([]);
@@ -82,4 +82,4 @@ function GetCediToDependenci({ BusinessUnit }: any) {
   );
 }
 
-export default GetCediToDependenci;
+export default GetCediToBusinessUnit;

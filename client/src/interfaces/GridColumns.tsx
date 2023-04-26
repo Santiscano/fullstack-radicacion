@@ -2,6 +2,7 @@ import { GridColDef } from "@mui/x-data-grid";
 import ButtonModalAllFiles from "../Layout/AllFilesTable/components/ButtonModalAllFiles";
 import ButtonModalEdit from "../Layout/PendingFilesTable/components/common/ButtonModalEdit";
 import { formattedAmount } from "../Utilities/formatted.utility";
+import { width } from "@mui/system";
 
 // const columns = () => {}
 export const columnsEdit: GridColDef[] = [
@@ -403,5 +404,43 @@ export const columnsAllFiles: GridColDef[] = [
     //   );
     // },
     // renderCell: ButtonOpenModalEdit,
+  },
+];
+
+export const columnsCenterCosts = [
+  {
+    field: "id",
+    headerName: "ID",
+    width: 50,
+  },
+  {
+    field: "OP",
+    headerName: "Operacion",
+    width: 170,
+  },
+  {
+    field: "OPERACION",
+    headerName: "Operacion Numero",
+    width: 150,
+  },
+  {
+    field: "CD",
+    headerName: "Cedi",
+    width: 170,
+  },
+  {
+    field: "CEDI",
+    headerName: "Cedi Numero",
+    width: 150,
+  },
+  {
+    field: "DEP",
+    headerName: "Dependencia",
+    width: 170,
+  },
+  {
+    field: "DEPENDENCIA",
+    headerName: "Dependencia Numero",
+    width: 150,
   },
 ];

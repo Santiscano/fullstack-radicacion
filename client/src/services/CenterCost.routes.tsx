@@ -186,3 +186,15 @@ export const deleteCostCenter = async () => {
     // console.log("error: ", error);
   }
 };
+export const centerCostTable = async () => {
+  try {
+    const getTable = await axios.get(
+      Routes.api.centerCost.table.getCostTable,
+      getHeader()
+    );
+    console.log("get Table Center cost", getTable);
+    return getTable.data;
+  } catch (error) {
+    console.log("error: ", error);
+  }
+};

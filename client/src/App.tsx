@@ -34,6 +34,7 @@ import SearchEmployee from "./Layout/SearchEmployee";
 import NotAuthentication from "./Middlewares/NotAuthentication";
 import WithAuthentication from "./Middlewares/WithAuthentication";
 import { WithRoleAllowedComponent } from "./Middlewares/WithRoleAllowed";
+import TableAllCostCenter from "./Layout/TableAllCostCenter";
 
 function App() {
   return (
@@ -92,6 +93,11 @@ function App() {
               >
                 <Route path="admin" element={<Ti />} />
               </Route>
+
+              <Route
+                path="centros-de-costos"
+                element={<TableAllCostCenter />}
+              ></Route>
 
               <Route
                 element={

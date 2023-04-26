@@ -17,7 +17,7 @@ import "./TI.css";
 import SelectArea from "./components/common/SelectArea";
 import AlertDialogSlide from "./components/common/AlertDialogSlide";
 import { roles, get } from "../../components/tools/SesionSettings";
-import GetCedisToDependenci from "./components/common/GetCedisToDependenci";
+import GetCediToBusinessUnit from "./components/common/GetCedisToBusinessUnit";
 import { useContext } from "react";
 import { GeneralValuesContext } from "../../Context/GeneralValuesContext";
 
@@ -129,6 +129,7 @@ function TI() {
                   <Tab label="Crear Usuario" {...a11yProps(2)} />
                   <Tab label="Crear Proveedor" {...a11yProps(3)} />
                   <Tab label="Crear Centro de Costos" {...a11yProps(4)} />
+                  <Tab label="Ver Centros de Costos" {...a11yProps(5)} />
                 </Tabs>
               </Box>
               <TabPanel value={showValue} index={0}>
@@ -179,7 +180,6 @@ function TI() {
                   </>
                 )}
               </TabPanel>
-
               {(Number(get("idroles")) == roles.AuditorTI ||
                 Number(get("idroles")) == roles.Administrador) && (
                 <TabPanel value={showValue} index={1}>
@@ -565,23 +565,6 @@ function TI() {
                           setValue={setDocumentationUpdate}
                           required
                         />
-                        {/* <TextFieldOutlined
-                          type={"email"}
-                          label={"Fecha"}
-                          value={documentationUpdate}
-                          setValue={setDocumentationUpdate}
-                          required
-                        /> */}
-                        {/* <CalendarInput
-                          name="selectedDate"
-                          label="Fecha Expiración"
-                          value={documentationUpdate}
-                          onChange={(event: any) =>
-                            setDocumentationUpdate(event.target.value)
-                          }
-                          disableFuture={true}
-                          format="dd/MM/yyyy"
-                        /> */}
                       </article>
                     </div>
                     <Button name="Crear Usuario" />
@@ -691,7 +674,7 @@ function TI() {
                       </article>
                       <article className="md:w-1/2">
                         {connectionArea && (
-                          <GetCedisToDependenci
+                          <GetCediToBusinessUnit
                             // @ts-ignore
                             BusinessUnit={connectionArea.id}
                           />

@@ -25,7 +25,7 @@ const openPdf = () => {
   window.open(pdf);
 };
 
-function GridToolbarConfig() {
+export function GridToolbarConfig() {
   return (
     <div>
       <GridToolbarColumnsButton style={{ color: "#000", marginLeft: "17px" }} />
