@@ -19,7 +19,7 @@ const TableAllCostCenter = () => {
       setPreLoad(true);
       const table = await centerCostTable();
       console.log("rows: ", table);
-      // setRow(table ? table : []);
+      setRow(table ? table : []);
     } catch (error) {
       console.log("error: ", error);
     } finally {
