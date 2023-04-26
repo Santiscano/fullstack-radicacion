@@ -2,12 +2,12 @@ import 'dotenv/config';
 import { Request, Response } from 'express';
 import { connection } from '../config/database/db';
 import { genRegistered } from '../utilities/generate_file_registered.controller';
-import { missingData } from '../utilities/missingData.utilities';
+import { missingData, missingDataObject } from '../utilities/missingData.utilities';
 import { postTrakingModel } from '../models/tracking.model';
 import { createPDF } from '../utilities/PDF/createPDF';
 import { apiKeyValidate } from '../utilities/apiKeyValidate.utilities';
-import { success, unauthorized, unsuccessfully } from '../utilities/responses.utilities';
-import { getFilesModel } from '../models/files.model';
+import { success, unauthorized, uncompleted, unsuccessfully } from '../utilities/responses.utilities';
+import { getFilesModel, postFileModel } from '../models/files.model';
 
 // GENERAR UN NUMERO DE RADICADO
 export const genFileRegistered = async ( req: Request, res: Response ) => {
@@ -20,7 +20,7 @@ export const genFileRegistered = async ( req: Request, res: Response ) => {
     };
 };
 
-// TRAER LOS ARCHIVOS
+// TRAER LOS ARCHIVOS - FILE
 export const getFiles = async ( req:Request, res:Response ) => {
     const { api_key } = req.headers;
     try {
@@ -31,49 +31,18 @@ export const getFiles = async ( req:Request, res:Response ) => {
     };
 };
 
-// Agregar un archivo
+// AGREGAR UN ARCHIVO - FILE
 export const postFile = async (req: Request, res: Response) => {
+    const { api_key } = req.headers;
     const { files_registered, idsedes, idproviders, idusers, files_type, files_price, files_account_type, files_account_type_number, userSession } = req.body;
-    const valores = [ files_registered, idsedes, idproviders, idusers, files_type, files_price, files_account_type, files_account_type_number, userSession ]
-    const idfiles_states = 1;                     // ESTADO ASIGNADO
-    const tracking_observation = `INICIO DEL PROCESO DEL ${files_registered} EXITOSO`;
+    const data = { files_registered, idsedes, idproviders, idusers, files_type, files_price, files_account_type, files_account_type_number, userSession }
     try {
-        if(missingData(valores)) {
-            return res.status(422).json({error: true, message: "MISSING_VALUES"});
-        };
-        const [ registeredVal ] = await connection.query(`
-                SELECT count(*) AS contador FROM files WHERE files_registered = ?;`,
-            [ files_registered ]);
-        const [ filesAccountVal ] = await connection.query(`
-                SELECT count(*) AS contador FROM files WHERE files_account_type = ? AND files_account_type_number = ?;`,
-            [ files_account_type, files_account_type_number ]);
-        //@ts-ignore
-        if (registeredVal[0].contador !== 0){
-            return res.status(500).json({ error: true, message: `Radicado: ${ files_registered.toUpperCase() }, ya se encuentra creado en la base de datos`})
-        };
-        //@ts-ignore
-        if (filesAccountVal[0].contador !== 0){
-            return res.status(500).json({ error: true, message: `${ files_account_type.toUpperCase() }: ${ files_account_type_number.toUpperCase() }, ya se encuentra creado en la base de datos`})
-        };
-        await connection.query(`
-            INSERT INTO files (idproviders, idsedes, idusers, files_type, files_registered, files_price, files_account_type, files_account_type_number)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?);`, 
-                [ idproviders, 
-                    idsedes, 
-                    idusers, 
-                    files_type.toUpperCase(), 
-                    files_registered.toUpperCase(), 
-                    files_price, 
-                    files_account_type.toUpperCase(), 
-                    files_account_type_number.toUpperCase() ]);
-        const [ file ] = await connection.query('SELECT * FROM files WHERE files_registered = ?;', [ files_registered ]);
-        //@ts-ignore
-        postTrakingModel(idfiles_states, file[0].idfiles, userSession, tracking_observation);
-        // createPDF(files_registered.toUpperCase(), files_account_type.toUpperCase(), files_type.toUpperCase());
-        return res.status(200).json({ error: false, tracking: "Cargado exitosamente", file });
-    } catch (err) {
-        // console.log(err);
-        return res.status(508).json({ error: true, message:"Error del servidor para guardar los archivos" });
+        if(apiKeyValidate(api_key)) return res.status(401).json(unauthorized());
+        if(missingDataObject(data).error) return res.status(422).json(uncompleted(missingDataObject(data).missing));
+        const info = await postFileModel(data);
+        return res.status(200).json(success(info.data, info.message));
+    } catch (error) {
+        return res.status(512).json(unsuccessfully(error));
     };
 };
 
