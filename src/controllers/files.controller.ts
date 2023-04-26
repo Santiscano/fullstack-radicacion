@@ -5,35 +5,30 @@ import { genRegistered } from '../utilities/generate_file_registered.controller'
 import { missingData } from '../utilities/missingData.utilities';
 import { postTrakingModel } from '../models/tracking.model';
 import { createPDF } from '../utilities/PDF/createPDF';
+import { apiKeyValidate } from '../utilities/apiKeyValidate.utilities';
+import { success, unauthorized, unsuccessfully } from '../utilities/responses.utilities';
+import { getFilesModel } from '../models/files.model';
 
-// Generar un radicado 
+// GENERAR UN NUMERO DE RADICADO
 export const genFileRegistered = async ( req: Request, res: Response ) => {
-    const { api_key } = req.body; 
+    const { api_key } = req.headers; 
     try {
-        if (api_key !== process.env.API_KEY) {
-            return res.status(401).json({ error: true, message: "No cuentas con los permisos para acceder a esta información" });
-        };
-        let result = await genRegistered();
-        return res.status(200).json({ error: false, result });
+        if (apiKeyValidate(api_key)) return res.status(401).json(unauthorized());
+        return res.status(200).json({ error: false, message: "SUCCESS", data: await genRegistered() });
     } catch (error) {
-        // console.log(error)
-        return res.status(508).json({ error: true, message: "Error del servidor para generar un radicado" });
+        return res.status(512).json(unsuccessfully(error));
     };
 };
 
-// Traer los archivos
+// TRAER LOS ARCHIVOS
 export const getFiles = async ( req:Request, res:Response ) => {
-    const { api_key } = req.body;
+    const { api_key } = req.headers;
     try {
-        if (api_key !== process.env.API_KEY){
-            return res.status(401).json({ error: true, message: "No cuentas con los permisos para acceder a esta información" });
-        };
-        const [files] = await connection.query('SELECT * FROM files;');
-        return res.status(200).json({error: false, files});
-    } catch (err) {
-        // console.log(err);
-        return res.status(508).json({ error: true, message: "Error del servidor para traer los Archivos"})
-    }
+        if (apiKeyValidate(api_key)) return res.status(401).json(unauthorized());
+        return res.status(200).json(success((await getFilesModel()).data));
+    } catch (error) {
+        return res.status(512).json(unsuccessfully(error));
+    };
 };
 
 // Agregar un archivo
