@@ -70,9 +70,9 @@ const UploadFileModal: FC<Props> = ({
     const auditorSelected = allAuditors.filter(
       (user: { idusers: number }) => user.idusers === redirectTo
     );
-    // console.log("auditorSelected", auditorSelected);
     const nameSelected = `${auditorSelected[0].users_name} ${auditorSelected[0].users_lastname}`;
     setNameAuditorSelected(nameSelected);
+    console.log("compani name:", companyName);
   };
 
   useEffect(() => {
@@ -98,12 +98,10 @@ const UploadFileModal: FC<Props> = ({
           <div className="border-neutral-300 border-2 rounded p-2.5 ">
             <section>
               <div className="flex justify-between flex-wrap">
-                {companyName && lastname && (
-                  <div className="text-2xl font-bold mr-8">
-                    {capitalizeFirstLatterUppercase(companyName)}{" "}
-                    {capitalizeFirstLatterUppercase(lastname)}
-                  </div>
-                )}
+                <div className="text-2xl font-bold mr-8">
+                  {capitalizeFirstLatterUppercase(companyName)}{" "}
+                  {capitalizeFirstLatterUppercase(lastname)}
+                </div>
                 <span className="text-blue-700 text-lg">
                   (ID: {docIdentity})
                 </span>

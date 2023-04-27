@@ -31,7 +31,7 @@ function LocationsSelect({
 }: any) {
   const [documentType, setDocumentType] = useState([]);
   // const documents = ["CEDULA CIUDADANIA", "NIT", "CEDULA EXTRANGERIA"];
-  const [documentNumber, setdocumentNumber] = useState([]);
+  const [documentNumber, setDocumentNumber] = useState([]);
   const [disabledCityAction, setDisabledCityAction] = useState(false);
 
   const handleTypeIdentification = () => {
