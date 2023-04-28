@@ -5,7 +5,7 @@ import { getRoles, postRol, putRol, deleteRol } from '../controllers/roles.contr
 import { getSedes, postSede, putSede, deleteSede } from '../controllers/sedes.controller';
 import { getUsers, postUsers, putUsers, deleteUser } from '../controllers/users.controller';
 import { getFiles, postFile, putFile, deleteFile, genFileRegistered } from '../controllers/files.controller';
-import { getFileStates, postFileStates, putFileStates, deleteFileStates } from '../controllers/files_states.controller';
+import { getFileStates } from '../controllers/files_states.controller';
 import { getCostArea, postCostArea, deleteCostArea } from '../controllers/centerCost/p1_area_cost_center.controller';
 import { getCostSubArea, getCostSubAreaById, postCostSubArea, deleteCostSubArea } from '../controllers/centerCost/p2_sub_area_cost_center.controller';
 import { getCostCenter, getCostCenterById, postCostCenter, deleteCostCenter } from '../controllers/centerCost/p3_cost_center.controller';
@@ -45,9 +45,6 @@ router.post('/deleteUser', decodeToken, deleteUser);                       // El
 
 // Estado de archivos
 router.get('/getStatesFiles', getFileStates);                  // Traer los estados de los archivos
-router.post('/postStatesFile', postFileStates);                 // Agregar los estados de los archivos
-router.put('/putStatesFile', putFileStates);                    // Editar los estados de los archivos
-router.post('/deleteStatesFile', deleteFileStates);           // Eliminar un estado de archivo
 
 // Archivos
 router.get('/genFileRegistered', genFileRegistered);           // Generar un radicado (No DB)
