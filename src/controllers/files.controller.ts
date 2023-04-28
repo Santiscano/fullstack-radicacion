@@ -1,10 +1,6 @@
-import 'dotenv/config';
 import { Request, Response } from 'express';
-import { connection } from '../config/database/db';
 import { genRegistered } from '../utilities/generate_file_registered.controller';
-import { missingData, missingDataObject } from '../utilities/missingData.utilities';
-import { postTrakingModel } from '../models/tracking.model';
-import { createPDF } from '../utilities/PDF/createPDF';
+import { missingDataObject } from '../utilities/missingData.utilities';
 import { apiKeyValidate } from '../utilities/apiKeyValidate.utilities';
 import { success, unauthorized, uncompleted, unsuccessfully } from '../utilities/responses.utilities';
 import { getFilesModel, postFileModel, putFileModel, deleteFileModel } from '../models/files.model';
@@ -46,7 +42,7 @@ export const postFile = async (req: Request, res: Response) => {
     };
 };
 
-// Editar un archivo
+// EDITAR UN ARCHIVO
 export const putFile = async ( req:Request, res:Response ) => {
     const { api_key } = req.headers;
     const { idfiles, idproviders, idusers, idfiles_states, files_type, files_registered, files_cost_center, files_code_accounting, files_code_treasury, files_price,files_account_type, files_account_type_number,userSession, tracking_observation } = req.body;
@@ -61,7 +57,7 @@ export const putFile = async ( req:Request, res:Response ) => {
     };
 };
 
-// Eliminar un archivo
+// ELIMINAR ARCHIVOS
 export const deleteFile = async (req:Request, res:Response) => {
     const { api_key } = req.headers;
     const { files_registered } = req.body;
