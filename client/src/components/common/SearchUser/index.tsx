@@ -30,15 +30,12 @@ function LocationsSelect({
   disabledDepartment,
 }: any) {
   const [documentType, setDocumentType] = useState([]);
-  // const documents = ["CEDULA CIUDADANIA", "NIT", "CEDULA EXTRANGERIA"];
   const [documentNumber, setDocumentNumber] = useState([]);
   const [disabledCityAction, setDisabledCityAction] = useState(false);
 
   const handleTypeIdentification = () => {
     axios
-      .post(Route.api.users.getTypeIdentification, {
-        api_key: import.meta.env.VITE_API_KEY,
-      })
+      .get(Route.api.users.getTypeIdentification, getHeader())
       .then((res) => {
         // console.log(res.data.data);
         setDocumentType(res.data.data);
@@ -128,7 +125,7 @@ function LocationsSelect({
 
   useEffect(() => {
     if ([null, ""].includes(department)) {
-      setDisabledCityAction(true);
+      setDisabledCityAction(false);
     }
 
     if (![null, ""].includes(department)) {

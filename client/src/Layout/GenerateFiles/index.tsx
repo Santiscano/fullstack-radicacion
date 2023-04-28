@@ -109,13 +109,13 @@ function GenerateFiles() {
   const handleGetUsersCedis = async () => {
     // cedis
     const allCedis: AllCedis[] = await getCedis();
-    // console.log("allCedis: ", allCedis);
+    console.log("allCedis: ", allCedis);
     setAllCedis(allCedis);
 
     // users
     const getAllUsers = await getUsers();
-    // console.log("getAllUsers: ", getAllUsers.rows);
-    const allUsers = getAllUsers.rows;
+    console.log("getAllUsers: ", getAllUsers);
+    const allUsers = getAllUsers;
     setAllUsers(allUsers);
 
     // options redirectTo Administration

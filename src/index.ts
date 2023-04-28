@@ -51,16 +51,16 @@ app.use(express.json());
 app.use(morgan("dev"));
 app.use(cors());
 
+// ROUTES
+app.use('/', router)
+
 // VERIFICACIÓN BACKEND PRODUCCIÓN
-app.use("/api/", (req, res, next) => {
-    res.send("Digitalización EnviExpress");
-});
+// app.use("/api/", (req, res, next) => {
+//     res.send("Digitalización EnviExpress");
+// });
 
 // PUERTO DEL SERVIDOR LOCAL
 app.set("port", process.env.LOCAL_PORT || 3000);
-
-// ROUTES
-app.use('/', router)
 
 // SWAGGER
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerJsdoc(swaggerSpec)))

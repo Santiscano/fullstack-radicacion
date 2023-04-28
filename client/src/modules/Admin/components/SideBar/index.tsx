@@ -18,6 +18,7 @@ import FolderOutlinedIcon from "@mui/icons-material/FolderOutlined";
 import FolderSharedOutlinedIcon from "@mui/icons-material/FolderSharedOutlined";
 import FolderSpecialOutlinedIcon from "@mui/icons-material/FolderSpecialOutlined";
 import { Collapse } from "@mui/material";
+import FolderCopyOutlinedIcon from "@mui/icons-material/FolderCopyOutlined";
 import { Link, useNavigate } from "react-router-dom";
 import { WithRoleAllowedRoutes } from "../../../../Middlewares/WithRoleAllowed";
 import working from "../../../../assets/icons/data-analysis-case-study.png";
@@ -155,7 +156,7 @@ function index(props: any) {
         <List>
           <ListItemButton onClick={handleOpenAllFiles}>
             <ListItemIcon>
-              <FolderSpecialOutlinedIcon sx={{ color: "#293184" }} />
+              <FolderCopyOutlinedIcon sx={{ color: "#293184" }} />
             </ListItemIcon>
             <ListItemText primary="Archivos" />
             {openAllFiles ? <ExpandLess /> : <ExpandMore />}

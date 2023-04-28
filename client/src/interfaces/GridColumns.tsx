@@ -406,7 +406,44 @@ export const columnsAllFiles: GridColDef[] = [
     // renderCell: ButtonOpenModalEdit,
   },
 ];
-
+export const columnsCenterCosts = [
+  {
+    field: "id",
+    headerName: "ID",
+    width: 50,
+    filterable: false,
+  },
+  {
+    field: "OP",
+    headerName: "Operacion",
+    width: 170,
+  },
+  {
+    field: "OPERACION",
+    headerName: "Operacion Numero",
+    width: 150,
+  },
+  {
+    field: "CD",
+    headerName: "Cedi",
+    width: 170,
+  },
+  {
+    field: "CEDI",
+    headerName: "Cedi Numero",
+    width: 150,
+  },
+  {
+    field: "DEP",
+    headerName: "Dependencia",
+    width: 170,
+  },
+  {
+    field: "DEPENDENCIA",
+    headerName: "Dependencia Numero",
+    width: 150,
+  },
+];
 export const columnsUsers: GridColDef[] = [
   {
     field: "users_name",
@@ -421,12 +458,12 @@ export const columnsUsers: GridColDef[] = [
   {
     field: "users_identification_type",
     headerName: "Tipo Documento",
-    width: 130
+    width: 130,
   },
   {
     field: "users_identification",
     headerName: "Numero Documento",
-    width: 130
+    width: 130,
   },
   {
     field: "roles",
@@ -465,12 +502,12 @@ export const columnsProvider: GridColDef[] = [
   {
     field: "users_identification_type",
     headerName: "Tipo Documento",
-    width: 130
+    width: 130,
   },
   {
     field: "users_identification",
     headerName: "Numero Documento",
-    width: 130
+    width: 130,
   },
   {
     field: "roles",

@@ -1,5 +1,4 @@
 import AttachEmailIcon from "@mui/icons-material/AttachEmail";
-import GroupsRoundedIcon from "@mui/icons-material/GroupsRounded";
 import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
 import AttachEmailOutlinedIcon from "@mui/icons-material/AttachEmailOutlined";
 import EqualizerIcon from "@mui/icons-material/Equalizer";
@@ -41,11 +40,6 @@ export default {
         }`,
         url: "/dashboard/pendientes",
         icon: <PendingActionsRoundedIcon sx={color} />,
-      },
-      {
-        name: "Historial",
-        url: "/dashboard/historial",
-        icon: <RestoreOutlinedIcon sx={{ color: "#293184" }} />,
       },
       {
         name: "Historial",

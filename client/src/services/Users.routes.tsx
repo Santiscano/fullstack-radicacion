@@ -22,18 +22,12 @@ export const validateUser = async () => {
 
 export const getUsers = async () => {
   try {
-    const response = await axios.post(
-      Routes.api.users.getUsers,
-      {
-        api_key: import.meta.env.VITE_API_KEY,
-      },
-      getHeader()
-    );
-    console.log("response getusers: ", response.data.data);
+    const response = await axios.get(Routes.api.users.getUsers, getHeader());
     const users = response.data.data;
+    console.log("users: ", users);
     return users;
   } catch (error) {
-    // console.log(error);
+    console.log(error);
   }
 };
 
@@ -94,7 +88,7 @@ export const createProvider = async (
     const response = await axios.post(
       Routes.api.users.createUser,
       {
-        api_key, 
+        api_key,
         idroles,
         idsedes,
         users_identification_type: identification_type,

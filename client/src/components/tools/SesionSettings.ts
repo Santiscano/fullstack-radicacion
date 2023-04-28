@@ -27,19 +27,6 @@ export const stateFile = Object.freeze({
   Anulado: 11,
 });
 
-// const roleDisplay:DisplayRoles = {
-//   1:"Proveedor",
-//   2:"Radicacion",
-//   3:"Auditor Gestion Humana",
-//   4:"Auditor Control",
-//   5:"Auditor Riesgos",
-//   6:"Gerencia",
-//   7:"Contaduria",
-//   8:"Tesoreria",
-//   9:"Tecnologia & Informacion",
-//   10:"Eliminar",
-// }
-
 export function set(key:string, item:string): void {
   sessionStorage.setItem(key, item);
 }

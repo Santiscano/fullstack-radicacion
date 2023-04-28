@@ -9,6 +9,7 @@ export const decodeToken = async (_req: Request, res: Response, next: NextFuncti
         } else {
             const decodeValue = await config.admin.auth().verifyIdToken(token!);
             if (decodeValue != null || decodeValue != undefined) {
+                console.log("si paso el auth")
                 return next();
             }
             return res.json({ message: "Unauthorized Access" });
