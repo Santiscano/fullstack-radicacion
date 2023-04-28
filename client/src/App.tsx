@@ -18,10 +18,11 @@ import { Styles } from "./config/theme.config";
 import { Route, Routes } from "react-router-dom";
 import {
   optionsViewsSettled,
-  optionsViewsAuth,
+  optionsViewsFiles,
   optionsViewsAllFiles,
   optionsViewsTI,
   optionsViewsDigitization,
+  optionsViewTraking,
 } from "./components/tools/OptionsValuesSelects";
 import AllEmployees from "./Layout/AllEmployees";
 import AllFilesTable from "./Layout/AllFilesTable";
@@ -34,6 +35,7 @@ import SearchEmployee from "./Layout/SearchEmployee";
 import NotAuthentication from "./Middlewares/NotAuthentication";
 import WithAuthentication from "./Middlewares/WithAuthentication";
 import { WithRoleAllowedComponent } from "./Middlewares/WithRoleAllowed";
+import Tracking from "./Layout/Tracking/Tracking";
 
 function App() {
   return (
@@ -66,7 +68,7 @@ function App() {
                 element={
                   // @ts-ignore
                   <WithRoleAllowedComponent
-                    allowedRolesList={optionsViewsAuth}
+                    allowedRolesList={optionsViewsFiles}
                   />
                 }
               >
@@ -91,6 +93,16 @@ function App() {
                 }
               >
                 <Route path="admin" element={<Ti />} />
+              </Route>
+
+              <Route
+                element={
+                  <WithRoleAllowedComponent
+                    allowedRolesList={optionsViewTraking}
+                  />
+                }
+              >
+                <Route path="tracking" element={<Tracking />} />
               </Route>
 
               <Route

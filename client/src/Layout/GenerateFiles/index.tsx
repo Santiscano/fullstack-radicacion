@@ -1,5 +1,5 @@
 import { SelectChangeEvent } from "@mui/material/Select";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Button from "../../components/common/Button";
 import InputSelectRedirectTo from "../../components/common/InputSelectRedirectTo";
 import UploadFileModal from "../../components/common/ModalUploadFile";
@@ -26,7 +26,7 @@ import { uploadfile } from "../../services/Pdf.routes";
 import { getUsers } from "../../services/Users.routes";
 import { getSettled } from "../../services/generateSettled.service";
 
-import useContextProvider from "../../Context/GeneralValuesContext";
+import { GeneralValuesContext } from "../../Context/GeneralValuesContext";
 import { formattedAmount } from "../../Utilities/formatted.utility";
 import InputSelectOnlyValue from "../../components/common/InputSelectOnlyValue";
 import ModalSuccess from "../../components/common/ModalSuccess";
@@ -95,7 +95,7 @@ function GenerateFiles() {
   // sin identificar uso
   const [fileName, setFileName] = useState("");
 
-  const { setPreLoad } = useContextProvider();
+  const { setPreLoad } = useContext(GeneralValuesContext);
 
   // -----------------------METHODS INPUTS--------------------------------//
 
@@ -108,13 +108,13 @@ function GenerateFiles() {
   const handleGetUsersCedis = async () => {
     // cedis
     const allCedis: AllCedis[] = await getCedis();
-    console.log("allCedis: ", allCedis);
+    // console.log("allCedis: ", allCedis);
     setAllCedis(allCedis);
 
     // users
     const getAllUsers = await getUsers();
-    console.log("getAllUsers: ", getAllUsers);
-    const allUsers = getAllUsers;
+    // console.log("getAllUsers: ", getAllUsers.rows);
+    const allUsers = getAllUsers.rows;
     setAllUsers(allUsers);
 
     // options redirectTo Administration
@@ -123,11 +123,10 @@ function GenerateFiles() {
         user.idroles == roles.AuditorGH ||
         user.idroles == roles.AuditorCRTL ||
         user.idroles == roles.AuditorRG ||
-        user.idroles == roles.AuditorTI ||
-        user.idroles == roles.Gerencia
+        user.idroles == roles.Gerencia ||
+        user.idroles == roles.AuditorTI
     );
     setOptionsRedirectTo(filterAuditors);
-    console.log("filterAuditors: ", filterAuditors);
 
     const getAllFiles = await getFiles();
     setAllFiles(getAllFiles?.data);
@@ -143,7 +142,6 @@ function GenerateFiles() {
   const handleCediType = (e: SelectChangeEvent) => {
     const selectCediType = e.target.value;
     setCediType(selectCediType);
-    console.log("selectCediType: ", selectCediType);
 
     const allCedisToFilter = allCedis;
 
@@ -151,7 +149,6 @@ function GenerateFiles() {
       (cedi: any, index) => cedi.sedes_type.toUpperCase() == selectCediType
     );
 
-    console.log("filterCediType: ", filterCediType);
     setOptionsCedisIdName(filterCediType);
   };
 

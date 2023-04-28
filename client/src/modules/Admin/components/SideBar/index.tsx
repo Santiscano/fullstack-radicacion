@@ -1,35 +1,36 @@
-import { useState } from "react";
 import Drawer from "@mui/material/Drawer";
+import { useState } from "react";
 // components mui
-import { styled, useTheme } from "@mui/material/styles";
-import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
+import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
+import { styled, useTheme } from "@mui/material/styles";
 // icons mui
+import CloseIcon from "@mui/icons-material/Close";
 import IconButton from "@mui/material/IconButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
-import CloseIcon from "@mui/icons-material/Close";
-import AssignmentRoundedIcon from "@mui/icons-material/AssignmentRounded";
-import CreateNewFolderRoundedIcon from "@mui/icons-material/CreateNewFolderRounded";
 
-import rutero from "../../../../routes/RutesSidebar";
-import { Link, useNavigate } from "react-router-dom";
-import enviexpress from "../../../../assets/images/LOGOTIPO_ENVIEXPRESS_horizontal_150x50.png";
-import working from "../../../../assets/icons/data-analysis-case-study.png";
-import { Collapse } from "@mui/material";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
-import VerifiedRoundedIcon from "@mui/icons-material/VerifiedRounded";
-import { session } from "../../../../components/tools/SesionSettings";
+import AssignmentOutlinedIcon from "@mui/icons-material/AssignmentOutlined";
+import FolderOutlinedIcon from "@mui/icons-material/FolderOutlined";
+import FolderSharedOutlinedIcon from "@mui/icons-material/FolderSharedOutlined";
+import FolderSpecialOutlinedIcon from "@mui/icons-material/FolderSpecialOutlined";
+import { Collapse } from "@mui/material";
+import { Link, useNavigate } from "react-router-dom";
 import { WithRoleAllowedRoutes } from "../../../../Middlewares/WithRoleAllowed";
+import working from "../../../../assets/icons/data-analysis-case-study.png";
+import enviexpress from "../../../../assets/images/LOGOTIPO_ENVIEXPRESS_horizontal_150x50.png";
 import {
-  optionsViewsSettled,
-  optionsViewsAuth,
   optionsViewsAllFiles,
-  optionsViewsTI,
   optionsViewsDigitization,
+  optionsViewsFiles,
+  optionsViewsSettled,
+  optionsViewsTI,
 } from "../../../../components/tools/OptionsValuesSelects";
+import { session } from "../../../../components/tools/SesionSettings";
+import rutero from "../../../../routes/RutesSidebar";
 
 const drawerWidth = 240;
 const DrawerHeader = styled("div")(({ theme }) => ({
@@ -48,9 +49,16 @@ const rolTI = true;
 function index(props: any) {
   const theme = useTheme();
   const navigate = useNavigate();
+  const color = "#293184";
+
+  const [openSettled, setOpenSettled] = useState(false);
+  const handleOpenFiles = () => setOpenSettled(!openSettled);
 
   const [openFiles, setOpenFiles] = useState(false);
-  const handleOpenFiles = () => setOpenFiles(!openFiles);
+  const handleOpenPending = () => setOpenFiles(!openFiles);
+
+  const [openAllFiles, setOpenAllFiles] = useState(false);
+  const handleOpenAllFiles = () => setOpenAllFiles(!openAllFiles);
 
   const [openAuths, setOpenAuths] = useState(false);
   const handleOpenAuth = () => setOpenAuths(!openAuths);
@@ -90,16 +98,17 @@ function index(props: any) {
 
       <Divider />
 
+      {/* radicados */}
       <WithRoleAllowedRoutes allowedRolesList={optionsViewsSettled}>
         <List>
           <ListItemButton onClick={handleOpenFiles}>
             <ListItemIcon>
-              <AssignmentRoundedIcon sx={{ color: "#293184" }} />
+              <AssignmentOutlinedIcon sx={{ color: color }} />
             </ListItemIcon>
-            <ListItemText primary="Radicados" />
-            {openFiles ? <ExpandLess /> : <ExpandMore />}
+            <ListItemText primary="Radicación" />
+            {openSettled ? <ExpandLess /> : <ExpandMore />}
           </ListItemButton>
-          <Collapse in={openFiles} timeout="auto" unmountOnExit>
+          <Collapse in={openSettled} timeout="auto" unmountOnExit>
             <List>
               {rutero.online.settling.map((list, index) => (
                 <ListItem key={index} disablePadding>
@@ -112,51 +121,60 @@ function index(props: any) {
             </List>
           </Collapse>
         </List>
-        <Divider />
-      </WithRoleAllowedRoutes>
-
-      <WithRoleAllowedRoutes allowedRolesList={optionsViewsAuth}>
-        {/* <List> */}
-        {/* <ListItemButton onClick={handleOpenAuth}>
-          <ListItemIcon>
-            <VerifiedRoundedIcon sx={{ color: "#293184" }} />
-          </ListItemIcon>
-          <ListItemText primary="Autorizaciones" />
-          {openAuths ? <ExpandLess /> : <ExpandMore />}
-        </ListItemButton> */}
-        {/* <Collapse in={openAuths} timeout="auto" unmountOnExit> */}
-        <List component="div" disablePadding>
-          {rutero.online.authorizations.map((list, index) => (
-            <ListItem key={index} disablePadding>
-              <ListItemButton
-                // sx={{ pl: 4 }}
-                onClick={() => navigate(`${list.url}`)}
-              >
-                <ListItemIcon>{list.icon}</ListItemIcon>
-                <ListItemText primary={list.name} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
-        {/* </Collapse> */}
-        {/* </List> */}
-        <Divider />
-      </WithRoleAllowedRoutes>
-
-      <WithRoleAllowedRoutes allowedRolesList={optionsViewsAllFiles}>
-        <List>
-          {rutero.online.allFiles.map((list, index) => (
-            <ListItem key={index} disablePadding>
-              <ListItemButton onClick={() => navigate(`${list.url}`)}>
-                <ListItemIcon>{list.icon}</ListItemIcon>
-                <ListItemText primary={list.name} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
         {/* <Divider /> */}
       </WithRoleAllowedRoutes>
 
+      {/* archivos */}
+      <WithRoleAllowedRoutes allowedRolesList={optionsViewsFiles}>
+        <List component="div" disablePadding>
+          <ListItemButton onClick={handleOpenPending}>
+            <ListItemIcon>
+              <FolderOutlinedIcon sx={{ color: "#293184" }} />
+            </ListItemIcon>
+            <ListItemText primary="Mis Archivos" />
+            {openFiles ? <ExpandLess /> : <ExpandMore />}
+          </ListItemButton>
+          <Collapse in={openFiles} timeout="auto" unmountOnExit>
+            {rutero.online.files.map((list, index) => (
+              <ListItem key={index} disablePadding>
+                <ListItemButton
+                  // sx={{ pl: 4 }}
+                  onClick={() => navigate(`${list.url}`)}
+                >
+                  <ListItemIcon>{list.icon}</ListItemIcon>
+                  <ListItemText primary={list.name} />
+                </ListItemButton>
+              </ListItem>
+            ))}
+          </Collapse>
+        </List>
+      </WithRoleAllowedRoutes>
+
+      {/* todos los archivos */}
+      <WithRoleAllowedRoutes allowedRolesList={optionsViewsAllFiles}>
+        <List>
+          <ListItemButton onClick={handleOpenAllFiles}>
+            <ListItemIcon>
+              <FolderSpecialOutlinedIcon sx={{ color: "#293184" }} />
+            </ListItemIcon>
+            <ListItemText primary="Archivos" />
+            {openAllFiles ? <ExpandLess /> : <ExpandMore />}
+          </ListItemButton>
+          <Collapse in={openAllFiles} timeout="auto" unmountOnExit>
+            {rutero.online.allFiles.map((list, index) => (
+              <ListItem key={index} disablePadding>
+                <ListItemButton onClick={() => navigate(`${list.url}`)}>
+                  <ListItemIcon>{list.icon}</ListItemIcon>
+                  <ListItemText primary={list.name} />
+                </ListItemButton>
+              </ListItem>
+            ))}
+          </Collapse>
+        </List>
+        <Divider />
+      </WithRoleAllowedRoutes>
+
+      {/* Administracion */}
       <WithRoleAllowedRoutes allowedRolesList={optionsViewsTI}>
         <List>
           {rutero.online.ti.map((list, index) => (
@@ -175,9 +193,9 @@ function index(props: any) {
         <List>
           <ListItemButton onClick={handleOpenDG}>
             <ListItemIcon>
-              <CreateNewFolderRoundedIcon sx={{ color: "#293184" }} />
+              <FolderSharedOutlinedIcon sx={{ color: "#293184" }} />
             </ListItemIcon>
-            <ListItemText primary="Digitalización" />
+            <ListItemText primary="Gestion Humana" />
             {openDG ? <ExpandLess /> : <ExpandMore />}
           </ListItemButton>
           <Collapse in={openDG} timeout="auto" unmountOnExit>

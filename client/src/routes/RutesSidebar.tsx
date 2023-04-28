@@ -1,14 +1,14 @@
-import HistoryEduRoundedIcon from "@mui/icons-material/HistoryEduRounded";
-import PendingActionsRoundedIcon from "@mui/icons-material/PendingActionsRounded";
-import LogoDevIcon from "@mui/icons-material/LogoDev";
-import TopicRoundedIcon from "@mui/icons-material/TopicRounded";
-import AttachEmailIcon from "@mui/icons-material/AttachEmail";
-import CreateNewFolderRoundedIcon from "@mui/icons-material/CreateNewFolderRounded";
-import PersonAddAltRoundedIcon from "@mui/icons-material/PersonAddAltRounded";
-import BugReportRoundedIcon from "@mui/icons-material/BugReportRounded";
+import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
+import AttachEmailOutlinedIcon from "@mui/icons-material/AttachEmailOutlined";
+import EqualizerIcon from "@mui/icons-material/Equalizer";
 import GroupsRoundedIcon from "@mui/icons-material/GroupsRounded";
+import HistoryEduIcon from "@mui/icons-material/HistoryEdu";
+import PendingActionsRoundedIcon from "@mui/icons-material/PendingActionsRounded";
+import PersonAddAltRoundedIcon from "@mui/icons-material/PersonAddAltRounded";
 import PostAddRoundedIcon from "@mui/icons-material/PostAddRounded";
+import RestoreOutlinedIcon from "@mui/icons-material/RestoreOutlined";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
+import TopicOutlinedIcon from "@mui/icons-material/TopicOutlined";
 import { get, roles } from "../components/tools/SesionSettings";
 
 export default {
@@ -17,15 +17,15 @@ export default {
       {
         name: "Generar",
         url: "/dashboard/radicar",
-        icon: <HistoryEduRoundedIcon sx={{ color: "#293184" }} />,
+        icon: <HistoryEduIcon sx={{ color: "#293184" }} />,
       },
       {
         name: "Adjuntar",
         url: "/dashboard/adjuntar",
-        icon: <AttachEmailIcon sx={{ color: "#293184" }} />,
+        icon: <AttachEmailOutlinedIcon sx={{ color: "#293184" }} />,
       },
     ],
-    authorizations: [
+    files: [
       {
         name: `${
           Number(get("idroles")) == roles.Administrador
@@ -35,19 +35,29 @@ export default {
         url: "/dashboard/pendientes",
         icon: <PendingActionsRoundedIcon sx={{ color: "#293184" }} />,
       },
+      {
+        name: "Historial",
+        url: "/dashboard/historial",
+        icon: <RestoreOutlinedIcon sx={{ color: "#293184" }} />,
+      },
     ],
     allFiles: [
       {
         name: "Todos los archivos",
         url: "/dashboard/todos-los-archivos",
-        icon: <TopicRoundedIcon sx={{ color: "#293184" }} />,
+        icon: <TopicOutlinedIcon sx={{ color: "#293184" }} />,
+      },
+      {
+        name: "Trazabilidad",
+        url: "/dashboard/tracking",
+        icon: <EqualizerIcon sx={{ color: "#293184" }} />,
       },
     ],
     ti: [
       {
         name: "Administracion Web",
         url: "/dashboard/admin",
-        icon: <LogoDevIcon sx={{ color: "#293184" }} />,
+        icon: <AdminPanelSettingsOutlinedIcon sx={{ color: "#293184" }} />,
       },
     ],
     digitalizacion: [
