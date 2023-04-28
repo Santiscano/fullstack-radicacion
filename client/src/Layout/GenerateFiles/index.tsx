@@ -422,7 +422,7 @@ function GenerateFiles() {
                       <InputSelectCedi
                         type={"text"}
                         title="Ciudad a Radicar"
-                        placeholder="Ciudad a radicar"
+                        placeholder="Ciudad a Radicar"
                         name="cedi"
                         required
                         disabled={!cediType}

@@ -71,11 +71,13 @@ function index() {
             placeholder="correo@dominio.com"
           />
           {errors.email?.type === "required" && (
-            <span className="form-login-error">Correo requerido</span>
+            <span className="form-login-error">
+              Se requiere el correo electrónico
+            </span>
           )}
           {errors.email?.type === "pattern" && (
             <span className="form-login-error">
-              Revisa bien, no es un formato de correo
+              Revisa bien, no es un formato de Correo.
             </span>
           )}
         </div>
@@ -90,7 +92,7 @@ function index() {
             placeholder="Contraseña"
           />
           {errors.password?.type === "required" && (
-            <span className="form-login-error">Contraseña requerida</span>
+            <span className="form-login-error">Se requiere la contraseña</span>
           )}
           {errors.password?.type === "minLength" && (
             <span className="form-login-error">

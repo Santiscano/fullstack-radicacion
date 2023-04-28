@@ -58,7 +58,7 @@ function index() {
                       : errorLogin === "auth/user-not-found"
                       ? "Usuario no registrado"
                       : errorLogin === "auth/wrong-password"
-                      ? "Contraseña erronea"
+                      ? "Clave errónea"
                       : "Algo a Fallado"}
                   </strong>{" "}
                   <br />
@@ -92,8 +92,8 @@ function index() {
                 Digitalización
               </h2>
               <h4 className="text-white text-l text-center mt-2 mx-auto">
-                aliado estratégico para la gestion de archivos y procesos en tu
-                negocio
+                aliado estratégico para la gestión de archivos y procesos en tu
+                negocio.
               </h4>
             </div>
           </div>
