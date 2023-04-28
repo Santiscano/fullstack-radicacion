@@ -1,5 +1,6 @@
 import 'dotenv/config'
 import { connection } from '../config/database/db';
+import moment from 'moment-timezone'
 import { RowDataPacket, OkPacket, ResultSetHeader } from 'mysql2/promise';
 
 type Data = RowDataPacket[] | RowDataPacket[][] | OkPacket | OkPacket[] | ResultSetHeader | ResultSetHeader 
@@ -57,7 +58,8 @@ export const getTrackingModel = async( data: number ): Promise<{ message: string
 
 // AGREGAR UN TRACKING
 export const postTrakingModel = async ( idfiles_states: number, idfiles: number, idusers: number, tracking_observation: string ): Promise<void> => {
+    const day = moment.tz(new Date(), "America/Bogota").format();
     await connection.query(`INSERT INTO tracking (idfiles_states, idfiles, idusers, tracking_observation, tracking_date)
-        VALUES ( ?, ?, ?, ?, ? );`, [idfiles_states, idfiles, idusers, tracking_observation, new Date()]);
+        VALUES ( ?, ?, ?, ?, ? );`, [idfiles_states, idfiles, idusers, tracking_observation, day]);
     return console.log("ADDED_TRACKING");
 };

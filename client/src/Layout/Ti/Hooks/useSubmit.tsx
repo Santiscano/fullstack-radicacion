@@ -57,6 +57,7 @@ function useSubmit() {
   const [subAreaNumber, setSubAreaNumber] = useState("");
   const [subAreaName, setSubAreaName] = useState("");
   const [connectionArea, setConnectionArea] = useState("");
+  const [relationCedi, setRelationCedi] = useState("");
   // create Center Cost
   const [costCenterNumber, setCostCenterNumber] = useState("");
   const [costCenterName, setCostCenterName] = useState("");
@@ -127,6 +128,8 @@ function useSubmit() {
     setConnectionArea(e.target.value);
   const handleConnectionSubArea = (e: SelectChangeEvent) =>
     setConnectionSubArea(e.target.value);
+  const handleRelationCedi = (e: SelectChangeEvent) =>
+    setRelationCedi(e.target.value);
 
   const handleRol = (e: SelectChangeEvent) => {
     setAssignRole(e.target.value);
@@ -326,11 +329,12 @@ function useSubmit() {
       setPreLoad(true);
       e.preventDefault();
       const res = await createSubArea(
-        connectionArea,
+        // @ts-ignore
+        relationCedi.id,
         subAreaNumber,
         subAreaName
       );
-      // console.log("res: ", res);
+      console.log("res: ", res);
       if (res?.status == 200) {
         handleMessageSnackbar(
           "success",
@@ -366,11 +370,12 @@ function useSubmit() {
       setPreLoad(true);
       e.preventDefault();
       const res = await createCostCenter(
-        connectionSubArea,
+        // @ts-ignore
+        cediConection.id,
         costCenterNumber,
         costCenterName
       );
-      // console.log("res: ", res);
+      console.log("res: ", res);
       if (res?.status == 200) {
         handleMessageSnackbar(
           "success",
@@ -512,6 +517,8 @@ function useSubmit() {
     setSubAreaName,
     connectionArea,
     handleConnectionArea,
+    relationCedi,
+    handleRelationCedi,
     //
     handleSubmitCreateCostCenter,
     costCenterNumber,

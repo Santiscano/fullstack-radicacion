@@ -65,6 +65,9 @@ export default {
         createCostCenter: `${host}/postCostCenter`,
         deleteCostCenter: `${host}/deleteCostCenter`,
       },
+      table: {
+        getCostTable: `${host}/centerCostTable`,
+      },
     },
     firebase: {
       createUser: `${host}/createUser`,

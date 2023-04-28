@@ -1,3 +1,4 @@
+import React from "react";
 import { IsLoadingType } from "./Loading";
 import { ValidatedUserInLogin } from './User'
 import { Snackbar } from "./Snackbar";
@@ -16,4 +17,6 @@ export interface GeneralValuesType extends IsLoadingType, Snackbar {
   rows: any,
   setRows: React.Dispatch<React.SetStateAction<any>>;
   handleUpdateRows: any;
+  cediConection: string;
+  setCediConection: React.Dispatch<React.SetStateAction<string>>;
 }

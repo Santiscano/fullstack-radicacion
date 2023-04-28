@@ -68,13 +68,13 @@ export const getAllSubAreas = async () => {
     // console.log("error: ", error);
   }
 };
-export const getSubAreaById = async (id: any) => {
+export const getSubAreaById = async (idcost_center_area: any) => {
   try {
     const response = await axios.post(
       Routes.api.centerCost.subArea.getCostSubAreaById,
       {
         api_key: import.meta.env.VITE_API_KEY,
-        idcost_center_area: id,
+        idcost_center_area,
       },
       getHeader()
     );
@@ -184,5 +184,17 @@ export const deleteCostCenter = async () => {
     return response;
   } catch (error) {
     // console.log("error: ", error);
+  }
+};
+export const centerCostTable = async () => {
+  try {
+    const getTable = await axios.get(
+      Routes.api.centerCost.table.getCostTable,
+      getHeader()
+    );
+    console.log("get Table Center cost", getTable);
+    return getTable.data;
+  } catch (error) {
+    console.log("error: ", error);
   }
 };

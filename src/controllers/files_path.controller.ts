@@ -4,6 +4,7 @@ import { missingData } from '../utilities/missingData.utilities';
 import { connection } from '../config/database/db';
 import { upload } from '../helpers/multerAddPdf';
 import { postTrakingModel } from '../models/tracking.model';
+import moment from 'moment-timezone';
 
 // Traer una ruta del arvhivo
 export const getFilesPath = async ( req: Request, res: Response ) => {
@@ -37,10 +38,11 @@ export const postChargeFilePath = async ( req: Request, res: Response ) => {
             if ( req.file ) {
                 // console.log( req.file );
                 const path = req.file.path;
+                const day = moment.tz(new Date(), "America/Bogota").format();
                 await connection.query(`
                     INSERT INTO files_path (idfiles, files_path, files_path_date, files_path_observation) 
                         VALUES (?, ?, ?, ?);
-                    `, [ idfiles, path, new Date(), files_path_observation ]);
+                    `, [ idfiles, path, day, files_path_observation ]);
                 const [ filePath ] = await connection.query(`
                     SELECT * FROM files_path WHERE files_path = ?;`, [ path ]);
                 postTrakingModel(1, parseInt(idfiles), parseInt(userSession), files_path_observation);
@@ -62,10 +64,11 @@ export const postFilePath = async ( req: Request, res: Response ) => {
         if ( missingData(values) ){
             return res.status(400).json({ message: "ERROR_MISSING_VALUES" });
         };
+        const day = moment.tz(new Date(), "America/Bogota").format();
         await connection.query(`
             INSERT INTO files_path (idfiles, files_path, files_path_date, files_path_observation) 
                 VALUES (?, ?, ?, ?);
-            `, [ idfiles, files_path, new Date(), files_path_observation.toUpperCase() ]);
+            `, [ idfiles, files_path, day, files_path_observation.toUpperCase() ]);
         const [ filePath ] = await connection.query(`
             SELECT * FROM files_path WHERE files_path = ?;`, [ files_path ]);
         postTrakingModel(idfiles_states, parseInt(idfiles), parseInt(userSession), files_path_observation.toUpperCase());
