@@ -43,16 +43,20 @@ export const useModalForm = () => {
 
   const handleGetUsers = async () => {
     // users
-    const getAllUsers = await getUsers();
+    const fetchAllUsers = await getUsers();
+    const getAllUsers = fetchAllUsers.rows;
     setAllUsers(getAllUsers);
 
     // get states files & nextAuditor
     const getAllStates = await getStatesFiles();
+    console.log("getAllStates: ", getAllStates?.data.data);
     const states = await getAllStates?.data.data;
 
     isReturn(getAllUsers);
 
     if (getAllUsers && states) {
+      console.log("states: ", states);
+      console.log("getAllUsers: ", getAllUsers);
       if (Number(get("idroles")) == roles.AuditorGH) {
         return isGH(states, getAllUsers);
       } else if (Number(get("idroles")) == roles.AuditorCRTL) {
@@ -204,8 +208,10 @@ export const useModalForm = () => {
     setOptionsRedirectTo(nextAuditor);
   };
 
+  const isAdmin = (stateList: any, auditors: any) => {};
+
   const isReturn = (auditors: any) => {
-    // console.log("ejecute isReturn: ");
+    // console.log(auditors);
     const nextAuditor = auditors?.filter(
       (user: { idroles: number; idusers: number }) =>
         (user.idroles == roles.AuditorCRTL ||

@@ -2,6 +2,7 @@ import { GridColDef } from "@mui/x-data-grid";
 import ButtonModalAllFiles from "../Layout/AllFilesTable/components/ButtonModalAllFiles";
 import ButtonModalEdit from "../Layout/PendingFilesTable/components/common/ButtonModalEdit";
 import { formattedAmount } from "../Utilities/formatted.utility";
+import { width } from "@mui/system";
 
 // const columns = () => {}
 export const columnsEdit: GridColDef[] = [

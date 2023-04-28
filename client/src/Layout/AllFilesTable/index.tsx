@@ -16,7 +16,7 @@ function AllFilesTable() {
       setRow(rows ? rows : []);
       console.log("row table--: ", rows);
     } catch (error) {
-      // console.log("error: ", error);
+      console.log("error: ", error);
     } finally {
       setPreLoad(false);
     }
@@ -32,7 +32,6 @@ function AllFilesTable() {
       <div className="layout">
         <section className="layout-section">
           <div className="layout-left">
-            {/* <LoadingMUI/> */}
             <h3 className="container__createFiling createFiling">
               Todos los archivos
             </h3>

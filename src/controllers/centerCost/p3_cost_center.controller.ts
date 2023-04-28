@@ -30,9 +30,9 @@ export const getCostCenterById = async (req: Request, res: Response) => {
         if ( api_key !== process.env.API_KEY ) {
             return res.status(401).json({ error: true, message: "No cuentas con los permisos para acceder a esta información" });
         };
-        if( missingData([ idcost_center_subarea ]) ){
-            return res.status(422).json({ error: true, message: "MISSING_VALUES" });
-        };
+        // if( missingData([ idcost_center_subarea ]) ){
+        //     return res.status(422).json({ error: true, message: "MISSING_VALUES" });
+        // };
         const [ data ] = await connection.query(`
             SELECT idcost_center AS id, 
                     idcost_center_subarea AS fk, 

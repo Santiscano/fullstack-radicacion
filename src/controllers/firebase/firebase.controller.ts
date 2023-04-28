@@ -40,12 +40,13 @@ export const validateUser = async (req: Request, res: Response) => {
         let emailToken = (Object.values(decoded))[7];
         let [ result ] = await connection.query(`
             SELECT U.idusers, U.idroles, U.idsedes, U.users_identification_type, U.users_identification, U.users_name, U.users_lastname, U.users_email, U.users_status, 
-                    R.roles, 
-                    S.sedes_city, S.sedes_name 
-                        FROM users U 
-                        LEFT JOIN roles R ON U.idroles = R.idroles 
-                        LEFT JOIN sedes S ON U.idsedes = S.idsedes 
-                        WHERE users_email = ? ;`, [ emailToken ]);
+                R.roles, 
+                S.sedes_city, 
+                S.sedes_name 
+                    FROM users U 
+                    LEFT JOIN roles R ON U.idroles = R.idroles 
+                    LEFT JOIN sedes S ON U.idsedes = S.idsedes 
+                    WHERE users_status = 'ACTIVO' AND users_email = ? ;`, [ emailToken ]);
         // console.log(result)
         //@ts-ignore
         if(result.length == 0){

@@ -9,11 +9,12 @@ interface Response {
     data?: Data;
     missing?: string | number | undefined | null;
     firebase?: {error: boolean, data: any};
+    path?: Data
 }
 
-export const success = ( data?: Data, message?: string, firebase?: {error: boolean, data: any}  ): Response => {
+export const success = ( data?: Data, message?: string, firebase?: {error: boolean, data: any}, path?: Data ): Response => {
     message === undefined ? message = 'SUCCESS' : message;
-    return { error: false, message, data, firebase };
+    return { error: false, message, data, firebase, path };
 };
 
 export const unsuccessfully = ( error: unknown ): Response => {

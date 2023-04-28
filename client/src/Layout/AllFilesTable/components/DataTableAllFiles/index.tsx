@@ -25,7 +25,7 @@ const openPdf = () => {
   window.open(pdf);
 };
 
-function GridToolbarConfig() {
+export function GridToolbarConfig() {
   return (
     <div>
       <GridToolbarColumnsButton style={{ color: "#000", marginLeft: "17px" }} />
@@ -103,8 +103,8 @@ export default function DataTableAllFiles({ row }: any) {
           rows={row}
           getRowId={getRowId}
           columns={columnsAllFiles}
-          pageSize={7}
-          rowsPerPageOptions={[7]}
+          // pageSize={7}
+          rowsPerPageOptions={[5, 10, 25, 50, 100]}
           disableSelectionOnClick
           experimentalFeatures={{ newEditingApi: true }}
           // getRowClassName={delayAlerts}
@@ -142,6 +142,7 @@ export default function DataTableAllFiles({ row }: any) {
                 users_status: false,
               },
             },
+            pagination: { pageSize: 5 },
           }}
         />
       </Box>

@@ -18,6 +18,9 @@ import AlertDialogSlide from "./components/common/AlertDialogSlide";
 import SelectArea from "./components/common/SelectArea";
 import UsersTable from "./components/Tables/UsersTable";
 import ProvidersTables from "./components/Tables/ProvidersTable";
+import GetCediToBusinessUnit from "./components/common/GetCedisToBusinessUnit";
+import { useContext } from "react";
+import GeneralValuesContext from "../../Context/GeneralValuesContext";
 
 function TI() {
   const {
@@ -77,6 +80,8 @@ function TI() {
     setSubAreaName,
     connectionArea,
     handleConnectionArea,
+    relationCedi,
+    handleRelationCedi,
     //
     handleSubmitCreateCostCenter,
     costCenterNumber,
@@ -95,6 +100,7 @@ function TI() {
     isCreateProvider,
     setIsCreateProvider,
   } = useSubmit();
+  const { cediConection } = useContext(GeneralValuesContext);
 
   return (
     <div className="layout">
@@ -154,7 +160,6 @@ function TI() {
                   </>
                 )}
               </TabPanel>
-
               {(Number(get("idroles")) == roles.AuditorTI ||
                 Number(get("idroles")) == roles.Administrador) && (
                 <TabPanel value={showValue} index={1}>
@@ -523,6 +528,138 @@ function TI() {
                     </form>
                   )} */}
                   <ProvidersTables setIsCreateProvider={setIsCreateProvider} />
+                  <form onSubmit={(event) => handleSubmitCreateProvider(event)}>
+                    <div className="md:flex md:flex-wrap">
+                      <article className="md:w-1/2">
+                        <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
+                          Asignar Rol
+                        </label>
+                        <TextFieldOutlined
+                          type={"text"}
+                          label={"Rol"}
+                          value={"PROVEEDOR"}
+                          disabled
+                        />
+                      </article>
+                      <article className="md:w-1/2">
+                        <InputSelectCedi
+                          type={"text"}
+                          title="Asignar Cedi"
+                          placeholder="Cedi"
+                          name="cedi"
+                          required
+                          value={cedi}
+                          onChange={handleCedi}
+                          itemDefault="selecciona una opcion"
+                        />
+                      </article>
+                    </div>
+                    <div className="md:flex md:flex-wrap">
+                      <article className="md:w-1/2">
+                        <InputSelectDocType
+                          type={"text"}
+                          title="Tipo de Documento"
+                          placeholder="C.C, NIT..."
+                          name="type"
+                          required
+                          value={identificationType}
+                          onChange={handleCedity}
+                          itemDefault="selecciona un tipo"
+                        />
+                      </article>
+                      <article className="md:w-1/2">
+                        <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
+                          Numero de documento
+                        </label>
+                        <TextFieldOutlined
+                          type={"number"}
+                          label={"Numero"}
+                          value={identificationNumber}
+                          setValue={setIdentificationNumber}
+                          required
+                        />
+                      </article>
+                    </div>
+                    <div className="md:flex md:flex-wrap">
+                      <article className="md:w-1/2">
+                        <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
+                          Nombres
+                        </label>
+                        <TextFieldOutlined
+                          type={"text"}
+                          label={"Nombre"}
+                          value={firstName}
+                          setValue={setFirstname}
+                          required
+                        />
+                      </article>
+                      <article className="md:w-1/2">
+                        <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
+                          Dirección
+                        </label>
+                        <TextFieldOutlined
+                          type={"text"}
+                          label={"Dirección Ubicacion"}
+                          value={address}
+                          setValue={setAddress}
+                          required
+                        />
+                      </article>
+                    </div>
+                    <div className="md:flex md:flex-wrap">
+                      <article className="md:w-1/2">
+                        <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
+                          Teléfono
+                        </label>
+                        <TextFieldOutlined
+                          type={"number"}
+                          label={"numero"}
+                          value={phone}
+                          setValue={setPhone}
+                          required
+                        />
+                      </article>
+                      <article className="md:w-1/2">
+                        <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
+                          Correo Electronico
+                        </label>
+                        <TextFieldOutlined
+                          type={"email"}
+                          label={"Email"}
+                          value={email}
+                          setValue={setEmail}
+                          required
+                        />
+                      </article>
+                    </div>
+                    <div className="md:flex md:flex-wrap">
+                      <article className="md:w-1/2">
+                        <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
+                          Dias de Limite de Pago
+                        </label>
+                        <TextFieldOutlined
+                          type={"number"}
+                          label={"numero de Días"}
+                          value={limitDaysPayment}
+                          setValue={setLimitDaysPayment}
+                          required
+                        />
+                      </article>
+                      <article className="md:w-1/2">
+                        <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
+                          Fecha de Actualización
+                        </label>
+                        <TextFieldOutlined
+                          type={"date"}
+                          label={""}
+                          value={documentationUpdate}
+                          setValue={setDocumentationUpdate}
+                          required
+                        />
+                      </article>
+                    </div>
+                    <Button name="Crear Proveedor" />
+                  </form>
                 </TabPanel>
               )}
               {(Number(get("idroles")) == roles.Contabilidad ||
@@ -555,10 +692,18 @@ function TI() {
                         />
                       </article>
                     </div>
-                    <Button name="Crear Area" />
+                    <Button name="Crear Unidad negocio" />
                   </form>
 
                   <form onSubmit={(event) => handleSubmitCreateSubArea(event)}>
+                    <div className="md:flex md:flex-wrap">
+                      <article className="md:w-1/2">
+                        <SelectArea
+                          valueArea={relationCedi}
+                          onChangeArea={handleRelationCedi}
+                        />
+                      </article>
+                    </div>
                     <div className="md:flex md:flex-wrap">
                       <article className="md:w-1/2">
                         <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
@@ -585,22 +730,32 @@ function TI() {
                         />
                       </article>
                     </div>
-                    <div className="md:flex md:flex-wrap">
-                      <SelectArea
-                        isArea
-                        valueArea={connectionArea}
-                        onChangeArea={handleConnectionArea}
-                        valueSubArea={connectionSubArea}
-                        onChangeSubArea={handleConnectionSubArea}
-                        update={setMessageSnackbar}
-                      />
-                    </div>
-                    <Button name="Crear SubArea" />
+
+                    {/* <div className="md:flex md:flex-wrap">
+                      <BusinessUnitCedi />
+                    </div> */}
+                    <Button name="Crear Cedi" />
                   </form>
 
                   <form
                     onSubmit={(event) => handleSubmitCreateCostCenter(event)}
                   >
+                    <div className="md:flex md:flex-wrap">
+                      <article className="md:w-1/2">
+                        <SelectArea
+                          valueArea={connectionArea}
+                          onChangeArea={handleConnectionArea}
+                        />
+                      </article>
+                      <article className="md:w-1/2">
+                        {connectionArea && (
+                          <GetCediToBusinessUnit
+                            // @ts-ignore
+                            BusinessUnit={connectionArea.id}
+                          />
+                        )}
+                      </article>
+                    </div>
                     <div className="md:flex md:flex-wrap">
                       <article className="md:w-1/2">
                         <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
@@ -627,14 +782,18 @@ function TI() {
                         />
                       </article>
                     </div>
-                    <div className="md:flex md:flex-wrap">
-                      <SelectArea
-                        isSubArea
-                        valueSubArea={connectionSubArea}
-                        onChangeSubArea={handleConnectionSubArea}
-                      />
+
+                    <div className="text-xl ml-4">
+                      Centro de costos a crear:{" "}
+                      <strong>
+                        {/* @ts-ignore */}
+                        {`${connectionArea && connectionArea.number}-${
+                          // @ts-ignore
+                          cediConection && cediConection.number
+                        }-${costCenterNumber}`}
+                      </strong>
                     </div>
-                    <Button name="Crear Centro De Costos" />
+                    <Button name="Crear Dependencia" />
                   </form>
                 </TabPanel>
               )}

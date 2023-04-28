@@ -189,6 +189,18 @@ function index(props: any) {
         <Divider />
       </WithRoleAllowedRoutes>
 
+      <List>
+        {rutero.online.CenterCost.map((list, index) => (
+          <ListItem key={index} disablePadding>
+            <ListItemButton onClick={() => navigate(`${list.url}`)}>
+              <ListItemIcon>{list.icon}</ListItemIcon>
+              <ListItemText primary={list.name} />
+            </ListItemButton>
+          </ListItem>
+        ))}
+      </List>
+      <Divider />
+
       <WithRoleAllowedRoutes allowedRolesList={optionsViewsDigitization}>
         <List>
           <ListItemButton onClick={handleOpenDG}>

@@ -171,12 +171,21 @@ function Approve({
             </article>
           )}
         <div className="flex flex-col mt-4 w-f">
-          <Upload
-            file={filePDFGoogle}
-            fileName={fileName}
-            handleChangeFile={handleChangeFile}
-            required={get("idroles") == roles.Tesoreria || roles.Contabilidad}
-          />
+          {get("idroles") == (roles.Tesoreria || roles.Contabilidad) && (
+            <Upload
+              file={filePDFGoogle}
+              fileName={fileName}
+              handleChangeFile={handleChangeFile}
+              required
+            />
+          )}
+          {get("idroles") !== (roles.Tesoreria || roles.Contabilidad) && (
+            <Upload
+              file={filePDFGoogle}
+              fileName={fileName}
+              handleChangeFile={handleChangeFile}
+            />
+          )}
         </div>
         <div className="flex mt-4 w-full">
           <textarea

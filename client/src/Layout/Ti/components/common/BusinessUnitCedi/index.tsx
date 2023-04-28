@@ -1,10 +1,9 @@
 // @ts-nocheck
-import { Autocomplete, Box, Grid, TextField } from "@mui/material";
-import axios from "axios";
+import { Autocomplete, Box, TextField } from "@mui/material";
 import { styled } from "@mui/material/styles";
+import axios from "axios";
 import { useEffect, useState } from "react";
-import Route from "../../../services/Routes";
-import { getHeader } from "../../tools/SesionSettings";
+import Route from "../../../../../services/Routes";
 
 const AutocompleteStyled = styled(Autocomplete)({
   "& .MuiOutlinedInput-root": {
@@ -14,12 +13,12 @@ const AutocompleteStyled = styled(Autocomplete)({
   },
 });
 
-function LocationsSelect({
+function BusinessUnitCedi({
   labelDepartment,
   labelCity,
   city,
   setCity,
-  department,
+  operation,
   setDepartment,
   handleValuesUser,
   requiredCity,
@@ -29,31 +28,39 @@ function LocationsSelect({
   disabledCity,
   disabledDepartment,
 }: any) {
-  const [documentType, setDocumentType] = useState([]);
+  const [businessUnit, setBusinessUnit] = useState([]);
   // const documents = ["CEDULA CIUDADANIA", "NIT", "CEDULA EXTRANGERIA"];
-  const [documentNumber, setDocumentNumber] = useState([]);
-  const [disabledCityAction, setDisabledCityAction] = useState(false);
+  const [cedi, setCedi] = useState([]);
+  const [disabledCediAction, setDisabledCediAction] = useState(false);
 
-  const handleTypeIdentification = () => {
+  const handleBusinessUnit = (id: any) => {
     axios
-      .post(Route.api.users.getTypeIdentification, {
-        api_key: import.meta.env.VITE_API_KEY,
-      })
+      .post(
+        Routes.api.centerCost.area.getCostArea,
+        {
+          api_key: import.meta.env.VITE_API_KEY,
+        },
+        getHeader()
+      )
       .then((res) => {
         // console.log(res.data.data);
-        setDocumentType(res.data.data);
+        setBusinessUnit(res?.data.data);
       });
   };
 
-  const handleDocumentNumber = (users_identification: any) => {
+  const handleDocumentNumber = (idcost_center_area: any) => {
     axios
-      .post(Route.api.users.getDocumentTypes, {
-        api_key: import.meta.env.VITE_API_KEY,
-        users_identification_type: users_identification,
-      })
+      .post(
+        Route.api.centerCost.subArea.getCostSubAreaById,
+        {
+          api_key: import.meta.env.VITE_API_KEY,
+          idcost_center_area,
+        },
+        getHeader()
+      )
       .then((res) => {
         // console.log(res.data.data);
-        setDocumentNumber(res.data.data);
+        setCedi(res.data.data);
       });
   };
 
@@ -98,13 +105,13 @@ function LocationsSelect({
               setValue(newValue);
 
               if (type === "documentType") {
-                setDisabledCityAction(false);
+                setDisabledCediAction(false);
                 setCity("");
                 handleDocumentNumber(newValue.split("-").shift().trim());
               }
             } else {
               if (type === "documentNumber") {
-                setDisabledCityAction(false);
+                setDisabledCediAction(false);
               }
             }
           }}
@@ -127,45 +134,43 @@ function LocationsSelect({
   };
 
   useEffect(() => {
-    if ([null, ""].includes(department)) {
-      setDisabledCityAction(true);
+    if ([null, ""].includes(operaction)) {
+      setDisabledCediAction(true);
     }
 
-    if (![null, ""].includes(department)) {
-      handleDocumentNumber(department);
+    if (![null, ""].includes(operation)) {
+      handleDocumentNumber(operation);
     }
 
-    handleTypeIdentification();
+    handleBusinessUnit();
   }, []);
 
   return (
     <div className="md:flex md:flex-wrap">
       <article className="md:w-1/2">
         <List
-          type={"departments"}
-          label={
-            !labelDepartment ? "Tipo Documento Proveedor" : labelDepartment
-          }
-          value={department}
+          type={"documentType"}
+          label={!labelDepartment ? "Tipo Documento" : labelDepartment}
+          value={operation}
           setValue={setDepartment}
           required={requiredDepartment}
           disabled={disabledDepartment}
           readOnly={readOnlyDepartment}
           // @ts-ignore
-          options={documentType.map((type) => type.typeDocument)}
+          options={businessUnit.map((type) => type.typeDocument)}
         />
       </article>
 
       <article className="md:w-1/2">
         <List
-          type={"cities"}
-          label={!labelCity ? "Numero Documento Proveedor" : labelCity}
+          type={"documentNumber"}
+          label={!labelCity ? "Numero Documento" : labelCity}
           value={city}
           setValue={setCity}
           required={requiredCity}
-          disabled={disabledCityAction}
+          disabled={disabledCediAction}
           readOnly={readOnlyCity}
-          options={documentNumber.map(
+          options={cedi.map(
             (user) =>
               // @ts-ignore
               `${user.users_identification}-${user.users_identification_digital_check}-${user.users_name} ${user.users_lastname}`
@@ -183,4 +188,4 @@ function LocationsSelect({
   );
 }
 
-export default LocationsSelect;
+export default BusinessUnitCedi;

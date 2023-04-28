@@ -1,13 +1,10 @@
-import { useEffect, useState } from "react";
+import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import { alpha, styled } from "@mui/material/styles";
-import {
-  getArea,
-  getAllSubAreas,
-} from "../../../../../services/CenterCost.routes";
+import { styled } from "@mui/material/styles";
+import { useEffect, useState } from "react";
+import { getArea } from "../../../../../services/CenterCost.routes";
 
 const Selecting = styled(FormControl)({
   "& .MuiOutlinedInput-root": {
@@ -17,123 +14,54 @@ const Selecting = styled(FormControl)({
   },
 });
 
-function SelectArea({
-  isArea,
-  isSubArea,
-  valueArea,
-  onChangeArea,
-  valueSubArea,
-  onChangeSubArea,
-  update,
-}: any) {
-  const [area, setArea] = useState<any>();
-  const [subArea, setSubArea] = useState<any>();
+function SelectArea({ valueArea, onChangeArea }: any) {
+  const [areas, setAreas] = useState<any>();
 
-  /**
-   * ejecuta las 2 funciones area y subarea
-   */
-  const handleList = () => {
-    handleArea();
-    handleSubArea();
-  };
   /**
    * traer de nuevo todas las areas
    */
   const handleArea = async () => {
-    const area = await getArea();
-    setArea(area?.data.data);
+    const getAreas = await getArea();
+    console.log("areas: ", getAreas);
+    setAreas(getAreas?.data.data);
   };
-  /**
-   * trae de nuevo todas las subareas
-   */
-  const handleSubArea = async () => {
-    const subArea = await getAllSubAreas();
-    setSubArea(subArea?.data.data);
-  };
-  const List = ({
-    children,
-    title,
-    placeholder,
-    index,
-    value,
-    onChange,
-    required,
-    disabled,
-    autoComplete,
-    name,
-    itemDefault,
-    listItems,
-  }: any) => {
-    return (
-      <div>
+
+  useEffect(() => {
+    handleArea();
+  }, []);
+
+  return (
+    <>
+      <div className="inline-block w-full">
         <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-          {title}
+          Conectar Con Unidad De Negocio
         </label>
         <Selecting sx={{ m: 1, width: 0.98 }}>
-          <InputLabel id={`${placeholder}-label`}>{placeholder}</InputLabel>
+          <InputLabel id="Selecciona_Unidad_De_Negocio_A_Conectar_label">
+            Selecciona Unidad De Negocio A Conectar
+          </InputLabel>
           <Select
-            key={index}
-            label={placeholder}
-            labelId={`${placeholder}-label`}
-            id={placeholder}
-            value={value}
-            onChange={onChange}
+            label="Selecciona Unidad De Negocio A Conectar"
+            labelId="Selecciona Unidad De Negocio A Conectar-label"
+            id="Selecciona_Unidad_De_Negocio_A_Conectar"
+            value={valueArea}
+            onChange={onChangeArea}
             autoWidth
-            required={required}
-            disabled={disabled}
-            autoComplete={"off" || autoComplete}
-            name={name}
+            required={true}
+            autoComplete={"off"}
           >
             <MenuItem value="">
-              <em>{itemDefault}</em>
+              <em>Asigna Una Unidad De Negocio</em>
             </MenuItem>
-            {Array.isArray(listItems) &&
-              listItems.map((item: any, index: any) => (
-                <MenuItem key={index} value={item.id}>
+            {Array.isArray(areas) &&
+              areas.map((item: any, index: any) => (
+                <MenuItem key={index} value={item}>
                   {item.number} - {item.name}
                 </MenuItem>
               ))}
           </Select>
         </Selecting>
       </div>
-    );
-  };
-
-  useEffect(() => {
-    handleList();
-  }, []);
-  // useEffect(() => {
-  //   handleList();
-  // }, [update]);
-
-  return (
-    <>
-      {isArea && (
-        <div className="inline-block w-1/2">
-          <List
-            title="Conectar Con Unidad De Negocio "
-            placeholder="Selecciona Unidad De Negocio A Conectar"
-            value={valueArea}
-            onChange={onChangeArea}
-            required
-            itemDefault="Asigna Una Unidad De Negocio"
-            listItems={area}
-          />
-        </div>
-      )}
-      {isSubArea && (
-        <div className="inline-block w-1/2">
-          <List
-            title="Conectar Con Cedi"
-            placeholder="Selecciona Una Cedi A Conectar"
-            value={valueSubArea}
-            onChange={onChangeSubArea}
-            required
-            itemDefault="Asigna Cedi"
-            listItems={subArea}
-          />
-        </div>
-      )}
     </>
   );
 }
