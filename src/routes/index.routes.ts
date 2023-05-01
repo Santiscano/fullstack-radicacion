@@ -56,7 +56,7 @@ router.post('/deleteFile', deleteFile);                       // Eliminar un arc
 
 // Ruta de los Archivos
 router.post('/getFilesPath', getFilesPath);                     // Traer todas las rutas de los archivos
-router.post('/postChargeFilePath/:idfiles/:files_path_observation', postChargeFilePath);                   // Crear la ruta de los archivos
+router.post('/postChargeFilePath/:idfiles/:files_path_observation/:userSession', postChargeFilePath);                   // Crear la ruta de los archivos
 router.post('/postFilePath', postFilePath);                     // Crear la ruta de los archivos
 router.post('/deleteFilePath', deleteFilePath);               // Crear la ruta de los archivos
 
@@ -108,7 +108,6 @@ router.post('/accountTypeFilter', decodeToken, accountTypeFilter);           // 
 
 // API routes
 router.get('/routerApi', routerApi);                            // Traer las rutas que tiene el sistema
-
 
 
 // Exportando el router
