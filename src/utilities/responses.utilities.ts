@@ -19,7 +19,7 @@ export const success = ( data?: Data, message?: string, firebase?: {error: boole
 
 export const unsuccessfully = ( error: unknown ): Response => {
     console.log(error);
-    return { error: true, message: 'SERVER_PROBLEM' };
+    return { error: true, message: 'SERVER_PROBLEM'};
 };
 
 export const unauthorized = (): Response => {

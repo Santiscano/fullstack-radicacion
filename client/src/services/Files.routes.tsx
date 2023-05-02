@@ -28,6 +28,17 @@ export const addFile = async (
   userSession: number
 ) => {
   try {
+    console.log(
+      "info envio:",
+      files_registered,
+      idsedes,
+      idproviders,
+      idusers,
+      files_price,
+      files_account_type,
+      files_account_type_number,
+      userSession
+    );
     const response = await axios.post(
       Routes.api.files.addFile,
       {

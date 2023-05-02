@@ -43,7 +43,7 @@ export const postFileModel = async(data: File): Promise<{message?: string, data?
                 ]);
         const [ file ] = await connection.query('SELECT * FROM files WHERE files_registered = ?;', [ data.files_registered ]);
         //@ts-ignore
-        postTrakingModel(idfiles_states, file[0].idfiles, userSession, tracking_observation);
+        postTrakingModel(idfiles_states, file[0].idfiles, data.userSession, tracking_observation);
         // CREAR PDF RADICADO
         // createPDF(files_registered.toUpperCase(), files_account_type.toUpperCase(), files_type.toUpperCase());
         return { message: "Cargado exitosamente", data: file };

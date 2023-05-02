@@ -15,7 +15,7 @@ export const uploadfile = async (file_pdf: any, idFiles: any) => {
       },
       getHeaderMultipart()
     );
-    console.log("response: ", response);
+    console.log("response uploadfile: ", response);
     return response;
   } catch (error) {
     console.log(error);

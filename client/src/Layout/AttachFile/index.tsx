@@ -222,20 +222,22 @@ function AttachFile() {
                 </article>
                 <article className="filing-attachFile">
                   <h2 className="font-bold text-2xl ml-3">Archivos Cargados</h2>
-                  <div className="flex flex-wrap my-3">
-                    {listRoutesPDF.map((pdf: any, index: any) => (
-                      <a key={index} href={pdf.files_path} target="_blank">
-                        <Tooltip
-                          title={pdf.files_path_observation}
-                          placement="top"
-                        >
-                          <button className="button">
-                            abrir archivo {index + 1}
-                          </button>
-                        </Tooltip>
-                      </a>
-                    ))}
-                  </div>
+                  {listRoutesPDF && (
+                    <div className="flex flex-wrap my-3">
+                      {listRoutesPDF.map((pdf: any, index: any) => (
+                        <a key={index} href={pdf.files_path} target="_blank">
+                          <Tooltip
+                            title={pdf.files_path_observation}
+                            placement="top"
+                          >
+                            <button className="button">
+                              abrir archivo {index + 1}
+                            </button>
+                          </Tooltip>
+                        </a>
+                      ))}
+                    </div>
+                  )}
                 </article>
                 <article className="filing-attachFile">
                   <form onSubmit={handleFileSubmitAddPDF}>

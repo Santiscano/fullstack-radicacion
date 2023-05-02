@@ -33,10 +33,10 @@ export const createFilePath = async (
       },
       getHeader()
     );
-    // console.log("response createFilepath: ", response);
+    console.log("response createFilepath: ", response);
     return response;
   } catch (error) {
-    // console.log("error: ", error);
+    console.log("error: ", error);
   }
 };
 

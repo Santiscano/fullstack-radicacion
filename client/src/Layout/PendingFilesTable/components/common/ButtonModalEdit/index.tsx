@@ -7,7 +7,7 @@ function ButtonModalEdit(cellValues: any) {
     useContextProvider();
 
   const handleClick = () => {
-    // console.log("result en onclick: ", cellValues);
+    console.log("result en onclick: ", cellValues);
     setDataUser(cellValues);
 
     handleOpenModalAuth();

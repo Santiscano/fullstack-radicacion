@@ -90,16 +90,16 @@ export const useAttachFile = () => {
    */
   const handleSubmitSettled = async (e: any) => {
     try {
-      // console.log("se activo handleSubmitSettled");
+      console.log("se activo handleSubmitSettled");
       setPreLoad(true);
       e.preventDefault();
       const searchFile = await SearchWithSettled(settled);
-      setListRoutesPDF(searchFile?.data.rutas);
-      // console.log("list pdf:", searchFile?.data);
+      console.log('searchFile: ', searchFile?.data);
       if (searchFile?.status == 200) {
+        setListRoutesPDF(searchFile?.data.path);
         setSuccess(true);
         setNotFile(false);
-        onFile(searchFile?.data.radicado[0]);
+        onFile(searchFile?.data.data[0]);
         onClean();
       } else {
         setSuccess(false);
@@ -107,7 +107,8 @@ export const useAttachFile = () => {
         onFile({});
       }
     } catch (error) {
-      // console.log("error: ", error);
+      console.log('error: ', error);
+      handleMessageSnackbar("error", "Algo paso vuelve a intentar")
     } finally {
       setPreLoad(false);
     }
@@ -119,16 +120,18 @@ export const useAttachFile = () => {
    */
   const handleSubmitDocumentType = async (e: any) => {
     try {
+      console.log('se activo handlesubmitdocumentType')
       setPreLoad(true);
       e.preventDefault();
       const searchFile = await SearchWithDocument(
         document.type,
         document.number
       );
-      if (searchFile?.status == 200) {
+      if (searchFile?.data.data) {
+        setListRoutesPDF(searchFile?.data.path);
         setSuccess(true);
         setNotFile(false);
-        onFile(searchFile?.data.response[0]);
+        onFile(searchFile?.data.data[0]);
         onClean();
       } else {
         setSuccess(false);
@@ -136,7 +139,7 @@ export const useAttachFile = () => {
         onFile({});
       }
     } catch (error) {
-      // console.log("error: ", error);
+      console.log("error: ", error);
     } finally {
       setPreLoad(false);
     }
@@ -200,7 +203,7 @@ export const useAttachFile = () => {
       e.preventDefault();
       setPreLoad(true);
       const responseUploadFile = await uploadfile(filePDF, file.idfiles);
-      // console.log("responseUploadFile: ", responseUploadFile);
+      console.log("responseUploadFile: ", responseUploadFile);
       const pathFileUpload = await responseUploadFile?.data.pathFile;
 
       const responseConcatFilePath = await createFilePath(
@@ -215,6 +218,8 @@ export const useAttachFile = () => {
         setPreLoad(false);
       }
     } catch (error) {
+      console.log('error: ', error);
+      handleMessageSnackbar("error", "Algo paso vuelve a intentar")
     } finally {
       setPreLoad(false);
       setComments("");

@@ -38,11 +38,11 @@ export const registeredFilterModel = async(data: string): Promise<{message?:stri
     if ( dataInfo.length === 0 ) return { message: `No se ha encontado información adjunta al RADICADO: ${ data }`}
     //@ts-ignore
     const file = dataInfo[0].idfiles
-    console.log(file);
+    console.log('file: ', file);
     const [ path ] = await connection.query(`
         SELECT * FROM files_path WHERE idfiles = ?;
         `,[ file ]);
-        console.log(path);
+        console.log("path",path);
     return { data: dataInfo, path };
 };
 

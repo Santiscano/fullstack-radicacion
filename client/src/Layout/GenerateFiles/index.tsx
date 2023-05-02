@@ -249,6 +249,7 @@ function GenerateFiles() {
     try {
       e.preventDefault();
       setPreLoad(true);
+      console.log("crear requerimiento ejecutada");
       const addFileResponse = await addFile(
         // @ts-ignore
         idUser,
@@ -264,7 +265,7 @@ function GenerateFiles() {
       console.log("addFileResponse: ", addFileResponse);
 
       //muestro input file y textarea
-      if (addFileResponse?.status == 200) {
+      if (addFileResponse?.data.data[0]) {
         setStatusFileResponse(true);
       }
 
@@ -291,11 +292,11 @@ function GenerateFiles() {
       e.preventDefault();
       setPreLoad(true);
       // @ts-ignore
-      const idFiles = result?.data.file[0].idfiles;
+      const idFiles = result?.data.data[0].idfiles;
       console.log("idFiles: ", idFiles);
 
       const responseUploadFile = await uploadfile(filePDFGoogle, idFiles); // guarda pdf
-      // console.log("responseUploadFile: ", responseUploadFile);
+      console.log("responseUploadFile: ", responseUploadFile);
       const pathFileUpload = await responseUploadFile?.data.pathFile; // almacena ruta asignada en variable
 
       // relaciona el idfiles con la ruta asignada es decir pathFileUpload
@@ -311,7 +312,8 @@ function GenerateFiles() {
         setModalSuccess(true);
       }
     } catch (error) {
-      // console.log("error: ", error);
+      console.log("error: ", error);
+      setPreLoad(false);
     } finally {
       setPreLoad(false);
     }

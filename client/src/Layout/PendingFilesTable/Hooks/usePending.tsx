@@ -11,11 +11,11 @@ export const usePending = () => {
     try {
       setPreLoad(true);
       const table = await showTablePending();
-      const rowsData = await table?.data.dataInfo;
+      const rowsData = await table?.data.data;
       setRows(rowsData ? rowsData : []);
-      // console.log("row table--: ", rowsData);
+      console.log("row table--: ", rowsData);
     } catch (error) {
-      // console.log("error: ", error);
+      console.log("error: ", error);
     } finally {
       setPreLoad(false);
     }
