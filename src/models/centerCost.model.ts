@@ -1,6 +1,6 @@
 import { connection } from '../config/database/db';
 import { RowDataPacket, OkPacket, ResultSetHeader } from 'mysql2/promise';
-import { CenterCostArea, CenterCostSubArea } from '../interfaces/centerCost.interface';
+import { CenterCostArea, CenterCostSubArea, CenterCost } from '../interfaces/centerCost.interface';
 import { twoCharactersValidator } from '../utilities/twoCharactersValidator';
 
 type Data = RowDataPacket[] | RowDataPacket[][] | OkPacket | OkPacket[] | ResultSetHeader | ResultSetHeader
@@ -82,7 +82,7 @@ export const getCostSubAreaModel = async (): Promise<{data: Data}> => {
 };
 
 // TRAER SUBAREA (CEDI) SEGÚN PK DEL AREA (OPERACIÓN)
-export const getCostSubAreaByIdModel = async(data: number): Promise<{ message?:string, data?: Data }> => {
+export const getCostSubAreaByIdModel = async(data: string): Promise<{ message?:string, data?: Data }> => {
     const [ info ]: any = await connection.query(`
             SELECT idcost_center_subarea AS id, 
                     idcost_center_area AS fk, 
@@ -127,4 +127,66 @@ export const deleteCostSubAreaModel = async(data: number): Promise<{message: str
         DELETE FROM cost_center_subarea WHERE cost_center_subarea = ?;`,
         [ twoValidate ]);
     return { message: `CEDI: ${ twoValidate }, eliminado con éxito` };
+};
+
+/**
+ * CENTRO DE COSTOS / CENTRO DE COSTOS (DEPENDENCIA)
+ */
+
+// TRAER CENTRO DE COSTOS (DEPENDENCIA)
+export const getCostCenterModel = async(): Promise<{ data: Data }> => {
+    const [ data ] = await connection.query(`
+        SELECT idcost_center AS id, 
+                idcost_center_subarea AS fk, 
+                cost_center AS number, 
+                cost_center_name AS name 
+                    FROM cost_center ORDER BY cost_center ASC;`);
+    return { data };
+};
+
+// TRAER CENTRO DE COSTOS (DEPENDENCIA) SEGÚN PK DEL SUBAREA (CEDI)
+export const getCostCenterByIdModel = async(data: string): Promise<{message?: string, data?: Data}> => {
+    const [ info ]: any = await connection.query(`
+        SELECT idcost_center AS id, 
+                idcost_center_subarea AS fk, 
+                cost_center AS number, 
+                cost_center_name AS name 
+                    FROM cost_center WHERE idcost_center_subarea = ? ORDER BY cost_center ASC;`, [ data ]);
+    if ( info.length === 0 ) {
+        return { message: `La CEDI: ${ data }, no se encuentra registrada en el sistema` };
+    };
+    return { data: info }
+};
+
+// CREAR CENTRO DE COSTOS (DEPENDENCIA)
+export const postCostCenterModel = async (data: CenterCost): Promise<{message?:string, data?:Data}> => {
+    const twoValidate = twoCharactersValidator(data.cost_center)
+    const [ validate ]: any = await connection.query(`
+        SELECT count(*) AS contador FROM cost_center WHERE cost_center = ? AND idcost_center_subarea = ?;`,
+            [ twoValidate, data.idcost_center_subarea ]);
+    if( validate[0].contador !== 0 || twoValidate === 'INVALID_VALUED' ) {
+        return { message: `DEPENCENCIA: ${ twoValidate } es invalida o ya se encuentra registrada en el sistema`};
+    };
+    await connection.query(`
+        INSERT INTO cost_center (idcost_center_subarea, cost_center, cost_center_name)
+            VALUES ( ?, ?, ? );
+    `, [ data.idcost_center_subarea, twoValidate, data.cost_center_name.toUpperCase() ]);
+    const [ costCenter ] = await connection.query(`SELECT * FROM cost_center WHERE cost_center = ?`,
+        [ twoValidate ])
+    return { message: `DEPENDENCIA: ${twoValidate}, ${data.cost_center_name.toUpperCase()} creada con éxito`, data: costCenter };
+};
+
+// ELIMINAR UN CENTRO DE COSTOS (DEPENDENCIA)
+export const deleteCostCenterModel = async (data: number): Promise<{message: string}> => {
+    const twoValidate = twoCharactersValidator(data);
+    const [ validate ]: any = await connection.query(`
+            SELECT count(*) AS contador FROM cost_center WHERE cost_center = ?;`,
+        [ twoValidate ]);
+    if (!validate[0].contador || twoValidate === 'INVALID_VALUED') {
+        return { message: `DEPENDENCIA: ${ twoValidate }, no se encuentra registrado en el sistema` };
+    };
+    await connection.query(`
+        DELETE FROM cost_center WHERE cost_center = ?;`,
+        [ twoValidate ]);
+    return { message: `DEPENDENCIA: ${ twoValidate }, fue eliminada con éxito` };
 };

@@ -9,3 +9,9 @@ export interface CenterCostSubArea {
     cost_center_subarea: number; 
     cost_center_subarea_name: string;
 };
+
+export interface CenterCost {
+    idcost_center_subarea: number; 
+    cost_center: number;
+    cost_center_name: string;
+};
