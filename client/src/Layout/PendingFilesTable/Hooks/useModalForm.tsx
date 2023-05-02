@@ -44,12 +44,14 @@ export const useModalForm = () => {
   const handleGetUsers = async () => {
     // users
     const fetchAllUsers = await getUsers();
-    const getAllUsers = fetchAllUsers.rows;
+    console.log("fetchAllUsers: ", fetchAllUsers);
+    const getAllUsers = fetchAllUsers;
+    console.log("getAllUsers: ", getAllUsers);
     setAllUsers(getAllUsers);
 
     // get states files & nextAuditor
     const getAllStates = await getStatesFiles();
-    console.log("getAllStates: ", getAllStates?.data.data);
+    console.log("getAllStates: ", getAllStates);
     const states = await getAllStates?.data.data;
 
     isReturn(getAllUsers);

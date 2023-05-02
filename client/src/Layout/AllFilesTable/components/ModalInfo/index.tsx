@@ -72,10 +72,10 @@ export default function ModalInfoFile(props: any) {
 
   const handleListFilesPDF = async () => {
     const getFilesFromSettled = await SearchWithSettled(files_registered);
-    // console.log("getFilesFromSettled: ", getFilesFromSettled);
-    setListRoutesPDF(getFilesFromSettled?.data.rutas);
+    console.log("getFilesFromSettled: ", getFilesFromSettled);
+    setListRoutesPDF(getFilesFromSettled?.data.path);
     getFilesFromSettled?.status == 200 && setViewPDF(true);
-    // console.log("listroutesPDF", listRoutesPDF);
+    console.log("listroutesPDF", listRoutesPDF);
   };
 
   useEffect(() => {

@@ -4,7 +4,7 @@ import useContextProvider from "./../../../../Context/GeneralValuesContext";
 import { editFile } from "./../../../../services/Files.routes";
 
 function Cancel({ user, activitySelect, setActivitySelect }: any) {
-  // console.log("user: ", user);
+  console.log("user: ", user);
   const [comments, setComments] = useState("");
   const { handleOpenModalAuth, handleUpdateRows } = useContextProvider();
 
@@ -32,7 +32,7 @@ function Cancel({ user, activitySelect, setActivitySelect }: any) {
       user.files_account_type_number,
       comments
     );
-    // console.log(response);
+    console.log("editfile response: ", response);
     if (response?.status == 200) {
       handleClear();
       handleUpdateRows();

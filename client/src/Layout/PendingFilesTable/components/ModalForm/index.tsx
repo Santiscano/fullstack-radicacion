@@ -28,7 +28,7 @@ export default function ModalInfoFile(props: any) {
   const [viewPDF, setViewPDF] = useState(false);
   const { openModalAuth, handleOpenModalAuth, dataUser, setDataUser } =
     useContextProvider();
-  // console.log("datauser: ", dataUser);
+  console.log("datauser: ", dataUser);
 
   const {
     users_name,
@@ -69,8 +69,8 @@ export default function ModalInfoFile(props: any) {
 
   const handleListFilesPDF = async () => {
     const getFilesFromSettled = await SearchWithSettled(files_registered);
-    // console.log("getFilesFromSettled: ", getFilesFromSettled);
-    setListRoutesPDF(getFilesFromSettled?.data.rutas);
+    console.log("getFilesFromSettled: ", getFilesFromSettled);
+    setListRoutesPDF(getFilesFromSettled?.data.path);
     getFilesFromSettled?.status == 200 && setViewPDF(true);
   };
 
@@ -228,18 +228,19 @@ export default function ModalInfoFile(props: any) {
 
               {viewPDF && (
                 <div className="flex mt-4 w-fu">
-                  {listRoutesPDF.map((pdf: any, index: any) => (
-                    <a key={index} href={pdf.files_path} target="_blank">
-                      <Tooltip
-                        title={pdf.files_path_observation}
-                        placement="top"
-                      >
-                        <button className="button">
-                          abrir archivo {index + 1}
-                        </button>
-                      </Tooltip>
-                    </a>
-                  ))}
+                  {listRoutesPDF &&
+                    listRoutesPDF.map((pdf: any, index: any) => (
+                      <a key={index} href={pdf.files_path} target="_blank">
+                        <Tooltip
+                          title={pdf.files_path_observation}
+                          placement="top"
+                        >
+                          <button className="button">
+                            abrir archivo {index + 1}
+                          </button>
+                        </Tooltip>
+                      </a>
+                    ))}
                 </div>
               )}
             </section>
@@ -353,9 +354,6 @@ export default function ModalInfoFile(props: any) {
                 setActivitySelect={setActivitySelect}
               />
             )}
-            {/*
-            <h4>Rechazar "estado rechazado"</h4>
-            <h4>Devolver "enviar cualquier auditor o gerente"</h4> */}
           </div>
         </Box>
       </Modal>

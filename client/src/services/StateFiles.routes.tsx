@@ -4,17 +4,14 @@ import { getHeader, set } from "../components/tools/SesionSettings";
 
 export const getStatesFiles = async () => {
   try {
-    const response = await axios.post(
+    const response = await axios.get(
       Routes.api.stateFiles.getStateFiles,
-      {
-        api_key: import.meta.env.VITE_API_KEY,
-      },
       getHeader()
     );
-    // console.log("response: ", response.data);
+    console.log("response getstatefiles: ", response);
     return response;
   } catch (error) {
-    // console.log("error: ", error);
+    console.log("error statefiles: ", error);
   }
 };
 
@@ -29,10 +26,10 @@ export const addStateFile = async () => {
       },
       getHeader()
     );
-    // console.log("response: ", response);
+    console.log("response: ", response);
     return response;
   } catch (error) {
-    // console.log("error: ", error);
+    console.log("error: ", error);
   }
 };
 export const editStateFile = async () => {

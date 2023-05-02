@@ -92,15 +92,15 @@ export const editFile = async (
         files_price,
         files_account_type,
         files_account_type_number,
-        tracking_observation,
         userSession: get("idusers"),
+        tracking_observation,
       },
       getHeader()
     );
-    // console.log("response putfile", response);
+    console.log("response putfile", response);
     return response;
   } catch (error) {
-    // console.log("error: ", error);
+    console.log("error putfile: ", error);
   }
 };
 
