@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { apiKeyValidate } from '../utilities/apiKeyValidate.utilities';
 import { success, unauthorized, uncompleted, unsuccessfully } from '../utilities/responses.utilities';
 import { deleteRolModel, getRolesModel, postRolesModel, putRolModel } from '../models/roles.model';
-import { missingDataObject } from '../utilities/missingData.utilities';
+import { missingData } from '../utilities/missingData.utilities';
 
 // TRAER ROLES
 export const getRoles = async (req: Request, res: Response) =>{
@@ -22,7 +22,7 @@ export const postRol = async ( req: Request, res: Response ) => {
     const data = { roles, roles_description };
     try {
         if(apiKeyValidate(api_key)) return res.status(401).json(unauthorized());
-        if(missingDataObject(data).error) return res.status(422).json(uncompleted(missingDataObject(data).missing));
+        if(missingData(data).error) return res.status(422).json(uncompleted(missingData(data).missing));
         const info = await postRolesModel(data);
         return res.status(200).json(success(info.data, info.message));
     } catch (error) {
@@ -37,7 +37,7 @@ export const putRol = async (req: Request, res: Response) => {
     const data = { idroles, roles, roles_description };
     try {
         if(apiKeyValidate(api_key)) return res.status(401).json(unauthorized());
-        if(missingDataObject(data).error) return res.status(422).json(uncompleted(missingDataObject(data).missing));
+        if(missingData(data).error) return res.status(422).json(uncompleted(missingData(data).missing));
         const info = await putRolModel(data)
         return res.status(200).json(success(info.data, info.message));
     } catch (error) {
@@ -51,7 +51,7 @@ export const deleteRol = async (req: Request, res: Response) => {
     const { idroles } = req.body;
     try {
         if (apiKeyValidate(api_key)) return res.status(401).json(unauthorized());
-        if (missingDataObject({idroles}).error) return res.status(422).json(uncompleted(missingDataObject({idroles}).missing));
+        if (missingData({idroles}).error) return res.status(422).json(uncompleted(missingData({idroles}).missing));
         return res.status(200).json(success(undefined, (await deleteRolModel(idroles)).message));
     } catch (error) {
         return res.status(512).json(unsuccessfully(error));

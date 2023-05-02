@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { missingDataObject } from '../utilities/missingData.utilities';
+import { missingData } from '../utilities/missingData.utilities';
 import { apiKeyValidate } from '../utilities/apiKeyValidate.utilities';
 import { success, unsuccessfully, unauthorized, uncompleted } from "../utilities/responses.utilities";
 import { getTrackingsModel, getTrackingModel } from '../models/tracking.model';
@@ -21,7 +21,7 @@ export const getTracking = async (req: Request, res: Response) => {
     const { idfiles } = req.body;
     try {
         if (apiKeyValidate(api_key)) return res.status(401).json(unauthorized());
-        if (missingDataObject({idfiles}).error) return res.status(422).json(uncompleted(missingDataObject({idfiles}).missing));
+        if (missingData({idfiles}).error) return res.status(422).json(uncompleted(missingData({idfiles}).missing));
         const info = await getTrackingModel(idfiles);
         return res.status(200).json(success(info.data, info.message));
     } catch (error) {

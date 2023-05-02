@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { missingDataObject } from '../utilities/missingData.utilities';
+import { missingData } from '../utilities/missingData.utilities';
 import { apiKeyValidate } from '../utilities/apiKeyValidate.utilities';
 import { success, unauthorized, uncompleted, unsuccessfully } from '../utilities/responses.utilities';
 import { getAllRegisteredFileModel,getIdentificationByTypeModel, getTypeIdentificationModel, registeredFilterModel, accountTypeFilterModel } from '../models/filters.models';
@@ -23,7 +23,7 @@ export const getIdentificationByType  = async ( req: Request, res: Response ) =>
     try {
         console.log(users_identification_type)
         if (apiKeyValidate(api_key)) return res.status(401).json(unauthorized());
-        if (missingDataObject({users_identification_type}).error) return res.status(422).json(uncompleted(missingDataObject({users_identification_type}).missing));
+        if (missingData({users_identification_type}).error) return res.status(422).json(uncompleted(missingData({users_identification_type}).missing));
         const info = await getIdentificationByTypeModel(users_identification_type);
         return res.status(200).json(success(info.data));
     } catch (error) {
@@ -48,7 +48,7 @@ export const registeredFilter = async (req: Request, res: Response) => {
     const { files_registered } = req.body;
     try {
         if(apiKeyValidate(api_key)) return res.status(401).json(unauthorized());
-        if(missingDataObject({files_registered}).error) return res.status(422).json(uncompleted(missingDataObject({files_registered}).missing));
+        if(missingData({files_registered}).error) return res.status(422).json(uncompleted(missingData({files_registered}).missing));
         const info = await registeredFilterModel(files_registered);
         return res.status(200).json(success(info.data, info.message, undefined, info.path));
     } catch (error) {
@@ -63,7 +63,7 @@ export const accountTypeFilter = async ( req:Request, res: Response ) => {
     const data = { files_account_type, files_account_type_number };
     try {
         if(apiKeyValidate(api_key)) return res.status(401).json(unauthorized());
-        if(missingDataObject(data).error) return res.status(422).json(uncompleted(missingDataObject(data).missing));
+        if(missingData(data).error) return res.status(422).json(uncompleted(missingData(data).missing));
         const info = await accountTypeFilterModel(data);
         return res.status(200).json(success(info.data, info.message, undefined, info.path));
     } catch (error) {
