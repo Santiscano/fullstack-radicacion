@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { missingDataObject } from "../../utilities/missingData.utilities";
+import { missingData } from "../../utilities/missingData.utilities";
 import { apiKeyValidate } from "../../utilities/apiKeyValidate.utilities";
 import { success, unauthorized, uncompleted, unsuccessfully } from "../../utilities/responses.utilities";
 import { getCostAreaModel, postCostAreaModel, deleteCostAreaModel } from '../../models/centerCost.model';
@@ -23,7 +23,7 @@ export const postCostArea = async (req: Request, res: Response) => {
     const data = {cost_center_area, cost_center_area_name}; 
     try {
         if (apiKeyValidate(api_key)) return res.status(401).json(unauthorized());
-        if (missingDataObject(data).error) return res.status(422).json(uncompleted(missingDataObject(data).missing));
+        if (missingData(data).error) return res.status(422).json(uncompleted(missingData(data).missing));
         const info = await postCostAreaModel(data);
         return res.status(200).json(success(info.data, info.message));
     } catch (error) {
@@ -37,7 +37,7 @@ export const deleteCostArea = async (req: Request, res: Response) => {
     const { cost_center_area } = req.body;
     try {
         if (apiKeyValidate(api_key)) return res.status(401).json(unauthorized());
-        if (missingDataObject({cost_center_area}).error) return res.status(422).json(uncompleted(missingDataObject({cost_center_area}).missing));
+        if (missingData({cost_center_area}).error) return res.status(422).json(uncompleted(missingData({cost_center_area}).missing));
         return res.status(200).json(success(undefined, (await deleteCostAreaModel(cost_center_area)).message));
     } catch (error) {
         return res.status(512).json(unsuccessfully(error));

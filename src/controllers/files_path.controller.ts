@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { missingDataObject } from '../utilities/missingData.utilities';
+import { missingData } from '../utilities/missingData.utilities';
 import { apiKeyValidate } from '../utilities/apiKeyValidate.utilities';
 import { success, unauthorized, uncompleted, unsuccessfully } from '../utilities/responses.utilities';
 import { getFilesPathModel, postFilePathModel, deleteFilePathModel } from '../models/file_path.model';
@@ -30,7 +30,7 @@ export const postChargeFilePath = async ( req: Request, res: Response ) => {
     const data = { idfiles, files_path_observation, userSession };
     try {
         if (apiKeyValidate(api_key)) return res.status(401).json(unauthorized());
-        if (missingDataObject(data).error) return res.status(422).json(uncompleted(missingDataObject(data).missing));
+        if (missingData(data).error) return res.status(422).json(uncompleted(missingData(data).missing));
         upload(req, res, async (err) => {
             if ( err ) {
                 return res.status(404).send({ message: "Nombre de KEY equivocado para cargar el archivo" });
@@ -61,7 +61,7 @@ export const postFilePath = async ( req: Request, res: Response ) => {
     const data = { idfiles, files_path, files_path_observation, userSession };
     try {
         if (apiKeyValidate(api_key)) return res.status(401).json(unauthorized());
-        if (missingDataObject(data).error) return res.status(422).json(uncompleted(missingDataObject(data).missing));
+        if (missingData(data).error) return res.status(422).json(uncompleted(missingData(data).missing));
         return res.status(200).json(success((await postFilePathModel(data)).data));
     } catch (error) {
         return res.status(512).json(unsuccessfully(error));
@@ -74,7 +74,7 @@ export const deleteFilePath = async ( req: Request, res: Response ) => {
     const { idfiles_path } = req.body;
     try {
         if (apiKeyValidate(api_key)) return res.status(401).json(unauthorized());
-        if (missingDataObject({idfiles_path}).error) return res.status(422).json(uncompleted(missingDataObject({idfiles_path}).missing));
+        if (missingData({idfiles_path}).error) return res.status(422).json(uncompleted(missingData({idfiles_path}).missing));
         return res.status(200).json(success(undefined,(await deleteFilePathModel(idfiles_path)).message));
     } catch (error) {
         return res.status(512).json(unsuccessfully(error));
