@@ -21,6 +21,7 @@ export const getIdentificationByType  = async ( req: Request, res: Response ) =>
     const { api_key } = req.headers;
     const { users_identification_type } = req.body;
     try {
+        console.log(users_identification_type)
         if (apiKeyValidate(api_key)) return res.status(401).json(unauthorized());
         if (missingDataObject({users_identification_type}).error) return res.status(422).json(uncompleted(missingDataObject({users_identification_type}).missing));
         const info = await getIdentificationByTypeModel(users_identification_type);

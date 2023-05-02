@@ -4,16 +4,11 @@ import { getHeader, set } from "../components/tools/SesionSettings";
 
 export const getSettled = async () => {
   try {
-    const response = await axios.post(
-      Routes.api.generateSettled,
-      {
-        api_key: import.meta.env.VITE_API_KEY,
-      },
-      getHeader()
-    );
-    const settled = response.data.result;
+    const response = await axios.get(Routes.api.generateSettled, getHeader());
+    console.log("response: ", response);
+    const settled = response.data.data;
     return settled;
   } catch (error) {
-    // console.log("error: ", error);
+    console.log("error: ", error);
   }
 };

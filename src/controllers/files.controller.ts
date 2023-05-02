@@ -36,6 +36,7 @@ export const postFile = async (req: Request, res: Response) => {
         if(apiKeyValidate(api_key)) return res.status(401).json(unauthorized());
         if(missingDataObject(data).error) return res.status(422).json(uncompleted(missingDataObject(data).missing));
         const info = await postFileModel(data);
+        console.log('success(info.data, info.message): ', success(info.data, info.message));
         return res.status(200).json(success(info.data, info.message));
     } catch (error) {
         return res.status(512).json(unsuccessfully(error));

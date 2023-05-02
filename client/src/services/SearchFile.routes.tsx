@@ -42,16 +42,13 @@ export const SearchWithDocument = async (
 
 export const GetAllSettled = async () => {
   try {
-    const response = await axios.post(
+    const response = await axios.get(
       Routes.api.searchingFile.getAllSettled,
-      {
-        api_key: import.meta.env.VITE_API_KEY,
-      },
       getHeader()
     );
-    // console.log("response: ", response);
+    console.log("response: ", response);
     return response;
   } catch (error) {
-    // console.log("error: ", error);
+    console.log("error: ", error);
   }
 };

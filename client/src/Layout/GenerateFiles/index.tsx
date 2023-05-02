@@ -226,11 +226,12 @@ function GenerateFiles() {
       e.preventDefault();
       // @ts-ignore
       const newSettled = await getSettled();
+      console.log("newSettled: ", newSettled);
 
       setSettledNumber(newSettled);
       newSettled ? setIsSettled(true) : setIsSettled(false);
     } catch (error) {
-      // console.log("error: ", error);
+      console.log("error: ", error);
     } finally {
       setPreLoad(false);
     }
@@ -260,6 +261,7 @@ function GenerateFiles() {
         preAccountNumber + accountNumber,
         get("idusers")
       );
+      console.log("addFileResponse: ", addFileResponse);
 
       //muestro input file y textarea
       if (addFileResponse?.status == 200) {
@@ -290,6 +292,7 @@ function GenerateFiles() {
       setPreLoad(true);
       // @ts-ignore
       const idFiles = result?.data.file[0].idfiles;
+      console.log("idFiles: ", idFiles);
 
       const responseUploadFile = await uploadfile(filePDFGoogle, idFiles); // guarda pdf
       // console.log("responseUploadFile: ", responseUploadFile);

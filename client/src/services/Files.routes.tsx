@@ -7,58 +7,46 @@ export const getFiles = async () => {
   try {
     const response = await axios.post(
       Routes.api.files.getFiles,
-      {
-        api_key: import.meta.env.VITE_API_KEY,
-      },
+      {},
       getHeader()
     );
-    // console.log("response: ", response);
+    console.log("response : ", response);
     return response;
   } catch (error) {
-    // console.log("error: ", error);
+    console.log("error: ", error);
   }
 };
 
 export const addFile = async (
-  idUser: number,
-  settledNumber: string,
-  price: string,
-  redirectTo: number,
+  idproviders: number,
+  files_registered: string,
+  files_price: string,
+  idusers: number,
   idsedes: number,
   files_account_type: any,
   files_account_type_number: any,
-  IdUserSession: number
+  userSession: number
 ) => {
   try {
-    // console.log(
-    //   "info que envio: settledNumber: ",
-    //   idUser,
-    //   settledNumber,
-    //   price,
-    //   redirectTo,
-    //   idsedes,
-    //   files_account_type,
-    //   files_account_type_number
-    // );
     const response = await axios.post(
       Routes.api.files.addFile,
       {
-        files_registered: settledNumber,
-        idsedes: idsedes,
-        idproviders: idUser,
-        idusers: redirectTo,
+        files_registered,
+        idsedes,
+        idproviders,
+        idusers,
         files_type: "ADMINISTRATIVO",
-        files_price: price,
-        files_account_type: files_account_type,
-        files_account_type_number: files_account_type_number,
-        userSession: IdUserSession,
+        files_price,
+        files_account_type,
+        files_account_type_number,
+        userSession,
       },
       getHeader()
     );
-    // console.log('response: ', response);
+    console.log("response addfile: ", response);
     return response;
   } catch (error) {
-    // console.log("error: ", error);
+    console.log("response addfile: ", error);
   }
 };
 
