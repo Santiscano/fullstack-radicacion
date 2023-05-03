@@ -47,10 +47,11 @@ export const postFile = async (req: Request, res: Response) => {
 export const putFile = async ( req:Request, res:Response ) => {
     const { api_key } = req.headers;
     const { idfiles, idproviders, idusers, idfiles_states, files_type, files_registered, files_cost_center, files_code_accounting, files_code_treasury, files_price,files_account_type, files_account_type_number,userSession, tracking_observation } = req.body;
+    const validate = { idfiles, idproviders, idusers, idfiles_states, files_type, files_registered, files_price, files_account_type, files_account_type_number, userSession };
     const data = { idfiles, idproviders, idusers, idfiles_states, files_type, files_registered, files_cost_center, files_code_accounting, files_code_treasury, files_price, files_account_type, files_account_type_number, userSession, tracking_observation };
     try {
         if(apiKeyValidate(api_key)) return res.status(401).json(unauthorized());
-        if(missingData(data).error) return res.status(422).json(uncompleted(missingData(data).missing));
+        if(missingData(validate).error) return res.status(422).json(uncompleted(missingData(validate).missing));
         const info = await putFileModel(data);
         return res.status(200).json(success(info.data, info.message));
     } catch (error) {
