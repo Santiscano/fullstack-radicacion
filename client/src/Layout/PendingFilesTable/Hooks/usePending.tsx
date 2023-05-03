@@ -12,6 +12,7 @@ export const usePending = () => {
       setPreLoad(true);
       const table = await showTablePending();
       const rowsData = await table?.data.data;
+      console.log("rowsData: ", rowsData);
       setRows(rowsData ? rowsData : []);
       console.log("row table--: ", rowsData);
     } catch (error) {
@@ -20,6 +21,10 @@ export const usePending = () => {
       setPreLoad(false);
     }
   };
+
+  useEffect(() => {
+    handleGetTableData();
+  }, []);
 
   useEffect(() => {
     handleGetTableData();

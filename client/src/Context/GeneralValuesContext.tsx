@@ -4,7 +4,7 @@ import { showTablePending } from "../services/showTable.routes";
 import { AlertColor, Slide } from "@mui/material";
 import { TransitionProps } from "@mui/material/transitions";
 
-export const GeneralValuesContext = createContext<GeneralValuesType>({
+export const GeneralValuesContext = createContext<any>({
   preLoad: false,
   setPreLoad: () => {},
   isLoading: false,
@@ -67,10 +67,10 @@ const GeneralValuesProvider: FC = ({ children }: any) => {
     try {
       setPreLoad(true);
       const table = await showTablePending();
-      const rowsData = await table?.data.dataInfo;
+      const rowsData = await table?.data.data;
       setRows(rowsData ? rowsData : []);
     } catch (error) {
-      // console.log("error: ", error);
+      console.log("error: ", error);
     } finally {
       setPreLoad(false);
     }

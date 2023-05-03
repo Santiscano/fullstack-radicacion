@@ -7,18 +7,18 @@ import "./index.css";
 import { BrowserRouter } from "react-router-dom";
 // context & store
 import { GeneralValuesProvider } from "./Context/GeneralValuesContext";
-// import { store } from "./store";
-// import { Provider } from "react-redux";
+import { store } from "./redux/store";
+import { Provider } from "react-redux";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
-    {/* <Provider store={store}> */}
-    {/* @ts-ignore */}
-    <GeneralValuesProvider>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </GeneralValuesProvider>
-    {/* </Provider> */}
+    <Provider store={store}>
+      {/* @ts-ignore */}
+      <GeneralValuesProvider>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </GeneralValuesProvider>
+    </Provider>
   </React.StrictMode>
 );

@@ -88,8 +88,9 @@ function Approve({
         comments,
         get("idusers")
       ); // relaciona pdf y archivo
+      console.log("concat: ", responseConcatFilePath);
     } catch (error) {
-      // console.log("error: ", error);
+      console.log("error: ", error);
     } finally {
       setPreLoad(false);
     }

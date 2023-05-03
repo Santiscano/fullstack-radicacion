@@ -12,7 +12,7 @@ function AllFilesTable() {
     try {
       setPreLoad(true);
       const table = await showTableAllFiles();
-      const rows = await table?.data.dataInfo;
+      const rows = await table?.data.data;
       setRow(rows ? rows : []);
       console.log("row table--: ", rows);
     } catch (error) {

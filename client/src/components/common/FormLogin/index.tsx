@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import useContextProvider from "../../../Context/GeneralValuesContext";
 import { login, validateUserFirebase } from "../../../services/Firebase.routes";
 import "./formLogin.css";
+import { useDispatch, useSelector } from "react-redux";
+import { setUserSession } from "../../../redux/Redux-reducer/userSessionSlice";
 
 type Login = {
   email: string;
@@ -10,8 +12,13 @@ type Login = {
 };
 
 function index() {
+  // useContext
   const { setPreLoad, setErrorLogin, setUser, setIsLoading } =
     useContextProvider();
+
+  // redux
+  const dispatch = useDispatch();
+  const userSession = useSelector((state: any) => state.userSession);
 
   const navigate = useNavigate();
 
@@ -32,10 +39,12 @@ function index() {
       setPreLoad(true);
       const loger = await login(data.email, data.password);
       setErrorLogin(loger?.data.message);
-      // console.log("loger: ", loger);
+      console.log("loger: ", loger);
       if (loger?.status === 200) {
         const userValidate = await validateUserFirebase();
-        // console.log("userValidate: ", userValidate);
+        const userLogin = userValidate?.data;
+        console.log("userValidate: ", userLogin);
+        dispatch(setUserSession(userLogin));
         if (
           userValidate?.status === 201 &&
           userValidate?.data.users_status === "ACTIVO"
@@ -50,7 +59,7 @@ function index() {
         // }
       }
     } catch (error) {
-      // console.log("error login: ", error);
+      console.log("error login: ", error);
       navigate("/errorServer500");
     } finally {
       setPreLoad(false);
