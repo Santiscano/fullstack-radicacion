@@ -1,72 +1,65 @@
 import express, { Request, Response } from "express";
 import auth from '../../config/firebase/auth';
-import { connection } from "../../config/database/db"
 import jwt_decode from "jwt-decode";
+import { errorMessage, success, unauthorized, uncompleted, unsuccessfully } from "../../utilities/responses.utilities";
+import { validateUserModel } from '../../models/firebase.model';
+import { apiKeyValidate } from "../../utilities/apiKeyValidate.utilities";
+import { missingData } from "../../utilities/missingData.utilities";
 
 export const authRouter = express.Router();
 
 authRouter.use(express.json());
 
+// CREAR USUARIO / FIREBASE
 export const createUser = async (req: Request, res: Response) => {
     try {
         const { users_email, users_password } = req.body;
-        const result = await auth.createUser(users_email, users_password);
-        res.status(201).send(result)
+        const result: any = await auth.createUser(users_email, users_password);
+        if (result.error) return res.status(500).json(errorMessage(result.data.code));
+        return res.status(200).json(success(result));
     } catch (error) {
-        res.status(500).send(error)
+        return res.status(512).json(unsuccessfully(error));
     };
 };
 
+// LOGIN / FIREBASE
 export const logIn = async (req: Request, res: Response) => {
+    const { users_email, users_password } = req.body;
+    const data = { users_email, users_password }
     try {
-        const { users_email, users_password } = req.body;
+        if ( missingData(data).error ) return res.status(422).json(uncompleted(missingData(data).missing));
         const result: any = await auth.logIn(users_email, users_password);
-        if ( !result.error ) {
-            return res.status(200).json(result)
-        };
-        return res.status(201).json({ error: true, message: result.data.code }); 
+        if ( result.error ) return res.status(401).json(errorMessage(result.data.code)); 
+        return res.status(200).json(success(result.data.stsTokenManager));
     } catch (error) {
-        // console.log(error);
-        return res.status(500).json(error);
+        return res.status(512).json(unsuccessfully(error));
     };
 };
 
+// VALIDAR USUARIO / FIRABASE
 export const validateUser = async (req: Request, res: Response) => {
     try{
         const token = req.headers.authorization?.split(" ")[1];
-        //@ts-ignore
-        let  decoded = jwt_decode(token);
-        //@ts-ignore
-        let emailToken = (Object.values(decoded))[7];
-        let [ result ] = await connection.query(`
-            SELECT U.idusers, U.idroles, U.idsedes, U.users_identification_type, U.users_identification, U.users_name, U.users_lastname, U.users_email, U.users_status, 
-                R.roles, 
-                S.sedes_city, 
-                S.sedes_name 
-                    FROM users U 
-                    LEFT JOIN roles R ON U.idroles = R.idroles 
-                    LEFT JOIN sedes S ON U.idsedes = S.idsedes 
-                    WHERE users_status = 'ACTIVO' AND users_email = ? ;`, [ emailToken ]);
-        // console.log(result)
-        //@ts-ignore
-        if(result.length == 0){
-            return res.status(401).json([{email: emailToken, message: "Usuario registrado en Firebase, pero no existe en la base de datos" }]);
-        };
-        //@ts-ignore
-        return res.status(201).json(result[0]);
+        if (token === undefined) return res.status(404).json(success(undefined, "NOT_FOUND_TOKEN"));
+        const decoded: any = jwt_decode(token);
+        const emailToken: any = (Object.values(decoded))[7];
+        const info = await validateUserModel(emailToken);
+        return res.status(200).json(success(info.data, info.message))
     } catch(error){
-        // console.log(error)
-        return res.status(401).json({ message: "Token no válido" });
+        return res.status(200).json(success(undefined, "INVALID_TOKEN"));
     };
 };
 
+// CAMBIAR CONTRASEÑA POR EMAIL / FIREBASE
 export const changePassword = async (req:Request, res:Response) => {
     try {
+        const { api_key } = req.headers;
         const { users_email } = req.body;
-        const result = await auth.sendPasswordEmail(users_email);
-        return res.status(201).send(result);
+        if ( apiKeyValidate(api_key) ) return res.status(401).json(unauthorized());
+        if ( missingData({users_email}).error ) return res.status(422).json(uncompleted(missingData({users_email}).missing));
+        const result: any = await auth.sendPasswordEmail(users_email);
+        return res.status(200).json(success(result));
     } catch (error) {
-        // console.log(error);
-        return res.status(508).json({ message: "Error del servidor para cambiar la contraseña del usuario" })
-    }
-}
+        return res.status(512).json(unsuccessfully(error));
+    };
+};
