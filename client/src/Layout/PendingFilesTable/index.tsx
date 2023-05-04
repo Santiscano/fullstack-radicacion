@@ -1,8 +1,11 @@
+import { useSelector } from "react-redux";
 import DataTablePending from "./components/common/DataTablePending";
 import { usePending } from "./Hooks/usePending";
 
 function PendingFilesTable() {
   const { rows } = usePending();
+  // const rows = useSelector((state: any) => state.name);
+  // console.log("rows: ", rows);
 
   return (
     <div className="layout">

@@ -22,8 +22,12 @@ export const unsuccessfully = ( error: unknown ): Response => {
     return { error: true, message: 'SERVER_PROBLEM'};
 };
 
+export const errorMessage = ( message: string ): Response => {
+    return { error: true, message };
+};
+
 export const unauthorized = (): Response => {
-    return { error: true, message: 'UNAUTHORIZED_ACCESS' };
+    return { error: true, message: 'UNAUTHORIZED_KEY_ACCESS' };
 };
 
 export const uncompleted = ( missing: string | undefined ): Response => {

@@ -12,13 +12,13 @@ import { getCostSubArea, getCostSubAreaById, postCostSubArea, deleteCostSubArea 
 import { getCostCenter, getCostCenterById, postCostCenter, deleteCostCenter } from '../controllers/centerCost/p3_cost_center.controller';
 import { getFilesPath, postChargeFilePath, postFilePath, deleteFilePath } from '../controllers/files_path.controller';
 import { createUser, logIn, validateUser, changePassword } from '../controllers/firebase/firebase.controller'
-import { showTable, pendingTable } from '../controllers/showTable.controller';
+import { showTable, pendingTable, historyTable } from '../controllers/showTable.controller';
 import { getAllRegisteredFile, getIdentificationByType, getTypeIdentification, registeredFilter, accountTypeFilter } from '../controllers/filters.controller';
 import { getTrackings, getTracking } from '../controllers/tracking.controller';
 import { uploadFileDocument } from '../controllers/upload/googleBucket.controller';
 
 // MIDDLEWARE TOKEN
-import { decodeToken } from '../config/firebase/manage.token';
+import { decodeToken } from '../middleware/manage.token';
 
 // API's ROUTES
 import { routerApi } from '../controllers/routes.controllers' 
@@ -95,9 +95,10 @@ router.post('/changePassword', changePassword);                 // Cambiar la co
 // Upload File (Google Cloud)
 router.post('/uploadFileDocument/:idfiles', uploadFileDocument);         // Cargar una imagen en el bucket
 
-//Tablas
-router.get('/showTable', decodeToken, showTable);                           // Todos los archivos
-router.post('/pendingTable', decodeToken, pendingTable);                     // Pendientes
+// TABLAS
+router.get('/showTable', decodeToken, showTable);                               // Todos los archivos
+router.post('/pendingTable', decodeToken, pendingTable);                        // Pendientes
+router.post('/historyTable', decodeToken, historyTable);                        // Pendientes
 
 // Filtros
 router.get('/getAllRegisteredFile', decodeToken, getAllRegisteredFile);     // Filtro de los archivos según el radicado

@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { showTablePending } from '../../services/showTable.routes';
 
 
 export const tableFilesSlice = createSlice({
@@ -6,7 +7,7 @@ export const tableFilesSlice = createSlice({
   initialState:[],
   reducers: {
     setTableFiles(state, action){
-      return action.payload;
+      state = action.payload;
     },
   },
 });
@@ -14,8 +15,13 @@ export const tableFilesSlice = createSlice({
 export const { setTableFiles } = tableFilesSlice.actions;
 export default tableFilesSlice.reducer;
 
-export const fetchTableFiles = () => async () => {
+export const fetchTableFiles = () => async (dispatch:any) => {
   try {
-
-  }catch(error){}finally{}
+    const table = await showTablePending();
+    const rowsData = dispatch(setTableFiles(table?.data.data));
+    console.log('rowsData: ', rowsData.payload);
+    return rowsData
+  }catch(error){
+    console.log('error: ', error);
+  }finally{}
 }
