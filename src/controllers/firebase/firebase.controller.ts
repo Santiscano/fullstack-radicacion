@@ -2,7 +2,7 @@ import express, { Request, Response } from "express";
 import auth from '../../config/firebase/auth';
 import jwt_decode from "jwt-decode";
 import { errorMessage, success, unauthorized, uncompleted, unsuccessfully } from "../../utilities/responses.utilities";
-import { validateUserModel } from '../../models/firebase.model';
+import { validateUserModel, logInModel } from '../../models/firebase.model';
 import { apiKeyValidate } from "../../utilities/apiKeyValidate.utilities";
 import { missingData } from "../../utilities/missingData.utilities";
 
@@ -28,8 +28,10 @@ export const logIn = async (req: Request, res: Response) => {
     const data = { users_email, users_password }
     try {
         if ( missingData(data).error ) return res.status(422).json(uncompleted(missingData(data).missing));
+        const info: any = await logInModel(users_email);
+        if (info.data[0].users_status === "INACTIVO") return res.status(401).json(errorMessage("INACTIVE_USER"))
         const result: any = await auth.logIn(users_email, users_password);
-        if ( result.error ) return res.status(401).json(errorMessage(result.data.code)); 
+        if ( result.error ) return res.status(401).json(errorMessage(result.data.code));
         return res.status(200).json(success(result.data.stsTokenManager));
     } catch (error) {
         return res.status(512).json(unsuccessfully(error));
