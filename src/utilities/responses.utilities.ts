@@ -27,7 +27,7 @@ export const errorMessage = ( message: string ): Response => {
 };
 
 export const unauthorized = (): Response => {
-    return { error: true, message: 'UNAUTHORIZED_ACCESS' };
+    return { error: true, message: 'UNAUTHORIZED_KEY_ACCESS' };
 };
 
 export const uncompleted = ( missing: string | undefined ): Response => {

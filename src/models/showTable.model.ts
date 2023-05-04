@@ -15,3 +15,10 @@ export const showTableModel = async (data?: number): Promise<{data: Data}> => {
             SELECT * FROM ShowTable;`);
     return { data: dataShow };
 };
+
+// HISTORY TABLE
+export const historyTableModel = async (data: number): Promise<{data: Data}> => {
+    const [ dataHistory ] = await connection.query(`
+            SELECT * FROM HistoryTable WHERE tracking_user = ?;`, [ data ]);
+    return { data: dataHistory };
+};
