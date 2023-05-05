@@ -13,12 +13,8 @@ export const decodeToken = async (_req: Request, res: Response, next: NextFuncti
             return next();
         };
     } catch (error: any) {
-        if (error.errorInfo.code === "auth/id-token-expired") {
-            return res.status(401).json(errorMessage("TOKEN_EXPIRED"));
-        } else if (error.errorInfo.code === "auth/argument-error") {
-            return res.status(401).json(errorMessage("INVALID_TOKEN_ACCESS"));
-        } else {
-            return res.status(512).json(unsuccessfully(error));
-        };
+        if (error.errorInfo.code === "auth/id-token-expired") return res.status(401).json(errorMessage("TOKEN_EXPIRED"));
+        if (error.errorInfo.code === "auth/argument-error") return res.status(401).json(errorMessage("INVALID_TOKEN_ACCESS"));
+        return res.status(512).json(unsuccessfully(error));
     };
 };
