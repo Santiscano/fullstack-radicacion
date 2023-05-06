@@ -13,6 +13,7 @@ import useContextProvider from "./../../Context/GeneralValuesContext";
 import "./admin.css";
 import NavBar from "./components/NavBar";
 import SideBar from "./components/SideBar";
+import { useUserSession } from "../../redux/Redux-actions/useUserSession";
 
 // width drawer desplegable
 const drawerWidth = 240;
@@ -79,6 +80,7 @@ function index() {
     severitySnackbar,
     messageSnackbar,
   } = useContextProvider();
+  const { addUserSession } = useUserSession();
 
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -108,11 +110,10 @@ function index() {
    */
   const loadingUser = async () => {
     const userValidate = await validateUserFirebase();
-    if (
-      userValidate?.status === 201 &&
-      userValidate?.data.users_status === "ACTIVO"
-    ) {
-      setUser(userValidate?.data);
+    console.log('userValidate admin: ', userValidate);
+    if ( userValidate?.status === 200 && userValidate?.data.data.users_status === "ACTIVO" ) {
+      setUser(userValidate?.data.data);
+      addUserSession(userValidate?.data.data);
     } else if (!session() && userValidate?.data.users_status !== "ACTIVO") {
       navigate("/login");
     } else if (userValidate?.data.users_status !== "ACTIVO") {

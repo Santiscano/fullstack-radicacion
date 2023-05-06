@@ -3,8 +3,7 @@ import { useNavigate } from "react-router-dom";
 import useContextProvider from "../../../../Context/GeneralValuesContext";
 import { login, validateUserFirebase } from "../../../../services/Firebase.routes";
 import "./formLogin.css";
-import { useDispatch, useSelector } from "react-redux";
-import { setUserSession } from "../../../../redux/Redux-reducer/userSessionSlice";
+import { useUserSession } from './../../../../redux/Redux-actions/useUserSession';
 
 type Login = {
   email: string;
@@ -13,12 +12,10 @@ type Login = {
 
 function index() {
   // useContext
-  const { setPreLoad, setErrorLogin, setUser, setIsLoading } =
-    useContextProvider();
+  const { setPreLoad, setErrorLogin, setUser, setIsLoading } = useContextProvider();
 
   // redux
-  const dispatch = useDispatch();
-  const userSession = useSelector((state: any) => state.userSession);
+  const { addUserSession } = useUserSession();
 
   const navigate = useNavigate();
 
@@ -42,21 +39,18 @@ function index() {
       console.log("loger: ", loger);
       if (loger?.status === 200) {
         const userValidate = await validateUserFirebase();
-        const userLogin = userValidate?.data;
-        console.log("userValidate: ", userLogin);
-        dispatch(setUserSession(userLogin));
-        if (
-          userValidate?.status === 201 &&
-          userValidate?.data.users_status === "ACTIVO"
-        ) {
+        console.log("userValidate: ", userValidate);
+        const userLogin = userValidate?.data.data;
+        console.log("userLogin: ", userLogin);
+        addUserSession(userLogin);
+        if ( userValidate?.status === 200 && userValidate?.data.data.users_status === "ACTIVO" ) {
           setPreLoad(false);
           setIsLoading(true);
-          setUser(userValidate?.data);
+          setUser(userLogin);
+          addUserSession(userLogin);
           navigate("/dashboard/home");
+          console.log("navigate home");
         }
-        // else if (userValidate?.data.users_status !== "ACTIVO") {
-        //   navigate("/forbidden403")
-        // }
       }
     } catch (error) {
       console.log("error login: ", error);
