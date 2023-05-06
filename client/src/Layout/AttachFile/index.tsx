@@ -2,7 +2,7 @@ import { SelectChangeEvent, Tooltip } from "@mui/material";
 import Box from "@mui/material/Box";
 import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { capitalizeFirstLatterUppercase } from "../../Utilities/formatted.utility";
 import Button from "../../components/common/Button";
 import InputSelectOnlyValue from "../../components/common/InputSelectOnlyValue";
@@ -23,6 +23,9 @@ import {
 } from "./../../services/SearchFile.routes";
 import "./AttachFile.css";
 import { useAttachFile } from "./hooks/useAttachFile";
+import { useDataGlobal } from "../../redux/Redux-actions/useDataGlobal"
+
+
 function AttachFile() {
   const {
     showValue,
@@ -47,6 +50,12 @@ function AttachFile() {
     modalSuccess,
     handleCloseModalChild,
   } = useAttachFile();
+  const { changeTitleSection } = useDataGlobal();
+
+  useEffect(() => {
+    changeTitleSection("Adjuntar Archivos")
+  },[])
+
   return (
     <div className="layout">
       <div>
@@ -144,7 +153,7 @@ function AttachFile() {
             </article>
             {success && (
               <>
-                <article className="filing">
+                <article className="filing-attachFile">
                   <div className="flex mt-4">
                     <p className="font-bold inline-block mr-4 w-1/2">
                       Tipo De Cuenta:

@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 export const dataGlobalSlice = createSlice({
   name: 'dataGlobal',
   initialState:{
-    titleSection: 'home',
+    titleSection: '',
   },
   reducers:{
     setTitleSection(state, action) {

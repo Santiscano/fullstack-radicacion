@@ -1,5 +1,5 @@
 import { Box, SelectChangeEvent, Tab, Tabs } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { TabPanel, a11yProps } from "../../components/tools/MultiViewPanel";
 import SearchSettled from "../../components/common/SearchSettled";
 import Button from "../../components/common/Button";
@@ -7,6 +7,7 @@ import InputSelectOnlyValue from "../../components/common/InputSelectOnlyValue";
 import { useAttachFile } from "../AttachFile/hooks/useAttachFile";
 import { optionAccountType } from "../../components/tools/OptionsValuesSelects";
 import TextFieldOutlined from "../../components/common/TextFieldOutline";
+import { useDataGlobal } from "../../redux/Redux-actions/useDataGlobal";
 
 const trackingHistory = [
   {
@@ -77,6 +78,11 @@ const Tracking = () => {
     handleTrackingByDocument,
     success,
   } = useAttachFile();
+  const { changeTitleSection } = useDataGlobal();
+
+  useEffect(() => {
+    changeTitleSection("Trazabilidad")
+  },[])
 
   return (
     <main className=" layout home">

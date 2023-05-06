@@ -37,6 +37,7 @@ import WithAuthentication from "./Middlewares/WithAuthentication";
 import { WithRoleAllowedComponent } from "./Middlewares/WithRoleAllowed";
 import Tracking from "./Layout/Tracking/Tracking";
 import TableAllCostCenter from "./Layout/TableAllCostCenter";
+import History from "./Layout/History";
 
 function App() {
   return (
@@ -74,6 +75,7 @@ function App() {
                 }
               >
                 <Route path="pendientes" element={<PendingFilesTable />} />
+                <Route path="historial" element={<History/>} />
               </Route>
 
               <Route
@@ -85,6 +87,7 @@ function App() {
                 }
               >
                 <Route path="todos-los-archivos" element={<AllFilesTable />} />
+                <Route path="trazabilidad" element={<Tracking/>} />
               </Route>
 
               <Route

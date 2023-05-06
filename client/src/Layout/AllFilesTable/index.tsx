@@ -3,10 +3,13 @@ import LoadingMUI from "../../components/common/LoadingMUI";
 import { showTableAllFiles } from "../../services/showTable.routes";
 import useContextProvider from "./../../Context/GeneralValuesContext";
 import DataTableAllFiles from "./components/DataTableAllFiles";
+import { useDataGlobal } from "../../redux/Redux-actions/useDataGlobal"
+
 
 function AllFilesTable() {
   const [row, setRow] = useState([]);
   const { setPreLoad } = useContextProvider();
+  const { changeTitleSection } = useDataGlobal();
 
   const handleGetTableData = async () => {
     try {
@@ -24,6 +27,10 @@ function AllFilesTable() {
 
   useEffect(() => {
     handleGetTableData();
+    changeTitleSection("Todos los Archivos");
+    return () => {
+      changeTitleSection("")
+    }
   }, []);
 
   return (

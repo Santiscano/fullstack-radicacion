@@ -109,6 +109,7 @@ function GenerateFiles() {
    * envio cedi para generar radicado
    */
   const handleGetUsersCedis = async () => {
+    changeTitleSection("Generar Radicado")
     // cedis
     const allCedis: AllCedis[] = await getCedis();
     console.log("allCedis: ", allCedis);
@@ -387,7 +388,6 @@ function GenerateFiles() {
         <section className="layout-section">
           <div className="layout-left">
             <div className="container__createFiling">
-              <h3 className="createFiling">Crear Nuevo Radicado</h3>
               {isSettled && (
                 <button
                   className="button button--flex mt-6 buttonHover"

@@ -55,7 +55,7 @@ export default {
       },
       {
         name: "Trazabilidad",
-        url: "/dashboard/tracking",
+        url: "/dashboard/trazabilidad",
         icon: <EqualizerIcon sx={{ color: "#293184" }} />,
       },
     ],

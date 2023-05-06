@@ -1,13 +1,21 @@
 import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import useContextProvider from "../../../Context/GeneralValuesContext";
 import { showTablePending } from "../../../services/showTable.routes";
 import { fetchTableFiles } from "../../../redux/Redux-reducer/tableFilesSlice";
-import { useDispatch } from "react-redux";
+import { useDataGlobal } from "../../../redux/Redux-actions/useDataGlobal"
+import { get, roles } from "../../../components/tools/SesionSettings";
+
 
 export const usePending = () => {
   // const [row, setRow] = useState([]);
-  const { setPreLoad, handleCloseModalAuth, rows, setRows } =
-    useContextProvider();
+  const { setPreLoad, handleCloseModalAuth, rows, setRows } = useContextProvider();
+  const { changeTitleSection } = useDataGlobal();
+
+  const title = () => {
+    const value = Number(get("idroles")) == roles.Administrador ? "Completadas" : "Pendientes por Autorizar";
+    changeTitleSection(value)
+  };
 
   const dispatch = useDispatch();
   const handleGetTableData = async () => {
@@ -30,6 +38,13 @@ export const usePending = () => {
     // @ts-ignore
     dispatch(fetchTableFiles());
   }, [dispatch]);
+
+  useEffect(() => {
+    title();
+    return () => {
+      changeTitleSection("");
+    };
+  },[])
 
   return {
     rows,

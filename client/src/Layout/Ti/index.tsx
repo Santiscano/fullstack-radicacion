@@ -100,7 +100,7 @@ function TI() {
     isCreateProvider,
     setIsCreateProvider,
   } = useSubmit();
-  const { cediConection } = useContext(GeneralValuesContext);
+  // const { cediConection } = useContext(GeneralValuesContext);
 
   return (
     <div className="layout">
@@ -787,10 +787,7 @@ function TI() {
                       Centro de costos a crear:{" "}
                       <strong>
                         {/* @ts-ignore */}
-                        {`${connectionArea && connectionArea.number}-${
-                          // @ts-ignore
-                          cediConection && cediConection.number
-                        }-${costCenterNumber}`}
+                        {/* {`${connectionArea && connectionArea.number}-${ cediConection && cediConection.number}-${costCenterNumber}`} */}
                       </strong>
                     </div>
                     <Button name="Crear Dependencia" />
