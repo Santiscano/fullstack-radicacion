@@ -1,5 +1,4 @@
 import { useState } from "react";
-
 // components mui
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -9,24 +8,19 @@ import MenuItem from "@mui/material/MenuItem";
 import Toolbar from "@mui/material/Toolbar";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
-
-// myself components
-
 // icons mui
 import MenuIcon from "@mui/icons-material/Menu";
-
 // react-router-dom
 import { useNavigate } from "react-router-dom";
-
 // img
 import userIcon from "../../../../assets/icons/avatar.png";
 import logo from "../../../../assets/images/logo-white.png";
-
 // css
 import Avatar from "@mui/material/Avatar";
 import useContextProvider from "../../../../Context/GeneralValuesContext";
 import { removeAll } from "../../../../components/tools/SesionSettings";
 import "./navbar.css";
+import { useAppSelector } from "../../../../redux/hooks/useStore"
 
 export default function MenuAppBar(props: any) {
   // navigation
@@ -35,6 +29,7 @@ export default function MenuAppBar(props: any) {
   const { user } = useContextProvider();
   // @ts-ignore
   const { users_name, users_lastname, idroles, roles } = user;
+  const { titleSection } = useAppSelector((state) => state.dataGlobalSlice);
 
   // menu avatar
   const menuAvatar = [
@@ -112,6 +107,14 @@ export default function MenuAppBar(props: any) {
           onClick={handleLogo}
         />
 
+        <Typography 
+          variant="h6" 
+          component="h3" 
+          sx={{ flexGrow: 1,textAlign:"end", display:{xs:"none ", sm:"block"}, fontWeight: 700 }} 
+        >
+            {titleSection}
+        </Typography>
+        
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }} />
 
         {/* image */}

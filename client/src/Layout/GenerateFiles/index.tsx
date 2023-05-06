@@ -40,6 +40,7 @@ import InputSelectCedi from "./components/InputSelectCedi";
 // import { savePDF, printPDF } from "./components/PDF/print";
 import { ChildModalPdf } from "../../components/common/ModalUploadFile";
 import InputDouble from "./components/InputDouble";
+import { useDataGlobal } from "../../redux/Redux-actions/useDataGlobal"
 
 function GenerateFiles() {
   // ------------------------------VARIABLES------------------------------//
@@ -97,6 +98,7 @@ function GenerateFiles() {
   const [fileName, setFileName] = useState("");
 
   const { setPreLoad } = useContext(GeneralValuesContext);
+  const { changeTitleSection } = useDataGlobal();
 
   // -----------------------METHODS INPUTS--------------------------------//
 

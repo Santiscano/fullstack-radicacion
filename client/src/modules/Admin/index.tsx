@@ -145,7 +145,13 @@ function index() {
 
             <Main open={open} sx={{ padding: 0 }}>
               <DrawerHeader />
-              <Outlet />
+              <main className="layout">
+                <section className="layout-section">
+                  <div className="layout-left">
+                    <Outlet />
+                  </div>
+                </section>
+              </main>
             </Main>
             {openSnackbar && (
               <Snackbar

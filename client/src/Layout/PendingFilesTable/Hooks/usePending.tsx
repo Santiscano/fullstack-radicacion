@@ -10,23 +10,23 @@ export const usePending = () => {
     useContextProvider();
 
   const dispatch = useDispatch();
-  // const handleGetTableData = async () => {
-  //   try {
-  //     setPreLoad(true);
-  //     const table = await showTablePending();
-  //     const rowsData = await table?.data.data;
-  //     console.log("rowsData: ", rowsData);
-  //     setRows(rowsData ? rowsData : []);
-  //     console.log("row table--: ", rowsData);
-  //   } catch (error) {
-  //     console.log("error: ", error);
-  //   } finally {
-  //     setPreLoad(false);
-  //   }
-  // };
+  const handleGetTableData = async () => {
+    try {
+      setPreLoad(true);
+      const table = await showTablePending();
+      const rowsData = await table?.data.data;
+      console.log("rowsData: ", rowsData);
+      setRows(rowsData ? rowsData : []);
+      console.log("row table--: ", rowsData);
+    } catch (error) {
+      console.log("error: ", error);
+    } finally {
+      setPreLoad(false);
+    }
+  };
 
   useEffect(() => {
-    // handleGetTableData();
+    handleGetTableData();
     // @ts-ignore
     dispatch(fetchTableFiles());
   }, [dispatch]);
