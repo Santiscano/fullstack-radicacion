@@ -45,20 +45,20 @@ router.put('/putUser', decodeToken, putUsers);                               // 
 router.post('/deleteUser', decodeToken, deleteUser);                       // Eliminar un usuario
 
 // Estado de archivos
-router.get('/getStatesFiles', getFileStates);                  // Traer los estados de los archivos
+router.get('/getStatesFiles', decodeToken, getFileStates);                  // Traer los estados de los archivos
 
 // Archivos
-router.get('/genFileRegistered', genFileRegistered);           // Generar un radicado (No DB)
-router.post('/getFiles', getFiles);                             // Traer los archivos
-router.post('/postFile', postFile);                             // Agregar un archivo
-router.put('/putFile', putFile);                                // Editar un archivo
-router.post('/deleteFile', deleteFile);                       // Eliminar un archivo
+router.get('/genFileRegistered', decodeToken, genFileRegistered);           // Generar un radicado (No DB)
+router.post('/getFiles', decodeToken, getFiles);                             // Traer los archivos
+router.post('/postFile', decodeToken, postFile);                             // Agregar un archivo
+router.put('/putFile', decodeToken, putFile);                                // Editar un archivo
+router.post('/deleteFile', decodeToken, deleteFile);                       // Eliminar un archivo
 
 // Ruta de los Archivos
-router.post('/getFilesPath', getFilesPath);                     // Traer todas las rutas de los archivos
-router.post('/postChargeFilePath/:idfiles/:files_path_observation/:userSession', postChargeFilePath);                   // Crear la ruta de los archivos
-router.post('/postFilePath', postFilePath);                     // Crear la ruta de los archivos
-router.post('/deleteFilePath', deleteFilePath);               // Crear la ruta de los archivos
+router.post('/getFilesPath', decodeToken, getFilesPath);                     // Traer todas las rutas de los archivos
+router.post('/postChargeFilePath/:idfiles/:files_path_observation/:userSession', decodeToken, postChargeFilePath);                   // Crear la ruta de los archivos
+router.post('/postFilePath', decodeToken, postFilePath);                     // Crear la ruta de los archivos
+router.post('/deleteFilePath', decodeToken, deleteFilePath);               // Crear la ruta de los archivos
 
 // Tracking
 router.get('/getTrackings', decodeToken, getTrackings);                     // Traer todos la trazabilidad
@@ -67,24 +67,24 @@ router.get('/getTracking', decodeToken, getTracking);                       // T
 // Centros de costos
 
 // Table
-router.get('/centerCostTable', centerCostTable);                // TABLA CENTRO DE COSTOS
+router.get('/centerCostTable', decodeToken, centerCostTable);                // TABLA CENTRO DE COSTOS
 
 // Area
-router.post('/getCostArea', getCostArea);                       // Traer area del centro de costo
-router.post('/postCostArea', postCostArea);                     // Crear area del centro de costo
-router.post('/deleteCostArea', deleteCostArea);               // Eliminar area del centro de costo
+router.post('/getCostArea', decodeToken, getCostArea);                       // Traer area del centro de costo
+router.post('/postCostArea', decodeToken, postCostArea);                     // Crear area del centro de costo
+router.post('/deleteCostArea', decodeToken, deleteCostArea);               // Eliminar area del centro de costo
 
 // Sub Area
-router.post('/getCostSubArea', getCostSubArea);                 // Traer area del centro de costo
-router.post('/getCostSubAreaById', getCostSubAreaById);                   // Traer area del centro de costo
-router.post('/postCostSubArea', postCostSubArea);               // Crear area del centro de costo
-router.post('/deleteCostSubArea', deleteCostSubArea);         // Eliminar area del centro de costo
+router.post('/getCostSubArea', decodeToken, getCostSubArea);                 // Traer area del centro de costo
+router.post('/getCostSubAreaById', decodeToken, getCostSubAreaById);                   // Traer area del centro de costo
+router.post('/postCostSubArea', decodeToken, postCostSubArea);               // Crear area del centro de costo
+router.post('/deleteCostSubArea', decodeToken, deleteCostSubArea);         // Eliminar area del centro de costo
 
 // Centro de costos
-router.post('/getCostCenter', getCostCenter);                   // Traer area del centro de costo
-router.post('/getCostCenterById', getCostCenterById);                   // Traer area del centro de costo
-router.post('/postCostCenter', postCostCenter);                 // Crear area del centro de costo
-router.post('/deleteCostCenter', deleteCostCenter);           // Eliminar area del centro de costo
+router.post('/getCostCenter', decodeToken, getCostCenter);                   // Traer area del centro de costo
+router.post('/getCostCenterById', decodeToken, getCostCenterById);                   // Traer area del centro de costo
+router.post('/postCostCenter', decodeToken, postCostCenter);                 // Crear area del centro de costo
+router.post('/deleteCostCenter', decodeToken, deleteCostCenter);           // Eliminar area del centro de costo
 
 // Firebase
 router.post('/createUser', createUser);                         // Crear usuario en firebase
@@ -93,7 +93,7 @@ router.post('/validateUser', validateUser);                     // Validar usuar
 router.post('/changePassword', changePassword);                 // Cambiar la contraseña por medio del correo
 
 // Upload File (Google Cloud)
-router.post('/uploadFileDocument/:idfiles', uploadFileDocument);         // Cargar una imagen en el bucket
+router.post('/uploadFileDocument/:idfiles', decodeToken, uploadFileDocument);         // Cargar una imagen en el bucket
 
 // TABLAS
 router.get('/showTable', decodeToken, showTable);                               // Todos los archivos
