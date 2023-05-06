@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import "./auth.css";
 
 // components
-import FormLogin from "../../components/common/FormLogin";
+import FormLogin from "./components/FormLogin";
 import Loading from "../../components/common/Loading";
 // mui
 import Alert from "@mui/material/Alert";
