@@ -31,11 +31,11 @@ export const pendingTable = async (req: Request, res: Response) => {
 // HISTORYTABLE
 export const historyTable = async (req: Request, res: Response) => {
     const { api_key } = req.headers;
-    const { tracking_user } = req.body;
+    const { userSession } = req.body;
     try {
         if (apiKeyValidate(api_key)) return res.status(401).json(unauthorized());
-        if (missingData({tracking_user}).error) return res.status(422).json(uncompleted(missingData({tracking_user}).missing));
-        return res.status(200).json(success((await historyTableModel(tracking_user)).data));
+        if (missingData({userSession}).error) return res.status(422).json(uncompleted(missingData({userSession}).missing));
+        return res.status(200).json(success((await historyTableModel(userSession)).data));
     } catch (error) {
         return res.status(512).json(unsuccessfully(error));
     };
