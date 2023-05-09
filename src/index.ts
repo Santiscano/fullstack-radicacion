@@ -7,7 +7,8 @@ import swaggerUi from "swagger-ui-express";
 import path from "path";
 import https from 'https';
 import fs from 'fs';
-import router from './routes/index.routes'
+import router from './routes/index.routes';
+import routerSig from './routes/sig.routes';
 
 const app = express();
 
@@ -61,6 +62,10 @@ app.use('/', router)
 
 // PUERTO DEL SERVIDOR LOCAL
 app.set("port", process.env.LOCAL_PORT || 3000);
+
+// ROUTES
+app.use('/', router)
+app.use('/sig/', routerSig)
 
 // SWAGGER
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerJsdoc(swaggerSpec)))
