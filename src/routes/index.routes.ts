@@ -14,7 +14,7 @@ import { getFilesPath, postChargeFilePath, postFilePath, deleteFilePath } from '
 import { createUser, logIn, validateUser, changePassword } from '../controllers/firebase/firebase.controller'
 import { showTable, pendingTable, historyTable } from '../controllers/showTable.controller';
 import { getAllRegisteredFile, getIdentificationByType, getTypeIdentification, registeredFilter, accountTypeFilter } from '../controllers/filters.controller';
-import { getTrackings, getTracking } from '../controllers/tracking.controller';
+import { getTrackings, getTrackingRegistered, getTrackingAccountType } from '../controllers/tracking.controller';
 import { uploadFileDocument } from '../controllers/upload/googleBucket.controller';
 
 // MIDDLEWARE TOKEN
@@ -62,7 +62,8 @@ router.post('/deleteFilePath', decodeToken, deleteFilePath);               // Cr
 
 // Tracking
 router.get('/getTrackings', decodeToken, getTrackings);                     // Traer todos la trazabilidad
-router.get('/getTracking', decodeToken, getTracking);                       // Traer una ruta en especifico
+router.get('/getTrackingRegistered', decodeToken, getTrackingRegistered);                       // Traer una ruta en especifico
+router.get('/getTrackingAccountType', decodeToken, getTrackingAccountType);                       // Traer una ruta en especifico
 
 // Centros de costos
 
