@@ -89,7 +89,7 @@ function index() {
             <img src={security} alt="segurity login" className="max-w-xs" />
             <div className="flex flex-col">
               <h2 className="text-white text-4xl mt-8 mx-auto">
-                Digitalización
+                Gestión administrativa
               </h2>
               <h4 className="text-white text-l text-center mt-2 mx-auto">
                 aliado estratégico para la gestión de archivos y procesos en tu

@@ -19,8 +19,6 @@ import SelectArea from "./components/common/SelectArea";
 import UsersTable from "./components/Tables/UsersTable";
 import ProvidersTables from "./components/Tables/ProvidersTable";
 import GetCediToBusinessUnit from "./components/common/GetCedisToBusinessUnit";
-import { useContext } from "react";
-import GeneralValuesContext from "../../Context/GeneralValuesContext";
 
 function TI() {
   const {
@@ -107,11 +105,6 @@ function TI() {
       <LoadingMUI />
       <section className="layout-section">
         <div className="layout-left">
-          <div className="container__createFiling">
-            <h3 className="createFiling">
-              Administracion & Gestion de Plataforma Web
-            </h3>
-          </div>
           <article className="filing-ti">
             <Box sx={{ width: "100%" }}>
               <Box sx={{ borderBottom: 1, borderColor: "divider" }}>

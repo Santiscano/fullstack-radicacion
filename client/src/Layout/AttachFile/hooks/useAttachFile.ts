@@ -90,11 +90,15 @@ export const useAttachFile = () => {
    */
   const handleSubmitSettled = async (e: any) => {
     try {
+      setSuccess(false);
       console.log("se activo handleSubmitSettled");
       setPreLoad(true);
       e.preventDefault();
       const searchFile = await SearchWithSettled(settled);
-      console.log('searchFile: ', searchFile?.data);
+      console.log('searchFile: ', searchFile);
+      if(searchFile?.data.message !== 'SUCCESS' ){
+        handleMessageSnackbar('error', searchFile?.data.message)
+      }
       if (searchFile?.status == 200) {
         setListRoutesPDF(searchFile?.data.path);
         setSuccess(true);
@@ -108,7 +112,7 @@ export const useAttachFile = () => {
       }
     } catch (error) {
       console.log('error: ', error);
-      handleMessageSnackbar("error", "Algo paso vuelve a intentar")
+      // handleMessageSnackbar("error", "Algo paso vuelve a intentar")
     } finally {
       setPreLoad(false);
     }

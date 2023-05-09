@@ -15,6 +15,8 @@ import { getRoles } from "../../../services/Roles.routes";
 import { createProvider, createUser } from "../../../services/Users.routes";
 import { getCitys } from "../../../services/getCitysColombia";
 import useContextProvider from "./../../../Context/GeneralValuesContext";
+import { useDataGlobal } from "../../../redux/Redux-actions/useDataGlobal"
+
 
 function useSubmit() {
   // --------------------------Variable-------------------------------//
@@ -92,8 +94,9 @@ function useSubmit() {
 
     // crear usuarios
     const allRoles = await getRoles();
-    console.log("allRoles: ", allRoles);
-    const optionsCreateUser = allRoles.filter(
+    const filterRoles = allRoles.data;
+    console.log("allRoles: ", filterRoles);
+    const optionsCreateUser = filterRoles.filter(
       (rol: { roles: string }) =>
         rol.roles !== "ADMINISTRADOR" && rol.roles !== "PROVEEDOR"
     );
@@ -101,11 +104,13 @@ function useSubmit() {
     setOptionsRol(optionsCreateUser);
 
     // crear proveedores
-    const createProvider = allRoles.filter(
+    const createProvider = filterRoles.filter(
       (rol: { roles: string }) => rol.roles === "PROVEEDOR"
     );
     setOnlyRolProvider(createProvider);
   };
+
+
   /**
    * metodo para pasar entre crear rol, cedi.... etc
    * @param e
@@ -164,7 +169,7 @@ function useSubmit() {
         type,
         department
       );
-      // console.log("res: ", res);
+      console.log("create cedi: ", res);
       setCity("");
       setAddress("");
       setCediName("");
@@ -230,7 +235,7 @@ function useSubmit() {
         setPreLoad(false);
       }
     } catch (error) {
-      // console.log("error: ", error);
+      console.log("error: ", error);
       handleMessageSnackbar("error", "Ocurrio Un Error Intenta De Nuevo");
     } finally {
       setReset(false);
@@ -289,7 +294,7 @@ function useSubmit() {
         setPreLoad(false);
       }
     } catch (error) {
-      // console.log("error: ", error);
+      console.log("error: ", error);
       handleMessageSnackbar("error", "Ocurrio Un Error Intenta De Nuevo");
     } finally {
       setReset(false);
@@ -300,7 +305,7 @@ function useSubmit() {
       setPreLoad(true);
       e.preventDefault();
       const res = await createArea(numberToString(areaNumber), areaName);
-      // console.log("res: ", res);
+      console.log("res: ", res);
       if (res?.status == 200) {
         handleMessageSnackbar("success", `Area ${areaName} Creada Con Exito`);
         setPreLoad(false);
@@ -448,10 +453,15 @@ function useSubmit() {
       setPreLoad(false);
     }
   };
+  const { changeTitleSection } = useDataGlobal();
 
   // --------------------------Effects-------------------------------//
   useEffect(() => {
     handleGetCitys();
+    changeTitleSection("Administración Plataforma");
+    return () => {
+      changeTitleSection("");
+    }
   }, []);
   useEffect(() => {
     handleGetCitys();

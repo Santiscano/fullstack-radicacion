@@ -5,7 +5,8 @@ import { getHeader, set } from "../components/tools/SesionSettings";
 export const getRoles = async () => {
   try {
     const response = await axios.get(Routes.api.roles.get, getHeader());
-    const roles = response.data.roles;
+    console.log('get roles: ', response.data);
+    const roles = response.data;
     return roles;
   } catch (error) {
     console.log(error);

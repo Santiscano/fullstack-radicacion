@@ -16,7 +16,7 @@ import { get } from "../../components/tools/SesionSettings";
 import { createFilePath } from "../../services/FilesPath.routes";
 import { uploadfile } from "../../services/Pdf.routes";
 import useContextProvider from "./../../Context/GeneralValuesContext";
-import SearchSettled from "./../../components/common/SearchSettled/index";
+import SearchSettled from "./components/SearchSettled/index";
 import {
   SearchWithDocument,
   SearchWithSettled,
@@ -62,9 +62,6 @@ function AttachFile() {
         <LoadingMUI />
         <section className="layout-section">
           <div className="layout-left">
-            <div className="container__createFiling">
-              <h3 className="createFiling">Buscar un Archivo</h3>
-            </div>
             <article className="filing-attachFile">
               <Box sx={{ with: "100%" }}>
                 <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
@@ -75,9 +72,7 @@ function AttachFile() {
                     variant="scrollable"
                   >
                     <Tab label="Filtrar Por radicado" {...a11yProps(0)} />
-                    <Tab
-                      label="Filtrar por Tipo y Numero de Documento"
-                      {...a11yProps(1)}
+                    <Tab label="Filtrar por Tipo y Numero de Documento" {...a11yProps(1)}
                     />
                   </Tabs>
                 </Box>
