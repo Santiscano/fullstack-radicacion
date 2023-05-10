@@ -13,7 +13,7 @@ import {
 import { deleteFile } from "../../../services/Files.routes";
 import { getRoles } from "../../../services/Roles.routes";
 import { createProvider, createUser } from "../../../services/Users.routes";
-import { getCitys } from "../../../services/getCitysColombia";
+import { getCitys } from "../../../services/getCitysColombia.routes";
 import useContextProvider from "./../../../Context/GeneralValuesContext";
 import { useDataGlobal } from "../../../redux/Redux-actions/useDataGlobal"
 

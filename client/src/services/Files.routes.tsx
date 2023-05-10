@@ -1,6 +1,6 @@
 import Modal from "@mui/material/Modal";
 import axios from "axios";
-import Routes from "./Routes";
+import Routes from "./allRoutes";
 import { get, getHeader, set } from "../components/tools/SesionSettings";
 
 export const getFiles = async () => {

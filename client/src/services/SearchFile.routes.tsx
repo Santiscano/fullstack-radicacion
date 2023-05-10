@@ -1,5 +1,5 @@
 import axios from "axios";
-import Routes from "./Routes";
+import Routes from "./allRoutes";
 import { getHeader } from "../components/tools/SesionSettings";
 
 export const SearchWithSettled = async (files_registered: any) => {

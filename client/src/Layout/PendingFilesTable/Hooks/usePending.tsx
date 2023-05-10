@@ -9,7 +9,7 @@ import { get, roles } from "../../../components/tools/SesionSettings";
 
 export const usePending = () => {
   // const [row, setRow] = useState([]);
-  const { setPreLoad, handleCloseModalAuth, rows, setRows } = useContextProvider();
+  const { setPreLoad, rows, setRows } = useContextProvider();
   const { changeTitleSection } = useDataGlobal();
 
   const title = () => {

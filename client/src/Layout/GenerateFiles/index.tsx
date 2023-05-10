@@ -25,7 +25,7 @@ import { getCedis } from "../../services/Cedis.routes";
 import { addFile, getFiles } from "../../services/Files.routes";
 import { uploadfile } from "../../services/Pdf.routes";
 import { getUsers } from "../../services/Users.routes";
-import { getSettled } from "../../services/generateSettled.service";
+import { getSettled } from "../../services/generateSettled.routes";
 
 import { GeneralValuesContext } from "../../Context/GeneralValuesContext";
 import { formattedAmount } from "../../Utilities/formatted.utility";

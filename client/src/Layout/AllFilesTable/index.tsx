@@ -39,9 +39,6 @@ function AllFilesTable() {
       <div className="layout">
         <section className="layout-section">
           <div className="layout-left">
-            <h3 className="container__createFiling createFiling">
-              Todos los archivos
-            </h3>
             <div className="filing">
               <section className="viewTableEdit">
                 <DataTableAllFiles row={row} />

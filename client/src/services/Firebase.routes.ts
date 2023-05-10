@@ -1,6 +1,6 @@
 import axios from "axios";
 import { getHeader, set } from "../components/tools/SesionSettings";
-import Routes from "./Routes";
+import Routes from "./allRoutes";
 
 export const createUser = async (
   users_email: string,

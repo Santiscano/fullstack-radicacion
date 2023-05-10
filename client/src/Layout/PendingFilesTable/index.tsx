@@ -12,10 +12,7 @@ function PendingFilesTable() {
     <div className="layout">
       <section className="layout-section">
         <div className="layout-left">
-          <h3 className="container__createFiling createFiling">
-            Pendientes por Autorizar
-          </h3>
-          <div className="filing">
+          <div className="filing mt-8">
             <section className="viewTableEdit">
               <DataTablePending row={rows} />
             </section>

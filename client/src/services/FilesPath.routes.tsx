@@ -1,5 +1,5 @@
 import axios from "axios";
-import Routes from "./Routes";
+import Routes from "./allRoutes";
 import { getHeader, set } from "../components/tools/SesionSettings";
 
 export const getFilesPath = async () => {

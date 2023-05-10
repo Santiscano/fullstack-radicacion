@@ -81,10 +81,10 @@ export default {
     routesApi: {
       getRoutes: `${host}/routerApi`,
     },
-
     tables: {
       allFiles: `${host}/showTable`,
       pending: `${host}/pendingTable`,
+      history: `${host}/historyTable`,
     },
     searchingFile: {
       withSettled: `${host}/registeredFilter`,
@@ -92,6 +92,14 @@ export default {
       getAllSettled: `${host}/getAllRegisteredFile`,
       getDocumentTypes: `${host}/getIdentificationByType`,
       getTypesIdentification: `${host}/getTypeIdentification`,
+    },
+  },
+  sig:{
+    personalInformation: {
+      getPersonalInformation: `${host}/getPersonalInformation`,
+      postPersonalInformation: `${host}/postPersonalInformation`,
+      putPersonalInformation: `${host}/putPersonalInformation`,
+      deletePersonalInformation: `${host}/deletePersonalInformation`,
     },
   },
 };

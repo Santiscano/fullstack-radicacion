@@ -1,5 +1,5 @@
 import axios from "axios";
-import Routes from "./Routes";
+import Routes from "./allRoutes";
 import { get, getHeader } from "../components/tools/SesionSettings";
 import { useContext } from "react";
 import { GeneralValuesContext } from "../Context/GeneralValuesContext";
@@ -27,5 +27,17 @@ export const showTableAllFiles = async () => {
     return response;
   } catch (error) {
     console.log("error: ", error);
+  }
+};
+
+export const showTableHistory = async () => {
+  try{
+    const history = await axios.post(Routes.api.tables.history,{
+      tracking_user: Number(get("idusers"))
+    },getHeader())
+    console.log('history: ', history)
+    return history
+  } catch(error){
+    console.log('history error: ', error)
   }
 };
