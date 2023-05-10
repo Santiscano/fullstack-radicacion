@@ -43,7 +43,7 @@ export default {
     },
     tracking: {
       getAllTrackings: `${host}/getTrackings`,
-      getTrackingById: `${host}/getTracking`,
+      getTrackingBySettled: `${host}/getTracking`,
     },
     centerCost: {
       area: {
