@@ -65,14 +65,6 @@ function SearchSettled({
         }
         onChange={(event, newValue) => setValue(newValue)}
         isOptionEqualToValue={(option:any, value:any) => option.files_registered === value} //funcion de comparacion personalizada
-        // @ts-ignore
-        // renderOption={(props, option, index) => (
-        //   <Box component="li" {...props}>
-        //     {/* todas las opciones son iguales a vista */}
-        //     {`${option}-numero`}
-        //     {/* {option} */}
-        //   </Box>
-        // )}
         renderInput={(params) => (
           <TextField
             {...params}
