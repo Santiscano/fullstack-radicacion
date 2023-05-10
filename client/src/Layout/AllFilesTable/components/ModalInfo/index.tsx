@@ -1,8 +1,9 @@
+import { useEffect, useState } from "react";
 import { Divider, Tooltip } from "@mui/material";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
+import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
 import "animate.css";
-import { useEffect, useState } from "react";
 import {
   capitalizeFirstLatterUppercase,
   formattedAmount,
@@ -22,8 +23,8 @@ export default function ModalInfoFile(props: any) {
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: "95vw",
-    height: "80vh",
+    width: "100vw",
+    height: "100vh",
     overflow: "scroll",
     bgcolor: "background.paper",
     borderRadius: "5px",
@@ -57,25 +58,12 @@ export default function ModalInfoFile(props: any) {
     UserAssignedRoles,
   } = dataUser?.row;
 
-  // const {
-  //   activitySelect,
-  //   setActivitySelect,
-  //   handleActivitySelect,
-  //   optionsActivity,
-  //   redirectTo,
-  //   setRedirectTo,
-  //   handleRedirectTo,
-  //   optionsRedirectTo,
-  //   optionsReturnTo,
-  //   style,
-  // } = useModalForm();
-
   const handleListFilesPDF = async () => {
     const getFilesFromSettled = await SearchWithSettled(files_registered);
-    // console.log("getFilesFromSettled: ", getFilesFromSettled);
-    setListRoutesPDF(getFilesFromSettled?.data.rutas);
+    console.log("getFilesFromSettled: ", getFilesFromSettled);
+    setListRoutesPDF(getFilesFromSettled?.data.path);
     getFilesFromSettled?.status == 200 && setViewPDF(true);
-    // console.log("listroutesPDF", listRoutesPDF);
+    console.log("listroutesPDF", listRoutesPDF);
   };
 
   useEffect(() => {
@@ -93,7 +81,8 @@ export default function ModalInfoFile(props: any) {
       >
         <Box sx={style}>
           <div className="flex justify-between mx-2">
-            <h3 className="createFiling mb-2">Autorizar Radicado</h3>
+            <h3 className="createFiling mb-1">Información Radicado</h3>
+            <HighlightOffOutlinedIcon style={{fontSize: "35px", cursor: "pointer"}} onClick={handleOpenModalAuth}/>
           </div>
           <Divider />
           <div className="flex flex-col items-center w-auto mt-2">
@@ -108,7 +97,7 @@ export default function ModalInfoFile(props: any) {
               </div>
 
               <div className="flex mt-4 w-full">
-                <p className="font-bold inline-block mr-4 w-1/2">
+                <p className="font-bold inline-block mr-4 w-1/3">
                   Tipo De Documento:
                   <span className="text-slate-600 font-normal">
                     {` ${capitalizeFirstLatterUppercase(
@@ -116,37 +105,13 @@ export default function ModalInfoFile(props: any) {
                     )}`}
                   </span>
                 </p>
-                <p className="font-bold inline-block">
+                <p className="font-bold inline-block mr-4 w-1/3">
                   Numero De Documento:
                   <span className="text-slate-600 font-normal">
                     {` ${users_identification}-${users_identification_digital_check}`}
                   </span>
                 </p>
-              </div>
-
-              <div className="flex mt-4 w-full">
-                <p className="font-bold inline-block mr-4 w-1/2">
-                  Email:
-                  <span className="text-slate-600 font-normal">
-                    {` ${capitalizeFirstLatterUppercase(users_email)}`}
-                  </span>
-                </p>
-                <p className="font-bold inline-block">
-                  Teléfono:
-                  <span className="text-slate-600 font-normal">
-                    {` ${capitalizeFirstLatterUppercase(users_phone)}`}
-                  </span>
-                </p>
-              </div>
-
-              <div className="flex mt-4 w-full">
-                <p className="font-bold inline-block mr-4 w-1/2">
-                  Direccion:
-                  <span className="text-slate-600 font-normal">
-                    {` ${capitalizeFirstLatterUppercase(users_address)}`}
-                  </span>
-                </p>
-                <p className="font-bold inline-block">
+                <p className="font-bold inline-block mr-4 w-1/3">
                   Estado Usuario:
                   <span className="text-slate-600 font-normal">
                     {` ${capitalizeFirstLatterUppercase(users_status)}`}
@@ -155,40 +120,58 @@ export default function ModalInfoFile(props: any) {
               </div>
 
               <div className="flex mt-4 w-full">
-                <p className="font-bold inline-block mr-4 w-1/2">
+                <p className="font-bold inline-block mr-4 w-1/3">
+                  Email:
+                  <span className="text-slate-600 font-normal">
+                    {` ${capitalizeFirstLatterUppercase(users_email)}`}
+                  </span>
+                </p>
+                <p className="font-bold inline-block mr-4 w-1/3">
+                  Teléfono:
+                  <span className="text-slate-600 font-normal">
+                    {` ${capitalizeFirstLatterUppercase(users_phone)}`}
+                  </span>
+                </p>
+                <p className="font-bold inline-block mr-4 w-1/3">
+                  Direccion:
+                  <span className="text-slate-600 font-normal">
+                    {` ${capitalizeFirstLatterUppercase(users_address)}`}
+                  </span>
+                </p>
+              </div>
+
+              <div className="flex mt-4 w-full">
+                <p className="font-bold inline-block mr-4 w-1/3">
                   Radicado:{" "}
                   <span className="text-slate-600 font-normal">
                     {files_registered}
                   </span>
                 </p>
-                <p className="mr-8 font-bold text-lg">
+                <p className="font-bold text-lg inline-block mr-4 w-1/3">
                   Precio: {formattedAmount(files_price)}
                 </p>
-              </div>
-
-              <div className="flex mt-4 w-full">
-                <p className="font-bold inline-block mr-4 w-1/2">
-                  Tipo De Cuenta:
-                  <span className="text-slate-600 font-normal">
-                    {` ${capitalizeFirstLatterUppercase(files_account_type)}`}
-                  </span>
-                </p>
-                <p className="font-bold inline-block mr-4">
-                  Numero de Cuenta:
-                  <span className="text-slate-600 font-normal">
-                    {` ${files_account_type_number}`}
-                  </span>
-                </p>
-              </div>
-
-              <div className="flex mt-4 w-full">
-                <p className="font-bold inline-block mr-4 w-1/2">
+                <p className="font-bold inline-block mr-4 w-1/3">
                   Tipo De Archivo:
                   <span className="text-slate-600 font-normal">
                     {` ${capitalizeFirstLatterUppercase(files_type)}`}
                   </span>
                 </p>
-                <p className="font-bold inline-block">
+              </div>
+
+              <div className="flex mt-4 w-full">
+                <p className="font-bold inline-block mr-4 w-1/3">
+                  Tipo De Cuenta:
+                  <span className="text-slate-600 font-normal">
+                    {` ${capitalizeFirstLatterUppercase(files_account_type)}`}
+                  </span>
+                </p>
+                <p className="font-bold inline-block mr-4 w-1/3">
+                  Numero de Cuenta:
+                  <span className="text-slate-600 font-normal">
+                    {` ${files_account_type_number}`}
+                  </span>
+                </p>
+                <p className="font-bold inline-block mr-4 w-1/3">
                   Estado Archivo:
                   <span className="text-slate-600 font-normal">
                     {` ${capitalizeFirstLatterUppercase(files_states)}`}
@@ -197,22 +180,19 @@ export default function ModalInfoFile(props: any) {
               </div>
 
               <div className="flex mt-4 w-full">
-                <p className="font-bold inline-block mr-4 w-1/2">
+                <p className="font-bold inline-block mr-4 w-1/3">
                   Tipo de Cedi:
                   <span className="text-slate-600 font-normal">
                     {` ${capitalizeFirstLatterUppercase(sedes_type)}`}
                   </span>
                 </p>
-                <p className="font-bold inline-block">
+                <p className="font-bold inline-block mr-4 w-1/3">
                   Nombre Cedi:
                   <span className="text-slate-600 font-normal">
                     {` ${capitalizeFirstLatterUppercase(sedes_name)}`}
                   </span>
                 </p>
-              </div>
-
-              <div className="flex mt-4 w-full">
-                <p className="font-bold inline-block mr-4 w-1/2">
+                <p className="font-bold inline-block mr-4 w-1/3">
                   Asignacion Actual:
                   <span className="text-slate-600 font-normal">
                     {` ${capitalizeFirstLatterUppercase(
@@ -222,8 +202,11 @@ export default function ModalInfoFile(props: any) {
                     )} / ${capitalizeFirstLatterUppercase(UserAssignedRoles)}`}
                   </span>
                 </p>
-                {files_code_accounting && (
-                  <p className="font-bold inline-block">
+              </div>
+
+              <div className="flex mt-4 w-full">
+                {(files_code_accounting || files_code_treasury)  && (
+                  <p className="font-bold inline-block mr-4 w-1/3">
                     Numero de Causacion:
                     <span className="text-slate-600 font-normal">
                       {` ${capitalizeFirstLatterUppercase(
@@ -232,10 +215,8 @@ export default function ModalInfoFile(props: any) {
                     </span>
                   </p>
                 )}
-              </div>
-              <div className="flex mt-4 w-full">
                 {files_code_treasury && (
-                  <p className="font-bold inline-block">
+                  <p className="font-bold inline-block mr-4 w-1/3">
                     Numero de Tesoreria:
                     <span className="text-slate-600 font-normal">
                       {` ${capitalizeFirstLatterUppercase(

@@ -7,7 +7,7 @@ import { alpha, styled } from "@mui/material/styles";
 import { getSubAreaById } from "../../../../../services/CenterCost.routes";
 
 import axios from "axios";
-import Route from "../../../../../services/Routes";
+import Route from "../../../../../services/allRoutes";
 import { getHeader } from "../../../../../components/tools/SesionSettings";
 import { GeneralValuesContext } from "../../../../../Context/GeneralValuesContext";
 

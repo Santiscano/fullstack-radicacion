@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import "./auth.css";
 
 // components
-import FormLogin from "../../components/common/FormLogin";
+import FormLogin from "./components/FormLogin";
 import Loading from "../../components/common/Loading";
 // mui
 import Alert from "@mui/material/Alert";
@@ -58,7 +58,7 @@ function index() {
                       : errorLogin === "auth/user-not-found"
                       ? "Usuario no registrado"
                       : errorLogin === "auth/wrong-password"
-                      ? "Contraseña erronea"
+                      ? "Clave errónea"
                       : "Algo a Fallado"}
                   </strong>{" "}
                   <br />
@@ -89,11 +89,11 @@ function index() {
             <img src={security} alt="segurity login" className="max-w-xs" />
             <div className="flex flex-col">
               <h2 className="text-white text-4xl mt-8 mx-auto">
-                Digitalización
+                Gestión administrativa
               </h2>
               <h4 className="text-white text-l text-center mt-2 mx-auto">
-                aliado estratégico para la gestion de archivos y procesos en tu
-                negocio
+                aliado estratégico para la gestión de archivos y procesos en tu
+                negocio.
               </h4>
             </div>
           </div>

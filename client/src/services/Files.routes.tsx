@@ -1,64 +1,63 @@
 import Modal from "@mui/material/Modal";
 import axios from "axios";
-import Routes from "./Routes";
+import Routes from "./allRoutes";
 import { get, getHeader, set } from "../components/tools/SesionSettings";
 
 export const getFiles = async () => {
   try {
     const response = await axios.post(
       Routes.api.files.getFiles,
-      {
-        api_key: import.meta.env.VITE_API_KEY,
-      },
+      {},
       getHeader()
     );
-    // console.log("response: ", response);
+    console.log("response : ", response);
     return response;
   } catch (error) {
-    // console.log("error: ", error);
+    console.log("error: ", error);
   }
 };
 
 export const addFile = async (
-  idUser: number,
-  settledNumber: string,
-  price: string,
-  redirectTo: number,
+  idproviders: number,
+  files_registered: string,
+  files_price: string,
+  idusers: number,
   idsedes: number,
   files_account_type: any,
   files_account_type_number: any,
-  IdUserSession: number
+  userSession: number
 ) => {
   try {
-    // console.log(
-    //   "info que envio: settledNumber: ",
-    //   idUser,
-    //   settledNumber,
-    //   price,
-    //   redirectTo,
-    //   idsedes,
-    //   files_account_type,
-    //   files_account_type_number
-    // );
+    console.log(
+      "info envio:",
+      files_registered,
+      idsedes,
+      idproviders,
+      idusers,
+      files_price,
+      files_account_type,
+      files_account_type_number,
+      userSession
+    );
     const response = await axios.post(
       Routes.api.files.addFile,
       {
-        files_registered: settledNumber,
-        idsedes: idsedes,
-        idproviders: idUser,
-        idusers: redirectTo,
+        files_registered,
+        idsedes,
+        idproviders,
+        idusers,
         files_type: "ADMINISTRATIVO",
-        files_price: price,
-        files_account_type: files_account_type,
-        files_account_type_number: files_account_type_number,
-        userSession: IdUserSession,
+        files_price,
+        files_account_type,
+        files_account_type_number,
+        userSession,
       },
       getHeader()
     );
-    // console.log('response: ', response);
+    console.log("response addfile: ", response);
     return response;
   } catch (error) {
-    // console.log("error: ", error);
+    console.log("response addfile: ", error);
   }
 };
 
@@ -93,15 +92,15 @@ export const editFile = async (
         files_price,
         files_account_type,
         files_account_type_number,
-        tracking_observation,
         userSession: get("idusers"),
+        tracking_observation,
       },
       getHeader()
     );
-    // console.log("response putfile", response);
+    console.log("response putfile", response);
     return response;
   } catch (error) {
-    // console.log("error: ", error);
+    console.log("error putfile: ", error);
   }
 };
 

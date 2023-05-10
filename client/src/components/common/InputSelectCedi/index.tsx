@@ -5,7 +5,7 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { alpha, styled } from "@mui/material/styles";
 import axios from "axios";
-import Routes from "../../../services/Routes";
+import Routes from "../../../services/allRoutes";
 import { getHeader } from "../../tools/SesionSettings";
 
 const Selecting = styled(FormControl)({
@@ -20,18 +20,15 @@ export default function index(props: any) {
 
   const handleGetCedis = async () => {
     try {
-      const getCedis = await axios.post(
-        Routes.api.cedis.get,
-        { api_key: import.meta.env.VITE_API_KEY },
-        getHeader()
-      );
+      const getCedis = await axios.post(Routes.api.cedis.get, getHeader());
+      console.log("getCedis: ", getCedis);
       const filterCedis = getCedis.data.filter(
         (cedi: any) => cedi.sedes_type.toUpperCase() == props.cediType
       );
-      // console.log("res:", getCedis.data);
+      console.log("filterCedis: ", filterCedis);
       setCedis(filterCedis);
     } catch (e) {
-      // console.log(e);
+      console.log(e);
     }
   };
 

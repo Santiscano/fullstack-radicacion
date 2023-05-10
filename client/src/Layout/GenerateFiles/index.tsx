@@ -1,6 +1,6 @@
 import { SelectChangeEvent } from "@mui/material/Select";
+import { useContext, useEffect, useState } from "react";
 import InputSelect from "../../components/common/InputSelect";
-import Upload from "../../components/common/Upload";
 import Button from "../../components/common/Button";
 import InputSelectRedirectTo from "../../components/common/InputSelectRedirectTo";
 import UploadFileModal from "../../components/common/ModalUploadFile";
@@ -16,10 +16,6 @@ import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
 import AttachEmailRoundedIcon from "@mui/icons-material/AttachEmailRounded";
 import AttachMoneyRoundedIcon from "@mui/icons-material/AttachMoneyRounded";
 import LocationOnRoundedIcon from "@mui/icons-material/LocationOnRounded";
-import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
-import AttachEmailRoundedIcon from "@mui/icons-material/AttachEmailRounded";
-import AttachMoneyRoundedIcon from "@mui/icons-material/AttachMoneyRounded";
-import LocationOnRoundedIcon from "@mui/icons-material/LocationOnRounded";
 import NumbersRoundedIcon from "@mui/icons-material/NumbersRounded";
 import PermIdentityRoundedIcon from "@mui/icons-material/PermIdentityRounded";
 import PhoneAndroidRoundedIcon from "@mui/icons-material/PhoneAndroidRounded";
@@ -28,29 +24,23 @@ import "animate.css";
 import { getCedis } from "../../services/Cedis.routes";
 import { addFile, getFiles } from "../../services/Files.routes";
 import { uploadfile } from "../../services/Pdf.routes";
-import { addFile, getFiles } from "../../services/Files.routes";
-import { uploadfile } from "../../services/Pdf.routes";
 import { getUsers } from "../../services/Users.routes";
-import { getSettled } from "../../services/generateSettled.service";
+import { getSettled } from "../../services/generateSettled.routes";
 
-import useContextProvider from "../../Context/GeneralValuesContext";
+import { GeneralValuesContext } from "../../Context/GeneralValuesContext";
 import { formattedAmount } from "../../Utilities/formatted.utility";
-import InputSelectOnlyValue from "../../components/common/InputSelectOnlyValue";
 import InputSelectOnlyValue from "../../components/common/InputSelectOnlyValue";
 import ModalSuccess from "../../components/common/ModalSuccess";
 import SearchUser from "../../components/common/SearchUser";
 import { get, roles } from "../../components/tools/SesionSettings";
-import SearchUser from "../../components/common/SearchUser";
-import { get, roles } from "../../components/tools/SesionSettings";
 import { AllCedis, CedisIdName } from "../../interfaces/Cedis";
-import { createFilePath } from "../../services/FilesPath.routes";
-import InputSelectCedi from "./components/InputSelectCedi";
 import { createFilePath } from "../../services/FilesPath.routes";
 import InputSelectCedi from "./components/InputSelectCedi";
 // import PDF from "./components/PDF";
 // import { savePDF, printPDF } from "./components/PDF/print";
 import { ChildModalPdf } from "../../components/common/ModalUploadFile";
 import InputDouble from "./components/InputDouble";
+import { useDataGlobal } from "../../redux/Redux-actions/useDataGlobal"
 
 function GenerateFiles() {
   // ------------------------------VARIABLES------------------------------//
@@ -107,7 +97,8 @@ function GenerateFiles() {
   // sin identificar uso
   const [fileName, setFileName] = useState("");
 
-  const { setPreLoad } = useContextProvider();
+  const { setPreLoad } = useContext(GeneralValuesContext);
+  const { changeTitleSection } = useDataGlobal();
 
   // -----------------------METHODS INPUTS--------------------------------//
 
@@ -118,6 +109,7 @@ function GenerateFiles() {
    * envio cedi para generar radicado
    */
   const handleGetUsersCedis = async () => {
+    changeTitleSection("Generar Radicado")
     // cedis
     const allCedis: AllCedis[] = await getCedis();
     console.log("allCedis: ", allCedis);
@@ -135,11 +127,10 @@ function GenerateFiles() {
         user.idroles == roles.AuditorGH ||
         user.idroles == roles.AuditorCRTL ||
         user.idroles == roles.AuditorRG ||
-        user.idroles == roles.AuditorTI ||
-        user.idroles == roles.Gerencia
+        user.idroles == roles.Gerencia ||
+        user.idroles == roles.AuditorTI
     );
     setOptionsRedirectTo(filterAuditors);
-    console.log("filterAuditors: ", filterAuditors);
 
     const getAllFiles = await getFiles();
     setAllFiles(getAllFiles?.data);
@@ -155,7 +146,6 @@ function GenerateFiles() {
   const handleCediType = (e: SelectChangeEvent) => {
     const selectCediType = e.target.value;
     setCediType(selectCediType);
-    console.log("selectCediType: ", selectCediType);
 
     const allCedisToFilter = allCedis;
 
@@ -163,7 +153,6 @@ function GenerateFiles() {
       (cedi: any, index) => cedi.sedes_type.toUpperCase() == selectCediType
     );
 
-    console.log("filterCediType: ", filterCediType);
     setOptionsCedisIdName(filterCediType);
   };
 
@@ -240,11 +229,12 @@ function GenerateFiles() {
       e.preventDefault();
       // @ts-ignore
       const newSettled = await getSettled();
+      console.log("newSettled: ", newSettled);
 
       setSettledNumber(newSettled);
       newSettled ? setIsSettled(true) : setIsSettled(false);
     } catch (error) {
-      // console.log("error: ", error);
+      console.log("error: ", error);
     } finally {
       setPreLoad(false);
     }
@@ -262,6 +252,7 @@ function GenerateFiles() {
     try {
       e.preventDefault();
       setPreLoad(true);
+      console.log("crear requerimiento ejecutada");
       const addFileResponse = await addFile(
         // @ts-ignore
         idUser,
@@ -274,9 +265,10 @@ function GenerateFiles() {
         preAccountNumber + accountNumber,
         get("idusers")
       );
+      console.log("addFileResponse: ", addFileResponse);
 
       //muestro input file y textarea
-      if (addFileResponse?.status == 200) {
+      if (addFileResponse?.data.data[0]) {
         setStatusFileResponse(true);
       }
 
@@ -303,10 +295,11 @@ function GenerateFiles() {
       e.preventDefault();
       setPreLoad(true);
       // @ts-ignore
-      const idFiles = result?.data.file[0].idfiles;
+      const idFiles = result?.data.data[0].idfiles;
+      console.log("idFiles: ", idFiles);
 
       const responseUploadFile = await uploadfile(filePDFGoogle, idFiles); // guarda pdf
-      // console.log("responseUploadFile: ", responseUploadFile);
+      console.log("responseUploadFile: ", responseUploadFile);
       const pathFileUpload = await responseUploadFile?.data.pathFile; // almacena ruta asignada en variable
 
       // relaciona el idfiles con la ruta asignada es decir pathFileUpload
@@ -322,7 +315,8 @@ function GenerateFiles() {
         setModalSuccess(true);
       }
     } catch (error) {
-      // console.log("error: ", error);
+      console.log("error: ", error);
+      setPreLoad(false);
     } finally {
       setPreLoad(false);
     }
@@ -394,7 +388,6 @@ function GenerateFiles() {
         <section className="layout-section">
           <div className="layout-left">
             <div className="container__createFiling">
-              <h3 className="createFiling">Crear Nuevo Radicado</h3>
               {isSettled && (
                 <button
                   className="button button--flex mt-6 buttonHover"
@@ -437,7 +430,7 @@ function GenerateFiles() {
                       <InputSelectCedi
                         type={"text"}
                         title="Ciudad a Radicar"
-                        placeholder="Ciudad a radicar"
+                        placeholder="Ciudad a Radicar"
                         name="cedi"
                         required
                         disabled={!cediType}

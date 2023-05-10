@@ -1,5 +1,5 @@
 import axios from "axios";
-import Routes from "./Routes";
+import Routes from "./allRoutes";
 import { getHeader, set } from "../components/tools/SesionSettings";
 
 // https://www.datos.gov.co/resource/xdk5-pm3f.json

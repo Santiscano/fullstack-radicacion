@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import useContextProvider from "../../../../Context/GeneralValuesContext";
 import { getUsers } from "../../../../services/Users.routes";
 import { roles } from "../../../../components/tools/SesionSettings";
+import CreateUserForm from "../Modals/CreateUserForm";
 
 function GridToolbarConfig() {
   return (
@@ -56,12 +57,9 @@ export function CustomNoRowsOverlay() {
   );
 }
 
-function getRowId(row: any) {
-  return row.idfiles;
-}
-
-const UsersTables = () => {
+const UsersTables = ({ setIsCreateUser }: any) => {
   const [rows, setRows] = useState([]);
+  const [open, setOpen] = useState(false);
   const { setPreLoad } = useContextProvider();
 
   const handleGetUsers = async () => {
@@ -74,6 +72,7 @@ const UsersTables = () => {
           user.idroles !== roles.Administrador
       );
       console.log("response getusers: filter", filterUsers);
+      setRows(filterUsers);
     } catch (error) {
       console.log("error: ", error);
     } finally {
@@ -81,42 +80,43 @@ const UsersTables = () => {
     }
   };
 
+  const handleOpen = () => {
+    setOpen(!open);
+  };
+  const handleCloseModal = () => setOpen(false);
+
   useEffect(() => {
     handleGetUsers();
   }, []);
+
   return (
     <>
-      <div className="flex flex-row justify-between">
+      <div className="flex flex-row justify-between items-center">
         <label className="block mb-2 ml-4 text-base font-semibold dark:text-white">
           Todos Los Usuarios
         </label>
+        <button className="button button--flex" onClick={handleOpen}>
+          Nuevo Usuario
+        </button>
       </div>
-      <Box sx={{ height: "90%", width: "100%" }}>
-        {/* <DataGrid
-          rows={rows}
-          getRowId={getRowId}
-          columns={columnsUsers}
-          pageSize={7}
-          rowsPerPageOptions={[7]}
-          disableSelectionOnClick
-          experimentalFeatures={{ newEditingApi: true }}
-          components={{
-            Toolbar: GridToolbarConfig,
-            NoRowsOverlay: CustomNoRowsOverlay,
-          }}
-          initialState={{
-            columns: {
-              columnVisibilityModel: {
-                users_name: true,
-                users_lastname: true,
-                users_phone: true,
-                users_email: true,
-                roles: true,
-              },
-            },
-          }}
-        /> */}
-      </Box>
+      <section className="viewTableEdit">
+        <Box sx={{ height: "90%", width: "100%" }}>
+          <DataGrid
+            rows={rows}
+            getRowId={(row) => row.idusers}
+            columns={columnsUsers}
+            pageSize={7}
+            rowsPerPageOptions={[7]}
+            disableSelectionOnClick
+            experimentalFeatures={{ newEditingApi: true }}
+            components={{
+              Toolbar: GridToolbarConfig,
+              NoRowsOverlay: CustomNoRowsOverlay,
+            }}
+          />
+        </Box>
+        <CreateUserForm open={open} close={handleCloseModal} />
+      </section>
     </>
   );
 };

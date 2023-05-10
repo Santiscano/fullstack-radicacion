@@ -9,6 +9,7 @@ import { apiKeyValidate } from '../utilities/apiKeyValidate.utilities';
 export const getUsers = async (req: Request, res: Response) =>{
     const { api_key } = req.headers;
     try {
+        console.log('api_key: ', api_key);
         if (apiKeyValidate(api_key)) return res.status(401).json(unauthorized());
         return res.status(200).json(success(await getUsersModel()));
     } catch (error) {

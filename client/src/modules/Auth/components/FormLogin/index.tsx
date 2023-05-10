@@ -1,8 +1,9 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import useContextProvider from "../../../Context/GeneralValuesContext";
-import { login, validateUserFirebase } from "../../../services/Firebase.routes";
+import useContextProvider from "../../../../Context/GeneralValuesContext";
+import { login, validateUserFirebase } from "../../../../services/Firebase.routes";
 import "./formLogin.css";
+import { useUserSession } from './../../../../redux/Redux-actions/useUserSession';
 
 type Login = {
   email: string;
@@ -10,8 +11,11 @@ type Login = {
 };
 
 function index() {
-  const { setPreLoad, setErrorLogin, setUser, setIsLoading } =
-    useContextProvider();
+  // useContext
+  const { setPreLoad, setErrorLogin, setUser, setIsLoading } = useContextProvider();
+
+  // redux
+  const { addUserSession } = useUserSession();
 
   const navigate = useNavigate();
 
@@ -32,25 +36,24 @@ function index() {
       setPreLoad(true);
       const loger = await login(data.email, data.password);
       setErrorLogin(loger?.data.message);
-      // console.log("loger: ", loger);
+      console.log("loger: ", loger);
       if (loger?.status === 200) {
         const userValidate = await validateUserFirebase();
-        // console.log("userValidate: ", userValidate);
-        if (
-          userValidate?.status === 201 &&
-          userValidate?.data.users_status === "ACTIVO"
-        ) {
+        console.log("userValidate: ", userValidate);
+        const userLogin = userValidate?.data.data;
+        console.log("userLogin: ", userLogin);
+        addUserSession(userLogin);
+        if ( userValidate?.status === 200 && userValidate?.data.data.users_status === "ACTIVO" ) {
           setPreLoad(false);
           setIsLoading(true);
-          setUser(userValidate?.data);
+          setUser(userLogin);
+          addUserSession(userLogin);
           navigate("/dashboard/home");
+          console.log("navigate home");
         }
-        // else if (userValidate?.data.users_status !== "ACTIVO") {
-        //   navigate("/forbidden403")
-        // }
       }
     } catch (error) {
-      // console.log("error login: ", error);
+      console.log("error login: ", error);
       navigate("/errorServer500");
     } finally {
       setPreLoad(false);
@@ -71,11 +74,13 @@ function index() {
             placeholder="correo@dominio.com"
           />
           {errors.email?.type === "required" && (
-            <span className="form-login-error">Correo requerido</span>
+            <span className="form-login-error">
+              Se requiere el correo electrónico
+            </span>
           )}
           {errors.email?.type === "pattern" && (
             <span className="form-login-error">
-              Revisa bien, no es un formato de correo
+              Revisa bien, no es un formato de Correo.
             </span>
           )}
         </div>
@@ -90,7 +95,7 @@ function index() {
             placeholder="Contraseña"
           />
           {errors.password?.type === "required" && (
-            <span className="form-login-error">Contraseña requerida</span>
+            <span className="form-login-error">Se requiere la contraseña</span>
           )}
           {errors.password?.type === "minLength" && (
             <span className="form-login-error">

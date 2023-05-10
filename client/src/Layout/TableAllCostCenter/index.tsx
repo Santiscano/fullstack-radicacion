@@ -2,35 +2,16 @@ import { useContext, useEffect, useState } from "react";
 import LoadingMUI from "../../components/common/LoadingMUI";
 import { Box } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import { GeneralValuesContext } from "../../Context/GeneralValuesContext";
 import { columnsCenterCosts } from "../../interfaces/GridColumns";
 import {
   GridToolbarConfig,
   CustomNoRowsOverlay,
 } from "../AllFilesTable/components/DataTableAllFiles";
 import { centerCostTable } from "../../services/CenterCost.routes";
+import useCostCenter from "./hooks/useCostCenter";
 
 const TableAllCostCenter = () => {
-  const [row, setRow] = useState([]);
-  const { setPreLoad } = useContext(GeneralValuesContext);
-
-  const handleGetTableData = async () => {
-    try {
-      setPreLoad(true);
-      const table = await centerCostTable();
-      console.log("rows: ", table.data);
-      const rows = table?.data;
-      setRow(rows ? rows : []);
-    } catch (error) {
-      console.log("error: ", error);
-    } finally {
-      setPreLoad(false);
-    }
-  };
-
-  useEffect(() => {
-    handleGetTableData();
-  }, []);
+  const {row} = useCostCenter();
 
   return (
     <>

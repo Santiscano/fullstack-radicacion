@@ -2,7 +2,7 @@ import { Autocomplete, Box, TextField } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { useEffect, useState } from "react";
 import { useResolvedPath } from "react-router-dom";
-import { GetAllSettled } from "../../../services/SearchFile.routes";
+import { GetAllSettled } from "../../../../services/SearchFile.routes";
 
 const AutocompleteStyled = styled(Autocomplete)({
   "& .MuiOutlinedInput-root": {
@@ -22,11 +22,12 @@ function SearchSettled({
   label,
 }: any) {
   const [listSettleds, setListSettleds] = useState<any>([]);
+  const [loading, setLoading] = useState<boolean>(true);
 
   const getAllRegisteredFiles = async () => {
     try {
       const resSettleds = await GetAllSettled();
-      // console.log("Settleds: ", resSettleds?.data.data);
+      console.log("Settleds: ", resSettleds?.data.data);
       const elements = resSettleds?.data.data;
       const rows = [];
       selected.map((file: any) => {
@@ -35,10 +36,12 @@ function SearchSettled({
         }
       });
       setListSettleds(elements);
+      setLoading(false);
     } catch (error) {
-      // console.log("error: ", error);
+      console.log("error: ", error);
     }
   };
+
   useEffect(() => {
     getAllRegisteredFiles();
   }, []);
@@ -55,16 +58,13 @@ function SearchSettled({
         getOptionLabel={(file) => `${file}`}
         getOptionDisabled={(file) => file === value}
         itemID={"idFile"}
-        value={value}
+        value={
+          loading || !value || !listSettleds.some((option:any) => option.files_registered === value ) //validacion adicional
+          ? null
+          : value
+        }
         onChange={(event, newValue) => setValue(newValue)}
-        // @ts-ignore
-        // renderOption={(props, option, index) => (
-        //   <Box component="li" {...props}>
-        //     {/* todas las opciones son iguales a vista */}
-        //     {`${option}-numero`}
-        //     {/* {option} */}
-        //   </Box>
-        // )}
+        isOptionEqualToValue={(option:any, value:any) => option.files_registered === value} //funcion de comparacion personalizada
         renderInput={(params) => (
           <TextField
             {...params}

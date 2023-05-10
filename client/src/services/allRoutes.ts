@@ -1,9 +1,7 @@
 const host = import.meta.env.VITE_BASE_URL;
-const hostPdf = import.meta.env.VITE_URL_GET_PDF_SETTLED;
 
 export default {
   host: host,
-  hostPdf: hostPdf,
   api: {
     roles: {
       get: `${host}/getRoles`,
@@ -83,10 +81,10 @@ export default {
     routesApi: {
       getRoutes: `${host}/routerApi`,
     },
-
     tables: {
       allFiles: `${host}/showTable`,
       pending: `${host}/pendingTable`,
+      history: `${host}/historyTable`,
     },
     searchingFile: {
       withSettled: `${host}/registeredFilter`,
@@ -95,6 +93,13 @@ export default {
       getDocumentTypes: `${host}/getIdentificationByType`,
       getTypesIdentification: `${host}/getTypeIdentification`,
     },
-    pdfSettledNumber: `${hostPdf}/pdf`,
+  },
+  sig:{
+    personalInformation: {
+      getPersonalInformation: `${host}/getPersonalInformation`,
+      postPersonalInformation: `${host}/postPersonalInformation`,
+      putPersonalInformation: `${host}/putPersonalInformation`,
+      deletePersonalInformation: `${host}/deletePersonalInformation`,
+    },
   },
 };

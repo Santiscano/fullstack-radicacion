@@ -1,11 +1,18 @@
 import profile2 from "../../assets/images/LOGOTIPO_ENVIEXPRESS_horizontal_150x50.png";
 import useContextProvider from "./../../Context/GeneralValuesContext";
 import "./home.css";
+import { useDataGlobal } from "../../redux/Redux-actions/useDataGlobal"
+import { useEffect } from "react";
 
 function Home() {
   const { user } = useContextProvider();
   // @ts-ignore
   const { users_name, users_lastname, sedes_name, roles } = user;
+  const { changeTitleSection } = useDataGlobal();
+
+  useEffect(() => {
+    changeTitleSection("Bienvenid@")
+  },[])
 
   return (
     <main className=" layout home">

@@ -78,12 +78,7 @@ export default function DataTablePending({ row }: any) {
   return (
     <>
       <LoadingMUI />
-      <div className="flex flex-row justify-between">
-        <label className="block mb-2 ml-4 text-base font-semibold dark:text-white">
-          Radicados Pendientes por Autorizar
-        </label>
-      </div>
-      <Box sx={{ height: "90%", width: "100%" }}>
+      <Box sx={{ height: "100%", width: "100%" }}>
         <DataGrid
           rows={row}
           getRowId={(row) => row.idfiles}
@@ -127,7 +122,7 @@ export default function DataTablePending({ row }: any) {
                 UserAssignedName: false,
               },
             },
-            pagination: { pageSize: 5 },
+            pagination: { pageSize: 25 },
           }}
         />
       </Box>

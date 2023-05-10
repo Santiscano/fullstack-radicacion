@@ -1,20 +1,15 @@
 import axios from "axios";
-import Routes from "./Routes";
+import Routes from "./allRoutes";
 import { getHeader, set } from "../components/tools/SesionSettings";
 
 export const getRoles = async () => {
   try {
-    const response = await axios.post(
-      Routes.api.roles.get,
-      {
-        api_key: import.meta.env.VITE_API_KEY,
-      },
-      getHeader()
-    );
-    const roles = response.data.roles;
+    const response = await axios.get(Routes.api.roles.get, getHeader());
+    console.log('get roles: ', response.data);
+    const roles = response.data;
     return roles;
   } catch (error) {
-    // console.log(error)
+    console.log(error);
   }
 };
 
@@ -28,10 +23,10 @@ export const createRol = async (rol: string, description: string) => {
       },
       getHeader()
     );
-    // console.log('response createRol: ', response);
+    console.log("response createRol: ", response);
     return response;
   } catch (error) {
-    // console.log(error)
+    console.log(error);
   }
 };
 
@@ -55,7 +50,7 @@ export const editRol = async () => {
 
 export const deleteRol = async () => {
   try {
-    const response = await axios.delete(Routes.api.roles.delete, {
+    const response = await axios.post(Routes.api.roles.delete, {
       headers: {
         api_key: import.meta.env.VITE_API_KEY,
       },
@@ -63,9 +58,9 @@ export const deleteRol = async () => {
         idroles: 10,
       },
     });
-    // console.log('response delete: ', response);
+    console.log("response delete: ", response);
     return response;
   } catch (error) {
-    // console.log(error)
+    console.log(error);
   }
 };

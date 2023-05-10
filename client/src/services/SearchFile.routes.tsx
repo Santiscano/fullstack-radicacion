@@ -1,57 +1,58 @@
 import axios from "axios";
-import Routes from "./Routes";
+import Routes from "./allRoutes";
 import { getHeader } from "../components/tools/SesionSettings";
 
-export const SearchWithSettled = async (settled: any) => {
+export const SearchWithSettled = async (files_registered: any) => {
   try {
-    // console.log("se activo withsettled");
+    console.log("se activo withsettled", files_registered);
     const response = await axios.post(
       Routes.api.searchingFile.withSettled,
       {
-        api_key: import.meta.env.VITE_API_KEY,
-        files_registered: settled,
+        files_registered,
       },
       getHeader()
     );
+    console.log("response searchWithSettled: ", response);
     return response;
   } catch (error) {
-    // console.log("error", error);
+    console.log("error", error);
   }
 };
 
 export const SearchWithDocument = async (
-  accountType: any,
-  accountNumber: any
+  files_account_type: any,
+  files_account_type_number: any
 ) => {
   try {
+    console.log(
+      "searchwithdocument activo",
+      files_account_type,
+      files_account_type_number
+    );
     const response = await axios.post(
       Routes.api.searchingFile.withDocument,
       {
-        api_key: import.meta.env.VITE_API_KEY,
-        files_account_type: accountType,
-        files_account_type_number: accountNumber,
+        files_account_type,
+        files_account_type_number,
       },
       getHeader()
     );
-    // console.log("res:", response);
+    console.log("searchWithdocument response: ", response);
     return response;
   } catch (error) {
-    // console.log("error", error);
+    console.log("error", error);
   }
 };
 
 export const GetAllSettled = async () => {
   try {
-    const response = await axios.post(
+    const response = await axios.get(
       Routes.api.searchingFile.getAllSettled,
-      {
-        api_key: import.meta.env.VITE_API_KEY,
-      },
       getHeader()
     );
-    // console.log("response: ", response);
+    console.log("response: ", response);
     return response;
   } catch (error) {
-    // console.log("error: ", error);
+    console.log("error: ", error);
   }
 };
