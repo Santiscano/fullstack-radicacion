@@ -17,7 +17,7 @@ export const getAllTable = async ( table: string ) => {
 };
 
 // CONTADOR DE INFORMACIÓN DE LA TALBLA
-export const countTable = async( table: string, attribute: string, value: string | number) => {
+export const countTable = async( table: string, attribute: string, value: string | number): Promise<number> => {
     const [ validate ]: SQLResposne = await connection.query(`
         SELECT count(*) AS contador FROM ${ table } WHERE ${ attribute } = ?;`, [ value ]);
     //@ts-ignore
