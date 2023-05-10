@@ -2,11 +2,12 @@ import { useEffect } from "react";
 import { useDataGlobal } from "../../../redux/Redux-actions/useDataGlobal"
 
 
-function useTracking () {
+async function useTracking () {
   const { changeTitleSection } = useDataGlobal();
+  const tracking = await
 
   useEffect(() => {
-    changeTitleSection("Trazabilidad")
+    changeTitleSection("Trazabilidad");
     return () => {
       changeTitleSection("")
     }

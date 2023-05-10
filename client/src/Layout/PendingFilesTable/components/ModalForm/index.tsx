@@ -91,8 +91,8 @@ export default function ModalInfoFile(props: any) {
       >
         <Box sx={style}>
           <div className="flex justify-between mx-2">
-            <h3 className="createFiling mb-1">Autorizar Radicad</h3>
-            <HighlightOffOutlinedIcon/>
+            <h3 className="createFiling mb-1">Autorizar Radicado</h3>
+            <HighlightOffOutlinedIcon style={{fontSize: "35px", cursor: "pointer"}} onClick={handleOpenModalAuth}/>
           </div>
           <Divider />
           <div className="flex flex-col items-center w-auto mt-2">
