@@ -8,6 +8,7 @@ import { getAllRegisteredFileModel,getIdentificationByTypeModel, getTypeIdentifi
 // TRAER TODOS LOS RADICADOS (SOLO RADICADO)
 export const getAllRegisteredFile = async (req:Request, res: Response) => {
     const { api_key } = req.headers;
+    console.log('api_key: ', api_key);
     try {
         if ( apiKeyValidate(api_key) ) return res.status(401).json(unauthorized());
         return res.status(200).json(success((await getAllRegisteredFileModel()).data));

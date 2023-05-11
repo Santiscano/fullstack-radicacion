@@ -112,7 +112,7 @@ export const useAttachFile = () => {
       }
     } catch (error) {
       console.log('error: ', error);
-      // handleMessageSnackbar("error", "Algo paso vuelve a intentar")
+      handleMessageSnackbar("error", "Algo paso vuelve a intentar")
     } finally {
       setPreLoad(false);
     }

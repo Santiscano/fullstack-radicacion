@@ -27,16 +27,18 @@ function SearchSettled({
   const getAllRegisteredFiles = async () => {
     try {
       const resSettleds = await GetAllSettled();
-      console.log("Settleds: ", resSettleds?.data.data);
-      const elements = resSettleds?.data.data;
-      const rows = [];
-      selected.map((file: any) => {
-        if (![undefined, false, null, ""].includes(elements[file])) {
-          rows.push(...elements[file]);
-        }
-      });
-      setListSettleds(elements);
-      setLoading(false);
+      if(resSettleds.status == 200){
+        console.log("Settleds: ", resSettleds?.data.data);
+        const elements = resSettleds?.data.data;
+        const rows = [];
+        selected.map((file: any) => {
+          if (![undefined, false, null, ""].includes(elements[file])) {
+            rows.push(...elements[file]);
+          }
+        });
+        setListSettleds(elements);
+        setLoading(false);
+      }
     } catch (error) {
       console.log("error: ", error);
     }

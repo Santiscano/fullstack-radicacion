@@ -41,6 +41,7 @@ export const getTrackingRegisteredModel = async( data: string ): Promise<{ messa
             U.users_lastname, 
             F.idfiles, 
             F.files_registered,
+            F.files_type,
             F.files_account_type,
             F.files_account_type_number,
             R.roles

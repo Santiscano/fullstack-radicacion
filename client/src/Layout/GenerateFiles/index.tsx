@@ -262,7 +262,7 @@ function GenerateFiles() {
         // @ts-ignore
         cedi.idsedes,
         accountType,
-        preAccountNumber + accountNumber,
+        preAccountNumber + "-" + accountNumber,
         get("idusers")
       );
       console.log("addFileResponse: ", addFileResponse);
@@ -565,17 +565,17 @@ function GenerateFiles() {
                     </article>
                     <article className="md:w-1/2">
                       <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                        numero de cuenta
+                        Numero de Cuenta
                       </label>
                       <div>
                         <InputDouble
                           type1={"text"}
-                          label1={"prefijo"}
+                          label1={"Prefijo"}
                           value1={preAccountNumber}
                           setValue1={setPreAccountNumber}
                           required1
-                          type2={"number"}
-                          label2={"numero"}
+                          type2={"text"}
+                          label2={"Numero"}
                           value2={accountNumber}
                           setValue2={setAccountNumber}
                           required2

@@ -1,5 +1,5 @@
-import { Box, SelectChangeEvent, Tab, Tabs } from "@mui/material";
 import { useEffect, useState } from "react";
+import { Box, SelectChangeEvent, Tab, Tabs } from "@mui/material";
 import { TabPanel, a11yProps } from "../../components/tools/MultiViewPanel";
 import SearchSettled from "../AttachFile/components/SearchSettled";
 import Button from "../../components/common/Button";
@@ -7,7 +7,8 @@ import InputSelectOnlyValue from "../../components/common/InputSelectOnlyValue";
 import { useAttachFile } from "../AttachFile/hooks/useAttachFile";
 import { optionAccountType } from "../../components/tools/OptionsValuesSelects";
 import TextFieldOutlined from "../../components/common/TextFieldOutline";
-import { useDataGlobal } from "../../redux/Redux-actions/useDataGlobal";
+import useTracking from "./hooks/useTracking";
+import { formatearFecha } from '../../Utilities/formatted.utility'
 
 const trackingHistory = [
   {
@@ -68,21 +69,21 @@ const Tracking = () => {
   const {
     showValue,
     handleChange,
+    // document,
+    // onType,
+    // onNumber,
+    // handleTrackingBySettled,
+    // handleTrackingByDocument,
+  } = useAttachFile();
+
+  const {
     settled,
     setSettled,
-    notFile,
-    document,
-    onType,
-    onNumber,
     handleTrackingBySettled,
-    handleTrackingByDocument,
     success,
-  } = useAttachFile();
-  const { changeTitleSection } = useDataGlobal();
-
-  useEffect(() => {
-    changeTitleSection("Trazabilidad")
-  },[])
+    notFile,
+    tracking
+  } = useTracking();
 
   return (
     <main className=" layout home">
@@ -109,9 +110,9 @@ const Tracking = () => {
                       aria-label="Area TI"
                       variant="scrollable"
                     >
-                      <Tab label="Filtrar Por radicado" {...a11yProps(0)} />
+                      <Tab label="Trazabilidad Por radicado" {...a11yProps(0)} />
                       <Tab
-                        label="Filtrar por Tipo y Numero de Documento"
+                        label="Trazabilidad por Tipo y Numero de Documento"
                         {...a11yProps(1)}
                       />
                     </Tabs>
@@ -142,7 +143,7 @@ const Tracking = () => {
                       </form>
                     </Box>
                   </TabPanel>
-                  <TabPanel value={showValue} index={1}>
+                  {/* <TabPanel value={showValue} index={1}>
                     <Box>
                       <form onSubmit={handleTrackingByDocument}>
                         <div className="md:flex md:flex-wrap">
@@ -182,31 +183,33 @@ const Tracking = () => {
                         )}
                       </form>
                     </Box>
-                  </TabPanel>
+                  </TabPanel> */}
                 </Box>
               </article>
 
               {success && (
                 <div className="mt-8">
                   <ol>
-                    {trackingHistory.map((track, index) => (
-                      <div key={index}>
+                    {/* {trackingHistory.map((track, index) => (
+                      <div key={index}> */}
                         {/* date separator */}
-                        <li className="relative flex py-7">
+                        {/* <li className="relative flex py-7">
                           <div className="relative py-2 px-8 text-md text-white font-medium leading-5 rounded-full bg-tertiary">
                             {track.date}
                           </div>
-                        </li>
+                        </li> */}
 
                         {/* data */}
-                        {track.data.map((info, index) => (
+                        {/* @ts-ignore */}
+                        {tracking?.data.map((info, index) => (
                           <li className="relative flex py-7">
-                            {index !== track.data.length - 1 && (
+                            {/* @ts-ignore */}
+                            {index !== tracking?.data.length - 1 && (
                               <div className="absolute top-7 left-5 w-0.5 h-full -ml-px bg-gray-300 dark:bg-gray-600"></div>
                             )}
                             <div
                               className="relative flex flex-auto flex-row"
-                              key={info.id}
+                              key={info.idtracking}
                             >
                               {/* icon  or image */}
                               {info.imageUser ? (
@@ -237,29 +240,20 @@ const Tracking = () => {
                               {/* content */}
                               <div className="flex flex-col flex-auto items-start">
                                 <div>
-                                  El usuario <strong>{info.name}</strong> a
-                                  ejecutado <strong>{info.title}</strong>
+                                  El usuario <strong>{info.users_name} {info.users_lastname}</strong> con rol <strong>{info.roles}</strong> a ejecutado <strong>{info.files_states_description}</strong>
                                 </div>
                                 <div className="mt-2 text-[#64748b]">
-                                  {info.date} Archivo:{" "}
-                                  <strong className="text-tertiary">
-                                    {info.type}
-                                  </strong>{" "}
-                                  de tipo{" "}
-                                  <strong className="text-tertiary">
-                                    {info.acountType}
-                                  </strong>
+                                  {formatearFecha(info.tracking_date)} Archivo:{" "} <strong className="text-tertiary"> {info.files_type} </strong>{" "} de tipo{" "} <strong className="text-tertiary">{info.files_account_type}  : {info.files_account_type_number}</strong>
                                 </div>
-
                                 <div className="mt-4 px-5 rounded-lg bg-gray-200 dark:gray-800">
-                                  {info.description}
+                                  {info.tracking_observation}
                                 </div>
                               </div>
                             </div>
                           </li>
                         ))}
-                      </div>
-                    ))}
+                      {/* </div>
+                    ))} */}
                   </ol>
                 </div>
               )}

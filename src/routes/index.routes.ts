@@ -62,8 +62,8 @@ router.post('/deleteFilePath', decodeToken, deleteFilePath);               // Cr
 
 // Tracking
 router.get('/getTrackings', decodeToken, getTrackings);                     // Traer todos la trazabilidad
-router.get('/getTrackingRegistered', decodeToken, getTrackingRegistered);                       // Traer una ruta en especifico
-router.get('/getTrackingAccountType', decodeToken, getTrackingAccountType);                       // Traer una ruta en especifico
+router.post('/getTrackingRegistered', decodeToken, getTrackingRegistered);                       // Traer una ruta en especifico
+router.post('/getTrackingAccountType', decodeToken, getTrackingAccountType);                       // Traer una ruta en especifico
 
 // Centros de costos
 

@@ -35,6 +35,7 @@ function Finally({ user, endActivitySelect }: any) {
   };
   const handleSubmit = async (e: any) => {
     try {
+      handleFileSubmit(e);
       setPreLoad(true);
       e.preventDefault();
       const response = await editFile(
@@ -54,10 +55,11 @@ function Finally({ user, endActivitySelect }: any) {
         comments
       );
       if (response?.status == 200) {
-        handleFileSubmit(e);
+        handleClear();
+        handleOpenModalAuth();
       }
     } catch (error) {
-      // console.log("error: ", error);
+      console.log("error: ", error);
     } finally {
       setPreLoad(false);
     }
@@ -79,7 +81,7 @@ function Finally({ user, endActivitySelect }: any) {
         handleOpenModalAuth();
       }
     } catch (error) {
-      // console.log("error: ", error);
+      console.log("error: ", error);
     } finally {
     }
   };

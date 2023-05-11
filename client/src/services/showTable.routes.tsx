@@ -33,7 +33,7 @@ export const showTableAllFiles = async () => {
 export const showTableHistory = async () => {
   try{
     const history = await axios.post(Routes.api.tables.history,{
-      tracking_user: Number(get("idusers"))
+      userSession: Number(get("idusers"))
     },getHeader())
     console.log('history: ', history)
     return history

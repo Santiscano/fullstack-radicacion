@@ -1,6 +1,8 @@
 import axios from "axios";
 import Routes from "./allRoutes";
 import { getHeader } from "../components/tools/SesionSettings";
+import useContextProvider from "../Context/GeneralValuesContext";
+
 
 export const SearchWithSettled = async (files_registered: any) => {
   try {
@@ -52,7 +54,9 @@ export const GetAllSettled = async () => {
     );
     console.log("response: ", response);
     return response;
-  } catch (error) {
-    console.log("error: ", error);
+  } catch (error:any) {
+    console.log("error axios: ", error);
+    // handleMessageSnackbar("error",)
+    return error;
   }
 };

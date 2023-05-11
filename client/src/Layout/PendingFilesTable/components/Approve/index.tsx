@@ -126,7 +126,7 @@ function Approve({
         handleUpdateRows();
       }
     } catch (error) {
-      // console.log("error: ", error);
+      console.log("error: ", error);
     } finally {
       setPreLoad(true);
     }
