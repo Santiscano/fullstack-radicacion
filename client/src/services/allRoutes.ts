@@ -92,7 +92,6 @@ export default {
       withDocument: `${host}/accountTypeFilter`,
       getAllSettled: `${host}/getAllRegisteredFile`,
       getDocumentTypes: `${host}/getIdentificationByType`,
-      getTypesIdentification: `${host}/getTypeIdentification`,
     },
   },
   sig:{

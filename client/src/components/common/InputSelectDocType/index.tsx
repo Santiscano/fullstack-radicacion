@@ -21,9 +21,7 @@ export default function InputSelect(props: any) {
 
   const handleReadDocumentType = () => {
     axios
-      .post(Route.api.users.getTypeIdentification, {
-        api_key: import.meta.env.VITE_API_KEY,
-      })
+      .get(Route.api.users.getTypeIdentification, getHeader())
       .then((res) => {
         // console.log(res.data.data);
         setDocumentType(res.data.data);

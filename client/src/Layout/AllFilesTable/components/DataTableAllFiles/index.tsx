@@ -94,9 +94,9 @@ export default function DataTableAllFiles({ row }: any) {
     <>
       <LoadingMUI />
       <div className="flex flex-row justify-between">
-        <label className="block mb-2 ml-4 text-base font-semibold dark:text-white">
+        {/* <label className="block mb-2 ml-4 text-base font-semibold dark:text-white">
           Todos Los Radicados
-        </label>
+        </label> */}
       </div>
       <Box sx={{ height: "90%", width: "100%" }}>
         <DataGrid
@@ -142,7 +142,7 @@ export default function DataTableAllFiles({ row }: any) {
                 users_status: false,
               },
             },
-            pagination: { pageSize: 5 },
+            pagination: { pageSize: 25 },
           }}
         />
       </Box>

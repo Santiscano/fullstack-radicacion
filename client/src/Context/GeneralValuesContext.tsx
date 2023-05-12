@@ -35,6 +35,8 @@ export const GeneralValuesContext = createContext<any>({
   rows: [],
   setRows: () => {},
   handleUpdateRows: () => {},
+  cediConection: "",
+  setCediConection:() => {},
   openSnackbar: false,
   setOpenSnackbar: () => {},
   messageSnackbar: "",
@@ -54,12 +56,14 @@ const GeneralValuesProvider: FC = ({ children }: any) => {
   const [openModalAuth, setOpenModalAuth] = useState(false);
   const [dataUser, setDataUser] = useState();
   const [rows, setRows] = useState([]);
+  const [cediConection, setCediConection] = useState("");
   // snackbar
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [messageSnackbar, setMessageSnackbar] = useState("");
   const [severitySnackbar, setSeveritySnackbar] = useState<
     AlertColor | undefined
   >();
+  // conectar centros de costos
 
   const handleOpenModalAuth = () => setOpenModalAuth(!openModalAuth);
   const handleCloseModalAuth = () => setOpenModalAuth(false);
@@ -132,6 +136,8 @@ const GeneralValuesProvider: FC = ({ children }: any) => {
         rows,
         setRows,
         handleUpdateRows,
+        cediConection,
+        setCediConection,
         // snackbar
         openSnackbar,
         setOpenSnackbar,
@@ -142,6 +148,7 @@ const GeneralValuesProvider: FC = ({ children }: any) => {
         messageSnackbar,
         setMessageSnackbar,
         handleMessageSnackbar,
+
       }}
     >
       {children}

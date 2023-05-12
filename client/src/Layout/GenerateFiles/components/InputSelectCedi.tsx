@@ -44,7 +44,7 @@ export default function index(props: any) {
 
           {props.items.map((item: any, index: any) => (
             <MenuItem key={index} value={item} sx={{ m: 1, minWidth: 300 }}>
-              {item.sedes_city}
+              {item.sedes_city} - {item.sedes_type}
             </MenuItem>
           ))}
         </Select>

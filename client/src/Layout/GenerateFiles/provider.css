@@ -1,5 +1,5 @@
 .layout {
-    min-height: 90%;
+    min-height: 91%;
     /* height: 140vh; */
     background-color: #eff5fc;
 }
@@ -34,7 +34,7 @@
 .filing {
     padding: 15px;
     background-color: white;
-    margin: 0px 2vw 0px;
+    margin: 20px 2vw 0px;
     border-radius: 25px;
 }
 

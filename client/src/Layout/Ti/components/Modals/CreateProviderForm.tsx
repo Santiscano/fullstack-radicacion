@@ -70,7 +70,7 @@ const CreateProviderForm: FC<Props> = ({ open, close }) => {
               <CloseOutlinedIcon />
             </button>
           </div>
-          <form onSubmit={(event) => handleSubmitCreateProvider(event)}>
+          <form onSubmit={(event) => handleSubmitCreateProvider(event, close)}>
             <div className="md:flex md:flex-wrap">
               <article className="md:w-1/2">
                 <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">

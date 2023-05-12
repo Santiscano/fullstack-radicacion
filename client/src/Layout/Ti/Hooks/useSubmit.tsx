@@ -75,7 +75,7 @@ function useSubmit() {
   const [isCreateUser, setIsCreateUser] = useState(false);
   const [isCreateProvider, setIsCreateProvider] = useState(false);
   // --------------------------Context-------------------------------//
-  const { setPreLoad, handleMessageSnackbar } = useContextProvider();
+  const { setPreLoad, handleMessageSnackbar, cediConection } = useContextProvider();
   // --------------------------handles-------------------------------//
   /**
    * traigo los departamentos, ciudades, cedis,
@@ -186,7 +186,7 @@ function useSubmit() {
       handleMessageSnackbar("error", "Ocurrio Un Error Intenta De Nuevo");
     }
   };
-  const handleSubmitCreateUser = async (e: any) => {
+  const handleSubmitCreateUser = async (e: any, close:any) => {
     try {
       setPreLoad(true);
       e.preventDefault();
@@ -239,16 +239,17 @@ function useSubmit() {
       handleMessageSnackbar("error", "Ocurrio Un Error Intenta De Nuevo");
     } finally {
       setReset(false);
+      close();
     }
   };
-  const handleSubmitCreateProvider = async (e: any) => {
+  const handleSubmitCreateProvider = async (e: any, close:any) => {
     try {
       setPreLoad(true);
       e.preventDefault();
       console.log("valor rol:", assignRole);
       const res = await createProvider(
         import.meta.env.VITE_API_KEY,
-        assignRole,
+        1,
         cedi.idsedes,
         identificationType,
         identificationNumber,
@@ -281,6 +282,7 @@ function useSubmit() {
         // @ts-ignore
         setDocumentationUpdate(new Date());
         setIsCreateProvider(false);
+        close();
       }
       if (res?.status !== 200) {
         handleMessageSnackbar(
@@ -298,6 +300,7 @@ function useSubmit() {
       handleMessageSnackbar("error", "Ocurrio Un Error Intenta De Nuevo");
     } finally {
       setReset(false);
+
     }
   };
   const handleSubmitCreateArea = async (e: any) => {
@@ -379,6 +382,7 @@ function useSubmit() {
     try {
       setPreLoad(true);
       e.preventDefault();
+      console.log("datos enviados crear centro de costos", cediConection.id ,costCenterNumber, costCenterName)
       const res = await createCostCenter(
         // @ts-ignore
         cediConection.id,

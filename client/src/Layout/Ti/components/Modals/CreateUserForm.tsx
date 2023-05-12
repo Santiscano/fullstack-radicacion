@@ -76,7 +76,7 @@ const CreateUserForm: FC<Props> = ({ open, close }) => {
             </button>
           </div>
           <form
-            onSubmit={(event) => handleSubmitCreateUser(event)}
+            onSubmit={(event) => handleSubmitCreateUser(event, close)}
             className="mb-8"
           >
             <div className="md:flex md:flex-wrap">

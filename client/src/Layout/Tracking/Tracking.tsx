@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, FC } from "react";
 import { Box, SelectChangeEvent, Tab, Tabs } from "@mui/material";
 import { TabPanel, a11yProps } from "../../components/tools/MultiViewPanel";
 import SearchSettled from "../AttachFile/components/SearchSettled";
@@ -8,7 +8,7 @@ import { useAttachFile } from "../AttachFile/hooks/useAttachFile";
 import { optionAccountType } from "../../components/tools/OptionsValuesSelects";
 import TextFieldOutlined from "../../components/common/TextFieldOutline";
 import useTracking from "./hooks/useTracking";
-import { formatearFecha } from '../../Utilities/formatted.utility'
+import { formatearFecha } from "../../Utilities/formatted.utility";
 
 const trackingHistory = [
   {
@@ -65,7 +65,7 @@ const trackingHistory = [
   },
 ];
 
-const Tracking = () => {
+const Tracking:FC = () => {
   const {
     showValue,
     handleChange,
@@ -80,9 +80,13 @@ const Tracking = () => {
     settled,
     setSettled,
     handleTrackingBySettled,
+    document,
+    onType,
+    onNumber,
+    trackingByAccountType,
     success,
     notFile,
-    tracking
+    tracking,
   } = useTracking();
 
   return (
@@ -110,7 +114,10 @@ const Tracking = () => {
                       aria-label="Area TI"
                       variant="scrollable"
                     >
-                      <Tab label="Trazabilidad Por radicado" {...a11yProps(0)} />
+                      <Tab
+                        label="Trazabilidad Por radicado"
+                        {...a11yProps(0)}
+                      />
                       <Tab
                         label="Trazabilidad por Tipo y Numero de Documento"
                         {...a11yProps(1)}
@@ -143,9 +150,9 @@ const Tracking = () => {
                       </form>
                     </Box>
                   </TabPanel>
-                  {/* <TabPanel value={showValue} index={1}>
+                  <TabPanel value={showValue} index={1}>
                     <Box>
-                      <form onSubmit={handleTrackingByDocument}>
+                      <form onSubmit={trackingByAccountType}>
                         <div className="md:flex md:flex-wrap">
                           <article className="md:w-1/2">
                             <InputSelectOnlyValue
@@ -176,84 +183,96 @@ const Tracking = () => {
                           </article>
                         </div>
                         <Button name="Buscar Archivo" />
-                        {notFile && (
+                        {/* @ts-ignore */}
+                        {(tracking.error == true) && (
                           <div className="text-red-600">
                             no hemos encontrado informacion
                           </div>
                         )}
                       </form>
                     </Box>
-                  </TabPanel> */}
+                  </TabPanel>
                 </Box>
               </article>
 
-              {success && (
-                <div className="mt-8">
-                  <ol>
-                    {/* {trackingHistory.map((track, index) => (
-                      <div key={index}> */}
-                        {/* date separator */}
-                        {/* <li className="relative flex py-7">
-                          <div className="relative py-2 px-8 text-md text-white font-medium leading-5 rounded-full bg-tertiary">
-                            {track.date}
-                          </div>
-                        </li> */}
-
-                        {/* data */}
+              {/* @ts-ignore */}
+              {(tracking.error == false) && (
+                <div className="mt-14">
+                  {/* @ts-ignore */}
+                  {tracking?.data[0].name_responsible == "TECLAB" ? (
+                    <h3 className="mx-4 mt-8 text-2xl"><strong> Flujo Finalizado </strong></h3>
+                  ) : (
+                    // @ts-ignore
+                    <h3 className="mx-4 mt-8 text-2xl">Responsable Actual: <strong>{tracking?.data[0].name_responsible} {tracking?.data[0].lastname_responsible}</strong></h3>
+                  )}
+                  <ol className="mt-4">
+                    {/* data */}
+                    {/* @ts-ignore */}
+                    {tracking?.data.map((info, index) => (
+                      <li className="relative flex py-7">
                         {/* @ts-ignore */}
-                        {tracking?.data.map((info, index) => (
-                          <li className="relative flex py-7">
-                            {/* @ts-ignore */}
-                            {index !== tracking?.data.length - 1 && (
-                              <div className="absolute top-7 left-5 w-0.5 h-full -ml-px bg-gray-300 dark:bg-gray-600"></div>
-                            )}
-                            <div
-                              className="relative flex flex-auto flex-row"
-                              key={info.idtracking}
-                            >
-                              {/* icon  or image */}
-                              {info.imageUser ? (
-                                <img
-                                  src={info.imageUser}
-                                  className="shrink-0 w-10 h-10 mr-4 rounded-full overflow-hidden object-cover object-center"
-                                  alt="image user"
+                        {index !== tracking?.data.length - 1 && (
+                          <div className="absolute top-7 left-5 w-0.5 h-full -ml-px bg-gray-300 dark:bg-gray-600"></div>
+                        )}
+                        <div
+                          className="relative flex flex-auto flex-row"
+                          key={info.idtracking}
+                        >
+                          {/* icon  or image */}
+                          {info.imageUser ? (
+                            <img
+                              src={info.imageUser}
+                              className="shrink-0 w-10 h-10 mr-4 rounded-full overflow-hidden object-cover object-center"
+                              alt="image user"
+                            />
+                          ) : (
+                            <div className="flex shrink-0 items-center justify-center w-10 h-10 mr-4 rounded-full bg-gray-400">
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                strokeWidth={1.5}
+                                stroke="currentColor"
+                                className="w-6 h-6 text-white"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
                                 />
-                              ) : (
-                                <div className="flex shrink-0 items-center justify-center w-10 h-10 mr-4 rounded-full bg-gray-400">
-                                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    strokeWidth={1.5}
-                                    stroke="currentColor"
-                                    className="w-6 h-6 text-white"
-                                  >
-                                    <path
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                      d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
-                                    />
-                                  </svg>
-                                </div>
-                              )}
-
-                              {/* content */}
-                              <div className="flex flex-col flex-auto items-start">
-                                <div>
-                                  El usuario <strong>{info.users_name} {info.users_lastname}</strong> con rol <strong>{info.roles}</strong> a ejecutado <strong>{info.files_states_description}</strong>
-                                </div>
-                                <div className="mt-2 text-[#64748b]">
-                                  {formatearFecha(info.tracking_date)} Archivo:{" "} <strong className="text-tertiary"> {info.files_type} </strong>{" "} de tipo{" "} <strong className="text-tertiary">{info.files_account_type}  : {info.files_account_type_number}</strong>
-                                </div>
-                                <div className="mt-4 px-5 rounded-lg bg-gray-200 dark:gray-800">
-                                  {info.tracking_observation}
-                                </div>
-                              </div>
+                              </svg>
                             </div>
-                          </li>
-                        ))}
-                      {/* </div>
-                    ))} */}
+                          )}
+
+                          {/* content */}
+                          <div className="flex flex-col flex-auto items-start">
+                            <div>
+                              El usuario{" "}
+                              <strong>
+                                {info.users_name} {info.users_lastname}
+                              </strong>{" "}
+                              con rol <strong>{info.roles}</strong> a ejecutado{" "}
+                              <strong>{info.files_states_description}</strong>
+                            </div>
+                            <div className="mt-2 text-[#64748b]">
+                              {formatearFecha(info.tracking_date)} Archivo:{" "}
+                              <strong className="text-tertiary">
+                                {" "}
+                                {info.files_type}{" "}
+                              </strong>{" "}
+                              de tipo{" "}
+                              <strong className="text-tertiary">
+                                {info.files_account_type} :{" "}
+                                {info.files_account_type_number}
+                              </strong>
+                            </div>
+                            <div className="mt-4 px-5 rounded-lg bg-gray-200 dark:gray-800">
+                              {info.tracking_observation}
+                            </div>
+                          </div>
+                        </div>
+                      </li>
+                    ))}
                   </ol>
                 </div>
               )}

@@ -20,13 +20,11 @@ export default function index(props: any) {
 
   const handleGetCedis = async () => {
     try {
-      const getCedis = await axios.post(Routes.api.cedis.get, getHeader());
-      console.log("getCedis: ", getCedis);
-      const filterCedis = getCedis.data.filter(
-        (cedi: any) => cedi.sedes_type.toUpperCase() == props.cediType
-      );
-      console.log("filterCedis: ", filterCedis);
-      setCedis(filterCedis);
+      const getCedis = await axios.get(Routes.api.cedis.get, getHeader());
+      const allCedis = getCedis.data.data;
+      console.log('allCedis: ', allCedis);
+
+      setCedis(allCedis);
     } catch (e) {
       console.log(e);
     }
@@ -64,7 +62,7 @@ export default function index(props: any) {
 
           {cedis.map((item: any, index: any) => (
             <MenuItem key={index} value={item} sx={{ m: 1, minWidth: 300 }}>
-              {item.sedes_city}
+              {item.sedes_city} - {item.sedes_name}
             </MenuItem>
           ))}
         </Select>

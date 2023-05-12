@@ -34,9 +34,7 @@ function LocationsSelect({
 
   const handleReadDepartments = () => {
     axios
-      .post(Route.api.users.getTypeIdentification, {
-        api_key: import.meta.env.VITE_API_KEY,
-      })
+      .get(Route.api.users.getTypeIdentification, getHeader())
       .then((res) => {
         // console.log(res.data.data);
         setDepartments(res.data.data);

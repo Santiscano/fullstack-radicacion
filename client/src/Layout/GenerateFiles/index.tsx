@@ -542,6 +542,7 @@ function GenerateFiles() {
                       <TextFieldOutlined
                         type={"number"}
                         label={"valor"}
+                        // @ts-ignore
                         value={price}
                         setValue={setPrice}
                         required

@@ -19,9 +19,7 @@ const TableAllCostCenter = () => {
       <div className="layout">
         <section className="layout-section">
           <div className="layout-left">
-            <h3 className="mx-[6vw] my-2 container_createFiling createFiling">
-              Tabla Centros De Costos
-            </h3>
+
             <div className="filing">
               <section className="viewTableEdit">
                 <Box sx={{ height: "95%", width: "100%" }}>
@@ -44,7 +42,7 @@ const TableAllCostCenter = () => {
                           id: false,
                         },
                       },
-                      pagination: { pageSize: 5 },
+                      pagination: { pageSize: 25 },
                     }}
                   />
                 </Box>
