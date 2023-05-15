@@ -17,23 +17,22 @@ export const getUsersModel = async(): Promise<Data> => {
 };
 
 // CREAR USUARIOS
-export const postUsersModel = async ( data: Users ): Promise<{ message: string; data?: Data | undefined; firebase?: {error: boolean, data: any}  }> => {
+export const postUsersModel = async ( data: Users ): Promise<{ message?: string; data?: Data; firebase?: {error: boolean, data: any}  }> => {
     data.users_lastname === undefined ? data.users_lastname = "" : data.users_lastname;
     data.users_providers_paydays === undefined ? data.users_providers_paydays = null : data.users_providers_paydays;
     data.users_providers_expiration_date === undefined ? data.users_providers_expiration_date = null : data.users_providers_expiration_date;
     const digitalCheck: number = identificationDigitVerified(data.users_identification);
-    const [ userEmail ] = await connection.query(`
-        SELECT count(*) AS contador FROM users WHERE users_email = ?;
-    `, [ data.users_email ]);
-    const [ userDocumentRol ] = await connection.query(`
-    SELECT count(*) AS contador FROM users WHERE
-        users_identification = ? AND users_identification_type = ? AND idroles = ?;
+    const [ userEmail ]: any = await connection.query(`
+        SELECT count(*) AS contador FROM users 
+            WHERE users_email = ? AND users_identification = ?;
+    `, [ data.users_email, data.users_identification ]);
+    const [ userDocumentRol ]: any = await connection.query(`
+        SELECT count(*) AS contador FROM users 
+            WHERE users_identification = ? AND users_identification_type = ? AND idroles = ?;
     `, [ data.users_identification, data.users_identification_type, data.idroles ]);
-    // @ts-ignore
     if( userEmail[0].contador !== 0 ){
-        return { message: `El email: ${data.users_email.toUpperCase()}, ya se encuentra registrado en la base de datos.` }
+        return { message: `El DOCUMENTO: ${data.users_identification} con EMAIL: ${data.users_email.toUpperCase()}, ya se encuentra registrado en el sistema.` }
     };
-    // @ts-ignore
     if( userDocumentRol[0].contador !== 0 ){
         return { message: `El usuario con rol: ${data.idroles} y ${data.users_identification_type}: ${data.users_identification.toUpperCase()}, ya se encuentra registrado en la base de datos.` }
     };
@@ -47,9 +46,9 @@ export const postUsersModel = async ( data: Users ): Promise<{ message: string; 
     );
     if (data.users_password){
         const firebase = await auth.createUser(data.users_email, data.users_password);
-        return { message: `Usuario con rol: ${data.idroles}, ${ data.users_identification_type }: ${ data.users_identification } y email: ${data.users_email}, creado satisfactoriamente`, data: userCreated, firebase}
+        return { message: `Usuario con ${ data.users_identification_type }: ${ data.users_identification } y email: ${data.users_email.toUpperCase() }, ha sido creado con éxito`, data: userCreated, firebase}
     };
-    return { message: `Usuario con rol: ${ data.idroles } ${ data.users_identification_type }: ${ data.users_identification } y email: ${data.users_email}, creado satisfactoriamente`, data: userCreated}
+    return { message: `Usuario con rol: ${ data.idroles } ${ data.users_identification_type }: ${ data.users_identification } y email: ${ data.users_email.toUpperCase() }, ha sido creado con éxito`, data: userCreated}
 };
 
 // EDITAR USUARIOS

@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { missingData } from '../utilities/missingData.utilities';
 import { UserDocumentRol, Users } from '../interfaces/users.interface';
-import { success, unsuccessfully, unauthorized, uncompleted } from "../utilities/responses.utilities";
+import { success, unsuccessfully, unauthorized, uncompleted, errorMessage } from "../utilities/responses.utilities";
 import { getUsersModel, postUsersModel, putUsersModel, deleteUserModel } from '../models/users.model';
 import { apiKeyValidate } from '../utilities/apiKeyValidate.utilities';
 
@@ -27,7 +27,9 @@ export const postUsers = async (req: Request, res: Response) => {
         if (apiKeyValidate(api_key)) return res.status(401).json(unauthorized()); 
         if (missingData(validate).error) return res.status(422).json(uncompleted(missingData(validate).missing));
         const info = await postUsersModel(data);
-        return res.status(200).json(success(info.data, info.message, info.firebase));
+        info.data
+            ? res.status(200).json(success(info.data, info.message, info.firebase))
+            : res.status(205).json(errorMessage(info.message!));
     } catch (error) {
         return res.status(512).json(unsuccessfully(error));
     };
