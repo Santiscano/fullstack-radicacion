@@ -19,6 +19,6 @@ export const showTableModel = async (data?: number): Promise<{data: Data}> => {
 // HISTORY TABLE
 export const historyTableModel = async (data: number): Promise<{data: Data}> => {
     const [ dataHistory ] = await connection.query(`
-            SELECT * FROM HistoryTable WHERE tracking_user = ?;`, [ data ]);
+            SELECT * FROM HistoryTable WHERE tracking_user = ? AND tracking_idfiles_states <> 2;`, [ data ]);
     return { data: dataHistory };
 };
