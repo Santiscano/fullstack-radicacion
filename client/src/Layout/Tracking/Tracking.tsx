@@ -98,11 +98,11 @@ const Tracking:FC = () => {
             <div className="w-full max-w-3xl">
               {/* title */}
               <div className="text-4xl font-extrabold tracking-tight leading-none">
-                Todas Las Actividades
+                Rastreo de Documentos
               </div>
               <div className="mt-1.5 text-lg text-[#64748b]">
-                Los movimientos del archivo se veran reflejados de manera
-                individual, comenzando con los mas recientes.
+                Brinda el control y la transparencia necesarios para gestionar y supervisar de manera efectiva 
+                el flujo de todos los radicados, garantizando la calidad y la integridad en cada paso del proceso.
               </div>
 
               <article className="my-[15px] p-3 bg-white rounded-3xl h-auto">

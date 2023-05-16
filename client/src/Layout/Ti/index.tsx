@@ -128,8 +128,8 @@ function TI() {
                   <>
                     <h3 className="font-bold mt-6 text-xl">Eliminar Archivo</h3>
                     <h3 className="text-lg mt-2 text-red-500 font-bold">
-                      *Tenga presente que una vez eliminado un archivo, tanto la
-                      trazabilidad como el archivo no podran ser recuperados*
+                      * Tener presente que, una vez eliminado un archivo, se perderá el rastro tanto del
+                      archivo como de la trazabilidad, y estos no podrán ser recuperados en ningún momento *
                     </h3>
                     <form>
                       <div className="md:flex md:flex-wrap mt-4">

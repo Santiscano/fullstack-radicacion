@@ -32,7 +32,6 @@ export const pendingTable = async (req: Request, res: Response) => {
 export const historyTable = async (req: Request, res: Response) => {
     const { api_key } = req.headers;
     const { userSession } = req.body;
-    console.log('userSession: ', userSession);
     try {
         if (apiKeyValidate(api_key)) return res.status(401).json(unauthorized());
         if (missingData({userSession}).error) return res.status(422).json(uncompleted(missingData({userSession}).missing));

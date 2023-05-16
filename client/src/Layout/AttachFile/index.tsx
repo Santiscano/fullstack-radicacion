@@ -53,7 +53,7 @@ function AttachFile() {
   const { changeTitleSection } = useDataGlobal();
 
   useEffect(() => {
-    changeTitleSection("Adjuntar Archivos")
+    changeTitleSection("ADJUNTAR ARCHIVOS")
   },[])
 
   return (

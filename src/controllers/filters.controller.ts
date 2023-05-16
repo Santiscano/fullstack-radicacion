@@ -8,7 +8,6 @@ import { getAllRegisteredFileModel,getIdentificationByTypeModel, getTypeIdentifi
 // TRAER TODOS LOS RADICADOS (SOLO RADICADO)
 export const getAllRegisteredFile = async (req:Request, res: Response) => {
     const { api_key } = req.headers;
-    console.log('api_key: ', api_key);
     try {
         if ( apiKeyValidate(api_key) ) return res.status(401).json(unauthorized());
         return res.status(200).json(success((await getAllRegisteredFileModel()).data));
@@ -22,7 +21,6 @@ export const getIdentificationByType  = async ( req: Request, res: Response ) =>
     const { api_key } = req.headers;
     const { users_identification_type } = req.body;
     try {
-        console.log(users_identification_type)
         if (apiKeyValidate(api_key)) return res.status(401).json(unauthorized());
         if (missingData({users_identification_type}).error) return res.status(422).json(uncompleted(missingData({users_identification_type}).missing));
         const info = await getIdentificationByTypeModel(users_identification_type);

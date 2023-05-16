@@ -87,7 +87,7 @@ function useTracking () {
   };
 
   useEffect(() => {
-    changeTitleSection("Trazabilidad");
+    changeTitleSection("TRAZABILIDAD");
     return () => {
       changeTitleSection("")
     }

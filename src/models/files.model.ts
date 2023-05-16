@@ -99,10 +99,7 @@ export const deleteFileModel = async (data: number): Promise<{message: string}> 
     //@ts-ignore
     const idfiles = info[0].idfiles;
     await connection.query(`DELETE FROM tracking WHERE idfiles = ?;`, [ idfiles ]);
-    // console.log("Eliminado del tracking");
     await connection.query(`DELETE FROM files_path WHERE idfiles = ?;`, [ idfiles ])
-    // console.log("Eliminado de las rutas");
     await connection.query(`DELETE FROM files WHERE idfiles = ?;`, [ idfiles ]);
-    // console.log("Eliminado del los archivos");
     return { message: `RADICADO: ${ data }, eliminado con éxito`};
 }

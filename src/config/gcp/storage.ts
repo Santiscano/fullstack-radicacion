@@ -21,6 +21,6 @@ export const  uploadFile = async ( ruta: string, destino: string ) => {
         });
     // console.log(`${FILE_NAME} uploaded to ${GOOGLE_CLOUD_BUCKET}`);
     } catch(error) {
-        // console.log(error);
+        console.log(error);
     }
 }

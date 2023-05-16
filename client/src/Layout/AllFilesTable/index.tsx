@@ -27,7 +27,7 @@ function AllFilesTable() {
 
   useEffect(() => {
     handleGetTableData();
-    changeTitleSection("Todos los Archivos");
+    changeTitleSection("TODOS LOS ARCHIVOS");
     return () => {
       changeTitleSection("")
     }

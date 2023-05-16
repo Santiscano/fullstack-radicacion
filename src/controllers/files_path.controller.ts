@@ -36,7 +36,6 @@ export const postChargeFilePath = async ( req: Request, res: Response ) => {
                 return res.status(404).send({ message: "Nombre de KEY equivocado para cargar el archivo" });
             }
             if ( req.file ) {
-                // console.log( req.file );
                 const path = req.file.path;
                 const day = moment.tz(new Date(), "America/Bogota").format();
                 await connection.query(`

@@ -6,7 +6,7 @@ type Data = RowDataPacket[] | RowDataPacket[][] | OkPacket | OkPacket[] | Result
 
 // TRAER TODOS LOS RADICADOS (SOLO RADICADO)
 export const getAllRegisteredFileModel = async(): Promise<{ data: Data }> => {
-    const [ data ] = await connection.query(`SELECT files_registered FROM files;`);
+    const [ data ] = await connection.query(`SELECT files_registered FROM files ORDER BY idfiles ASC;`);
     return { data };
 };
 
@@ -38,11 +38,9 @@ export const registeredFilterModel = async(data: string): Promise<{message?:stri
     if ( dataInfo.length === 0 ) return { message: `No se ha encontado información adjunta al RADICADO: ${ data }`}
     //@ts-ignore
     const file = dataInfo[0].idfiles
-    console.log('file: ', file);
     const [ path ] = await connection.query(`
         SELECT * FROM files_path WHERE idfiles = ?;
         `,[ file ]);
-        console.log("path",path);
     return { data: dataInfo, path };
 };
 

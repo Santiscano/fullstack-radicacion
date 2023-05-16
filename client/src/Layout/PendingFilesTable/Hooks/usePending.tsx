@@ -13,7 +13,7 @@ export const usePending = () => {
   const { changeTitleSection } = useDataGlobal();
 
   const title = () => {
-    const value = Number(get("idroles")) == roles.Administrador ? "Completadas" : "Pendientes por Autorizar";
+    const value = Number(get("idroles")) == roles.Administrador ? "COMPLETADOS" : "MIS ARCHIVOS PENDIENTES";
     changeTitleSection(value)
   };
 

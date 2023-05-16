@@ -8,7 +8,7 @@ const History = () => {
   const { rows } = useHistory();
 
   useEffect(() => {
-    changeTitleSection("Historial");
+    changeTitleSection("HISTORIAL");
     return () => {
       changeTitleSection("");
     }

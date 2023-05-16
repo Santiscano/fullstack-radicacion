@@ -109,7 +109,7 @@ function GenerateFiles() {
    * envio cedi para generar radicado
    */
   const handleGetUsersCedis = async () => {
-    changeTitleSection("Generar Radicado")
+    changeTitleSection("GENERAR RADICADO")
     // cedis
     const allCedis: AllCedis[] = await getCedis();
     console.log("allCedis: ", allCedis);

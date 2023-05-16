@@ -13,7 +13,6 @@ export const genRegistered = async (): ( Promise<string | object> ) => {
         const fileRegistered = `${id[0].id + 1}-${ date.toUpperCase() }`;
         return  fileRegistered 
     } catch (error) {
-        // console.log(error);
         return {error: true, message: "Error del servidor para generar los radicados"};
     };
 };

@@ -68,7 +68,7 @@ export default {
     ],
     CenterCost: [
       {
-        name: "Centros De Costos",
+        name: "Centros de Costo",
         url: "/dashboard/centros-de-costos",
         icon: <QueryStatsIcon sx={color} />,
       },

@@ -462,7 +462,7 @@ function useSubmit() {
   // --------------------------Effects-------------------------------//
   useEffect(() => {
     handleGetCitys();
-    changeTitleSection("Administración Plataforma");
+    changeTitleSection("PANEL ADMINISTRATIVO");
     return () => {
       changeTitleSection("");
     }

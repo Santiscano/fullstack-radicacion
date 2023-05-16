@@ -26,7 +26,7 @@ function useCostCenter () {
 
   useEffect(() => {
     handleGetTableData();
-    changeTitleSection("Lista Centros de Costo")
+    changeTitleSection("CENTROS DE COSTO")
   }, []);
 
   return {
