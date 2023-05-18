@@ -5,6 +5,8 @@ export default {
   api: {
     roles: {
       get: `${host}/getRoles`,
+      notAdminProv:`${host}/getNotAdminProv`,
+      provider: `${host}/getProvider`,
       create: `${host}/postRol`,
       edit: `${host}/putRol`,
       delete: `${host}/deleteRol`,

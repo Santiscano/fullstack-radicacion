@@ -99,7 +99,8 @@ function TI() {
     isCreateProvider,
     setIsCreateProvider,
   } = useSubmit();
-  const { cediConection } = useContextProvider()
+  const { cediConection } = useContextProvider();
+
 
   return (
     <div className="layout">
@@ -122,14 +123,17 @@ function TI() {
                   <Tab label="Crear Centro de Costos" {...a11yProps(4)} />
                 </Tabs>
               </Box>
+
               <TabPanel value={showValue} index={0}>
                 <h3 className="font-bold text-2xl">Panel Administrativo</h3>
                 {Number(get("idroles")) == roles.Administrador && (
                   <>
                     <h3 className="font-bold mt-6 text-xl">Eliminar Archivo</h3>
                     <h3 className="text-lg mt-2 text-red-500 font-bold">
-                      * Tener presente que, una vez eliminado un archivo, se perderá el rastro tanto del
-                      archivo como de la trazabilidad, y estos no podrán ser recuperados en ningún momento *
+                      * Tener presente que, una vez eliminado un archivo, se
+                      perderá el rastro tanto del archivo como de la
+                      trazabilidad, y estos no podrán ser recuperados en ningún
+                      momento *
                     </h3>
                     <form>
                       <div className="md:flex md:flex-wrap mt-4">
@@ -372,7 +376,9 @@ function TI() {
                       Centro de costos a crear:{" "}
                       <strong>
                         {/* @ts-ignore */}
-                        {`${connectionArea && connectionArea.number}-${ cediConection && cediConection.number}-${costCenterNumber}`}
+                        {`${connectionArea && connectionArea.number}-${
+                          cediConection && cediConection.number
+                        }-${costCenterNumber}`}
                       </strong>
                     </div>
                     <Button name="Crear Dependencia" />

@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { apiKeyValidate } from '../utilities/apiKeyValidate.utilities';
 import { success, unauthorized, uncompleted, unsuccessfully } from '../utilities/responses.utilities';
-import { deleteRolModel, getRolesModel, postRolesModel, putRolModel } from '../models/roles.model';
+import { deleteRolModel, getAdminNotProviderModel, getRolProviderModel, getRolesModel, postRolesModel, putRolModel } from '../models/roles.model';
 import { missingData } from '../utilities/missingData.utilities';
 
 // TRAER ROLES
@@ -13,6 +13,26 @@ export const getRoles = async (req: Request, res: Response) =>{
     } catch (error) {
         return res.status(512).json(unsuccessfully(error));
     };
+};
+
+// TRAER ROLES ADMIN & PROVEEDOR
+export const getRolesNotAdminProvider = async (req: Request, res: Response) => {
+    const { api_key } = req.headers;
+    try {
+        if (apiKeyValidate(api_key)) return res.status(401).json(unauthorized());
+        return res.status(200).json(success((await getAdminNotProviderModel()).data));
+    } catch (error){
+        return res.status(512).json(unsuccessfully(error))
+    }
+};
+
+// TRAER ROL PROVEEDOR
+export const getRolProvider = async (req: Request, res: Response) => {
+    const { api_key } = req.headers;
+    try{
+        if (apiKeyValidate(api_key)) return res.status(401).json(unauthorized());
+        return res.status(200).json(success((await getRolProviderModel()).data));
+    } catch(error) {}
 };
 
 // CREAR ROL

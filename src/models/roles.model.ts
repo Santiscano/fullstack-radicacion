@@ -11,6 +11,18 @@ export const getRolesModel = async(): Promise<{ data: Data }> => {
     return { data: roles }
 };
 
+// TRAER  !== ADMINISTRADOR & PROOVEDOR
+export const getAdminNotProviderModel = async(): Promise<{data: Data}> => {
+    const [ adminProvider ] = await connection.query('SELECT * FROM roles WHERE idroles <> ? AND idroles <> ?;',[1, 10])
+    return { data: adminProvider }
+};
+
+// TRAER PROVEEDOR
+export const getRolProviderModel = async (): Promise<{data: Data}> => {
+    const [ provider ] = await connection.query('SELECT * FROM roles WHERE idroles = ?;',[1])
+    return { data: provider }
+};
+
 // CREAR ROLES
 export const postRolesModel = async (data: Roles): Promise<{message:string, data?: Data}> =>{
     const [ rol ] = await connection.query(`

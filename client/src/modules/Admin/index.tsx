@@ -110,8 +110,11 @@ function index() {
    */
   const loadingUser = async () => {
     const userValidate = await validateUserFirebase();
-    console.log('userValidate admin: ', userValidate);
-    if ( userValidate?.status === 200 && userValidate?.data.data.users_status === "ACTIVO" ) {
+    console.log("userValidate admin: ", userValidate);
+    if (
+      userValidate?.status === 200 &&
+      userValidate?.data.data.users_status === "ACTIVO"
+    ) {
       setUser(userValidate?.data.data);
       addUserSession(userValidate?.data.data);
     } else if (!session() && userValidate?.data.users_status !== "ACTIVO") {
@@ -123,9 +126,7 @@ function index() {
 
   useEffect(() => {
     loadingUser();
-    setTimeout(() => {
-      setLoading(false);
-    }, 500);
+    setLoading(false);
   }, []);
 
   return (

@@ -11,12 +11,16 @@ import {
   getArea,
 } from "../../../services/CenterCost.routes";
 import { deleteFile } from "../../../services/Files.routes";
-import { getRoles } from "../../../services/Roles.routes";
+import {
+  getRoles,
+  getNotAdminProv,
+  getProvider,
+} from "../../../services/Roles.routes";
 import { createProvider, createUser } from "../../../services/Users.routes";
 import { getCitys } from "../../../services/getCitysColombia.routes";
 import useContextProvider from "./../../../Context/GeneralValuesContext";
-import { useDataGlobal } from "../../../redux/Redux-actions/useDataGlobal"
-
+import { useDataGlobal } from "../../../redux/Redux-actions/useDataGlobal";
+import axios from "axios";
 
 function useSubmit() {
   // --------------------------Variable-------------------------------//
@@ -75,7 +79,8 @@ function useSubmit() {
   const [isCreateUser, setIsCreateUser] = useState(false);
   const [isCreateProvider, setIsCreateProvider] = useState(false);
   // --------------------------Context-------------------------------//
-  const { setPreLoad, handleMessageSnackbar, cediConection } = useContextProvider();
+  const { setPreLoad, handleMessageSnackbar, cediConection } =
+    useContextProvider();
   // --------------------------handles-------------------------------//
   /**
    * traigo los departamentos, ciudades, cedis,
@@ -84,32 +89,29 @@ function useSubmit() {
   const handleGetCitys = async () => {
     const departmentsResponse: any = await getCitys();
     setListDepartment(departmentsResponse?.Department);
-
     setListCitys(departmentsResponse?.DepartamentCity);
     setAllCitys(departmentsResponse?.DepartamentCity);
-
-    const allCedis: AllCedis[] = await getCedis();
-    // console.log("allCedis: ", allCedis);
-    setOptionsCedisIdName(allCedis);
-
-    // crear usuarios
-    const allRoles = await getRoles();
-    const filterRoles = allRoles.data;
-    console.log("allRoles: ", filterRoles);
-    const optionsCreateUser = filterRoles.filter(
-      (rol: { roles: string }) =>
-        rol.roles !== "ADMINISTRADOR" && rol.roles !== "PROVEEDOR"
-    );
-    console.log("optionsCreateUser", optionsCreateUser);
-    setOptionsRol(optionsCreateUser);
-
-    // crear proveedores
-    const createProvider = filterRoles.filter(
-      (rol: { roles: string }) => rol.roles === "PROVEEDOR"
-    );
-    setOnlyRolProvider(createProvider);
   };
 
+  const handleCedis = async () => {
+    const allCedis: AllCedis[] = await getCedis();
+    console.log("allCedis: ", allCedis);
+    setOptionsCedisIdName(allCedis);
+  };
+
+  // crear usuarios
+  const handleUser = async () => {
+    const adminProv = await getNotAdminProv();
+    console.log("adminProv: ", adminProv.data);
+    setOptionsRol(adminProv.data);
+  };
+
+  // crear proveedores
+  const handleProvider = async () => {
+    const provider = await getProvider();
+    console.log("provider: ", provider.data);
+    setOnlyRolProvider(createProvider);
+  };
 
   /**
    * metodo para pasar entre crear rol, cedi.... etc
@@ -186,12 +188,11 @@ function useSubmit() {
       handleMessageSnackbar("error", "Ocurrio Un Error Intenta De Nuevo");
     }
   };
-  const handleSubmitCreateUser = async (e: any, close:any) => {
+  const handleSubmitCreateUser = async (e: any, close: any) => {
     try {
       setPreLoad(true);
       e.preventDefault();
       const res = await createUser(
-        import.meta.env.VITE_API_KEY,
         assignRole,
         cedi.idsedes,
         identificationType,
@@ -242,7 +243,7 @@ function useSubmit() {
       close();
     }
   };
-  const handleSubmitCreateProvider = async (e: any, close:any) => {
+  const handleSubmitCreateProvider = async (e: any, close: any) => {
     try {
       setPreLoad(true);
       e.preventDefault();
@@ -300,7 +301,6 @@ function useSubmit() {
       handleMessageSnackbar("error", "Ocurrio Un Error Intenta De Nuevo");
     } finally {
       setReset(false);
-
     }
   };
   const handleSubmitCreateArea = async (e: any) => {
@@ -382,7 +382,12 @@ function useSubmit() {
     try {
       setPreLoad(true);
       e.preventDefault();
-      console.log("datos enviados crear centro de costos", cediConection.id ,costCenterNumber, costCenterName)
+      console.log(
+        "datos enviados crear centro de costos",
+        cediConection.id,
+        costCenterNumber,
+        costCenterName
+      );
       const res = await createCostCenter(
         // @ts-ignore
         cediConection.id,
@@ -462,11 +467,16 @@ function useSubmit() {
   // --------------------------Effects-------------------------------//
   useEffect(() => {
     handleGetCitys();
+    handleCedis();
+    handleUser();
+    handleProvider();
     changeTitleSection("PANEL ADMINISTRATIVO");
+
     return () => {
       changeTitleSection("");
-    }
+    };
   }, []);
+
   useEffect(() => {
     handleGetCitys();
   }, [setMessageSnackbar]);

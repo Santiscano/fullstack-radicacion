@@ -31,25 +31,11 @@ export const getUsers = async () => {
   }
 };
 
-export const createUser = async (
-  api_key: any,
-  idroles: number,
-  idsedes: number,
-  users_identification_type: string,
-  users_identification: string,
-  name: string,
-  lastname: string,
-  address: string,
-  phone: string,
-  email: string,
-  password: string
-) => {
+export const createUser = async (idroles: number, idsedes: number, users_identification_type: string, users_identification: string, name: string, lastname: string, address: string, phone: string, email: string, password: string) => {
   try {
-    console.log("ruta", Routes.api.users.createUser);
     const response = await axios.post(
       Routes.api.users.createUser,
       {
-        api_key,
         idroles,
         idsedes,
         users_identification_type,
@@ -101,10 +87,10 @@ export const createProvider = async (
       },
       getHeader()
     );
-    // console.log("create user: ", response);
+    console.log("create user: ", response);
     return response;
   } catch (error) {
-    // console.log(error);
+    console.log(error);
   }
 };
 
@@ -127,10 +113,10 @@ export const editUser = async () => {
       users_providers_expiration_date: null,
       users_status: "ACTIVO",
     });
-    // console.log("response edit user: ", response);
+    console.log("response edit user: ", response);
     return response;
   } catch (error) {
-    // console.log(error);
+    console.log(error);
   }
 };
 

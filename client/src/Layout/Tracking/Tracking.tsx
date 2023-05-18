@@ -101,7 +101,7 @@ const Tracking:FC = () => {
                 Rastreo de Documentos
               </div>
               <div className="mt-1.5 text-lg text-[#64748b]">
-                Brinda el control y la transparencia necesarios para gestionar y supervisar de manera efectiva 
+                Brinda el control y la transparencia necesarios para gestionar y supervisar de manera efectiva
                 el flujo de todos los radicados, garantizando la calidad y la integridad en cada paso del proceso.
               </div>
 

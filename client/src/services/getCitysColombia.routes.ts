@@ -20,6 +20,7 @@ export const getCitys = async () => {
     const DepartamentCity = response!.data.map((item: any) => {
       return { departamento: item.departamento, municipio: item.municipio };
     });
+
     return { Department, DepartamentCity };
   } catch (error) {
     // console.log('error: ', error);

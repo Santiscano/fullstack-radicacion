@@ -4,12 +4,34 @@ import { getHeader, set } from "../components/tools/SesionSettings";
 
 export const getRoles = async () => {
   try {
-    const response = await axios.get(Routes.api.roles.get, getHeader());
-    console.log('get roles: ', response.data);
-    const roles = response.data;
+    const getRoles = await axios.get(Routes.api.roles.get, getHeader());
+    console.log('get roles: ', getRoles.data);
+    const roles = getRoles.data;
     return roles;
   } catch (error) {
     console.log(error);
+  }
+};
+
+export const getNotAdminProv = async () => {
+  try {
+    const getAdminProv = await axios.get(Routes.api.roles.notAdminProv, getHeader());
+    console.log('get admin prov: ', getAdminProv.data);
+    const adminProv = getAdminProv.data;
+    return adminProv;
+  }catch(error){
+    console.log(error);
+  }
+};
+
+export const getProvider = async () => {
+  try{
+    const getProvider = await axios.get(Routes.api.roles.provider, getHeader());
+    console.log('get provider: ', getProvider.data);
+    const provider = getProvider.data;
+    return provider;
+  } catch(error) {
+    console.log(error)
   }
 };
 

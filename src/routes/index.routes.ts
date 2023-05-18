@@ -1,7 +1,7 @@
 import { Router } from 'express';
 
 // Importando controladores de las rutas
-import { getRoles, postRol, putRol, deleteRol } from '../controllers/roles.controller';
+import { getRoles, postRol, putRol, deleteRol, getRolesNotAdminProvider, getRolProvider } from '../controllers/roles.controller';
 import { getSedes, postSede, putSede, deleteSede } from '../controllers/sedes.controller';
 import { getUsers, postUsers, putUsers, deleteUser } from '../controllers/users.controller';
 import { getFiles, postFile, putFile, deleteFile, genFileRegistered } from '../controllers/files.controller';
@@ -28,9 +28,11 @@ const router = Router();
 
 // Roles
 router.get('/getRoles', decodeToken, getRoles);                             // Traer roles
-router.post('/postRol', decodeToken, postRol);                               // Crear un rol
-router.put('/putRol', decodeToken, putRol);                                  // Editar un rol
-router.post('/deleteRol', decodeToken, deleteRol);                         // Eliminar un rol
+router.get('/getNotAdminProv', decodeToken, getRolesNotAdminProvider);      // Traer !== Admin & Provider
+router.get('/getProvider', decodeToken, getRolProvider);                  // Traer Provider
+router.post('/postRol', decodeToken, postRol);                              // Crear un rol
+router.put('/putRol', decodeToken, putRol);                                 // Editar un rol
+router.post('/deleteRol', decodeToken, deleteRol);                          // Eliminar un rol
 
 // Sedes
 router.get('/getSedes', decodeToken, getSedes);                             // Traer sedes

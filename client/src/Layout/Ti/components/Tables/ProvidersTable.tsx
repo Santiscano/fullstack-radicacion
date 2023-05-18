@@ -90,7 +90,7 @@ const ProvidersTables = ({ setIsCreateProvider }: any) => {
   return (
     <>
       <div className="flex flex-row justify-between items-center">
-        <label className="block mb-2 ml-4 text-base font-semibold dark:text-white">
+        <label className="block ml-4 text-base font-semibold dark:text-white">
           Todos Los Proveedores
         </label>
         <button className="button button--flex" onClick={handleOpen}>
@@ -103,13 +103,16 @@ const ProvidersTables = ({ setIsCreateProvider }: any) => {
             rows={rows}
             getRowId={(row) => row.idusers}
             columns={columnsProvider}
-            pageSize={7}
-            rowsPerPageOptions={[7]}
+            // pageSize={7}
+            rowsPerPageOptions={[5, 10, 25, 50, 100]}
             disableSelectionOnClick
             experimentalFeatures={{ newEditingApi: true }}
             components={{
               Toolbar: GridToolbarConfig,
               NoRowsOverlay: CustomNoRowsOverlay,
+            }}
+            initialState={{
+              pagination: { pageSize: 25 },
             }}
           />
         </Box>
