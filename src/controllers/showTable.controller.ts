@@ -28,6 +28,19 @@ export const pendingTable = async (req: Request, res: Response) => {
     };
 };
 
+// SHOW TABLE BY FILE
+export const fileShowTable = async (req: Request, res: Response) => {
+    const { api_key } = req.headers;
+    const { idfile } = req.body;
+    try {
+        if (apiKeyValidate(api_key)) return res.status(401).json(unauthorized());
+        if (missingData({idfile}).error) return res.status(422).json(uncompleted(missingData({idfile}).missing));
+        return res.status(200).json(success((await showTableModel(undefined, idfile)).data));
+    } catch (error) {
+        return res.status(512).json(unsuccessfully(error));
+    };
+};
+
 // HISTORYTABLE
 export const historyTable = async (req: Request, res: Response) => {
     const { api_key } = req.headers;

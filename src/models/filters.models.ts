@@ -1,6 +1,8 @@
 import { connection } from '../config/database/db';
 import { RowDataPacket, OkPacket, ResultSetHeader } from 'mysql2/promise';
 import { Roles } from '../interfaces/roles.interface';
+import { countTable, getAllTable } from '../utilities/countTable.utilities';
+import { getTableRow } from '../utilities/countTable.utilities';
 
 type Data = RowDataPacket[] | RowDataPacket[][] | OkPacket | OkPacket[] | ResultSetHeader | ResultSetHeader
 
@@ -59,4 +61,60 @@ export const accountTypeFilterModel = async (data: {files_account_type: string, 
     const [ path ] = await connection.query(`
         SELECT * FROM files_path WHERE idfiles = ?;`, [ file ]);
     return { data: response, path };
-}
+};
+
+export const actionFilterModel = async (data: number): Promise<{ message?:string, data?: {stateFile: string;}[] }> => {
+    if(await countTable("roles", "idroles", data) === 0) return {message: `Numero de ROL: ${data}, no esxiste en el sistema`};
+    const [ rolInfo ]: any = await getTableRow("roles", "idroles", data);
+    const [ stateInfo ]: any = await connection.query(`SELECT * FROM files_states`);
+    if(rolInfo.roles_description === "AUDITOR") {
+        return { data: 
+            [
+                {stateFile: stateInfo[2] },
+                {stateFile: stateInfo[6] },
+                {stateFile: stateInfo[7] },
+                {stateFile: stateInfo[8] },
+                {stateFile: stateInfo[9] },
+                {stateFile: stateInfo[11] },
+            ]
+        }
+    }
+    if(rolInfo.roles_description === "GERENCIA") {
+        return { data: 
+            [
+                {stateFile: stateInfo[3] },
+                {stateFile: stateInfo[6] },
+                {stateFile: stateInfo[7] },
+                {stateFile: stateInfo[8] },
+                {stateFile: stateInfo[9] },
+                {stateFile: stateInfo[10] },
+            ]
+        }
+    };
+    if(rolInfo.roles_description === "CONTABILIDAD") {
+        return { data: 
+            [
+                {stateFile: stateInfo[4] },
+                {stateFile: stateInfo[6] },
+                {stateFile: stateInfo[7] },
+                {stateFile: stateInfo[8] },
+                {stateFile: stateInfo[9] },
+                {stateFile: stateInfo[10] },
+            ]
+        }
+    };
+    if(rolInfo.roles_description === "TESORERIA") {
+        return { data: 
+            [
+                {stateFile: stateInfo[5] },
+                {stateFile: stateInfo[6] },
+                {stateFile: stateInfo[7] },
+                {stateFile: stateInfo[8] },
+                {stateFile: stateInfo[9] },
+                {stateFile: stateInfo[10] },
+            ]
+        }
+    };
+    
+    return {message: "No cuentas con un rol apto para esta función" }
+};

@@ -56,9 +56,9 @@ app.use(cors());
 app.use('/', router)
 
 // VERIFICACIÓN BACKEND PRODUCCIÓN
-// app.use("/api/", (req, res, next) => {
-//     res.send("Digitalización EnviExpress");
-// });
+app.use("/api/", (req, res, next) => {
+    res.send("Backend Digitalización EnviExpress Funciónando con Éxito");
+});
 
 // PUERTO DEL SERVIDOR LOCAL
 app.set("port", process.env.LOCAL_PORT || 3000);
@@ -71,10 +71,10 @@ app.use('/sig/', routerSig)
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerJsdoc(swaggerSpec)))
 
 // CONEXIÓN FRONTEND
-app.use(express.static(path.join(__dirname, '../client/dist')))
-app.get("*", (req, res)=>{
-    res.sendFile(path.join(__dirname, '../client/dist/index.html'))
-});
+// app.use(express.static(path.join(__dirname, '../client/dist')))
+// app.get("*", (req, res)=>{
+//     res.sendFile(path.join(__dirname, '../client/dist/index.html'))
+// });
 
 // INICIAR EL SERVIDOR http://
 app.listen(app.get("port"), () => {

@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
 import { missingData } from '../utilities/missingData.utilities';
 import { apiKeyValidate } from '../utilities/apiKeyValidate.utilities';
-import { success, unauthorized, uncompleted, unsuccessfully } from '../utilities/responses.utilities';
-import { getAllRegisteredFileModel,getIdentificationByTypeModel, getTypeIdentificationModel, registeredFilterModel, accountTypeFilterModel } from '../models/filters.models';
+import { errorMessage, success, unauthorized, uncompleted, unsuccessfully } from '../utilities/responses.utilities';
+import { getAllRegisteredFileModel,getIdentificationByTypeModel, getTypeIdentificationModel, registeredFilterModel, accountTypeFilterModel, actionFilterModel } from '../models/filters.models';
 
 
 // TRAER TODOS LOS RADICADOS (SOLO RADICADO)
@@ -65,6 +65,26 @@ export const accountTypeFilter = async ( req:Request, res: Response ) => {
         if(missingData(data).error) return res.status(422).json(uncompleted(missingData(data).missing));
         const info = await accountTypeFilterModel(data);
         return res.status(200).json(success(info.data, info.message, undefined, info.path));
+    } catch (error) {
+        return res.status(512).json(unsuccessfully(error));
+    };
+};
+
+
+/**
+ * FILTROS DE ARCHIVOS
+ */
+
+export const actionFilter = async (req: Request, res: Response) => {
+    const { api_key } = req.headers;
+    const { idroles } = req.body;
+    try {
+        if(apiKeyValidate(api_key)) return res.status(401).json(unauthorized());
+        if(missingData({idroles}).error) return res.status(422).json(uncompleted(missingData({idroles}).missing));
+        const info = await actionFilterModel(idroles);
+        info.data
+            ? res.status(200).json(success(info.data))
+            : res.status(200).json(errorMessage(info.message!));
     } catch (error) {
         return res.status(512).json(unsuccessfully(error));
     };
