@@ -66,7 +66,6 @@ export default function ModalInfoFile(props: any) {
     handleRedirectTo,
     optionsRedirectTo,
     optionsReturnTo,
-    style,
   } = useModalForm();
 
   const handleListFilesPDF = async () => {

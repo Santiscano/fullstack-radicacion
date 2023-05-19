@@ -66,17 +66,6 @@ export const useModalForm = () => {
   };
 
   const isGH = (stateList: any, auditors: any) => {
-    const view = stateList.filter(
-      (state: { idfiles_states: number }) =>
-        state.idfiles_states == stateFile.AprobadoAuditor ||
-        state.idfiles_states == stateFile.Rechazado ||
-        state.idfiles_states == stateFile.Devuelto ||
-        state.idfiles_states == stateFile.Pendiente ||
-        state.idfiles_states == stateFile.Temporal ||
-        state.idfiles_states == stateFile.Anulado
-    );
-    console.log('gh', view);
-    setOptionsActivity(view);
 
     const nextAuditor = auditors?.filter(
       (user: { idroles: number; idusers: number }) =>
@@ -86,16 +75,6 @@ export const useModalForm = () => {
   };
 
   const isCRTL = (stateList: any, auditors: any) => {
-    const view = stateList.filter(
-      (state: { idfiles_states: number }) =>
-        state.idfiles_states == stateFile.AprobadoAuditor ||
-        state.idfiles_states == stateFile.Rechazado ||
-        state.idfiles_states == stateFile.Devuelto ||
-        state.idfiles_states == stateFile.Pendiente ||
-        state.idfiles_states == stateFile.Temporal ||
-        state.idfiles_states == stateFile.Anulado
-    );
-    setOptionsActivity(view);
 
     const nextAuditor = auditors?.filter(
       (user: { idroles: number; idusers: number }) =>
@@ -105,16 +84,6 @@ export const useModalForm = () => {
   };
 
   const isRG = (stateList: any, auditors: any) => {
-    const view = stateList.filter(
-      (state: { idfiles_states: number }) =>
-        state.idfiles_states == stateFile.AprobadoAuditor ||
-        state.idfiles_states == stateFile.Rechazado ||
-        state.idfiles_states == stateFile.Devuelto ||
-        state.idfiles_states == stateFile.Pendiente ||
-        state.idfiles_states == stateFile.Temporal ||
-        state.idfiles_states == stateFile.Anulado
-    );
-    setOptionsActivity(view);
 
     const nextAuditor = auditors?.filter(
       (user: { idroles: number; idusers: number }) =>
@@ -124,16 +93,6 @@ export const useModalForm = () => {
   };
 
   const isGerencia = (stateList: any, auditors: any) => {
-    const view = stateList.filter(
-      (state: { idfiles_states: number }) =>
-        state.idfiles_states == stateFile.AprobadoGerente ||
-        state.idfiles_states == stateFile.Rechazado ||
-        state.idfiles_states == stateFile.Devuelto ||
-        state.idfiles_states == stateFile.Pendiente ||
-        state.idfiles_states == stateFile.Temporal ||
-        state.idfiles_states == stateFile.Anulado
-    );
-    setOptionsActivity(view);
 
     const nextAuditor = auditors?.filter(
       (user: { idroles: number; idusers: number }) =>
@@ -143,16 +102,6 @@ export const useModalForm = () => {
   };
 
   const isContaduria = (stateList: any, auditors: any) => {
-    const view = stateList.filter(
-      (state: { idfiles_states: number }) =>
-        state.idfiles_states == stateFile.AprobadoContabilidad ||
-        state.idfiles_states == stateFile.Rechazado ||
-        state.idfiles_states == stateFile.Devuelto ||
-        state.idfiles_states == stateFile.Pendiente ||
-        state.idfiles_states == stateFile.Temporal ||
-        state.idfiles_states == stateFile.Anulado
-    );
-    setOptionsActivity(view);
 
     const nextAuditor = auditors?.filter(
       (user: { idroles: number; idusers: number }) =>
@@ -162,16 +111,6 @@ export const useModalForm = () => {
   };
 
   const isTesoreria = (stateList: any, auditors: any) => {
-    const view = stateList.filter(
-      (state: { idfiles_states: number }) =>
-        state.idfiles_states == stateFile.Finalizado ||
-        state.idfiles_states == stateFile.Rechazado ||
-        state.idfiles_states == stateFile.Devuelto ||
-        state.idfiles_states == stateFile.Pendiente ||
-        state.idfiles_states == stateFile.Temporal ||
-        state.idfiles_states == stateFile.Anulado
-    );
-    setOptionsActivity(view);
 
     const nextAuditor = auditors?.filter(
       (user: { idroles: number; idusers: number }) =>
@@ -181,16 +120,6 @@ export const useModalForm = () => {
   };
 
   const isTecnologia = (stateList: any, auditors: any) => {
-    const view = stateList.filter(
-      (state: { idfiles_states: number }) =>
-        state.idfiles_states == stateFile.AprobadoAuditor ||
-        state.idfiles_states == stateFile.Rechazado ||
-        state.idfiles_states == stateFile.Devuelto ||
-        state.idfiles_states == stateFile.Pendiente ||
-        state.idfiles_states == stateFile.Temporal ||
-        state.idfiles_states == stateFile.Anulado
-    );
-    setOptionsActivity(view);
 
     const nextAuditor = auditors?.filter(
       (user: { idroles: number; idusers: number }) =>
@@ -230,6 +159,5 @@ export const useModalForm = () => {
     handleRedirectTo,
     optionsRedirectTo,
     optionsReturnTo,
-    style,
   };
 };
