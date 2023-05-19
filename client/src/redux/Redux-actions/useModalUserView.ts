@@ -5,7 +5,6 @@ export const useModalUserView = () => {
   const dispatch = useAppDispatch();
 
   const addModalUser = (user:any) => {
-    console.log('por aqui paso', user)
     dispatch(setModalUserView(user));
   };
 

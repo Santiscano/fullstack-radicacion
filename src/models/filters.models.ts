@@ -63,6 +63,7 @@ export const accountTypeFilterModel = async (data: {files_account_type: string, 
     return { data: response, path };
 };
 
+// ACCIÓN DE DOCUMENTOS
 export const actionFilterModel = async (data: number): Promise<{ message?:string, data?: {stateFile: string;}[] }> => {
     if(await countTable("roles", "idroles", data) === 0) return {message: `Numero de ROL: ${data}, no esxiste en el sistema`};
     const [ rolInfo ]: any = await getTableRow("roles", "idroles", data);
@@ -70,48 +71,48 @@ export const actionFilterModel = async (data: number): Promise<{ message?:string
     if(rolInfo.roles_description === "AUDITOR") {
         return { data: 
             [
-                {stateFile: stateInfo[2] },
-                {stateFile: stateInfo[6] },
-                {stateFile: stateInfo[7] },
-                {stateFile: stateInfo[8] },
-                {stateFile: stateInfo[9] },
-                {stateFile: stateInfo[11] },
+                stateInfo[2],
+                stateInfo[6],
+                stateInfo[7],
+                stateInfo[8],
+                stateInfo[9],
+                stateInfo[10],
             ]
         }
     }
     if(rolInfo.roles_description === "GERENCIA") {
         return { data: 
             [
-                {stateFile: stateInfo[3] },
-                {stateFile: stateInfo[6] },
-                {stateFile: stateInfo[7] },
-                {stateFile: stateInfo[8] },
-                {stateFile: stateInfo[9] },
-                {stateFile: stateInfo[10] },
+                stateInfo[3],
+                stateInfo[6],
+                stateInfo[7],
+                stateInfo[8],
+                stateInfo[9],
+                stateInfo[10],
             ]
         }
     };
     if(rolInfo.roles_description === "CONTABILIDAD") {
         return { data: 
             [
-                {stateFile: stateInfo[4] },
-                {stateFile: stateInfo[6] },
-                {stateFile: stateInfo[7] },
-                {stateFile: stateInfo[8] },
-                {stateFile: stateInfo[9] },
-                {stateFile: stateInfo[10] },
+                stateInfo[4],
+                stateInfo[6],
+                stateInfo[7],
+                stateInfo[8],
+                stateInfo[9],
+                stateInfo[10],
             ]
         }
     };
     if(rolInfo.roles_description === "TESORERIA") {
         return { data: 
             [
-                {stateFile: stateInfo[5] },
-                {stateFile: stateInfo[6] },
-                {stateFile: stateInfo[7] },
-                {stateFile: stateInfo[8] },
-                {stateFile: stateInfo[9] },
-                {stateFile: stateInfo[10] },
+                stateInfo[5],
+                stateInfo[6],
+                stateInfo[7],
+                stateInfo[8],
+                stateInfo[9],
+                stateInfo[10],
             ]
         }
     };

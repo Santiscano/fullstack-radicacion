@@ -28,7 +28,7 @@ export const uploadFileDocument = async (req: Request, res: Response) => {
                 // NOMBRE DEL ARCHIVO EN EL BUCKET
                 const destino: string = `${file[0].files_registered}-${filePathCount[0].contador + 1}`;
                 const pathPDF: string = req.file.path;
-                const pathFile: string = `https://storage.cloud.google.com/${process.env.BUCKET_NAME}/radicacion/administrativo/${destino}.pdf?authuser=3`
+                const pathFile: string = `https://storage.cloud.google.com/${process.env.BUCKET_NAME}/${process.env.BUCKET_ASSIGN}/administrativo/${destino}.pdf?authuser=3`
                 // EDITAR PDF (AGREGAR RADICADO)
                 await editPDF(pathPDF, pathPDF, destino);
                 // CARGAR EL PDF AL BUCKET

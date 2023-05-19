@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { missingData } from '../utilities/missingData.utilities';
 import { UserDocumentRol, Users } from '../interfaces/users.interface';
 import { success, unsuccessfully, unauthorized, uncompleted, errorMessage } from "../utilities/responses.utilities";
-import { getUsersModel, getUsersNotAdminProvModel, postUsersModel, putUsersModel, deleteUserModel } from '../models/users.model';
+import { getUsersModel, getUserbyRolModel, postUsersModel, putUsersModel, deleteUserModel } from '../models/users.model';
 import { apiKeyValidate } from '../utilities/apiKeyValidate.utilities';
 
 // TRAER USUARIOS
@@ -16,12 +16,14 @@ export const getUsers = async (req: Request, res: Response) =>{
     };
 };
 
-// TRAER != ADMIN & PROVEEDOR
-export const getUsersNotAdminProvider = async (req: Request, res: Response) => {
+// TRAER USUARIOS SEGÚN EL ROL
+export const getUserbyRol = async (req: Request, res: Response) => {
     const { api_key } = req.headers;
+    const { idroles } = req.body;
     try {
         if (apiKeyValidate(api_key)) return res.status(401).json(unauthorized());
-        return res.status(200).json(success(await getUsersNotAdminProvModel()));
+        if (missingData({idroles}).error) return res.status(422).json(uncompleted(missingData({idroles}).missing));
+        return res.status(200).json(success(await getUserbyRolModel(idroles)));
     } catch(error) {
         return res.status(512).json(unsuccessfully(error));
     }

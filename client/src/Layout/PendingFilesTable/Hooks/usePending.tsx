@@ -4,11 +4,13 @@ import useContextProvider from "../../../Context/GeneralValuesContext";
 import { get, getHeader, roles } from "../../../components/tools/SesionSettings";
 import { useDataGlobal } from "../../../redux/Redux-actions/useDataGlobal";
 import Routes from "../../../services/allRoutes";
+import { useChangeStateFile } from "../../../redux/Redux-actions/useChangeStateFile";
 
 
 export const usePending = () => {
   const { setPreLoad, rows, setRows } = useContextProvider();
   const { changeTitleSection } = useDataGlobal();
+  const { changeState } = useChangeStateFile();
 
   const title = () => {
     const value = Number(get("idroles")) == roles.Administrador ? "COMPLETADOS" : "MIS ARCHIVOS PENDIENTES";
@@ -27,7 +29,7 @@ export const usePending = () => {
 
   const handleActionState = async () => {
     axios.post(Routes.api.stateFiles.getStateFilesToRole,{ idroles: get("idroles") },getHeader())
-      .then((res) => { console.log(res)})
+      .then((res) => changeState(res.data.data))
       .catch((err) => console.log(err))
   };
 
