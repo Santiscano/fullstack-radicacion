@@ -56,9 +56,9 @@ app.use(cors());
 app.use('/', router)
 
 // VERIFICACIÓN BACKEND PRODUCCIÓN
-// app.use("/api/", (req, res, next) => {
-//     res.send("Digitalización EnviExpress");
-// });
+app.use("/api/", (req, res, next) => {
+    res.send("Backend Digitalización EnviExpress Funciónando con Éxito");
+});
 
 // PUERTO DEL SERVIDOR LOCAL
 app.set("port", process.env.LOCAL_PORT || 3000);

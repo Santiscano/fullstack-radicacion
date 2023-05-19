@@ -85,7 +85,6 @@ export const actionFilter = async (req: Request, res: Response) => {
         info.data
             ? res.status(200).json(success(info.data))
             : res.status(200).json(errorMessage(info.message!));
-
     } catch (error) {
         return res.status(512).json(unsuccessfully(error));
     };
