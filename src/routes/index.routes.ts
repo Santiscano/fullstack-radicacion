@@ -13,7 +13,7 @@ import { getCostCenter, getCostCenterById, postCostCenter, deleteCostCenter } fr
 import { getFilesPath, postChargeFilePath, postFilePath, deleteFilePath } from '../controllers/files_path.controller';
 import { createUser, logIn, validateUser, changePassword } from '../controllers/firebase/firebase.controller'
 import { showTable, pendingTable, historyTable } from '../controllers/showTable.controller';
-import { getAllRegisteredFile, getIdentificationByType, getTypeIdentification, registeredFilter, accountTypeFilter } from '../controllers/filters.controller';
+import { getAllRegisteredFile, getIdentificationByType, getTypeIdentification, registeredFilter, accountTypeFilter, actionFilter } from '../controllers/filters.controller';
 import { getTrackings, getTrackingRegistered, getTrackingAccountType } from '../controllers/tracking.controller';
 import { uploadFileDocument } from '../controllers/upload/googleBucket.controller';
 
@@ -110,6 +110,7 @@ router.post('/getIdentificationByType', decodeToken, getIdentificationByType);  
 router.get('/getTypeIdentification', decodeToken, getTypeIdentification);     // Filtro de los archivos según el radicado
 router.post('/registeredFilter', decodeToken, registeredFilter);             // Filtro de los archivos según el radicado
 router.post('/accountTypeFilter', decodeToken, accountTypeFilter);           // Filtro de los archivos según cuenta de cobro y numero de la cuenta
+router.post('/actionFilter', actionFilter);           // Filtro de los archivos según cuenta de cobro y numero de la cuenta
 
 // API routes
 router.get('/routerApi', routerApi);                            // Traer las rutas que tiene el sistema

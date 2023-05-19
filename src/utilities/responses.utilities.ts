@@ -6,13 +6,13 @@ type Data = RowDataPacket[] | RowDataPacket[][] | OkPacket | OkPacket[] | Result
 interface Response {
     error: boolean;
     message: string;
-    data?: Data;
+    data?: Data | any;
     missing?: string | number | undefined | null;
     firebase?: {error: boolean, data: any};
     path?: Data
 }
 
-export const success = ( data?: Data, message?: string, firebase?: {error: boolean, data: any}, path?: Data ): Response => {
+export const success = ( data?: Data | any, message?: string, firebase?: {error: boolean, data: any}, path?: Data ): Response => {
     message === undefined ? message = 'SUCCESS' : message;
     return { error: false, message, data, firebase, path };
 };
