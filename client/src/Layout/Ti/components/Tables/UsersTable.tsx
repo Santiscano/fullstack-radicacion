@@ -10,7 +10,7 @@ import NotFound from "../../../../assets/images/notFile.jpg";
 import { columnsUsers } from "../../../../interfaces/GridColumns";
 import { useEffect, useState } from "react";
 import useContextProvider from "../../../../Context/GeneralValuesContext";
-import { getUsers } from "../../../../services/Users.routes";
+import { getUsers, getUsersNotAdminProv } from "../../../../services/Users.routes";
 import { roles } from "../../../../components/tools/SesionSettings";
 import CreateUserForm from "../Modals/CreateUserForm";
 
@@ -65,14 +65,9 @@ const UsersTables = ({ setIsCreateUser }: any) => {
   const handleGetUsers = async () => {
     try {
       setPreLoad(true);
-      const listUsers = await getUsers();
-      const filterUsers = listUsers.filter(
-        (user: { idroles: number }) =>
-          user.idroles !== roles.Proveedor &&
-          user.idroles !== roles.Administrador
-      );
-      console.log("response getusers: filter", filterUsers);
-      setRows(filterUsers);
+      const listUsers = await getUsersNotAdminProv();
+      console.log("response getusers: filter", listUsers);
+      setRows(listUsers);
     } catch (error) {
       console.log("error: ", error);
     } finally {

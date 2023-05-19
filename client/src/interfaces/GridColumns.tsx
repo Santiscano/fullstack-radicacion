@@ -3,6 +3,7 @@ import ButtonModalAllFiles from "../Layout/AllFilesTable/components/ButtonModalA
 import ButtonModalEdit from "../Layout/PendingFilesTable/components/common/ButtonModalEdit";
 import { formattedAmount } from "../Utilities/formatted.utility";
 import { width } from "@mui/system";
+import ButtonModalUsersTable from "../Layout/Ti/components/common/ButtonModalUsersTable";
 
 // const columns = () => {}
 export const columnsEdit: GridColDef[] = [
@@ -485,7 +486,7 @@ export const columnsUsers: GridColDef[] = [
     headerName: "Acciones",
     width: 120,
     filterable: false,
-    renderCell: (cellValues: any) => ButtonModalAllFiles(cellValues),
+    renderCell: (cellValues: any) => ButtonModalUsersTable(cellValues),
   },
 ];
 export const columnsProvider: GridColDef[] = [

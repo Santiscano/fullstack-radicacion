@@ -16,6 +16,15 @@ export const getUsersModel = async(): Promise<Data> => {
     return data
 };
 
+export const getUsersNotAdminProvModel = async(): Promise<Data> => {
+    const [ data ] = await connection.query(`
+        SELECT * FROM users U 
+            LEFT JOIN roles R ON U.idroles = R.idroles 
+            LEFT JOIN sedes S ON U.idsedes = S.idsedes
+            WHERE U.idroles != ? AND U.idroles != ?`, [ 1, 10 ]);
+    return data
+};
+
 // CREAR USUARIOS
 export const postUsersModel = async ( data: Users ): Promise<{ message?: string; data?: Data; firebase?: {error: boolean, data: any}  }> => {
     data.users_lastname === undefined ? data.users_lastname = "" : data.users_lastname;

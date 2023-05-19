@@ -3,7 +3,7 @@ import { Router } from 'express';
 // Importando controladores de las rutas
 import { getRoles, postRol, putRol, deleteRol, getRolesNotAdminProvider, getRolProvider } from '../controllers/roles.controller';
 import { getSedes, postSede, putSede, deleteSede } from '../controllers/sedes.controller';
-import { getUsers, postUsers, putUsers, deleteUser } from '../controllers/users.controller';
+import { getUsers, postUsers, putUsers, deleteUser, getUsersNotAdminProvider } from '../controllers/users.controller';
 import { getFiles, postFile, putFile, deleteFile, genFileRegistered } from '../controllers/files.controller';
 import { getFileStates } from '../controllers/files_states.controller';
 import { centerCostTable } from '../controllers/centerCost/centerCostTable.controller';
@@ -42,6 +42,7 @@ router.post('/deleteSede', decodeToken, deleteSede);                       // El
 
 // Usuarios
 router.get('/getUsers', decodeToken, getUsers);                             // Traer usuarios
+router.get('/getUsersNotAdminProv', decodeToken, getUsersNotAdminProvider); // usuarios !== Admin & Provider
 router.post('/postUser', decodeToken, postUsers);                            // Crear usuario
 router.put('/putUser', decodeToken, putUsers);                               // Editar usuario
 router.post('/deleteUser', decodeToken, deleteUser);                       // Eliminar un usuario

@@ -31,6 +31,16 @@ export const getUsers = async () => {
   }
 };
 
+export const getUsersNotAdminProv = async () => {
+  try{
+    const getUsersNotAdminProv = await axios.get(Routes.api.users.notAdminProv, getHeader());
+    const users = getUsersNotAdminProv.data.data;
+    return users;
+  } catch(error) {
+    console.log('error: ', error);
+  }
+};
+
 export const createUser = async (idroles: number, idsedes: number, users_identification_type: string, users_identification: string, name: string, lastname: string, address: string, phone: string, email: string, password: string) => {
   try {
     const response = await axios.post(
