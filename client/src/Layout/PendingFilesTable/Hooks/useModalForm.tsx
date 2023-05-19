@@ -18,19 +18,7 @@ export const useModalForm = () => {
   const [optionsReturnTo, setOptionsReturnTo] = useState([""]); // filtro allUsers con opciones redirectTo
   const [activitySelect, setActivitySelect] = useState<any>(); //valor opcion seleccionada de actividad a realizar
   const [optionsActivity, setOptionsActivity] = useState<any>();
-  const style = {
-    position: "absolute" as "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: "100vw",
-    height: "100vh",
-    overflow: "scroll",
-    bgcolor: "background.paper",
-    borderRadius: "5px",
-    boxShadow: 24,
-    p: 4,
-  };
+
   // -----------------------METHODS INPUTS--------------------------------//
   const handleComments = (e: any) => setComments(e.target.value);
 
@@ -87,6 +75,7 @@ export const useModalForm = () => {
         state.idfiles_states == stateFile.Temporal ||
         state.idfiles_states == stateFile.Anulado
     );
+    console.log('gh', view);
     setOptionsActivity(view);
 
     const nextAuditor = auditors?.filter(
