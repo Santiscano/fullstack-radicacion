@@ -1,12 +1,30 @@
 import { styled } from "@mui/material";
 import Box from "@mui/material/Box";
-import { DataGrid, GridToolbarColumnsButton, GridToolbarExport, GridToolbarFilterButton } from "@mui/x-data-grid";
+import {
+  DataGrid,
+  GridToolbarColumnsButton,
+  GridToolbarExport,
+  GridToolbarFilterButton,
+} from "@mui/x-data-grid";
 import NotFound from "../../../../../assets/images/notFile.jpg";
+import pdf from "../../../../../assets/Requerimientos.pdf";
 import LoadingMUI from "../../../../../components/common/LoadingMUI";
 import { columnsEdit } from "../../../../../interfaces/GridColumns";
-import useContextProvider from "../../../../../Context/GeneralValuesContext";
-import { useModalUserView } from './../../../../../redux/Redux-actions/useModalUserView';
-import ModalAuth from "../ModalAuth";
+
+let open: boolean = false;
+
+const openModalPDF = (params: any) => {
+  // console.log("open: ", open);
+  let parameters = params;
+  // console.log("parameters: ", parameters);
+  open = true;
+  // console.log("open: ", open);
+};
+
+const openPdf = () => {
+  // console.log("funcionando");
+  window.open(pdf);
+};
 
 function GridToolbarConfig() {
   return (
@@ -17,6 +35,7 @@ function GridToolbarConfig() {
     </div>
   );
 }
+
 const StyledGridOverlay = styled("div")(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
@@ -41,6 +60,7 @@ const StyledGridOverlay = styled("div")(({ theme }) => ({
     fill: theme.palette.mode === "light" ? "#f5f5f5" : "#fff",
   },
 }));
+
 export function CustomNoRowsOverlay() {
   return (
     <StyledGridOverlay>
@@ -49,21 +69,15 @@ export function CustomNoRowsOverlay() {
   );
 }
 
+function getRowId(row: any) {
+  // console.log("row.idfiles: ", row.idfiles);
+  return row.idfiles;
+}
+function handleView(params:any) {
+  console.log(params.row)
+}
 
 export default function DataTablePending({ row }: any) {
-  const { openModalAuth, handleOpenModalAuth } = useContextProvider()
-  const { addModalUser, removeModalUser } = useModalUserView()
-
-  /**
-   * Method to open modal
-   * @param params File selected
-  */
-  const handleView = (params:any) => {
-    addModalUser(params.row)
-    // console.log(params.row)
-    handleOpenModalAuth()
-  }
-
   return (
     <>
       <LoadingMUI />
@@ -72,11 +86,11 @@ export default function DataTablePending({ row }: any) {
           rows={row}
           getRowId={(row) => row.idfiles}
           columns={columnsEdit}
-          onRowDoubleClick={handleView}
           // pageSize={7}
           rowsPerPageOptions={[5, 10, 25, 50, 100]}
           disableSelectionOnClick
           experimentalFeatures={{ newEditingApi: true }}
+          onRowDoubleClick={handleView}
           components={{
             Toolbar: GridToolbarConfig,
             NoRowsOverlay: CustomNoRowsOverlay,
@@ -84,7 +98,7 @@ export default function DataTablePending({ row }: any) {
           initialState={{
             columns: {
               columnVisibilityModel: {
-                action: false,
+                files_cost_center: false,
                 files_code_accounting: false,
                 files_code_treasury: false,
                 files_type: false,
@@ -100,10 +114,12 @@ export default function DataTablePending({ row }: any) {
                 sedes_name: false,
                 sedes_type: false,
                 users_address: false,
+                users_email: false,
                 users_identification: false,
                 users_identification_digital_check: false,
                 users_identification_type: false,
                 users_lastname: false,
+                users_phone: false,
                 users_providers_expiration_date: false,
                 users_providers_paydays: false,
                 users_status: false,
@@ -114,9 +130,6 @@ export default function DataTablePending({ row }: any) {
           }}
         />
       </Box>
-      {openModalAuth && (
-        <ModalAuth/>
-      )}
     </>
   );
 }

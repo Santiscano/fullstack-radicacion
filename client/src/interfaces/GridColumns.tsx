@@ -126,7 +126,7 @@ export const columnsEdit: GridColDef[] = [
   {
     field: "users_email",
     headerName: "Email",
-    width: 150,
+    width: 190,
   },
   {
     field: "users_identification",
@@ -151,7 +151,7 @@ export const columnsEdit: GridColDef[] = [
   {
     field: "users_phone",
     headerName: "Celular",
-    width: 70,
+    width: 110,
   },
   {
     field: "users_providers_expiration_date",

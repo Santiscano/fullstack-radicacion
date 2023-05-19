@@ -38,6 +38,7 @@ import { WithRoleAllowedComponent } from "./Middlewares/WithRoleAllowed";
 import Tracking from "./Layout/Tracking/Tracking";
 import TableAllCostCenter from "./Layout/TableAllCostCenter";
 import History from "./Layout/History";
+import PendingFilesTable2 from "./Layout/PendingFilesTable2";
 
 function App() {
   return (
@@ -75,6 +76,7 @@ function App() {
                 }
               >
                 <Route path="pendientes" element={<PendingFilesTable />} />
+                <Route path="pendientes2" element={<PendingFilesTable2/>}/>
                 <Route path="historial" element={<History/>} />
               </Route>
 

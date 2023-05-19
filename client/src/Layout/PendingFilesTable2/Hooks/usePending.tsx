@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import useContextProvider from "../../../Context/GeneralValuesContext";
 import { get, getHeader, roles } from "../../../components/tools/SesionSettings";
 import { useDataGlobal } from "../../../redux/Redux-actions/useDataGlobal";
-import Routes from "../../../services/allRoutes";
+import allRoutes from "../../../services/allRoutes";
 
 
 export const usePending = () => {
@@ -16,7 +16,7 @@ export const usePending = () => {
   };
 
   const handleGetTableData = async () => {
-    axios.post(Routes.api.tables.pending, {idusers: get("idusers")}, getHeader())
+    axios.post(allRoutes.api.tables.pending, {idusers: get("idusers")}, getHeader())
       .then((res) => {
         console.log(res)
         setRows(res.data.data)
@@ -25,15 +25,8 @@ export const usePending = () => {
       .finally(() => setPreLoad(false));
   };
 
-  const handleActionState = async () => {
-    axios.post(Routes.api.stateFiles.getStateFilesToRole,{ idroles: get("idroles") },getHeader())
-      .then((res) => { console.log(res)})
-      .catch((err) => console.log(err))
-  };
-
   useEffect(() => {
     handleGetTableData();
-    handleActionState();
     title();
     return () => {
       changeTitleSection("");

@@ -1,7 +1,7 @@
 import { usePending } from "./Hooks/usePending";
 import DataTablePending from "./components/common/DataTablePending";
 
-function PendingFilesTable() {
+function PendingFilesTable2() {
   const { rows } = usePending();
 
   return (
@@ -19,4 +19,4 @@ function PendingFilesTable() {
   );
 }
 
-export default PendingFilesTable;
+export default PendingFilesTable2;

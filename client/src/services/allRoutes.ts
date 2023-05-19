@@ -29,6 +29,7 @@ export default {
     },
     stateFiles: {
       getStateFiles: `${host}/getStatesFiles`,
+      getStateFilesToRole: `${host}/actionFilter`,
       addStateFile: `${host}/postStatesFile`,
       editStateFile: `${host}/putStatesFile`,
       deleteStateFile: `${host}/deleteStatesFile`,

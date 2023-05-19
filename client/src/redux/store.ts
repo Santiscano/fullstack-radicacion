@@ -1,15 +1,15 @@
 import { configureStore } from "@reduxjs/toolkit";
 
 // Slices
-import userSession from "./Redux-reducer/userSessionSlice";
-import tableFilesSlice from "./Redux-reducer/tableFilesSlice";
-import dataGlobalSlice from "./Redux-reducer/dataGlobalSlice";
+import userSession from "./Redux-reducer/userSessionSlice";  //usuario en sesion
+import dataGlobalSlice from "./Redux-reducer/dataGlobalSlice"; // titulo navbar
+import modalUserViewSlice from "./Redux-reducer/modalUserViewSlice";
 
 export const store = configureStore({
   reducer: {
     userSession,
-    tableFilesSlice,
     dataGlobalSlice,
+    modalUserViewSlice,
   },
 });
 
