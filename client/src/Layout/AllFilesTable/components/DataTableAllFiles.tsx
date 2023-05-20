@@ -6,24 +6,13 @@ import {
   GridToolbarExport,
   GridToolbarFilterButton,
 } from "@mui/x-data-grid";
-import NotFound from "../../../../assets/images/notFile.jpg";
-import pdf from "../../../../assets/Requerimientos.pdf";
-import LoadingMUI from "../../../../components/common/LoadingMUI";
-import { columnsAllFiles } from "../../../../interfaces/GridColumns";
+import NotFound from "../../../assets/images/notFile.jpg";
+import useContextProvider from "../../../Context/GeneralValuesContext";
+import LoadingMUI from "../../../components/common/LoadingMUI";
+import { columnsAllFiles } from "../../../interfaces/GridColumns";
+import { useModalUserView } from "../../../redux/Redux-actions/useModalUserView";
+import ModalInfoFile from "./ModalInfo";
 import "./datagrid.css";
-
-let open: boolean = false;
-const openModalPDF = (params: any) => {
-  // console.log("open: ", open);
-  let parameters = params;
-  // console.log("parameters: ", parameters);
-  open = true;
-  // console.log("open: ", open);
-};
-const openPdf = () => {
-  // console.log("funcionando");
-  window.open(pdf);
-};
 
 export function GridToolbarConfig() {
   return (
@@ -34,7 +23,6 @@ export function GridToolbarConfig() {
     </div>
   );
 }
-
 const StyledGridOverlay = styled("div")(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
@@ -59,7 +47,6 @@ const StyledGridOverlay = styled("div")(({ theme }) => ({
     fill: theme.palette.mode === "light" ? "#f5f5f5" : "#fff",
   },
 }));
-
 export function CustomNoRowsOverlay() {
   return (
     <StyledGridOverlay>
@@ -67,11 +54,6 @@ export function CustomNoRowsOverlay() {
     </StyledGridOverlay>
   );
 }
-
-function getRowId(row: any) {
-  return row.idfiles;
-}
-
 /**
  * con esta funcion se validara si el archivo esta por vencer
  * @param params valor que recibire con el que se validara si esta por expirar para mostrar por color
@@ -90,19 +72,22 @@ const delayAlerts = (params: any) => {
 };
 
 export default function DataTableAllFiles({ row }: any) {
+  const { openModalAuth, handleOpenModalAuth } = useContextProvider()
+  const { addModalUser } = useModalUserView()
+
+  const handleView = (params: any) => {
+    addModalUser(params.row);
+    handleOpenModalAuth();
+  };
   return (
     <>
       <LoadingMUI />
-      <div className="flex flex-row justify-between">
-        {/* <label className="block mb-2 ml-4 text-base font-semibold dark:text-white">
-          Todos Los Radicados
-        </label> */}
-      </div>
-      <Box sx={{ height: "90%", width: "100%" }}>
+      <Box sx={{ height: "100%", width: "100%" }}>
         <DataGrid
           rows={row}
-          getRowId={getRowId}
+          getRowId={(row) => row.idfiles}
           columns={columnsAllFiles}
+          onRowDoubleClick={handleView}
           // pageSize={7}
           rowsPerPageOptions={[5, 10, 25, 50, 100]}
           disableSelectionOnClick
@@ -146,6 +131,9 @@ export default function DataTableAllFiles({ row }: any) {
           }}
         />
       </Box>
+      {openModalAuth && (
+        <ModalInfoFile/>
+      )}
     </>
   );
 }

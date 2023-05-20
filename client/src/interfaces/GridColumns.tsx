@@ -1,6 +1,4 @@
 import { GridColDef } from "@mui/x-data-grid";
-import ButtonModalAllFiles from "../Layout/AllFilesTable/components/ButtonModalAllFiles";
-import ButtonModalEdit from "../Layout/PendingFilesTable/components/common/ButtonModalEdit";
 import { formattedAmount } from "../Utilities/formatted.utility";
 import { width } from "@mui/system";
 import ButtonModalUsersTable from "../Layout/Ti/components/common/ButtonModalUsersTable";
@@ -168,12 +166,12 @@ export const columnsEdit: GridColDef[] = [
     headerName: "Estado del Usuario",
     width: 70,
   },
-  {
-    field: "action",
-    headerName: "Acciones",
-    width: 90,
-    filterable: false,
-    renderCell: (cellValues: any) => ButtonModalEdit(cellValues),
+  // {
+    // field: "action",
+    // headerName: "Acciones",
+    // width: 90,
+    // filterable: false,
+    // renderCell: (cellValues: any) => ButtonModalEdit(cellValues),
     // renderCell: (cellValues: any) => {
     //   return (
     //     <>
@@ -204,7 +202,7 @@ export const columnsEdit: GridColDef[] = [
     //   );
     // },
     // renderCell: ButtonOpenModalEdit,
-  },
+  // },
 ];
 
 export const columnsAllFiles: GridColDef[] = [
@@ -369,12 +367,12 @@ export const columnsAllFiles: GridColDef[] = [
     headerName: "Estado del Usuario",
     width: 70,
   },
-  {
-    field: "action",
-    headerName: "Acciones",
-    width: 90,
-    filterable: false,
-    renderCell: (cellValues: any) => ButtonModalAllFiles(cellValues),
+  // {
+  //   field: "action",
+  //   headerName: "Acciones",
+  //   width: 90,
+  //   filterable: false,
+    // renderCell: (cellValues: any) => ButtonModalAllFiles(cellValues),
     // renderCell: (cellValues: any) => {
     //   return (
     //     <>
@@ -405,7 +403,7 @@ export const columnsAllFiles: GridColDef[] = [
     //   );
     // },
     // renderCell: ButtonOpenModalEdit,
-  },
+  // },
 ];
 export const columnsCenterCosts = [
   {
@@ -525,11 +523,11 @@ export const columnsProvider: GridColDef[] = [
     headerName: "Email",
     width: 190,
   },
-  {
-    field: "action",
-    headerName: "Acciones",
-    width: 120,
-    filterable: false,
-    renderCell: (cellValues: any) => ButtonModalAllFiles(cellValues),
-  },
+  // {
+    // field: "action",
+    // headerName: "Acciones",
+    // width: 120,
+    // filterable: false,
+    // renderCell: (cellValues: any) => ButtonModalAllFiles(cellValues),
+  // },
 ];

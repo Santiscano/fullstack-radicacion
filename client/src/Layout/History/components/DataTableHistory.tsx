@@ -1,30 +1,12 @@
 import { styled } from "@mui/material";
 import Box from "@mui/material/Box";
-import {
-  DataGrid,
-  GridToolbarColumnsButton,
-  GridToolbarExport,
-  GridToolbarFilterButton,
-} from "@mui/x-data-grid";
-import NotFound from "../../../../assets/images/notFile.jpg";
-import pdf from "../../../../assets/Requerimientos.pdf";
-import LoadingMUI from "../../../../components/common/LoadingMUI";
-import { columnsAllFiles } from "../../../../interfaces/GridColumns";
-
-let open: boolean = false;
-
-const openModalPDF = (params: any) => {
-  // console.log("open: ", open);
-  let parameters = params;
-  // console.log("parameters: ", parameters);
-  open = true;
-  // console.log("open: ", open);
-};
-
-const openPdf = () => {
-  // console.log("funcionando");
-  window.open(pdf);
-};
+import { DataGrid, GridToolbarColumnsButton, GridToolbarExport, GridToolbarFilterButton } from "@mui/x-data-grid";
+import NotFound from "../../../assets/images/notFile.jpg";
+import LoadingMUI from "../../../components/common/LoadingMUI";
+import { columnsAllFiles } from "../../../interfaces/GridColumns";
+import { useModalUserView } from "../../../redux/Redux-actions/useModalUserView";
+import useContextProvider from "../../../Context/GeneralValuesContext";
+import ModalInfo from "./ModalInfo";
 
 function GridToolbarConfig() {
   return (
@@ -35,7 +17,6 @@ function GridToolbarConfig() {
     </div>
   );
 }
-
 const StyledGridOverlay = styled("div")(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
@@ -60,7 +41,6 @@ const StyledGridOverlay = styled("div")(({ theme }) => ({
     fill: theme.palette.mode === "light" ? "#f5f5f5" : "#fff",
   },
 }));
-
 export function CustomNoRowsOverlay() {
   return (
     <StyledGridOverlay>
@@ -69,12 +49,15 @@ export function CustomNoRowsOverlay() {
   );
 }
 
-function getRowId(row: any) {
-  // console.log("row.idfiles: ", row.idfiles);
-  return row.idfiles;
-}
-
 export default function DataTableHistory({ row }: any) {
+  const { openModalAuth, handleOpenModalAuth } = useContextProvider()
+  const { addModalUser } = useModalUserView()
+
+  const handleView = (params: any) => {
+    addModalUser(params.row);
+    handleOpenModalAuth();
+  }
+
   return (
     <>
       <LoadingMUI />
@@ -83,6 +66,7 @@ export default function DataTableHistory({ row }: any) {
           rows={row}
           getRowId={(row) => row.idfiles}
           columns={columnsAllFiles}
+          onRowDoubleClick={handleView}
           // pageSize={7}
           rowsPerPageOptions={[5, 10, 25, 50, 100]}
           disableSelectionOnClick
@@ -126,6 +110,9 @@ export default function DataTableHistory({ row }: any) {
           }}
         />
       </Box>
+      {openModalAuth && (
+        <ModalInfo/>
+      )}
     </>
   );
 }

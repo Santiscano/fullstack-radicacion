@@ -49,19 +49,17 @@ export function CustomNoRowsOverlay() {
   );
 }
 
-
 export default function DataTablePending({ row }: any) {
   const { openModalAuth, handleOpenModalAuth } = useContextProvider()
-  const { addModalUser, removeModalUser } = useModalUserView()
+  const { addModalUser } = useModalUserView()
 
   /**
    * Method to open modal
    * @param params File selected
   */
   const handleView = (params:any) => {
-    addModalUser(params.row)
-    // console.log(params.row)
-    handleOpenModalAuth()
+    addModalUser(params.row);
+    handleOpenModalAuth();
   }
 
   return (

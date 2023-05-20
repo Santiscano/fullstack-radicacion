@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+import { useModalUserView } from "../../redux/Redux-actions/useModalUserView";
 import { usePending } from "./Hooks/usePending";
 import DataTablePending from "./components/common/DataTablePending";
 

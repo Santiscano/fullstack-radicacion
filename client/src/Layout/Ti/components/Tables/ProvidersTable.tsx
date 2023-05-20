@@ -13,6 +13,7 @@ import useContextProvider from "../../../../Context/GeneralValuesContext";
 import { getUsers } from "../../../../services/Users.routes";
 import { roles } from "../../../../components/tools/SesionSettings";
 import CreateProviderForm from "../Modals/CreateProviderForm";
+import { useModalUserView } from "../../../../redux/Redux-actions/useModalUserView";
 
 function GridToolbarConfig() {
   return (
@@ -23,7 +24,6 @@ function GridToolbarConfig() {
     </div>
   );
 }
-
 const StyledGridOverlay = styled("div")(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
@@ -48,7 +48,6 @@ const StyledGridOverlay = styled("div")(({ theme }) => ({
     fill: theme.palette.mode === "light" ? "#f5f5f5" : "#fff",
   },
 }));
-
 export function CustomNoRowsOverlay() {
   return (
     <StyledGridOverlay>
@@ -60,7 +59,13 @@ export function CustomNoRowsOverlay() {
 const ProvidersTables = ({ setIsCreateProvider }: any) => {
   const [rows, setRows] = useState([]);
   const [open, setOpen] = useState(false);
-  const { setPreLoad } = useContextProvider();
+  const { openModalAuth, handleOpenModalAuth, setPreLoad } = useContextProvider();
+  const { addModalUser } = useModalUserView();
+
+  const handleView = (params: any) => {
+    addModalUser(params.row);
+    handleOpenModalAuth();
+  };
 
   const handleGetUsers = async () => {
     try {
@@ -103,6 +108,7 @@ const ProvidersTables = ({ setIsCreateProvider }: any) => {
             rows={rows}
             getRowId={(row) => row.idusers}
             columns={columnsProvider}
+            onRowDoubleClick={handleView}
             // pageSize={7}
             rowsPerPageOptions={[5, 10, 25, 50, 100]}
             disableSelectionOnClick
