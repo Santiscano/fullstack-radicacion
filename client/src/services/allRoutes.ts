@@ -20,12 +20,14 @@ export default {
     users: {
       validate: `${host}/getValidateUser`,
       getUsers: `${host}/getUsers`,
-      notAdminProv: `${host}/getUsersNotAdminProv`,
       createUser: `${host}/postUser`,
       editUser: `${host}/putUser`,
       deleteUser: `${host}/deleteUser`,
       getDocumentTypes: `${host}/getIdentificationByType`,
       getTypeIdentification: `${host}/getTypeIdentification`,
+      notAdminProv: `${host}/getUsersNotAdminProv`,
+      getUsersByNextAuditor: `${host}/usersFilterToNextAuditor`,
+      getAuditorsManager: `${host}/usersFilterReturnAuditor`,
     },
     stateFiles: {
       getStateFiles: `${host}/getStatesFiles`,

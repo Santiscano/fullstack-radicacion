@@ -7,8 +7,9 @@ import { editFile } from "../../../../services/Files.routes";
 import { createFilePath } from "../../../../services/FilesPath.routes";
 import { uploadfile } from "../../../../services/Pdf.routes";
 import useContextProvider from "./../../../../Context/GeneralValuesContext";
+import { useAppSelector } from "../../../../redux/hooks/useStore";
 
-function Finally({ user, endActivitySelect }: any) {
+function Finally({ endActivitySelect }: any) {
   // console.log("user: ", user);
   const [codeTreasury, setCodeTreasury] = useState("");
   const [filePDF, setFilePDF] = useState("");
@@ -16,6 +17,8 @@ function Finally({ user, endActivitySelect }: any) {
   const [comments, setComments] = useState("");
   const { setPreLoad, handleOpenModalAuth, handleUpdateRows } =
     useContextProvider();
+
+  const user = useAppSelector((state) => state.modalUserViewSlice);
 
   const handleComments = (e: any) => setComments(e.target.value);
   const handleClear = () => {
@@ -46,6 +49,7 @@ function Finally({ user, endActivitySelect }: any) {
         user.files_type,
         user.files_registered,
         user.files_cost_center,
+        // @ts-ignore
         user.files_code_accounting,
         // @ts-ignore
         user.files_code_treasury == null && codeTreasury,

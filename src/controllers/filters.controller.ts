@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { missingData } from '../utilities/missingData.utilities';
 import { apiKeyValidate } from '../utilities/apiKeyValidate.utilities';
 import { errorMessage, success, unauthorized, uncompleted, unsuccessfully } from '../utilities/responses.utilities';
-import { getAllRegisteredFileModel,getIdentificationByTypeModel, getTypeIdentificationModel, registeredFilterModel, accountTypeFilterModel, actionFilterModel } from '../models/filters.models';
+import { getAllRegisteredFileModel,getIdentificationByTypeModel, getTypeIdentificationModel, registeredFilterModel, accountTypeFilterModel, actionFilterModel, usersFilterToNextAuditorModel, usersFilterReturnAuditorModel } from '../models/filters.models';
 
 
 // TRAER TODOS LOS RADICADOS (SOLO RADICADO)
@@ -88,4 +88,32 @@ export const actionFilter = async (req: Request, res: Response) => {
     } catch (error) {
         return res.status(512).json(unsuccessfully(error));
     };
+};
+
+export const usersFilterToNextAuditor = async (req: Request, res: Response) => {
+    const { api_key } = req.headers;
+    const { idroles } = req.body;
+    try{
+        if(apiKeyValidate(api_key)) return res.status(401).json(unauthorized());
+        if(missingData({idroles}).error) return res.status(422).json(uncompleted(missingData({idroles}).missing));
+        const info = await usersFilterToNextAuditorModel(idroles);
+        info.data
+            ? res.status(200).json(success(info.data))
+            : res.status(200).json(errorMessage(info.message!));
+    } catch (error) {
+        return res.status(512).json(unsuccessfully(error));
+    }
+};
+
+export const usersFilterReturnAuditor = async (req: Request, res: Response) => {
+    const { api_key } = req.headers;
+    try{
+        if(apiKeyValidate(api_key)) return res.status(401).json(unauthorized());
+        const info = await usersFilterReturnAuditorModel();
+        info.data
+            ? res.status(200).json(success(info.data))
+            : res.status(200).json(errorMessage(info.message!));
+    } catch (error) {
+        return res.status(512).json(unsuccessfully(error));
+    }
 };

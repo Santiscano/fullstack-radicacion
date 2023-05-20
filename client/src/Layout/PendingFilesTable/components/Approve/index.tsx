@@ -9,15 +9,14 @@ import { createFilePath } from "../../../../services/FilesPath.routes";
 import { uploadfile } from "../../../../services/Pdf.routes";
 import InputsSelectCenterCost from "../common/InputsSelectCenterCost";
 import useContextProvider from "./../../../../Context/GeneralValuesContext";
+import { useAppSelector } from "../../../../redux/hooks/useStore";
 
 function Approve({
-  user,
   newAssigned,
   setRedirectTo,
   activitySelect,
   setActivitySelect,
 }: any) {
-  // console.log("user: ", user);
   const [state, setState] = useState<any>();
   const [area, setArea] = useState<any>({
     id: 0,
@@ -49,6 +48,10 @@ function Approve({
     setRows,
     handleUpdateRows,
   } = useContextProvider();
+
+  // redux context User Select
+  const user = useAppSelector((state) => state.modalUserViewSlice)
+  console.log('userSelect: ', user);
 
   const handleState = (e: any) => setState(e.target.value);
   const handleArea = (e: any) => {

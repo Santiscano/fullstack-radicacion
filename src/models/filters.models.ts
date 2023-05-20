@@ -119,3 +119,45 @@ export const actionFilterModel = async (data: number): Promise<{ message?:string
     
     return {message: "No cuentas con un rol apto para esta función" }
 };
+
+export const usersFilterToNextAuditorModel = async (data: number): Promise<{ message?:string, data?: Data }> => {
+    let dataResult: Data = [];
+
+    if( data == 3 || data == 4 || data == 5){
+        const [ dataInfo ] = await connection.query(`
+        SELECT users.*, roles.roles FROM users
+            JOIN roles ON users.idroles = roles.idroles
+                WHERE users.idroles = ?`, 6 )
+        dataResult = dataInfo
+    }
+    if( data == 6){
+        const [ dataInfo ] = await connection.query(`
+        SELECT users.*, roles.roles FROM users
+            JOIN roles ON users.idroles = roles.idroles
+                WHERE idroles = ?`, 7 )
+        dataResult = dataInfo
+    }
+    if( data == 7){
+        const [ dataInfo ] = await connection.query(`
+        SELECT users.*, roles.roles FROM users
+            JOIN roles ON users.idroles = roles.idroles
+                WHERE idroles = ?`, 8 )
+        dataResult = dataInfo
+    }
+    if( data == 8){
+        const [ dataInfo ] = await connection.query(`
+        SELECT users.*, roles.roles FROM users
+            JOIN roles ON users.idroles = roles.idroles
+                WHERE idroles = ?`, 10 )
+        dataResult = dataInfo
+    }
+    return { data: dataResult }
+};
+
+export const usersFilterReturnAuditorModel = async (): Promise<{ message?:string, data?: Data }> => {
+    const [ dataInfo ] = await connection.query(`
+        SELECT users.*, roles.roles FROM users
+            JOIN roles ON users.idroles = roles.idroles
+                WHERE users.idroles IN (?,?,?,?) `, [ 3, 4, 5, 6 ])
+    return { data: dataInfo }
+};

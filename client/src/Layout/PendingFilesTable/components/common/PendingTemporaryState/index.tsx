@@ -3,15 +3,17 @@ import { useState } from "react";
 import useContextProvider from "../../../../../Context/GeneralValuesContext";
 import { get } from "../../../../../components/tools/SesionSettings";
 import { editFile } from "../../../../../services/Files.routes";
+import { useAppSelector } from "../../../../../redux/hooks/useStore";
 
 function PendingTemporaryState({
-  user,
   activitySelect,
   setActivitySelect,
 }: any) {
   // console.log("user: ", user);
   const [comments, setComments] = useState("");
   const { handleOpenModalAuth, handleUpdateRows } = useContextProvider();
+
+  const user = useAppSelector((state) => state.modalUserViewSlice);
 
   const handleComments = (e: any) => setComments(e.target.value);
 
@@ -31,6 +33,7 @@ function PendingTemporaryState({
       user.files_type,
       user.files_registered,
       user.files_cost_center,
+      // @ts-ignore
       user.files_code_accounting,
       user.files_code_treasury,
       user.files_price,

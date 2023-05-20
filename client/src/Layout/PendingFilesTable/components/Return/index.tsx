@@ -2,9 +2,9 @@ import { Button } from "@mui/material";
 import { useState } from "react";
 import { editFile } from "../../../../services/Files.routes";
 import useContextProvider from "./../../../../Context/GeneralValuesContext";
+import { useAppSelector } from "../../../../redux/hooks/useStore";
 
 function Return({
-  user,
   redirectTo,
   setRedirectTo,
   activitySelect,
@@ -12,6 +12,8 @@ function Return({
 }: any) {
   const [comments, setComments] = useState("");
   const { handleUpdateRows } = useContextProvider();
+
+  const user = useAppSelector((state) => state.modalUserViewSlice);
 
   const handleComments = (e: any) => setComments(e.target.value);
   const handleClear = () => {
@@ -30,6 +32,7 @@ function Return({
         user.files_type,
         user.files_registered,
         user.files_cost_center,
+        // @ts-ignore
         user.files_code_accounting,
         user.files_code_treasury,
         user.files_price,

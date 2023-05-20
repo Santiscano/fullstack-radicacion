@@ -12,6 +12,12 @@ import { get, getHeader, roles, stateFile } from "../../../../../components/tool
 import InputSelectStateFile from "../InputSelectStateFile";
 import InputSelectRedirectTo from "../../../../../components/common/InputSelectRedirectTo";
 import { InputSelectReturnTo } from "../InputSelectReturnTo";
+import Approve from "../../Approve";
+import Finally from "../../Finally";
+import Decline from "../../Decline";
+import Return from "../../Return";
+import PendingTemporaryState from "../PendingTemporaryState";
+import Cancel from "../../Cancel";
 
 const style = {
   position: "absolute" as "absolute",
@@ -19,12 +25,14 @@ const style = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: "85vw",
-  height: "85vh",
+  height: "99vh",
   overflow: "scroll",
   bgcolor: "background.paper",
   borderRadius: "5px",
   boxShadow: 24,
-  p: 4,
+  paddingLeft: 4,
+  paddingRight: 4,
+  paddingTop: 2,
 };
 
 const ModalAuth = () => {
@@ -32,6 +40,9 @@ const ModalAuth = () => {
   const [listRoutesPDF, setListRoutesPDF] = useState<any>("");
   const [activitySelect, setActivitySelect] = useState<any>(); //valor opcion seleccionada de actividad a realizar
   const [redirectTo, setRedirectTo] = useState<number>();
+  const [optionsRedirectTo, setOptionsRedirectTo] = useState([""]); // filtro allUsers con opciones redirectTo
+  const [optionsReturnTo, setOptionsReturnTo] = useState([""]); // filtro allUsers con opciones redirectTo
+
 
   const { openModalAuth, handleOpenModalAuth } = useContextProvider();
   const file = useAppSelector((state) => state.modalUserViewSlice);
@@ -53,11 +64,43 @@ const ModalAuth = () => {
       .catch((err) => console.log(err));
   };
 
-  const handleActivitySelect = (e: SelectChangeEvent) => setActivitySelect(e.target.value);
+  const handleActivitySelect = (e: SelectChangeEvent) => {
+    const value = e.target.value;
+    console.log('value: ', value, typeof value);
+    setActivitySelect(value)
+
+    // segun la opcion que escoja definimos una accion "si algun aprobado auditor o fin entonces consulta nextauditor segun idrole"
+    // @ts-ignore
+    if(value == 3 || value == 4 || value == 5 || value == 6){
+      handleOptionsRedirectTo()
+    }
+    // @ts-ignore
+    if(value == 8){
+      handleReturnTo()
+    }
+  };
   const handleRedirectTo = (e: SelectChangeEvent) => setRedirectTo(Number(e.target.value));
 
+  /**
+   * segun la opcion que escoja definimos una accion "si algun aprobado auditor o fin entonces consulta nextauditor segun idrole"
+   */
   const handleOptionsRedirectTo = () => {
-    if(Number(get("idroles")) == roles.AuditorCRTL || roles.AuditorGH || roles.AuditorRG ||  roles.AuditorTI)
+    const idroles = Number(get("idroles"));
+    axios.post(allRoutes.api.users.getUsersByNextAuditor, {idroles}, getHeader())
+      .then((res) => {
+        console.log('handleOptionsRedirectTo: ', res.data.data);
+        setOptionsRedirectTo(res.data.data)
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const handleReturnTo = () => {
+    axios.get(allRoutes.api.users.getAuditorsManager, getHeader())
+      .then((res) => {
+        console.log('return', res.data.data)
+        setOptionsReturnTo(res.data.data)
+      })
+      .catch((err) => console.log(err))
   };
 
   useEffect(() => {
@@ -92,7 +135,7 @@ const ModalAuth = () => {
               )}
             </div>
 
-            <div className="flex mt-4 w-full">
+            <div className="flex mt-3 w-full">
               <p className="font-bold inline-block mr-4 w-1/3">
                 Tipo De Documento:
                 <span className="text-slate-600 font-normal">
@@ -113,7 +156,7 @@ const ModalAuth = () => {
               </p>
             </div>
 
-            <div className="flex mt-4 w-full">
+            <div className="flex mt-3 w-full">
               <p className="font-bold inline-block mr-4 w-1/3">
                 Email:
                 <span className="text-slate-600 font-normal">
@@ -134,7 +177,7 @@ const ModalAuth = () => {
               </p>
             </div>
 
-            <div className="flex mt-4 w-full">
+            <div className="flex mt-3 w-full">
               <p className="font-bold inline-block mr-4 w-1/3">
                 Radicado:{" "}
                 <span className="text-slate-600 font-normal">
@@ -152,7 +195,7 @@ const ModalAuth = () => {
               </p>
             </div>
 
-            <div className="flex mt-4 w-full">
+            <div className="flex mt-3 w-full">
               <p className="font-bold inline-block mr-4 w-1/3">
                 Tipo De Cuenta:
                 <span className="text-slate-600 font-normal">
@@ -173,7 +216,7 @@ const ModalAuth = () => {
               </p>
             </div>
 
-            <div className="flex mt-4 w-full">
+            <div className="flex mt-3 w-full">
               <p className="font-bold inline-block mr-4 w-1/3">
                 Tipo de Cedi:
                 <span className="text-slate-600 font-normal">
@@ -194,7 +237,7 @@ const ModalAuth = () => {
               </p>
             </div>
 
-            <div className="flex mt-4 w-full">
+            <div className="flex mt-3 w-full">
               {(file.files_code_accounting || file.files_code_treasury) && (
                 <p className="font-bold inline-block mr-4 w-1/3">
                   Numero de Causacion:
@@ -214,7 +257,7 @@ const ModalAuth = () => {
             </div>
 
             {viewPDF && (
-              <div className="flex mt-4 w-fu">
+              <div className="flex w-fu">
                 {listRoutesPDF &&
                   listRoutesPDF.map((pdf: any, index: any) => (
                     <a key={index} href={pdf.files_path} target="_blank">
@@ -233,7 +276,7 @@ const ModalAuth = () => {
           </section>
 
           {/* input change state */}
-          <section className="flex w-full mt-2">
+          <section className="flex w-full">
             <article className="w-1/2">
               {changeStateFile && (
                 <InputSelectStateFile
@@ -268,7 +311,7 @@ const ModalAuth = () => {
             {/* si es devuelto mostrara */}
             {activitySelect == stateFile.Devuelto && (
               <article className="w-1/2">
-                {/* <InputSelectReturnTo
+                <InputSelectReturnTo
                   title="Devolver A"
                   placeholder="A Quien se asignara?"
                   type={"number"}
@@ -277,11 +320,65 @@ const ModalAuth = () => {
                   onChange={handleRedirectTo}
                   itemDefault="selecciona el Auditor o Gerente"
                   items={optionsReturnTo}
-                /> */}
+                />
               </article>
             )}
           </section>
 
+            {/* si es Aprobar mostrara */}
+            {(activitySelect == stateFile.AprobadoAuditor ||
+              activitySelect == stateFile.AprobadoGerente ||
+              activitySelect == stateFile.AprobadoContabilidad) && (
+              <Approve
+                newAssigned={redirectTo}
+                setRedirectTo={setRedirectTo}
+                activitySelect={activitySelect}
+                setActivitySelect={setActivitySelect}
+              />
+            )}
+
+            {/* finalizar flujo con tesoreria */}
+            {activitySelect == stateFile.Finalizado && (
+              <Finally
+                endCicle={redirectTo}
+                endActivitySelect={activitySelect}
+              />
+            )}
+
+            {/* si es Rezachazo "falta la logica de los correos"*/}
+            {activitySelect == stateFile.Rechazado && (
+              <Decline
+                activitySelect={activitySelect}
+                setActivitySelect={setActivitySelect}
+              />
+            )}
+
+            {/* si es devuelto mostrara */}
+            {activitySelect == stateFile.Devuelto && (
+              <Return
+                redirectTo={redirectTo}
+                setRedirectTo={setRedirectTo}
+                activitySelect={activitySelect}
+                setActivitySelect={setActivitySelect}
+              />
+            )}
+
+            {/* si es pendiente o Temporal */}
+            {(activitySelect == stateFile.Pendiente ||
+              activitySelect == stateFile.Temporal) && (
+              <PendingTemporaryState
+                activitySelect={activitySelect}
+                setActivitySelect={setActivitySelect}
+              />
+            )}
+
+            {/* si es Anular */}
+            {activitySelect == stateFile.Anulado && (
+              <Cancel
+                activitySelect={activitySelect}
+                setActivitySelect={setActivitySelect}
+              />
+            )}
         </div>
       </Box>
     </Modal>
