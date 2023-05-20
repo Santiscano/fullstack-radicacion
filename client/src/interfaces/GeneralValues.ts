@@ -1,8 +1,9 @@
 import React from "react";
 import { IsLoadingType } from "./Loading";
 import { ValidatedUserInLogin } from './User'
+import { Snackbar } from "./Snackbar";
 
-export interface GeneralValuesType extends IsLoadingType {
+export interface GeneralValuesType extends IsLoadingType, Snackbar {
   errorLogin: string;
   setErrorLogin: React.Dispatch<React.SetStateAction<string>>;
   user?: ValidatedUserInLogin;

@@ -7,21 +7,21 @@ import swaggerUi from "swagger-ui-express";
 import path from "path";
 import https from 'https';
 import fs from 'fs';
-import router from './routes/index.routes'
+import router from './routes/index.routes';
+import routerSig from './routes/sig.routes';
 
 const app = express();
 
+// RUTAS SSL
+// const privateKey = fs.readFileSync(`${process.env.SSL_PRIVATE_KEY}`, 'utf8')
+// const certificate  = fs.readFileSync(`${process.env.SSL_CERTIFICATE}`, 'utf8')
 
-// VARIABLES SSL
-const privateKey = fs.readFileSync(`${process.env.SSL_PRIVATE_KEY}`, 'utf8')
-const certificate  = fs.readFileSync(`${process.env.SSL_CERTIFICATE}`, 'utf8')
+// const credentials = {
+//     key: privateKey,
+//     cert: certificate
+// };
 
-const credentials = {
-    key: privateKey,
-    cert: certificate
-};
-
-const httpsServer = https.createServer(credentials, app);
+// const httpsServer = https.createServer(credentials, app);
 
 // DOCUMENTACIÓN SWAGGER 
 const swaggerSpec = {
@@ -52,32 +52,36 @@ app.use(express.json());
 app.use(morgan("dev"));
 app.use(cors());
 
+// ROUTES
+app.use('/', router)
+
 // VERIFICACIÓN BACKEND PRODUCCIÓN
 app.use("/api/", (req, res, next) => {
-    res.send("Digitalización EnviExpress");
+    res.send("Backend Digitalización EnviExpress Funciónando con Éxito");
 });
+
+// PUERTO DEL SERVIDOR LOCAL
+app.set("port", process.env.LOCAL_PORT || 3000);
 
 // ROUTES
 app.use('/', router)
+app.use('/sig/', routerSig)
 
 // SWAGGER
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerJsdoc(swaggerSpec)))
 
 // CONEXIÓN FRONTEND
-app.use(express.static(path.join(__dirname, '../client/dist')))
-app.get("*", (req, res)=>{
-    res.sendFile(path.join(__dirname, '../client/dist/index.html'))
-});
-
-// PUERTO DEL SERVIDOR
-app.set("port", process.env.LOCAL_PORT || 3000);
-
-//INICIAR SERVIDOR http://
-// app.listen(app.get("port"), () => {
-//     console.log(`Server started at ${process.env.URL_LOCAL}:${app.get("port")}`);
+// app.use(express.static(path.join(__dirname, '../client/dist')))
+// app.get("*", (req, res)=>{
+//     res.sendFile(path.join(__dirname, '../client/dist/index.html'))
 // });
 
-// INICIAR SERVIDOR https://
-httpsServer.listen( 443, () => {
-    console.log(`Server started at ${process.env.URL_SERVER}:${process.env.SERVER_PORT}`);
+// INICIAR EL SERVIDOR http://
+app.listen(app.get("port"), () => {
+    console.log(`Server started at ${process.env.URL_LOCAL}:${app.get("port")}`);
 });
+
+// INICIAR EL SERVIDOR https://
+// httpsServer.listen( 443, () => {
+//     console.log(`Server started at ${process.env.URL_SERVER}:443}`);
+// });

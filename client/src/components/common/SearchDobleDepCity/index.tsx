@@ -2,7 +2,7 @@ import { Autocomplete, Box, Grid, TextField } from "@mui/material";
 import axios from "axios";
 import { styled } from "@mui/material/styles";
 import { useEffect, useState } from "react";
-import Route from "../../../services/Routes";
+import Route from "../../../services/allRoutes";
 import { getHeader } from "../../tools/SesionSettings";
 
 const AutocompleteStyled = styled(Autocomplete)({
@@ -34,9 +34,7 @@ function LocationsSelect({
 
   const handleReadDepartments = () => {
     axios
-      .post(Route.api.users.getTypeIdentification, {
-        api_key: import.meta.env.VITE_API_KEY,
-      })
+      .get(Route.api.users.getTypeIdentification, getHeader())
       .then((res) => {
         // console.log(res.data.data);
         setDepartments(res.data.data);

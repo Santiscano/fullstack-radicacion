@@ -5,7 +5,7 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { alpha, styled } from "@mui/material/styles";
 import axios from "axios";
-import Routes from "../../../services/Routes";
+import Routes from "../../../services/allRoutes";
 import { getHeader } from "../../../components/tools/SesionSettings";
 
 const Selecting = styled(FormControl)({
@@ -44,7 +44,7 @@ export default function index(props: any) {
 
           {props.items.map((item: any, index: any) => (
             <MenuItem key={index} value={item} sx={{ m: 1, minWidth: 300 }}>
-              {item.sedes_city}
+              {item.sedes_city} - {item.sedes_type}
             </MenuItem>
           ))}
         </Select>

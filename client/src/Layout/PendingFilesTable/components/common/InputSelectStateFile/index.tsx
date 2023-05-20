@@ -13,6 +13,7 @@ const Selecting = styled(FormControl)({
   },
 });
 export default function InputSelect(props: any) {
+  console.log(props.items)
   return (
     <div>
       <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">

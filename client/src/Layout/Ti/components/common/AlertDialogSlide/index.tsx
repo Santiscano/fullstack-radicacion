@@ -36,7 +36,9 @@ function AlertDialogSlide(inputDeleted: any) {
     handleDeleteFile,
     openSnackbar,
     severitySnackbar,
+    // @ts-ignore
     TransitionLeft,
+    // @ts-ignore
     handleCloseSnackbar,
     messageSnackbar,
   } = useSubmit();

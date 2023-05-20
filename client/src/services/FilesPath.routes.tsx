@@ -1,5 +1,5 @@
 import axios from "axios";
-import Routes from "./Routes";
+import Routes from "./allRoutes";
 import { getHeader, set } from "../components/tools/SesionSettings";
 
 export const getFilesPath = async () => {
@@ -33,10 +33,10 @@ export const createFilePath = async (
       },
       getHeader()
     );
-    // console.log("response createFilepath: ", response);
+    console.log("response createFilepath: ", response);
     return response;
   } catch (error) {
-    // console.log("error: ", error);
+    console.log("error: ", error);
   }
 };
 

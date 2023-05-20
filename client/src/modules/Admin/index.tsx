@@ -1,17 +1,19 @@
-import * as React from "react";
-import { styled, useTheme } from "@mui/material/styles";
+import { Alert, AlertColor, Slide, Snackbar } from "@mui/material";
+import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
-import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
+import { styled } from "@mui/material/styles";
+import { TransitionProps } from "@mui/material/transitions";
+import { MouseEvent, SyntheticEvent, useEffect, useState } from "react";
+import { Outlet, useNavigate } from "react-router-dom";
+import Loading from "../../components/common/Loading";
+import { session } from "../../components/tools/SesionSettings";
+import { validateUserFirebase } from "../../services/Firebase.routes";
+import useContextProvider from "./../../Context/GeneralValuesContext";
+import "./admin.css";
 import NavBar from "./components/NavBar";
 import SideBar from "./components/SideBar";
-import { useNavigate, Outlet } from "react-router-dom";
-import "./admin.css";
-import Loading from "../../components/common/Loading";
-import { validateUserFirebase } from "../../services/Firebase.routes";
-import { GeneralValuesContext } from "./../../Context/GeneralValuesContext";
-import { useContext } from "react";
-import { get, session } from "../../components/tools/SesionSettings";
+import { useUserSession } from "../../redux/Redux-actions/useUserSession";
 
 // width drawer desplegable
 const drawerWidth = 240;
@@ -70,10 +72,18 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 
 // METODOS
 function index() {
-  const { user, setUser, setIsLoading } = useContext(GeneralValuesContext);
+  const {
+    setUser,
+    openSnackbar,
+    TransitionLeft,
+    handleCloseSnackbar,
+    severitySnackbar,
+    messageSnackbar,
+  } = useContextProvider();
+  const { addUserSession } = useUserSession();
 
-  const [open, setOpen] = React.useState(false);
-  const [loading, setLoading] = React.useState(true);
+  const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -86,10 +96,8 @@ function index() {
   const navigate = useNavigate();
 
   // open & close menu user avatar
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
-    null
-  );
-  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
+  const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
+  const handleOpenUserMenu = (event: MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
   };
   const handleCloseUserMenu = () => {
@@ -102,11 +110,13 @@ function index() {
    */
   const loadingUser = async () => {
     const userValidate = await validateUserFirebase();
+    console.log("userValidate admin: ", userValidate);
     if (
-      userValidate?.status === 201 &&
-      userValidate?.data.users_status === "ACTIVO"
+      userValidate?.status === 200 &&
+      userValidate?.data.data.users_status === "ACTIVO"
     ) {
-      setUser(userValidate?.data);
+      setUser(userValidate?.data.data);
+      addUserSession(userValidate?.data.data);
     } else if (!session() && userValidate?.data.users_status !== "ACTIVO") {
       navigate("/login");
     } else if (userValidate?.data.users_status !== "ACTIVO") {
@@ -114,11 +124,9 @@ function index() {
     }
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     loadingUser();
-    setTimeout(() => {
-      setLoading(false);
-    }, 500);
+    setLoading(false);
   }, []);
 
   return (
@@ -138,8 +146,35 @@ function index() {
 
             <Main open={open} sx={{ padding: 0 }}>
               <DrawerHeader />
-              <Outlet />
+              <main className="layout">
+                <section className="layout-section">
+                  <div className="layout-left">
+                    <Outlet />
+                  </div>
+                </section>
+              </main>
             </Main>
+            {openSnackbar && (
+              <Snackbar
+                open={openSnackbar}
+                autoHideDuration={6000}
+                TransitionComponent={TransitionLeft}
+                onClose={handleCloseSnackbar}
+                style={{ height: "70px" }}
+              >
+                <Alert
+                  onClose={handleCloseSnackbar}
+                  severity={severitySnackbar}
+                  sx={{
+                    width: "100%",
+                    height: "40px",
+                    fontSize: "18px",
+                  }}
+                >
+                  {messageSnackbar}
+                </Alert>
+              </Snackbar>
+            )}
           </>
         )}
       </Box>

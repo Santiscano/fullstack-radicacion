@@ -3,7 +3,7 @@ import { Autocomplete, Box, Grid, TextField } from "@mui/material";
 import axios from "axios";
 import { styled } from "@mui/material/styles";
 import { useEffect, useState } from "react";
-import Route from "../../../services/Routes";
+import Route from "../../../services/allRoutes";
 import { getHeader } from "../../tools/SesionSettings";
 
 const AutocompleteStyled = styled(Autocomplete)({
@@ -30,30 +30,32 @@ function LocationsSelect({
   disabledDepartment,
 }: any) {
   const [documentType, setDocumentType] = useState([]);
-  // const documents = ["CEDULA CIUDADANIA", "NIT", "CEDULA EXTRANGERIA"];
   const [documentNumber, setDocumentNumber] = useState([]);
-  const [disabledCityAction, setDisabledCityAction] = useState(false);
+  const [disabledCityAction, setDisabledCityAction] = useState(true);
 
   const handleTypeIdentification = () => {
     axios
-      .post(Route.api.users.getTypeIdentification, {
-        api_key: import.meta.env.VITE_API_KEY,
-      })
+      .get(Route.api.users.getTypeIdentification, getHeader())
       .then((res) => {
-        // console.log(res.data.data);
+        console.log("searchUser: ", res.data.data);
         setDocumentType(res.data.data);
       });
   };
 
-  const handleDocumentNumber = (users_identification: any) => {
+  const handleDocumentNumber = (users_identification_type: any) => {
     axios
-      .post(Route.api.users.getDocumentTypes, {
-        api_key: import.meta.env.VITE_API_KEY,
-        users_identification_type: users_identification,
-      })
+      .post(
+        Route.api.users.getDocumentTypes,
+        {
+          users_identification_type,
+        },
+        getHeader()
+      )
       .then((res) => {
-        // console.log(res.data.data);
+        console.log("users_identification_type: ", users_identification_type);
+        console.log("providers: ", res.data.data);
         setDocumentNumber(res.data.data);
+        setDisabledCityAction(false);
       });
   };
 
@@ -98,7 +100,8 @@ function LocationsSelect({
               setValue(newValue);
 
               if (type === "documentType") {
-                setDisabledCityAction(false);
+                console.log("newValue: ", newValue);
+                setDisabledCityAction(true);
                 setCity("");
                 handleDocumentNumber(newValue.split("-").shift().trim());
               }
@@ -128,22 +131,30 @@ function LocationsSelect({
 
   useEffect(() => {
     if ([null, ""].includes(department)) {
-      setDisabledCityAction(true);
+      setDisabledCityAction(false);
     }
 
     if (![null, ""].includes(department)) {
+      console.log("tipo documento: ", department);
       handleDocumentNumber(department);
     }
 
     handleTypeIdentification();
   }, []);
 
+  // useEffect(() => {
+  //   console.log("cambio en documentType");
+  //   handleDocumentNumber();
+  // }, [department]);
+
   return (
     <div className="md:flex md:flex-wrap">
       <article className="md:w-1/2">
         <List
           type={"documentType"}
-          label={!labelDepartment ? "Tipo Documento" : labelDepartment}
+          label={
+            !labelDepartment ? "Tipo Documento Proveedor" : labelDepartment
+          }
           value={department}
           setValue={setDepartment}
           required={requiredDepartment}
@@ -157,7 +168,7 @@ function LocationsSelect({
       <article className="md:w-1/2">
         <List
           type={"documentNumber"}
-          label={!labelCity ? "Numero Documento" : labelCity}
+          label={!labelCity ? "Numero Documento Proveedor" : labelCity}
           value={city}
           setValue={setCity}
           required={requiredCity}
@@ -172,7 +183,7 @@ function LocationsSelect({
             <Box component="li" {...props} key={index}>
               {option.users_identification}-
               {option.users_identification_digital_check}/ {option.users_name}{" "}
-              {option.users_lastname ? option.users_lastname : ""}
+              {option.users_lastname && option.users_lastname}
             </Box>
           )}
         />

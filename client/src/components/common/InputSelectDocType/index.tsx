@@ -6,7 +6,7 @@ import Select from "@mui/material/Select";
 import { alpha, styled } from "@mui/material/styles";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import Route from "../../../services/Routes";
+import Route from "../../../services/allRoutes";
 import { getHeader } from "../../tools/SesionSettings";
 
 const Selecting = styled(FormControl)({
@@ -21,9 +21,7 @@ export default function InputSelect(props: any) {
 
   const handleReadDocumentType = () => {
     axios
-      .post(Route.api.users.getTypeIdentification, {
-        api_key: import.meta.env.VITE_API_KEY,
-      })
+      .get(Route.api.users.getTypeIdentification, getHeader())
       .then((res) => {
         // console.log(res.data.data);
         setDocumentType(res.data.data);

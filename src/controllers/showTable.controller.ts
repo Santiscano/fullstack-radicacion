@@ -1,39 +1,55 @@
-import 'dotenv/config';
 import { Request, Response } from 'express';
-import { connection } from '../config/database/db';
-import { nullValidator } from '../utilities/nullValidator';
+import { missingData } from '../utilities/missingData.utilities';
+import { success, unsuccessfully, unauthorized, uncompleted } from '../utilities/responses.utilities';
+import { apiKeyValidate } from '../utilities/apiKeyValidate.utilities';
+import { showTableModel, historyTableModel } from '../models/showTable.model';
 
-
+// SHOWTABLE
 export const showTable = async ( req: Request, res: Response ) => {
-    const { api_key } = req.body;
+    const { api_key } = req.headers;
     try {
-        if (api_key !== process.env.API_KEY) {
-            return res.status(401).json({ error: true, message: "No cuentas con los permisos para acceder a esta información"});
-        };
-        const [ dataInfo ] = await connection.query(`
-        SELECT * FROM ShowTable;`);
-            // console.log(dataInfo)
-        return res.status(200).json({dataInfo});
+        if (apiKeyValidate(api_key)) return res.status(401).json(unauthorized());
+        return res.status(200).json(success((await showTableModel()).data));
     } catch (error) {
-        // console.log(error);
-        return res.status(508).json({ error: true, message: `Error del servidor para mostrar la tabla de autorización` });
+        return res.status(512).json(unsuccessfully(error));
     };
 };
 
+// PENDINGTABLE
 export const pendingTable = async (req: Request, res: Response) => {
-    const { api_key, idusers } = req.body;
+    const { api_key } = req.headers;
+    const { idusers } = req.body;
     try {
-        if (api_key !== process.env.API_KEY) {
-            return res.status(401).json({ message: "No cuentas con los permisos para acceder a esta información"});
-        };
-        if (nullValidator([idusers])){
-            return res.status(400).json({ message: "ERROR_MISSING_VALUES" });
-        };
-        const [ dataInfo ] = await connection.query(`
-        SELECT * FROM ShowTable WHERE idusers = ?`, [ idusers ]);
-        return res.status(200).json({ dataInfo });
+        if (apiKeyValidate(api_key)) return res.status(401).json(unauthorized());
+        if (missingData({idusers}).error) return res.status(422).json(uncompleted(missingData({idusers}).missing));
+        return res.status(200).json(success((await showTableModel(idusers)).data));
     } catch (error) {
-        // console.log(error);
-        return res.status(508).json({error: true, message: "Error del servidor para mostrar la tabla de pendientes"})
+        return res.status(512).json(unsuccessfully(error));
+    };
+};
+
+// SHOW TABLE BY FILE
+export const fileShowTable = async (req: Request, res: Response) => {
+    const { api_key } = req.headers;
+    const { idfile } = req.body;
+    try {
+        if (apiKeyValidate(api_key)) return res.status(401).json(unauthorized());
+        if (missingData({idfile}).error) return res.status(422).json(uncompleted(missingData({idfile}).missing));
+        return res.status(200).json(success((await showTableModel(undefined, idfile)).data));
+    } catch (error) {
+        return res.status(512).json(unsuccessfully(error));
+    };
+};
+
+// HISTORYTABLE
+export const historyTable = async (req: Request, res: Response) => {
+    const { api_key } = req.headers;
+    const { userSession } = req.body;
+    try {
+        if (apiKeyValidate(api_key)) return res.status(401).json(unauthorized());
+        if (missingData({userSession}).error) return res.status(422).json(uncompleted(missingData({userSession}).missing));
+        return res.status(200).json(success((await historyTableModel(userSession)).data));
+    } catch (error) {
+        return res.status(512).json(unsuccessfully(error));
     };
 };

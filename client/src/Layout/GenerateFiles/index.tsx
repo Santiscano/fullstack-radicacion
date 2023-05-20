@@ -1,5 +1,6 @@
 import { SelectChangeEvent } from "@mui/material/Select";
 import { useContext, useEffect, useState } from "react";
+import InputSelect from "../../components/common/InputSelect";
 import Button from "../../components/common/Button";
 import InputSelectRedirectTo from "../../components/common/InputSelectRedirectTo";
 import UploadFileModal from "../../components/common/ModalUploadFile";
@@ -24,7 +25,7 @@ import { getCedis } from "../../services/Cedis.routes";
 import { addFile, getFiles } from "../../services/Files.routes";
 import { uploadfile } from "../../services/Pdf.routes";
 import { getUsers } from "../../services/Users.routes";
-import { getSettled } from "../../services/generateSettled.service";
+import { getSettled } from "../../services/generateSettled.routes";
 
 import { GeneralValuesContext } from "../../Context/GeneralValuesContext";
 import { formattedAmount } from "../../Utilities/formatted.utility";
@@ -39,6 +40,7 @@ import InputSelectCedi from "./components/InputSelectCedi";
 // import { savePDF, printPDF } from "./components/PDF/print";
 import { ChildModalPdf } from "../../components/common/ModalUploadFile";
 import InputDouble from "./components/InputDouble";
+import { useDataGlobal } from "../../redux/Redux-actions/useDataGlobal"
 
 function GenerateFiles() {
   // ------------------------------VARIABLES------------------------------//
@@ -96,6 +98,7 @@ function GenerateFiles() {
   const [fileName, setFileName] = useState("");
 
   const { setPreLoad } = useContext(GeneralValuesContext);
+  const { changeTitleSection } = useDataGlobal();
 
   // -----------------------METHODS INPUTS--------------------------------//
 
@@ -106,15 +109,16 @@ function GenerateFiles() {
    * envio cedi para generar radicado
    */
   const handleGetUsersCedis = async () => {
+    changeTitleSection("GENERAR RADICADO")
     // cedis
     const allCedis: AllCedis[] = await getCedis();
-    // console.log("allCedis: ", allCedis);
+    console.log("allCedis: ", allCedis);
     setAllCedis(allCedis);
 
     // users
     const getAllUsers = await getUsers();
-    // console.log("getAllUsers: ", getAllUsers.rows);
-    const allUsers = getAllUsers.rows;
+    console.log("getAllUsers: ", getAllUsers);
+    const allUsers = getAllUsers;
     setAllUsers(allUsers);
 
     // options redirectTo Administration
@@ -225,11 +229,12 @@ function GenerateFiles() {
       e.preventDefault();
       // @ts-ignore
       const newSettled = await getSettled();
+      console.log("newSettled: ", newSettled);
 
       setSettledNumber(newSettled);
       newSettled ? setIsSettled(true) : setIsSettled(false);
     } catch (error) {
-      // console.log("error: ", error);
+      console.log("error: ", error);
     } finally {
       setPreLoad(false);
     }
@@ -247,6 +252,7 @@ function GenerateFiles() {
     try {
       e.preventDefault();
       setPreLoad(true);
+      console.log("crear requerimiento ejecutada");
       const addFileResponse = await addFile(
         // @ts-ignore
         idUser,
@@ -256,12 +262,13 @@ function GenerateFiles() {
         // @ts-ignore
         cedi.idsedes,
         accountType,
-        preAccountNumber + accountNumber,
+        preAccountNumber + "-" + accountNumber,
         get("idusers")
       );
+      console.log("addFileResponse: ", addFileResponse);
 
       //muestro input file y textarea
-      if (addFileResponse?.status == 200) {
+      if (addFileResponse?.data.data[0]) {
         setStatusFileResponse(true);
       }
 
@@ -288,10 +295,11 @@ function GenerateFiles() {
       e.preventDefault();
       setPreLoad(true);
       // @ts-ignore
-      const idFiles = result?.data.file[0].idfiles;
+      const idFiles = result?.data.data[0].idfiles;
+      console.log("idFiles: ", idFiles);
 
       const responseUploadFile = await uploadfile(filePDFGoogle, idFiles); // guarda pdf
-      // console.log("responseUploadFile: ", responseUploadFile);
+      console.log("responseUploadFile: ", responseUploadFile);
       const pathFileUpload = await responseUploadFile?.data.pathFile; // almacena ruta asignada en variable
 
       // relaciona el idfiles con la ruta asignada es decir pathFileUpload
@@ -307,7 +315,8 @@ function GenerateFiles() {
         setModalSuccess(true);
       }
     } catch (error) {
-      // console.log("error: ", error);
+      console.log("error: ", error);
+      setPreLoad(false);
     } finally {
       setPreLoad(false);
     }
@@ -379,7 +388,6 @@ function GenerateFiles() {
         <section className="layout-section">
           <div className="layout-left">
             <div className="container__createFiling">
-              <h3 className="createFiling">Crear Nuevo Radicado</h3>
               {isSettled && (
                 <button
                   className="button button--flex mt-6 buttonHover"
@@ -422,7 +430,7 @@ function GenerateFiles() {
                       <InputSelectCedi
                         type={"text"}
                         title="Ciudad a Radicar"
-                        placeholder="Ciudad a radicar"
+                        placeholder="Ciudad a Radicar"
                         name="cedi"
                         required
                         disabled={!cediType}
@@ -534,6 +542,7 @@ function GenerateFiles() {
                       <TextFieldOutlined
                         type={"number"}
                         label={"valor"}
+                        // @ts-ignore
                         value={price}
                         setValue={setPrice}
                         required
@@ -557,17 +566,17 @@ function GenerateFiles() {
                     </article>
                     <article className="md:w-1/2">
                       <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                        numero de cuenta
+                        Numero de Cuenta
                       </label>
                       <div>
                         <InputDouble
                           type1={"text"}
-                          label1={"prefijo"}
+                          label1={"Prefijo"}
                           value1={preAccountNumber}
                           setValue1={setPreAccountNumber}
                           required1
-                          type2={"number"}
-                          label2={"numero"}
+                          type2={"text"}
+                          label2={"Numero"}
                           value2={accountNumber}
                           setValue2={setAccountNumber}
                           required2
@@ -619,19 +628,6 @@ function GenerateFiles() {
                   <form onSubmit={handleFormSubmit}>
                     <Button name="Crear requerimientos"></Button>
                   </form>
-                  {/* aqui el intento de pdf */}
-                  {/* <ChildModalPdf
-                    cediType={cediType}
-                    settledNumber={settledNumber}
-                    accountType={accountType}
-                  /> */}
-                  {/* <PDF
-                      cediType={cediType}
-                      settledNumber={settledNumber}
-                      accountType={accountType}
-                    /> */}
-                  {/* hola mundo */}
-                  {/* </ChildModalPdf> */}
 
                   {statusFileResponse && (
                     <div className="flex rounded justify-between">

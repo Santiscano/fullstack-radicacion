@@ -1,21 +1,24 @@
 import { Button, SelectChangeEvent } from "@mui/material";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import TextFieldOutlined from "../../../../components/common/TextFieldOutline";
 import Upload from "../../../../components/common/Upload";
 import { get, roles } from "../../../../components/tools/SesionSettings";
 import { editFile } from "../../../../services/Files.routes";
 import { createFilePath } from "../../../../services/FilesPath.routes";
 import { uploadfile } from "../../../../services/Pdf.routes";
-import { GeneralValuesContext } from "./../../../../Context/GeneralValuesContext";
+import useContextProvider from "./../../../../Context/GeneralValuesContext";
+import { useAppSelector } from "../../../../redux/hooks/useStore";
 
-function Finally({ user, endActivitySelect }: any) {
+function Finally({ endActivitySelect }: any) {
   // console.log("user: ", user);
   const [codeTreasury, setCodeTreasury] = useState("");
   const [filePDF, setFilePDF] = useState("");
   const [fileName, setFileName] = useState("");
   const [comments, setComments] = useState("");
   const { setPreLoad, handleOpenModalAuth, handleUpdateRows } =
-    useContext(GeneralValuesContext);
+    useContextProvider();
+
+  const user = useAppSelector((state) => state.modalUserViewSlice);
 
   const handleComments = (e: any) => setComments(e.target.value);
   const handleClear = () => {
@@ -35,6 +38,7 @@ function Finally({ user, endActivitySelect }: any) {
   };
   const handleSubmit = async (e: any) => {
     try {
+      handleFileSubmit(e);
       setPreLoad(true);
       e.preventDefault();
       const response = await editFile(
@@ -45,6 +49,7 @@ function Finally({ user, endActivitySelect }: any) {
         user.files_type,
         user.files_registered,
         user.files_cost_center,
+        // @ts-ignore
         user.files_code_accounting,
         // @ts-ignore
         user.files_code_treasury == null && codeTreasury,
@@ -54,10 +59,11 @@ function Finally({ user, endActivitySelect }: any) {
         comments
       );
       if (response?.status == 200) {
-        handleFileSubmit(e);
+        handleClear();
+        handleOpenModalAuth();
       }
     } catch (error) {
-      // console.log("error: ", error);
+      console.log("error: ", error);
     } finally {
       setPreLoad(false);
     }
@@ -79,7 +85,7 @@ function Finally({ user, endActivitySelect }: any) {
         handleOpenModalAuth();
       }
     } catch (error) {
-      // console.log("error: ", error);
+      console.log("error: ", error);
     } finally {
     }
   };

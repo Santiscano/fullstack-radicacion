@@ -1,20 +1,26 @@
 import { SelectChangeEvent, Slide } from "@mui/material";
 import { TransitionProps } from "@mui/material/transitions";
-import { SyntheticEvent, useContext, useEffect, useState } from "react";
+import { SyntheticEvent, useEffect, useState } from "react";
+import { numberToStringWithTwoDigitNumber as numberToString } from "../../../Utilities/formatted.utility";
 import { AllCedis } from "../../../interfaces/Cedis";
 import { createCedi, getCedis } from "../../../services/Cedis.routes";
-import { createProvider, createUser } from "../../../services/Users.routes";
-import { getCitys } from "../../../services/getCitysColombia";
-import { getRoles } from "../../../services/Roles.routes";
-import { GeneralValuesContext } from "./../../../Context/GeneralValuesContext";
 import {
   createArea,
   createCostCenter,
   createSubArea,
   getArea,
 } from "../../../services/CenterCost.routes";
-import { numberToStringWithTwoDigitNumber as numberToString } from "../../../Utilities/formatted.utility";
 import { deleteFile } from "../../../services/Files.routes";
+import {
+  getRoles,
+  getNotAdminProv,
+  getProvider,
+} from "../../../services/Roles.routes";
+import { createProvider, createUser } from "../../../services/Users.routes";
+import { getCitys } from "../../../services/getCitysColombia.routes";
+import useContextProvider from "./../../../Context/GeneralValuesContext";
+import { useDataGlobal } from "../../../redux/Redux-actions/useDataGlobal";
+import axios from "axios";
 
 function useSubmit() {
   // --------------------------Variable-------------------------------//
@@ -69,9 +75,12 @@ function useSubmit() {
   const [severitySnackbar, setSeveritySnackbar] = useState("");
   // reset forms
   const [reset, setReset] = useState(false);
+  // view tables
+  const [isCreateUser, setIsCreateUser] = useState(false);
+  const [isCreateProvider, setIsCreateProvider] = useState(false);
   // --------------------------Context-------------------------------//
-  const { setPreLoad, cediConection, setCediConection } =
-    useContext(GeneralValuesContext);
+  const { setPreLoad, handleMessageSnackbar, cediConection } =
+    useContextProvider();
   // --------------------------handles-------------------------------//
   /**
    * traigo los departamentos, ciudades, cedis,
@@ -79,31 +88,31 @@ function useSubmit() {
    */
   const handleGetCitys = async () => {
     const departmentsResponse: any = await getCitys();
-    // console.log("departmentsResponse: ", departmentsResponse);
     setListDepartment(departmentsResponse?.Department);
-
     setListCitys(departmentsResponse?.DepartamentCity);
     setAllCitys(departmentsResponse?.DepartamentCity);
+  };
 
+  const handleCedis = async () => {
     const allCedis: AllCedis[] = await getCedis();
-    // console.log("allCedis: ", allCedis);
+    console.log("allCedis: ", allCedis);
     setOptionsCedisIdName(allCedis);
+  };
 
-    // crear usuarios
-    const allRoles = await getRoles();
-    // console.log("allRoles: ", allRoles);
-    const optionsCreateUser = allRoles.filter(
-      (rol: { roles: string }) =>
-        rol.roles !== "ADMINISTRADOR" && rol.roles !== "PROVEEDOR"
-    );
-    setOptionsRol(optionsCreateUser);
+  // crear usuarios
+  const handleUser = async () => {
+    const adminProv = await getNotAdminProv();
+    console.log("adminProv: ", adminProv.data);
+    setOptionsRol(adminProv.data);
+  };
 
-    // crear proveedores
-    const createProvider = allRoles.filter(
-      (rol: { roles: string }) => rol.roles === "PROVEEDOR"
-    );
+  // crear proveedores
+  const handleProvider = async () => {
+    const provider = await getProvider();
+    console.log("provider: ", provider.data);
     setOnlyRolProvider(createProvider);
   };
+
   /**
    * metodo para pasar entre crear rol, cedi.... etc
    * @param e
@@ -134,30 +143,15 @@ function useSubmit() {
 
   const handleRol = (e: SelectChangeEvent) => {
     setAssignRole(e.target.value);
-    // console.log(e.target.value);
   };
   const handleCedi = (e: SelectChangeEvent) => {
     const cedi = e.target.value;
-    // console.log("cedi", e.target.value);
     // @ts-ignore
     setCedi(e.target.value);
   };
   const handleCedity = (e: SelectChangeEvent) => {
     setIdentificationType(e.target.value);
   };
-  const handleCloseSnackbar = (
-    event?: SyntheticEvent | Event,
-    reason?: string
-  ) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setOpenSnackbar(false);
-  };
-  function TransitionLeft(props: TransitionProps) {
-    // @ts-ignore
-    return <Slide {...props} direction="left" />;
-  }
   const handleCloseModalChild = () => setModalSuccess(false);
 
   // --------------------------handles Submit-------------------------------//
@@ -177,38 +171,28 @@ function useSubmit() {
         type,
         department
       );
-      // console.log("res: ", res);
+      console.log("create cedi: ", res);
       setCity("");
       setAddress("");
       setCediName("");
       setType("");
       if (res?.status == 200) {
-        setMessageSnackbar("Cedi Creada Con Exito");
-        setSeveritySnackbar("success");
+        handleMessageSnackbar("success", "Cedi Creada Con Exito");
         setPreLoad(false);
-        setOpenSnackbar(true);
       }
       if (res?.status !== 200) {
-        setMessageSnackbar("Cedi No Fue Creada Ocurrio Un Error");
-        setSeveritySnackbar("error");
+        handleMessageSnackbar("error", "Cedi No Fue Creada Ocurrio Un Error");
         setPreLoad(false);
-        setOpenSnackbar(true);
       }
     } catch (error) {
-      // console.log("error: ", error);
-      setMessageSnackbar("Ocurrio Un Error Intenta De Nuevo");
-      setSeveritySnackbar("error");
-      setOpenSnackbar(true);
+      handleMessageSnackbar("error", "Ocurrio Un Error Intenta De Nuevo");
     }
   };
-  const handleSubmitCreateUser = async (e: any) => {
+  const handleSubmitCreateUser = async (e: any, close: any) => {
     try {
       setPreLoad(true);
       e.preventDefault();
-      // console.log(cedi);
-      // console.log("key", import.meta.env.VITE_API_KEY);
       const res = await createUser(
-        import.meta.env.VITE_API_KEY,
         assignRole,
         cedi.idsedes,
         identificationType,
@@ -222,12 +206,13 @@ function useSubmit() {
       );
       console.log("res: ", res);
       if (res?.status == 200 && res.statusText == "OK") {
-        setMessageSnackbar(`Usuario ${firstName} Creado Con Exito`);
-        setSeveritySnackbar("success");
+        handleMessageSnackbar(
+          "success",
+          `Usuario ${firstName} Creado Con Exito`
+        );
         setPreLoad(false);
-        setOpenSnackbar(true);
+        // dates
         setAssignRole([]);
-        setReset(true);
         setCedi([]);
         setIdentificationType("");
         setIdentificationNumber("");
@@ -237,34 +222,32 @@ function useSubmit() {
         setPhone("");
         setEmail("");
         setPassword("");
+        setIsCreateUser(false);
       }
       if (res?.status !== 200) {
-        setMessageSnackbar(
+        handleMessageSnackbar(
+          "error",
           `Usuario ${firstName}: ${
             res?.data.message
               ? res?.data.message
-              : "No Fue Creada Ocurrio Un Error"
+              : "No Fue Creado Ocurrio Un Error"
           }`
         );
-        setSeveritySnackbar("error");
         setPreLoad(false);
-        setOpenSnackbar(true);
       }
     } catch (error) {
-      // console.log("error: ", error);
-      setMessageSnackbar("Ocurrio Un Error Intenta De Nuevo");
-      setSeveritySnackbar("error");
-      setOpenSnackbar(true);
+      console.log("error: ", error);
+      handleMessageSnackbar("error", "Ocurrio Un Error Intenta De Nuevo");
     } finally {
       setReset(false);
+      close();
     }
   };
-  const handleSubmitCreateProvider = async (e: any) => {
+  const handleSubmitCreateProvider = async (e: any, close: any) => {
     try {
-      // console.log(addressUser);
       setPreLoad(true);
       e.preventDefault();
-      // console.log(cedi);
+      console.log("valor rol:", assignRole);
       const res = await createProvider(
         import.meta.env.VITE_API_KEY,
         1,
@@ -278,14 +261,16 @@ function useSubmit() {
         limitDaysPayment,
         documentationUpdate
       );
-      // console.log("res: ", res);
+      console.log("res: ", res);
       if (res?.status == 200 && res.statusText == "OK") {
-        setMessageSnackbar(`Proveedor ${firstName} Creado Con Exito`);
-        setSeveritySnackbar("success");
+        handleMessageSnackbar(
+          "success",
+          `Proveedor ${firstName} Creado Con Exito`
+        );
         setPreLoad(false);
-        setOpenSnackbar(true);
-        setAssignRole([]);
         setReset(true);
+        // values
+        setAssignRole([]);
         setCedi([]);
         setIdentificationType("");
         setIdentificationNumber("");
@@ -294,25 +279,26 @@ function useSubmit() {
         setAddress("");
         setPhone("");
         setEmail("");
-        setPassword("");
+        setLimitDaysPayment(NaN);
+        // @ts-ignore
+        setDocumentationUpdate(new Date());
+        setIsCreateProvider(false);
+        close();
       }
       if (res?.status !== 200) {
-        setMessageSnackbar(
+        handleMessageSnackbar(
+          "error",
           `Usuario ${firstName}: ${
             res?.data.message
               ? res?.data.message
               : "No Fue Creada Ocurrio Un Error"
           }`
         );
-        setSeveritySnackbar("error");
         setPreLoad(false);
-        setOpenSnackbar(true);
       }
     } catch (error) {
-      // console.log("error: ", error);
-      setMessageSnackbar("Ocurrio Un Error Intenta De Nuevo");
-      setSeveritySnackbar("error");
-      setOpenSnackbar(true);
+      console.log("error: ", error);
+      handleMessageSnackbar("error", "Ocurrio Un Error Intenta De Nuevo");
     } finally {
       setReset(false);
     }
@@ -322,42 +308,37 @@ function useSubmit() {
       setPreLoad(true);
       e.preventDefault();
       const res = await createArea(numberToString(areaNumber), areaName);
-      // console.log("res: ", res);
+      console.log("res: ", res);
       if (res?.status == 200) {
-        setMessageSnackbar(`Area ${areaName} Creada Con Exito`);
-        setSeveritySnackbar("success");
+        handleMessageSnackbar("success", `Area ${areaName} Creada Con Exito`);
         setPreLoad(false);
-        setOpenSnackbar(true);
         setAreaNumber(NaN);
         setAreaName("");
         getArea();
       }
       if (res?.status !== 200) {
-        setMessageSnackbar(
+        handleMessageSnackbar(
+          "error",
           `Area ${areaName}: ${
             res?.data.message
               ? res?.data.message
               : "No Fue Creada Ocurrio Un Error"
           }`
         );
-        setSeveritySnackbar("error");
         setPreLoad(false);
-        setOpenSnackbar(true);
       }
     } catch (error) {
       // console.log("error: ", error);
-      setMessageSnackbar("Ocurrio Un Error En El Servidor Intenta De Nuevo");
-      setSeveritySnackbar("error");
-      setOpenSnackbar(true);
+      handleMessageSnackbar(
+        "error",
+        "Ocurrio Un Error En El Servidor Intenta De Nuevo"
+      );
     } finally {
       setPreLoad(false);
-      setOpenSnackbar(true);
     }
   };
   const handleSubmitCreateSubArea = async (e: any) => {
     try {
-      // @ts-ignore
-      console.log("values: ", subAreaNumber, subAreaName, relationCedi.id);
       setPreLoad(true);
       e.preventDefault();
       const res = await createSubArea(
@@ -368,43 +349,45 @@ function useSubmit() {
       );
       console.log("res: ", res);
       if (res?.status == 200) {
-        setMessageSnackbar(
-          // @ts-ignore
-          `Sub-Area: ${subAreaName} Conectado al Area ${relationCedi.name} Exitosamente`
+        handleMessageSnackbar(
+          "success",
+          `Sub-Area: ${subAreaName} Conectada al Area con ID ${connectionArea} Exitoso`
         );
-        setSeveritySnackbar("success");
         setPreLoad(false);
-        setOpenSnackbar(true);
         setConnectionArea("");
         setSubAreaNumber("");
         setSubAreaName("");
       }
       if (res?.status !== 200) {
-        setMessageSnackbar(
+        handleMessageSnackbar(
+          "error",
           `Sub-Area ${subAreaName}: ${
             res?.data.message
               ? res?.data.message
               : "No Fue Creada Ocurrio Un Error"
           }`
         );
-        setSeveritySnackbar("error");
         setPreLoad(false);
-        setOpenSnackbar(true);
       }
     } catch (error) {
-      // console.log("error: ", error);
-      setMessageSnackbar("Ocurrio Un Error En El Servidor Intenta De Nuevo");
-      setSeveritySnackbar("error");
-      setOpenSnackbar(true);
+      handleMessageSnackbar(
+        "error",
+        "Ocurrio Un Error En El Servidor Intenta De Nuevo"
+      );
     } finally {
       setPreLoad(false);
-      setOpenSnackbar(true);
     }
   };
   const handleSubmitCreateCostCenter = async (e: any) => {
     try {
       setPreLoad(true);
       e.preventDefault();
+      console.log(
+        "datos enviados crear centro de costos",
+        cediConection.id,
+        costCenterNumber,
+        costCenterName
+      );
       const res = await createCostCenter(
         // @ts-ignore
         cediConection.id,
@@ -413,38 +396,34 @@ function useSubmit() {
       );
       console.log("res: ", res);
       if (res?.status == 200) {
-        setMessageSnackbar(
-          // @ts-ignore
-          `Dependencia: ${costCenterName} Conectado a la cedi ${cediConection.name} de manera Exitosa`
+        handleMessageSnackbar(
+          "success",
+          `Centro De Costos: ${costCenterName} Conectado al SubArea con ID ${connectionSubArea} Exitoso`
         );
-        setSeveritySnackbar("success");
         setPreLoad(false);
-        setOpenSnackbar(true);
-        setConnectionArea("");
-        setCediConection("");
+        setConnectionSubArea("");
         setCostCenterNumber("");
         setCostCenterName("");
       }
       if (res?.status !== 200) {
-        setMessageSnackbar(
-          `Dependencia: ${costCenterName}: ${
+        handleMessageSnackbar(
+          "error",
+          `Centro De Costos ${costCenterName}: ${
             res?.data.message
               ? res?.data.message
               : "No Fue Creado Ocurrio Un Error"
           }`
         );
-        setSeveritySnackbar("error");
         setPreLoad(false);
-        setOpenSnackbar(true);
       }
     } catch (error) {
       // console.log("error: ", error);
-      setMessageSnackbar("Ocurrio Un Error En El Servidor Intenta De Nuevo");
-      setSeveritySnackbar("error");
-      setOpenSnackbar(true);
+      handleMessageSnackbar(
+        "error",
+        "Ocurrio Un Error En El Servidor Intenta De Nuevo"
+      );
     } finally {
       setPreLoad(false);
-      setOpenSnackbar(true);
     }
   };
   const handleDeleteFile = async (
@@ -461,36 +440,43 @@ function useSubmit() {
       // console.log("res: ", res);
       if (res?.status == 200) {
         setInputDeleted("");
-        setMessageSnackbar(`Archivo ${inputDeleted}, Eliminado Con Exito`);
-        setSeveritySnackbar("success");
-        // handleCloseDialogDelete();
+        handleMessageSnackbar(
+          "success",
+          `Archivo ${inputDeleted}, Eliminado Con Exito`
+        );
         setPreLoad(false);
-        setOpenSnackbar(true);
       }
       if (res?.status !== 200) {
-        setMessageSnackbar(
+        handleMessageSnackbar(
+          "error",
           `No se pudo Eliminar archivo ${inputDeleted}, Ocurrio Un Error`
         );
-        setSeveritySnackbar("error");
         setPreLoad(false);
-        setOpenSnackbar(true);
         handleCloseDialogDelete();
       }
     } catch (error) {
       // console.log("error: ", error);
-      setMessageSnackbar("Ocurrio Un Error Intenta De Nuevo");
-      setSeveritySnackbar("error");
-      setOpenSnackbar(true);
+      handleMessageSnackbar("error", "Ocurrio Un Error Intenta De Nuevo");
       handleCloseDialogDelete();
     } finally {
       setPreLoad(false);
     }
   };
+  const { changeTitleSection } = useDataGlobal();
 
   // --------------------------Effects-------------------------------//
   useEffect(() => {
     handleGetCitys();
+    handleCedis();
+    handleUser();
+    handleProvider();
+    changeTitleSection("PANEL ADMINISTRATIVO");
+
+    return () => {
+      changeTitleSection("");
+    };
   }, []);
+
   useEffect(() => {
     handleGetCitys();
   }, [setMessageSnackbar]);
@@ -512,8 +498,6 @@ function useSubmit() {
     type,
     handleCediType,
     openSnackbar,
-    handleCloseSnackbar,
-    TransitionLeft,
     severitySnackbar,
     messageSnackbar,
     handleSubmitCreateUser,
@@ -575,6 +559,11 @@ function useSubmit() {
     inputDeleted,
     setInputDeleted,
     handleDeleteFile,
+    // view tables
+    isCreateUser,
+    setIsCreateUser,
+    isCreateProvider,
+    setIsCreateProvider,
   };
 }
 
