@@ -452,51 +452,49 @@ export const columnsUsers: GridColDef[] = [
   {
     field: "users_lastname",
     headerName: "Apellidos",
-    width: 120,
+    width: 170,
   },
   {
     field: "users_identification_type",
     headerName: "Tipo Documento",
-    width: 130,
+    width: 150,
   },
   {
     field: "users_identification",
     headerName: "Numero Documento",
-    width: 130,
+    width: 140,
   },
   {
     field: "roles",
     headerName: "Rol",
-    width: 160,
+    width: 130,
   },
   {
-    field: "sedes_city",
-    headerName: "ciudad",
+    field: "users_phone",
+    headerName: "Telefono",
     width: 120,
+  },
+  {
+    field: "users_address",
+    headerName: "Direccion",
+    width: 140,
   },
   {
     field: "users_email",
     headerName: "Email",
-    width: 190,
+    width: 210,
   },
   {
-    field: "action",
-    headerName: "Acciones",
-    width: 120,
-    filterable: false,
-    renderCell: (cellValues: any) => ButtonModalUsersTable(cellValues),
+    field: "sedes_city",
+    headerName: "Ciudad",
+    width: 150,
   },
 ];
 export const columnsProvider: GridColDef[] = [
   {
     field: "users_name",
-    headerName: "Nombre",
-    width: 120,
-  },
-  {
-    field: "users_lastname",
-    headerName: "Apellidos",
-    width: 120,
+    headerName: "Razon Social",
+    width: 170,
   },
   {
     field: "users_identification_type",
@@ -509,25 +507,18 @@ export const columnsProvider: GridColDef[] = [
     width: 130,
   },
   {
-    field: "roles",
-    headerName: "Rol",
-    width: 160,
+    field: "users_phone",
+    headerName: "Telefono",
+    width: 120,
   },
   {
-    field: "sedes_city",
-    headerName: "ciudad",
-    width: 120,
+    field: "users_address",
+    headerName: "Direccion",
+    width: 140,
   },
   {
     field: "users_email",
     headerName: "Email",
     width: 190,
   },
-  // {
-    // field: "action",
-    // headerName: "Acciones",
-    // width: 120,
-    // filterable: false,
-    // renderCell: (cellValues: any) => ButtonModalAllFiles(cellValues),
-  // },
 ];

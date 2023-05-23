@@ -16,6 +16,16 @@ export const getUsersModel = async(): Promise<Data> => {
     return data
 };
 
+// TRAER USUARIOS MENOS ADMIN Y PROVEEDORES
+export const getNoAdminProvModel = async(): Promise<Data> => {
+    const [ data ] = await connection.query(`
+        SELECT * FROM users U
+            LEFT JOIN roles R ON U.idroles = R.idroles
+            LEFT JOIN sedes S ON U.idsedes = S.idsedes
+                WHERE U.idroles != ? AND U.idroles != ?;`, [1, 10]);
+    return data
+};
+
 // TRAER USUARIOS SEGÚN EL ROL
 export const getUserbyRolModel = async(data: number): Promise<{data: Data}> => {
     const [ users ] = await connection.query('SELECT * FROM users WHERE idroles = ?;',[data])

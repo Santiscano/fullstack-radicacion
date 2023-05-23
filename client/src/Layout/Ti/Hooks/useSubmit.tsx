@@ -1,8 +1,8 @@
-import { SelectChangeEvent, Slide } from "@mui/material";
-import { TransitionProps } from "@mui/material/transitions";
+import { SelectChangeEvent } from "@mui/material";
 import { SyntheticEvent, useEffect, useState } from "react";
 import { numberToStringWithTwoDigitNumber as numberToString } from "../../../Utilities/formatted.utility";
 import { AllCedis } from "../../../interfaces/Cedis";
+import { useDataGlobal } from "../../../redux/Redux-actions/useDataGlobal";
 import { createCedi, getCedis } from "../../../services/Cedis.routes";
 import {
   createArea,
@@ -11,16 +11,9 @@ import {
   getArea,
 } from "../../../services/CenterCost.routes";
 import { deleteFile } from "../../../services/Files.routes";
-import {
-  getRoles,
-  getNotAdminProv,
-  getProvider,
-} from "../../../services/Roles.routes";
 import { createProvider, createUser } from "../../../services/Users.routes";
 import { getCitys } from "../../../services/getCitysColombia.routes";
 import useContextProvider from "./../../../Context/GeneralValuesContext";
-import { useDataGlobal } from "../../../redux/Redux-actions/useDataGlobal";
-import axios from "axios";
 
 function useSubmit() {
   // --------------------------Variable-------------------------------//
@@ -76,8 +69,6 @@ function useSubmit() {
   // reset forms
   const [reset, setReset] = useState(false);
   // view tables
-  const [isCreateUser, setIsCreateUser] = useState(false);
-  const [isCreateProvider, setIsCreateProvider] = useState(false);
   // --------------------------Context-------------------------------//
   const { setPreLoad, handleMessageSnackbar, cediConection } =
     useContextProvider();
@@ -97,20 +88,6 @@ function useSubmit() {
     const allCedis: AllCedis[] = await getCedis();
     console.log("allCedis: ", allCedis);
     setOptionsCedisIdName(allCedis);
-  };
-
-  // crear usuarios
-  const handleUser = async () => {
-    const adminProv = await getNotAdminProv();
-    console.log("adminProv: ", adminProv.data);
-    setOptionsRol(adminProv.data);
-  };
-
-  // crear proveedores
-  const handleProvider = async () => {
-    const provider = await getProvider();
-    console.log("provider: ", provider.data);
-    setOnlyRolProvider(createProvider);
   };
 
   /**
@@ -146,8 +123,8 @@ function useSubmit() {
   };
   const handleCedi = (e: SelectChangeEvent) => {
     const cedi = e.target.value;
-    // @ts-ignore
-    setCedi(e.target.value);
+    console.log('cedi: ', cedi);
+    setCedi(cedi);
   };
   const handleCedity = (e: SelectChangeEvent) => {
     setIdentificationType(e.target.value);
@@ -222,7 +199,6 @@ function useSubmit() {
         setPhone("");
         setEmail("");
         setPassword("");
-        setIsCreateUser(false);
       }
       if (res?.status !== 200) {
         handleMessageSnackbar(
@@ -249,7 +225,6 @@ function useSubmit() {
       e.preventDefault();
       console.log("valor rol:", assignRole);
       const res = await createProvider(
-        import.meta.env.VITE_API_KEY,
         1,
         cedi.idsedes,
         identificationType,
@@ -282,7 +257,6 @@ function useSubmit() {
         setLimitDaysPayment(NaN);
         // @ts-ignore
         setDocumentationUpdate(new Date());
-        setIsCreateProvider(false);
         close();
       }
       if (res?.status !== 200) {
@@ -468,8 +442,6 @@ function useSubmit() {
   useEffect(() => {
     handleGetCitys();
     handleCedis();
-    handleUser();
-    handleProvider();
     changeTitleSection("PANEL ADMINISTRATIVO");
 
     return () => {
@@ -560,10 +532,6 @@ function useSubmit() {
     setInputDeleted,
     handleDeleteFile,
     // view tables
-    isCreateUser,
-    setIsCreateUser,
-    isCreateProvider,
-    setIsCreateProvider,
   };
 }
 

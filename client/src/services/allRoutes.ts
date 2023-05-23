@@ -20,6 +20,8 @@ export default {
     users: {
       validate: `${host}/getValidateUser`,
       getUsers: `${host}/getUsers`,
+      getNoAdminProv: `${host}/getNoAdminProv`,
+      getByRol: `${host}/getUserbyRol`,
       createUser: `${host}/postUser`,
       editUser: `${host}/putUser`,
       deleteUser: `${host}/deleteUser`,

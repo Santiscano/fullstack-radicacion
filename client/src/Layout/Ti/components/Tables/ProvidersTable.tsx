@@ -6,14 +6,13 @@ import {
   GridToolbarExport,
   GridToolbarFilterButton,
 } from "@mui/x-data-grid";
+import useContextProvider from "../../../../Context/GeneralValuesContext";
 import NotFound from "../../../../assets/images/notFile.jpg";
 import { columnsProvider } from "../../../../interfaces/GridColumns";
-import { useEffect, useState } from "react";
-import useContextProvider from "../../../../Context/GeneralValuesContext";
-import { getUsers } from "../../../../services/Users.routes";
-import { roles } from "../../../../components/tools/SesionSettings";
-import CreateProviderForm from "../Modals/CreateProviderForm";
 import { useModalUserView } from "../../../../redux/Redux-actions/useModalUserView";
+import { useProvider } from "../../Hooks/useProvider";
+import CreateProviderForm from "../Modals/CreateProviderForm";
+import EditProviderForm from "../Modals/EditProviderForm";
 
 function GridToolbarConfig() {
   return (
@@ -31,6 +30,9 @@ const StyledGridOverlay = styled("div")(({ theme }) => ({
   justifyContent: "center",
   color: "white",
   height: "100%",
+  "& .MuiBox-root":{
+    padding: 0,
+  },
   "& .ant-empty-img-1": {
     fill: theme.palette.mode === "light" ? "#aeb8c2" : "#262626",
   },
@@ -56,10 +58,9 @@ export function CustomNoRowsOverlay() {
   );
 }
 
-const ProvidersTables = ({ setIsCreateProvider }: any) => {
-  const [rows, setRows] = useState([]);
-  const [open, setOpen] = useState(false);
-  const { openModalAuth, handleOpenModalAuth, setPreLoad } = useContextProvider();
+const ProvidersTables = () => {
+  const { rows, open, handleOpen, handleCloseModal } = useProvider()
+  const { openModalAuth, handleOpenModalAuth } = useContextProvider();
   const { addModalUser } = useModalUserView();
 
   const handleView = (params: any) => {
@@ -67,36 +68,11 @@ const ProvidersTables = ({ setIsCreateProvider }: any) => {
     handleOpenModalAuth();
   };
 
-  const handleGetUsers = async () => {
-    try {
-      setPreLoad(true);
-      const listUsers = await getUsers();
-      const filterUsers = listUsers.filter(
-        (user: { idroles: number }) => user.idroles == roles.Proveedor
-      );
-      console.log("response getusers: filter", filterUsers);
-      setRows(filterUsers);
-    } catch (error) {
-      console.log("error: ", error);
-    } finally {
-      setPreLoad(false);
-    }
-  };
-
-  const handleOpen = () => {
-    setOpen(!open);
-  };
-  const handleCloseModal = () => setOpen(false);
-
-  useEffect(() => {
-    handleGetUsers();
-  }, []);
-
   return (
     <>
       <div className="flex flex-row justify-between items-center">
         <label className="block ml-4 text-base font-semibold dark:text-white">
-          Todos Los Proveedores
+          PROVEEDORES
         </label>
         <button className="button button--flex" onClick={handleOpen}>
           Nuevo Proveedor
@@ -108,7 +84,7 @@ const ProvidersTables = ({ setIsCreateProvider }: any) => {
             rows={rows}
             getRowId={(row) => row.idusers}
             columns={columnsProvider}
-            onRowDoubleClick={handleView}
+            // onRowDoubleClick={handleView}
             // pageSize={7}
             rowsPerPageOptions={[5, 10, 25, 50, 100]}
             disableSelectionOnClick
@@ -124,6 +100,9 @@ const ProvidersTables = ({ setIsCreateProvider }: any) => {
         </Box>
       </section>
       <CreateProviderForm open={open} close={handleCloseModal} />
+      {openModalAuth && (
+        <EditProviderForm />
+      )}
     </>
   );
 };

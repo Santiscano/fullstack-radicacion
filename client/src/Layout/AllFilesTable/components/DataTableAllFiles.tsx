@@ -72,7 +72,7 @@ const delayAlerts = (params: any) => {
 };
 
 export default function DataTableAllFiles({ row }: any) {
-  const { openModalAuth, handleOpenModalAuth } = useContextProvider()
+  const { openModalAuth, handleOpenModalAuth } = useContextProvider();
   const { addModalUser } = useModalUserView()
 
   const handleView = (params: any) => {

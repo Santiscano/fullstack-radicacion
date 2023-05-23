@@ -68,15 +68,14 @@ export const createUser = async (idroles: number, idsedes: number, users_identif
   }
 };
 export const createProvider = async (
-  api_key: any,
   idroles: number,
   idsedes: number,
-  identification_type: string,
-  identification_number: string,
-  name: string,
-  address: string,
-  phone: string,
-  email: string,
+  users_identification_type: string,
+  users_identification: string,
+  users_name: string,
+  users_address: string,
+  users_phone: string,
+  users_email: string,
   users_providers_paydays: number | undefined,
   users_providers_expiration_date: Date | undefined
 ) => {
@@ -86,12 +85,12 @@ export const createProvider = async (
       {
         idroles,
         idsedes,
-        users_identification_type: identification_type,
-        users_identification: identification_number,
-        users_name: name,
-        users_address: address,
-        users_phone: phone,
-        users_email: email,
+        users_identification_type,
+        users_identification,
+        users_name,
+        users_address,
+        users_phone,
+        users_email,
         users_providers_paydays,
         users_providers_expiration_date,
       },

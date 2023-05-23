@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { missingData } from '../utilities/missingData.utilities';
 import { UserDocumentRol, Users } from '../interfaces/users.interface';
 import { success, unsuccessfully, unauthorized, uncompleted, errorMessage } from "../utilities/responses.utilities";
-import { getUsersModel, getUserbyRolModel, postUsersModel, putUsersModel, deleteUserModel } from '../models/users.model';
+import { getUsersModel, getNoAdminProvModel, getUserbyRolModel, postUsersModel, putUsersModel, deleteUserModel } from '../models/users.model';
 import { apiKeyValidate } from '../utilities/apiKeyValidate.utilities';
 
 // TRAER USUARIOS
@@ -11,6 +11,17 @@ export const getUsers = async (req: Request, res: Response) =>{
     try {
         if (apiKeyValidate(api_key)) return res.status(401).json(unauthorized());
         return res.status(200).json(success(await getUsersModel()));
+    } catch (error) {
+        return res.status(512).json(unsuccessfully(error));
+    };
+};
+
+// TRAER USUARIOS MENOS ADMIN Y PROVEEDORES
+export const getNoAdminProv = async (req: Request, res: Response) => {
+    const { api_key } = req.headers;
+    try {
+        if (apiKeyValidate(api_key)) return res.status(401).json(unauthorized());
+        return res.status(200).json(success(await getNoAdminProvModel()));
     } catch (error) {
         return res.status(512).json(unsuccessfully(error));
     };

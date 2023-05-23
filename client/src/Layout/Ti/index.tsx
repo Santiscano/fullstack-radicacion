@@ -38,39 +38,12 @@ function TI() {
     setCediName,
     type,
     handleCediType,
-    handleSubmitCreateUser,
-    handleSubmitCreateProvider,
-    assignRole,
-    handleRol,
-    optionsRol,
-    onlyRolProvider,
-    cedi,
-    handleCedi,
-    identificationType,
-    handleCedity,
-    identificationNumber,
-    setIdentificationNumber,
-    firstName,
-    setFirstname,
-    lastName,
-    setLastName,
-    phone,
-    setPhone,
-    email,
-    setEmail,
-    password,
-    setPassword,
-    limitDaysPayment,
-    setLimitDaysPayment,
-    documentationUpdate,
-    setDocumentationUpdate,
     // create Area
     handleSubmitCreateArea,
     areaNumber,
     setAreaNumber,
     areaName,
     setAreaName,
-    setMessageSnackbar,
     // crear sub Area
     handleSubmitCreateSubArea,
     subAreaNumber,
@@ -87,17 +60,11 @@ function TI() {
     setCostCenterNumber,
     costCenterName,
     setCostCenterName,
-    connectionSubArea,
-    handleConnectionSubArea,
     //
     inputDeleted,
     setInputDeleted,
     handleDeleteFile,
     //view table
-    isCreateUser,
-    setIsCreateUser,
-    isCreateProvider,
-    setIsCreateProvider,
   } = useSubmit();
   const { cediConection } = useContextProvider();
 
@@ -242,13 +209,13 @@ function TI() {
               {(Number(get("idroles")) == roles.AuditorTI ||
                 Number(get("idroles")) == roles.Administrador) && (
                 <TabPanel value={showValue} index={2}>
-                  <UsersTable setIsCreateUser={setIsCreateUser} />
+                  <UsersTable/>
                 </TabPanel>
               )}
               {(Number(get("idroles")) == roles.Contabilidad ||
                 Number(get("idroles")) == roles.Administrador) && (
                 <TabPanel value={showValue} index={3}>
-                  <ProvidersTables setIsCreateProvider={setIsCreateProvider} />
+                  <ProvidersTables/>
                 </TabPanel>
               )}
               {(Number(get("idroles")) == roles.Contabilidad ||

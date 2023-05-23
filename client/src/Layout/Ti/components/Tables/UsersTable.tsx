@@ -6,12 +6,11 @@ import {
   GridToolbarExport,
   GridToolbarFilterButton,
 } from "@mui/x-data-grid";
+import useContextProvider from "../../../../Context/GeneralValuesContext";
 import NotFound from "../../../../assets/images/notFile.jpg";
 import { columnsUsers } from "../../../../interfaces/GridColumns";
-import { useEffect, useState } from "react";
-import useContextProvider from "../../../../Context/GeneralValuesContext";
-import { getUsers, getUsersNotAdminProv } from "../../../../services/Users.routes";
-import { roles } from "../../../../components/tools/SesionSettings";
+import { useModalUserView } from "../../../../redux/Redux-actions/useModalUserView";
+import { useUsers } from "../../Hooks/useUsers";
 import CreateUserForm from "../Modals/CreateUserForm";
 
 function GridToolbarConfig() {
@@ -23,7 +22,6 @@ function GridToolbarConfig() {
     </div>
   );
 }
-
 const StyledGridOverlay = styled("div")(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
@@ -48,7 +46,6 @@ const StyledGridOverlay = styled("div")(({ theme }) => ({
     fill: theme.palette.mode === "light" ? "#f5f5f5" : "#fff",
   },
 }));
-
 export function CustomNoRowsOverlay() {
   return (
     <StyledGridOverlay>
@@ -57,38 +54,21 @@ export function CustomNoRowsOverlay() {
   );
 }
 
-const UsersTables = ({ setIsCreateUser }: any) => {
-  const [rows, setRows] = useState([]);
-  const [open, setOpen] = useState(false);
-  const { setPreLoad } = useContextProvider();
+const UsersTables = () => {
+  const { rows, open, handleOpen, handleCloseModal} = useUsers();
+  const { openModalAuth, handleOpenModalAuth } = useContextProvider();
+  const { addModalUser } = useModalUserView();
 
-  const handleGetUsers = async () => {
-    try {
-      setPreLoad(true);
-      const listUsers = await getUsersNotAdminProv();
-      console.log("response getusers: filter", listUsers);
-      setRows(listUsers);
-    } catch (error) {
-      console.log("error: ", error);
-    } finally {
-      setPreLoad(false);
-    }
+  const handleView = (params: any) => {
+    addModalUser(params.row);
+    handleOpenModalAuth();
   };
-
-  const handleOpen = () => {
-    setOpen(!open);
-  };
-  const handleCloseModal = () => setOpen(false);
-
-  useEffect(() => {
-    handleGetUsers();
-  }, []);
 
   return (
     <>
-      <div className="flex flex-row justify-between items-center">
+      <div className="flex flex-row justify-between items-center py-0">
         <label className="block ml-4 text-base font-semibold dark:text-white">
-          Todos Los Usuarios
+          USUARIOS
         </label>
         <button className="button button--flex" onClick={handleOpen}>
           Nuevo Usuario
@@ -100,6 +80,7 @@ const UsersTables = ({ setIsCreateUser }: any) => {
             rows={rows}
             getRowId={(row) => row.idusers}
             columns={columnsUsers}
+            onRowDoubleClick={handleView}
             // pageSize={7}
             rowsPerPageOptions={[5, 10, 25, 50, 100]}
             disableSelectionOnClick
@@ -113,8 +94,8 @@ const UsersTables = ({ setIsCreateUser }: any) => {
             }}
           />
         </Box>
-        <CreateUserForm open={open} close={handleCloseModal} />
       </section>
+      <CreateUserForm open={open} close={handleCloseModal} />
     </>
   );
 };
