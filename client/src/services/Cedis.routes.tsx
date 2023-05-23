@@ -1,20 +1,15 @@
 import axios from "axios";
-import Routes from "./Routes";
+import Routes from "./allRoutes";
 import { getHeader, set } from "../components/tools/SesionSettings";
 
 export const getCedis = async () => {
   try {
-    const response = await axios.post(
-      Routes.api.cedis.get,
-      {
-        api_key: import.meta.env.VITE_API_KEY,
-      },
-      getHeader()
-    );
-    const cedis = await response.data;
+    const response = await axios.get(Routes.api.cedis.get, getHeader());
+    const cedis = await response.data.data;
+    console.log("fetch cedis: ", cedis);
     return cedis;
   } catch (err) {
-    // console.log(err);
+    console.log(err);
   }
 };
 

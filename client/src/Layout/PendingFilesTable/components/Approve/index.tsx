@@ -1,23 +1,22 @@
 // @ts-nocheck
 import { Button } from "@mui/material";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import TextFieldOutlined from "../../../../components/common/TextFieldOutline";
+import Upload from "../../../../components/common/Upload";
 import { get, roles } from "../../../../components/tools/SesionSettings";
 import { editFile } from "../../../../services/Files.routes";
-import InputsSelectCenterCost from "../common/InputsSelectCenterCost";
-import { GeneralValuesContext } from "./../../../../Context/GeneralValuesContext";
-import Upload from "../../../../components/common/Upload";
-import { uploadfile } from "../../../../services/Pdf.routes";
 import { createFilePath } from "../../../../services/FilesPath.routes";
+import { uploadfile } from "../../../../services/Pdf.routes";
+import InputsSelectCenterCost from "../common/InputsSelectCenterCost";
+import useContextProvider from "./../../../../Context/GeneralValuesContext";
+import { useAppSelector } from "../../../../redux/hooks/useStore";
 
 function Approve({
-  user,
   newAssigned,
   setRedirectTo,
   activitySelect,
   setActivitySelect,
 }: any) {
-  // console.log("user: ", user);
   const [state, setState] = useState<any>();
   const [area, setArea] = useState<any>({
     id: 0,
@@ -48,7 +47,11 @@ function Approve({
     rows,
     setRows,
     handleUpdateRows,
-  } = useContext(GeneralValuesContext);
+  } = useContextProvider();
+
+  // redux context User Select
+  const user = useAppSelector((state) => state.modalUserViewSlice)
+  console.log('userSelect: ', user);
 
   const handleState = (e: any) => setState(e.target.value);
   const handleArea = (e: any) => {
@@ -74,10 +77,11 @@ function Approve({
 
   const handleFileSubmit = async (e: any) => {
     try {
-      e.preventDefault();
       setPreLoad(true);
       const idFile = user.idfiles;
+      console.log("idFile: ", idFile, filePDFGoogle);
       const responseUploadFile = await uploadfile(filePDFGoogle, idFile); // guarda PDF
+      console.log("responseUploadFile: ", responseUploadFile);
       const pathFileUpload = await responseUploadFile?.data.pathFile; //almacena ruta asignada en variable
 
       // relaciona el idfiles con la ruta asignada es decir pathFileupload
@@ -87,8 +91,9 @@ function Approve({
         comments,
         get("idusers")
       ); // relaciona pdf y archivo
+      console.log("concat: ", responseConcatFilePath);
     } catch (error) {
-      // console.log("error: ", error);
+      console.log("error: ", error);
     } finally {
       setPreLoad(false);
     }
@@ -97,7 +102,7 @@ function Approve({
   const handleSubmit = async (e: any) => {
     try {
       handleFileSubmit();
-      setPreLoad(true);
+      console.log("ejecuta");
       e.preventDefault();
       const response = await editFile(
         user.idfiles,
@@ -124,7 +129,7 @@ function Approve({
         handleUpdateRows();
       }
     } catch (error) {
-      // console.log("error: ", error);
+      console.log("error: ", error);
     } finally {
       setPreLoad(true);
     }
@@ -192,7 +197,8 @@ function Approve({
             id="comentary"
             placeholder="Es necesario dejar alguna observacion"
             className="border-neutral-300 border-2 resize-none w-full my-1 h-24"
-            value={!comments ? "" : comments}
+            required={Number(get("idroles")) === 8}
+            value={comments}
             onChange={handleComments}
           ></textarea>
         </div>

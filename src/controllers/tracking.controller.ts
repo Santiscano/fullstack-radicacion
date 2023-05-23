@@ -1,86 +1,50 @@
-import "dotenv/config";
 import { Request, Response } from 'express';
-import { nullValidator } from "../utilities/nullValidator";
-import { connection } from '../config/database/db';
-import moment from 'moment-timezone'
+import { missingData } from '../utilities/missingData.utilities';
+import { apiKeyValidate } from '../utilities/apiKeyValidate.utilities';
+import { success, unsuccessfully, unauthorized, uncompleted, errorMessage } from "../utilities/responses.utilities";
+import { getTrackingsModel, getTrackingRegisteredModel, getTrackingAccountTypeModel } from '../models/tracking.model';
 
+
+// TRAER TODOS LOS TRACKINGS
 export const getTrackings = async (req: Request, res: Response) => {
-    const { api_key } = req.body;
+    const { api_key } = req.headers;
     try {
-        if (api_key !== process.env.API_KEY) {
-            return res.status(401).json({error: true, message: "No cuentas con los permisos para acceder a esta información"})
-        };
-        const [ allTracking ] = await connection.query(`
-        SELECT 	T.idtracking, 
-		    T.tracking_date, 
-            T.tracking_observation, 
-            FS.files_states, 
-            FS.files_states_description, 
-            U.idusers, 
-            U.users_name, 
-            U.users_lastname, 
-            F.idfiles, 
-            F.files_registered,
-            R.roles
-		    	FROM tracking T
-		    		LEFT JOIN files_states FS ON T.idfiles_states = FS.idfiles_states
-		    		LEFT JOIN users U ON T.idusers = U.idusers
-		    		LEFT JOIN files F ON T.idfiles = F.idfiles
-                    LEFT JOIN roles R ON U.idroles = R.idroles;`);
-        return res.status(200).json({error: false, allTracking});
+        if (apiKeyValidate(api_key)) return res.status(401).json(unauthorized());
+        const info = await getTrackingsModel();
+        return res.status(200).json(success(info.data));
     } catch (error) {
-        // console.log(error);
-        return res.status(508).json({ error:true, message: "Error del servidor para trer todas las trazabilidades" });
+        return res.status(512).json(unsuccessfully(error));
     }
 };
 
-export const getTracking = async (req: Request, res: Response) => {
-    const { api_key, idfiles } = req.body;
+// TRAER UN TRACKING SEGÚN EL RADICADO
+export const getTrackingRegistered = async (req: Request, res: Response) => {
+    const { api_key } = req.headers;
+    const { files_registered } = req.body;
     try {
-        if( api_key !== process.env.API_KEY ){
-            return res.status(401).json({error: true, message: "No cuentas con los permisos para acceder a esta información"});
-        };
-        if (nullValidator([idfiles])){
-            return res.status(400).json({ error: true, message: "MISSING_VALUES" });
-        };
-        const [ validate ] = await connection.query(`SELECT count(*) as contador FROM tracking WHERE idfiles = ?;`, [ idfiles ])
-        //@ts-ignore
-        if (validate[0].contador === 0) {
-            return res.status(200).json({ error:true ,message: `el idfile: ${ idfiles }, no se encuentra registrado en la base de datos`})
-        };
-        const [ tracking ] = await connection.query(`
-        SELECT 	T.idtracking, 
-		    T.tracking_date, 
-            T.tracking_observation, 
-            FS.files_states, 
-            FS.files_states_description, 
-            U.idusers, 
-            U.users_name, 
-            U.users_lastname, 
-            F.idfiles, 
-            F.files_registered,
-            R.roles
-		    	FROM tracking T
-		    		LEFT JOIN files_states FS ON T.idfiles_states = FS.idfiles_states
-		    		LEFT JOIN users U ON T.idusers = U.idusers
-		    		LEFT JOIN files F ON T.idfiles = F.idfiles
-                    LEFT JOIN roles R ON U.idroles = R.idroles
-		    			WHERE F.idfiles = ?;`, [ idfiles ]);
-        return res.status(200).json({ error: false, tracking });
+        if (apiKeyValidate(api_key)) return res.status(401).json(unauthorized());
+        if (missingData({files_registered}).error) return res.status(422).json(uncompleted(missingData({files_registered}).missing));
+        const info = await getTrackingRegisteredModel(files_registered);
+        info.data
+            ? res.status(200).json(success(info.data))
+            : res.status(200).json(errorMessage(info.message!));
     } catch (error) {
-        // console.log(error);
-        return res.status(508).json({ error:true, message: "Error del servidor para una trazabilidad" });
+        return res.status(512).json(unsuccessfully(error));
     }
 };
 
-export const postTraking = async ( idfiles_states: number, idfiles: number, idusers: number, tracking_observation: string ) => {
+// TRAER UN TRACKING SEGÚN LA CUENTA Y NUMERO DE COBRO
+export const getTrackingAccountType = async (req: Request, res: Response) => {
+    const { api_key } = req.headers;
+    const { files_account_type, files_account_type_number } = req.body;
     try {
-        const day = moment.tz(new Date(), "America/Bogota").format();
-        await connection.query(`INSERT INTO tracking (idfiles_states, idfiles, idusers, tracking_observation, tracking_date)
-            VALUES ( ?, ?, ?, ?, ? );`, [idfiles_states, idfiles, idusers, tracking_observation, day]);
-        return console.log("Tracking agregado");
+        if (apiKeyValidate(api_key)) return res.status(401).json(unauthorized());
+        if (missingData({files_account_type, files_account_type_number}).error) return res.status(422).json(uncompleted(missingData({files_account_type, files_account_type_number}).missing));
+        const info = await getTrackingAccountTypeModel(files_account_type, files_account_type_number);
+        info.data
+            ? res.status(200).json(success(info.data))
+            : res.status(200).json(errorMessage(info.message!));
     } catch (error) {
-        // console.log(error);
-        return { error: true, message: "Error del servidor para agregar una trazabilidad" };
+        return res.status(512).json(unsuccessfully(error));
     }
 };

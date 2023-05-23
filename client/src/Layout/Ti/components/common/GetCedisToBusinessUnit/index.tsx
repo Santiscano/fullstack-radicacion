@@ -7,9 +7,9 @@ import { alpha, styled } from "@mui/material/styles";
 import { getSubAreaById } from "../../../../../services/CenterCost.routes";
 
 import axios from "axios";
-import Route from "../../../../../services/Routes";
+import Route from "../../../../../services/allRoutes";
 import { getHeader } from "../../../../../components/tools/SesionSettings";
-import { GeneralValuesContext } from "../../../../../Context/GeneralValuesContext";
+import useContextProvider, { GeneralValuesContext } from "../../../../../Context/GeneralValuesContext";
 
 const Selecting = styled(FormControl)({
   "& .MuiOutlinedInput-root": {
@@ -20,7 +20,7 @@ const Selecting = styled(FormControl)({
 });
 
 function GetCediToBusinessUnit({ BusinessUnit }: any) {
-  const { cediConection, setCediConection } = useContext(GeneralValuesContext);
+  const { cediConection, setCediConection } = useContextProvider();
   // const [cedi, setCedi] = useState<any>();
   const [listCedis, setListCedis] = useState([]);
 
@@ -48,7 +48,7 @@ function GetCediToBusinessUnit({ BusinessUnit }: any) {
   return (
     <article className="md:w-full">
       <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-        Numero de Documento
+        Cedi a Conectar
       </label>
       <Selecting sx={{ m: 1, width: 0.98 }}>
         <InputLabel id={`Selecciona Una Cedi A Conectar-label`}>

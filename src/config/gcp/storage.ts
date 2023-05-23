@@ -1,5 +1,5 @@
 import "dotenv/config";
-import googleBucketKey from "../keys/googleBucketKey.json";             // IMPORTANTE. Para que importe la llave en el dist
+// import googleBucketKey from "../keys/googleBucketKey.json";             // IMPORTANTE. Para que importe la llave en el dist
 import path from "path";
 
 
@@ -21,6 +21,6 @@ export const  uploadFile = async ( ruta: string, destino: string ) => {
         });
     // console.log(`${FILE_NAME} uploaded to ${GOOGLE_CLOUD_BUCKET}`);
     } catch(error) {
-        // console.log(error);
+        console.log(error);
     }
 }

@@ -1,13 +1,15 @@
 import { Button } from "@mui/material";
-import { useContext, useState } from "react";
-import { GeneralValuesContext } from "./../../../../Context/GeneralValuesContext";
+import { useState } from "react";
+import useContextProvider from "./../../../../Context/GeneralValuesContext";
 import { editFile } from "./../../../../services/Files.routes";
+import { useAppSelector } from "../../../../redux/hooks/useStore";
 
-function Cancel({ user, activitySelect, setActivitySelect }: any) {
-  // console.log("user: ", user);
+function Cancel({ activitySelect, setActivitySelect }: any) {
   const [comments, setComments] = useState("");
-  const { handleOpenModalAuth, handleUpdateRows } =
-    useContext(GeneralValuesContext);
+  const { handleOpenModalAuth, handleUpdateRows } = useContextProvider();
+
+  const user = useAppSelector((state) => state.modalUserViewSlice);
+  console.log("user: ", user);
 
   const handleComments = (e: any) => setComments(e.target.value);
   const handleClear = () => {
@@ -26,6 +28,7 @@ function Cancel({ user, activitySelect, setActivitySelect }: any) {
       user.files_type,
       user.files_registered,
       user.files_cost_center,
+      // @ts-ignore
       user.files_code_accounting,
       user.files_code_treasury,
       user.files_price,
@@ -33,7 +36,7 @@ function Cancel({ user, activitySelect, setActivitySelect }: any) {
       user.files_account_type_number,
       comments
     );
-    // console.log(response);
+    console.log("editfile response: ", response);
     if (response?.status == 200) {
       handleClear();
       handleUpdateRows();

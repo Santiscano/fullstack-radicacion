@@ -1,12 +1,12 @@
-import { useState, useEffect, useContext } from "react";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import "animate.css";
+import { useEffect, useState } from "react";
 
-import { changePassword } from "../../../services/Firebase.routes";
-import { GeneralValuesContext } from "./../../../Context/GeneralValuesContext";
-import LoadingMUI from "../LoadingMUI";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { changePassword } from "../../../services/Firebase.routes";
+import LoadingMUI from "../LoadingMUI";
+import useContextProvider from "./../../../Context/GeneralValuesContext";
 
 interface Props {
   open: boolean;
@@ -41,7 +41,7 @@ export default function ModalResetPassword({ open, close }: Props) {
   const [responseReset, setResponseReset] = useState("");
   const [responseError, setResponseError] = useState("");
 
-  const { setPreLoad } = useContext(GeneralValuesContext);
+  const { setPreLoad } = useContextProvider();
 
   const reqExp = {
     email:

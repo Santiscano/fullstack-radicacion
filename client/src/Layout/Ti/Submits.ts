@@ -1,12 +1,11 @@
-import { createRol } from "../../services/Roles.routes";
-import { createCedi } from "../../services/Cedis.routes";
-import { createUser } from '../../services/Users.routes';
-import { createArea } from "../../services/CenterCost.routes";
-import { numberToStringWithTwoDigitNumber as numberToString } from "../../Utilities/formatted.utility";
 import { useContext } from 'react';
-import { GeneralValuesContext } from "../../Context/GeneralValuesContext";
+import useContextProvider, { GeneralValuesContext } from "../../Context/GeneralValuesContext";
+import { numberToStringWithTwoDigitNumber as numberToString } from "../../Utilities/formatted.utility";
+import { createArea } from "../../services/CenterCost.routes";
+import { createRol } from "../../services/Roles.routes";
 
 
+const { setPreLoad } = useContextProvider();
 
 export const handleSubmitCreateRol = async (
   e:any,
@@ -15,7 +14,6 @@ export const handleSubmitCreateRol = async (
   rolDescription:string,
   setRolDescription:any,
   ) => {
-    const { setPreLoad } = useContext(GeneralValuesContext);
     try{
     setPreLoad(true);
     e.preventDefault();
@@ -30,7 +28,6 @@ export const handleSubmitCreateRol = async (
 };
 
 export const handleSubmitCreateArea = async (e:any, areaNumber:number, setAreaNumber:any, areaName:string, setAreaName:any) => {
-  const { setPreLoad } = useContext(GeneralValuesContext);
   try{
     setPreLoad(true);
     e.preventDefault();
@@ -49,7 +46,6 @@ export const handleSubmitCreateArea = async (e:any, areaNumber:number, setAreaNu
 }
 
 export const handleSubmitCreateSubArea = async () => {
-  const { setPreLoad } = useContext(GeneralValuesContext);
   try{
     setPreLoad(true);
   } catch(error) {
@@ -60,7 +56,6 @@ export const handleSubmitCreateSubArea = async () => {
 }
 
 export const handleSubmitCreateCostCenter = async () => {
-  const { setPreLoad } = useContext(GeneralValuesContext);
   try{
     setPreLoad(true);
   } catch(error) {

@@ -14,7 +14,7 @@ export const optionsRedirectToOperativo = [
 export const optionAccountType = [
   'CUENTA COBRO',
   'FACTURA PROVEEDOR',
-  'MANIFIESTO DE CARGA'
+  'MANIFIESTO CARGA'
 ];
 export const optionDocumentType = [
   'CEDULA CIUDADANIA',
@@ -43,7 +43,7 @@ export const optionsCostCenter = [
 export const optionsViewsSettled = [
   roles.Radicacion, roles.Administrador
 ];
-export const optionsViewsAuth = [
+export const optionsViewsFiles = [
   roles.AuditorGH, roles.AuditorCRTL,
   roles.AuditorRG, roles.AuditorTI, roles.Gerencia,
   roles.Contabilidad, roles.Tesoreria,  roles.Administrador,
@@ -51,9 +51,13 @@ export const optionsViewsAuth = [
 export const optionsViewsAllFiles = [
   roles.Radicacion, roles.Administrador,
   roles.Gerencia, roles.Contabilidad, roles.Tesoreria,
+  roles.AuditorGH, roles.AuditorCRTL, roles.AuditorRG, roles.AuditorTI
 ];
 export const optionsViewsTI = [
   roles.Contabilidad, roles.Administrador, roles.AuditorTI
+];
+export const optionsViewTraking = [
+  roles.Administrador, roles.Gerencia, roles.Contabilidad, roles.Tesoreria
 ];
 export const optionsViewsDigitization = [
   roles.Administrador

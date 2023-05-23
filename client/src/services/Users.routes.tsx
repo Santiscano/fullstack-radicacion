@@ -1,5 +1,5 @@
 import axios from "axios";
-import Routes from "./Routes";
+import Routes from "./allRoutes";
 import { getHeader, set } from "../components/tools/SesionSettings";
 
 export const validateUser = async () => {
@@ -22,40 +22,30 @@ export const validateUser = async () => {
 
 export const getUsers = async () => {
   try {
-    const response = await axios.post(
-      Routes.api.users.getUsers,
-      {
-        api_key: import.meta.env.VITE_API_KEY,
-      },
-      getHeader()
-    );
-    // console.log('response getusers: ', response);
-    const users = response.data;
+    const response = await axios.get(Routes.api.users.getUsers, getHeader());
+    const users = response.data.data;
+    console.log("users: ", users);
     return users;
   } catch (error) {
-    // console.log(error);
+    console.log(error);
   }
 };
 
-export const createUser = async (
-  api_key: any,
-  idroles: number,
-  idsedes: number,
-  users_identification_type: string,
-  users_identification: string,
-  name: string,
-  lastname: string,
-  address: string,
-  phone: string,
-  email: string,
-  password: string
-) => {
+export const getUsersNotAdminProv = async () => {
+  try{
+    const getUsersNotAdminProv = await axios.get(Routes.api.users.notAdminProv, getHeader());
+    const users = getUsersNotAdminProv.data.data;
+    return users;
+  } catch(error) {
+    console.log('error: ', error);
+  }
+};
+
+export const createUser = async (idroles: number, idsedes: number, users_identification_type: string, users_identification: string, name: string, lastname: string, address: string, phone: string, email: string, password: string) => {
   try {
-    console.log("ruta", Routes.api.users.createUser);
     const response = await axios.post(
       Routes.api.users.createUser,
       {
-        api_key,
         idroles,
         idsedes,
         users_identification_type,
@@ -78,15 +68,14 @@ export const createUser = async (
   }
 };
 export const createProvider = async (
-  api_key: string,
   idroles: number,
   idsedes: number,
-  identification_type: string,
-  identification_number: string,
-  name: string,
-  address: string,
-  phone: string,
-  email: string,
+  users_identification_type: string,
+  users_identification: string,
+  users_name: string,
+  users_address: string,
+  users_phone: string,
+  users_email: string,
   users_providers_paydays: number | undefined,
   users_providers_expiration_date: Date | undefined
 ) => {
@@ -94,24 +83,23 @@ export const createProvider = async (
     const response = await axios.post(
       Routes.api.users.createUser,
       {
-        api_key, 
         idroles,
         idsedes,
-        users_identification_type: identification_type,
-        users_identification: identification_number,
-        users_name: name,
-        users_address: address,
-        users_phone: phone,
-        users_email: email,
+        users_identification_type,
+        users_identification,
+        users_name,
+        users_address,
+        users_phone,
+        users_email,
         users_providers_paydays,
         users_providers_expiration_date,
       },
       getHeader()
     );
-    // console.log("create user: ", response);
+    console.log("create user: ", response);
     return response;
   } catch (error) {
-    // console.log(error);
+    console.log(error);
   }
 };
 
@@ -134,10 +122,10 @@ export const editUser = async () => {
       users_providers_expiration_date: null,
       users_status: "ACTIVO",
     });
-    // console.log("response edit user: ", response);
+    console.log("response edit user: ", response);
     return response;
   } catch (error) {
-    // console.log(error);
+    console.log(error);
   }
 };
 
