@@ -23,22 +23,12 @@ export const addFile = async (
   files_price: string,
   idusers: number,
   idsedes: number,
+  files_type: string,
   files_account_type: any,
   files_account_type_number: any,
   userSession: number
 ) => {
   try {
-    console.log(
-      "info envio:",
-      files_registered,
-      idsedes,
-      idproviders,
-      idusers,
-      files_price,
-      files_account_type,
-      files_account_type_number,
-      userSession
-    );
     const response = await axios.post(
       Routes.api.files.addFile,
       {
@@ -46,7 +36,7 @@ export const addFile = async (
         idsedes,
         idproviders,
         idusers,
-        files_type: "ADMINISTRATIVO",
+        files_type,
         files_price,
         files_account_type,
         files_account_type_number,

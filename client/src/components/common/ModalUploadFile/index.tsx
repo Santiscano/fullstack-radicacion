@@ -63,7 +63,7 @@ const UploadFileModal: FC<Props> = ({
   children,
 }) => {
   const [nameAuditorSelected, setNameAuditorSelected] = useState("");
-  const [openSuccess, setOpenSuccess] = useState(false);
+  // const [openSuccess, setOpenSuccess] = useState(false);
 
   const filterAuditorSelected = () => {
     const allAuditors = optionsRedirectTo;

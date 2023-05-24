@@ -25,6 +25,7 @@ import working from "../../../../assets/icons/data-analysis-case-study.png";
 import enviexpress from "../../../../assets/images/LOGOTIPO_ENVIEXPRESS_horizontal_150x50.png";
 import {
   optionsViewsAllFiles,
+  optionsViewsNotAuditors,
   optionsViewsDigitization,
   optionsViewsFiles,
   optionsViewsSettled,
@@ -152,25 +153,30 @@ function index(props: any) {
       </WithRoleAllowedRoutes>
 
       {/* todos los archivos */}
+      <WithRoleAllowedRoutes allowedRolesList={optionsViewsNotAuditors}>
+        <List>
+          {rutero.online.allFiles.map((list, index) => (
+            <ListItem key={index} disablePadding>
+              <ListItemButton onClick={() => navigate(`${list.url}`)}>
+                <ListItemIcon>{list.icon}</ListItemIcon>
+                <ListItemText primary={list.name} />
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List>
+      </WithRoleAllowedRoutes>
+
+      {/* Trazabilidad archivos */}
       <WithRoleAllowedRoutes allowedRolesList={optionsViewsAllFiles}>
         <List>
-          <ListItemButton onClick={handleOpenAllFiles}>
-            <ListItemIcon>
-              <FolderCopyOutlinedIcon sx={{ color: "#293184" }} />
-            </ListItemIcon>
-            <ListItemText primary="Archivos" />
-            {openAllFiles ? <ExpandLess /> : <ExpandMore />}
-          </ListItemButton>
-          <Collapse in={openAllFiles} timeout="auto" unmountOnExit>
-            {rutero.online.allFiles.map((list, index) => (
-              <ListItem key={index} disablePadding>
-                <ListItemButton onClick={() => navigate(`${list.url}`)}>
-                  <ListItemIcon>{list.icon}</ListItemIcon>
-                  <ListItemText primary={list.name} />
-                </ListItemButton>
-              </ListItem>
-            ))}
-          </Collapse>
+          {rutero.online.traceability.map((list, index) => (
+            <ListItem key={index} disablePadding>
+              <ListItemButton onClick={() => navigate(`${list.url}`)}>
+                <ListItemIcon>{list.icon}</ListItemIcon>
+                <ListItemText primary={list.name} />
+              </ListItemButton>
+            </ListItem>
+          ))}
         </List>
         <Divider />
       </WithRoleAllowedRoutes>

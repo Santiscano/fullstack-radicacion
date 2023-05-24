@@ -53,6 +53,8 @@ export default {
         url: "/dashboard/todos-los-archivos",
         icon: <TopicOutlinedIcon sx={{ color: "#293184" }} />,
       },
+    ],
+    traceability: [
       {
         name: "Trazabilidad",
         url: "/dashboard/trazabilidad",

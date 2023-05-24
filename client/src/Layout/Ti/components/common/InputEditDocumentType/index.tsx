@@ -1,11 +1,12 @@
-import { useEffect, useState } from "react";
+import * as React from "react";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { alpha, styled } from "@mui/material/styles";
 import axios from "axios";
-import allRoutes from "../../../../../services/allRoutes";
+import { useEffect, useState } from "react";
+import Route from "../../../../../services/allRoutes";
 import { getHeader } from "../../../../../components/tools/SesionSettings";
 import { useAppSelector } from "../../../../../redux/hooks/useStore";
 import { useModalUserView } from "../../../../../redux/Redux-actions/useModalUserView";
@@ -17,49 +18,36 @@ const Selecting = styled(FormControl)({
     },
   },
 });
-
-export default function InputEditCedi(props:any) {
+export default function InputEditDocumentType(props: any) {
   const user = useAppSelector((state) => state.modalUserViewSlice);
-  const { setEditSedes } = useModalUserView();
-  const [cedis, setCedis] = useState([]);
-  const [value, setValue] = useState({
-    idsedes: user.idsedes,
-    sedes_address: user.sedes_address,
-    sedes_city: user.sedes_city,
-    sedes_country: user.sedes_country,
-    sedes_name: user.sedes_name,
-    sedes_state: user.sedes_state,
-    sedes_type: user.sedes_type,
-  });
+  const { setidentificationType } = useModalUserView();
+  const [documentType, setDocumentType] = useState([]);
+  const [value, setValue] = useState(user.users_identification_type)
 
-  const handleGetCedis = async () => {
-    try {
-      const getCedis = await axios.get(allRoutes.api.cedis.get, getHeader());
-      const allCedis = getCedis.data.data;
-      console.log('allCedis: ', allCedis);
-      setCedis(allCedis);
-    } catch (e) {
-      console.log(e);
-    }
+  const handleReadDocumentType = () => {
+    axios
+      .get(Route.api.users.getTypeIdentification, getHeader())
+      .then((res) => {
+        // console.log(res.data.data);
+        setDocumentType(res.data.data);
+      });
   };
 
-  const handleCedi = (e: SelectChangeEvent) => {
-    // @ts-ignore
+  const handleDocumentType = (e: SelectChangeEvent) => {
     setValue(e.target.value);
-    console.log('handlecedi ejecutado', e.target.value);
-    setEditSedes(value.idsedes, value.sedes_address, value.sedes_city, value.sedes_country, value.sedes_name, value.sedes_state, value.sedes_type);
+    setidentificationType(e.target.value)
   };
 
   useEffect(() => {
-    handleGetCedis();
+    handleReadDocumentType();
   }, []);
 
   return (
-    <>
+    <div>
       <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-        {props.title} - valor actual: {value.sedes_name}
+        {props.title}
       </label>
-      <Selecting sx={{m:1, width: 0.98}}>
+      <Selecting sx={{ m: 1, width: 0.98 }}>
         <InputLabel id={`${props.placeholder}-label`}>
           {props.placeholder}
         </InputLabel>
@@ -68,9 +56,8 @@ export default function InputEditCedi(props:any) {
           label={props.placeholder}
           labelId={`${props.placeholder}-label`}
           id={props.placeholder}
-          // @ts-ignore
           value={value}
-          onChange={handleCedi}
+          onChange={handleDocumentType}
           autoWidth
           required={props.required}
           disabled={props.disabled}
@@ -78,16 +65,20 @@ export default function InputEditCedi(props:any) {
           name={props.name}
         >
           <MenuItem value="">
-            <em>seleccione el nuevo valor</em>
+            <em>{props.itemDefault}</em>
           </MenuItem>
 
-          {cedis.map((item: any, index: any) => (
-            <MenuItem key={index} value={item} sx={{ m: 1, minWidth: 300 }}>
-              {item.sedes_city} - {item.sedes_name}
+          {documentType.map((item: any, index: any) => (
+            <MenuItem
+              key={index}
+              value={item.typeDocument}
+              sx={{ m: 1, minWidth: 300 }}
+            >
+              {item.typeDocument}
             </MenuItem>
           ))}
         </Select>
       </Selecting>
-    </>
-  )
-};
+    </div>
+  );
+}

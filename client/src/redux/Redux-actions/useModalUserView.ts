@@ -37,6 +37,20 @@ export const useModalUserView = () => {
   const setUsersExpiration = (newDate:any) => {
     dispatch(setModalUserView({users_providers_expiration_date:newDate}))
   };
+  const setEditSedes = (idsedes:any,sedes_address:any, sedes_city:any, sedes_country:any, sedes_name:any, sedes_state:any, sedes_type:any ) => {
+    dispatch(setModalUserView({
+      idsedes,
+      sedes_address,
+      sedes_city,
+      sedes_country,
+      sedes_name,
+      sedes_state,
+      sedes_type,
+    }))
+  };
+  const setidentificationType = (newDate: any) => {
+    dispatch(setModalUserView({users_identification_type: newDate}))
+  };
 
   return {
     addModalUser,
@@ -49,6 +63,8 @@ export const useModalUserView = () => {
     setUsersEmail,
     setUsersLimitDayPayment,
     setUsersExpiration,
+    setEditSedes,
+    setidentificationType,
   };
 };
 
