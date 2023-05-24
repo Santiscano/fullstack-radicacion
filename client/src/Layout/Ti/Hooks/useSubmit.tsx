@@ -1,6 +1,7 @@
 import { SelectChangeEvent } from "@mui/material";
+import axios from "axios";
 import { SyntheticEvent, useEffect, useState } from "react";
-import { numberToStringWithTwoDigitNumber as numberToString } from "../../../Utilities/formatted.utility";
+import { numberToStringWithTwoDigitNumber as numberToString, cleanFileName } from "../../../Utilities/formatted.utility";
 import { AllCedis } from "../../../interfaces/Cedis";
 import { useDataGlobal } from "../../../redux/Redux-actions/useDataGlobal";
 import { createCedi, getCedis } from "../../../services/Cedis.routes";
@@ -11,9 +12,12 @@ import {
   getArea,
 } from "../../../services/CenterCost.routes";
 import { deleteFile } from "../../../services/Files.routes";
-import { createProvider, createUser } from "../../../services/Users.routes";
+import { createProvider, createUser, updateProvider } from "../../../services/Users.routes";
+import allRoutes from "../../../services/allRoutes";
 import { getCitys } from "../../../services/getCitysColombia.routes";
 import useContextProvider from "./../../../Context/GeneralValuesContext";
+import { getHeader } from "../../../components/tools/SesionSettings";
+import { useAppSelector } from "../../../redux/hooks/useStore";
 
 function useSubmit() {
   // --------------------------Variable-------------------------------//
@@ -70,8 +74,8 @@ function useSubmit() {
   const [reset, setReset] = useState(false);
   // view tables
   // --------------------------Context-------------------------------//
-  const { setPreLoad, handleMessageSnackbar, cediConection } =
-    useContextProvider();
+  const { setPreLoad, handleMessageSnackbar, cediConection } = useContextProvider();
+  const user = useAppSelector((state) => state.modalUserViewSlice);
   // --------------------------handles-------------------------------//
   /**
    * traigo los departamentos, ciudades, cedis,
@@ -277,6 +281,36 @@ function useSubmit() {
       setReset(false);
     }
   };
+  const handleSubmitUpdateProvider = async (e: any, close:any) => {
+    try{
+      console.log("email: ",user)
+      setPreLoad(true);
+      e.preventDefault();
+      axios.put(allRoutes.api.users.editUser,{
+        idusers: user.idusers,
+        idroles: 1,
+        idsedes: user.idsedes,
+        users_identification_type: user.users_identification_type,
+        users_identification: user.users_identification,
+        users_identification_digital_check: user.users_identification_digital_check,
+        users_name: user.users_name,
+        users_lastname: user.users_lastname,
+        users_address: user.users_address,
+        users_phone: user.users_phone,
+        users_email: user.users_email,
+        users_providers_paydays: user.users_providers_paydays,
+        users_providers_expiration_date:cleanFileName(user.users_providers_expiration_date),
+        users_status: user.users_status,
+      }, getHeader())
+        .then((res) => {
+          console.log('updateProv: ', res);
+        })
+    } catch(err){
+      console.log(err)
+    } finally{setPreLoad(false)}
+  };
+
+
   const handleSubmitCreateArea = async (e: any) => {
     try {
       setPreLoad(true);
@@ -474,6 +508,7 @@ function useSubmit() {
     messageSnackbar,
     handleSubmitCreateUser,
     handleSubmitCreateProvider,
+    handleSubmitUpdateProvider,
     assignRole,
     handleRol,
     reset,

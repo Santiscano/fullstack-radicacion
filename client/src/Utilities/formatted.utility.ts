@@ -72,3 +72,30 @@ export function formatearFecha(fecha:any) {
   const fecha_formateada = fecha_dt.toLocaleString('es-ES', opciones);
   return fecha_formateada;
 }
+
+/**
+ * metodo transformacion de fecha
+ * @param fecha 2023-05-10T15:11:14.000Z
+ * @returns 10 de mayo 2023.
+ */
+export function formateData(fecha:any) {
+  const fecha_dt = new Date(fecha);
+  const opciones = {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric', // Agregamos el año
+  };
+  // @ts-ignore
+  const fecha_formateada = fecha_dt.toLocaleString('es-ES', opciones);
+  return fecha_formateada;
+}
+
+/**
+ * transforma en formato 2122-12-12
+ * @param fileName fecha rara "2122-12-12T05:00:00.000Z"
+ * @returns
+ */
+export const cleanFileName = (fileName: string) => {
+  const file = fileName.split('T').shift();
+  return file
+};

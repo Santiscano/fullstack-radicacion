@@ -32,7 +32,7 @@ export const getUserbyRolModel = async(data: number): Promise<{data: Data}> => {
         SELECT * FROM users U
             LEFT JOIN roles R ON U.idroles = R.idroles
             LEFT JOIN sedes S ON U.idsedes = S.idsedes
-                WHERE idroles = ?;`,[data])
+                WHERE U.idroles = ?;`,[data])
     return { data: users }
 };
 

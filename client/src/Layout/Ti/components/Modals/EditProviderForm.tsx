@@ -12,6 +12,8 @@ import { useAppSelector } from "../../../../redux/hooks/useStore";
 import useContextProvider from "../../../../Context/GeneralValuesContext";
 import InputEditCedi from "../common/InputEditCedi";
 import { useModalUserView } from "../../../../redux/Redux-actions/useModalUserView";
+import InputEditDocumentType from "../common/InputEditDocumentType";
+import { formateData, formatearFecha } from "../../../../Utilities/formatted.utility";
 
 const style = {
   position: "absolute" as "absolute",
@@ -30,7 +32,7 @@ const style = {
 const EditProviderForm: FC = () => {
   const { openModalAuth, handleOpenModalAuth } = useContextProvider();
   const user = useAppSelector((state) => state.modalUserViewSlice);
-  const { handleSubmitCreateProvider } = useSubmit();
+  const { handleSubmitUpdateProvider } = useSubmit();
   const { setUsersIdentification, setUsersName, setUsersAddress, setUsersPhone, setUsersEmail, setUsersLimitDayPayment, setUsersExpiration } = useModalUserView();
 
   return (
@@ -53,7 +55,7 @@ const EditProviderForm: FC = () => {
           <Divider />
           <form
             onSubmit={(event) =>
-              handleSubmitCreateProvider(event, handleOpenModalAuth)
+              handleSubmitUpdateProvider(event, handleOpenModalAuth)
             }
           >
             <div className="md:flex md:flex-wrap">
@@ -70,24 +72,20 @@ const EditProviderForm: FC = () => {
                   placeholder="Cedi"
                   name="cedi"
                   required
-                  value={userscedi}
-                  onChange={handleCedi}
                   itemDefault="selecciona una opcion"
                 />
               </article>
             </div>
             <div className="md:flex md:flex-wrap">
               <article className="md:w-1/2">
-                {/* <InputSelectDocType
+                <InputEditDocumentType
                   type={"text"}
                   title="Tipo de Documento"
                   placeholder="C.C, NIT..."
                   name="type"
-                  required
-                  value={user.users_identification_type}
-                  onChange={setUsersIdentificationType}
                   itemDefault="selecciona un tipo"
-                /> */}
+                  disabled
+                />
               </article>
               <article className="md:w-1/2">
                 <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
@@ -99,6 +97,7 @@ const EditProviderForm: FC = () => {
                   value={user.users_identification}
                   setValue={setUsersIdentification}
                   required
+                  disabled
                 />
               </article>
             </div>
@@ -169,16 +168,25 @@ const EditProviderForm: FC = () => {
               </article>
               <article className="md:w-1/2">
                 <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                  Fecha de Actualización
+                  Fecha de Actualización - {formateData(user.users_providers_expiration_date)}
                 </label>
                 <TextFieldOutlined
                   type={"date"}
                   label={""}
                   value={user.users_providers_expiration_date}
                   setValue={setUsersExpiration}
-                  required
                 />
+                <label className="block mx-2 text-base font-semibold dark:text-white">
+                  Seleccione una nueva solo si desea cambiarla
+                </label>
               </article>
+            </div>
+            <div className="flex justify-between">
+              <Button name="Actualizar"/>
+              { user.users_status == "ACTIVO"
+                ? <button className="button button--flex mt-4 bg-[red]" >Inactivar Proveedor</button>
+                : <button className="button button--flex mt-4 bg-[geen]" >Activar Proveedor</button>
+              }
             </div>
           </form>
         </Box>
