@@ -28,7 +28,11 @@ export const getNoAdminProvModel = async(): Promise<Data> => {
 
 // TRAER USUARIOS SEGÚN EL ROL
 export const getUserbyRolModel = async(data: number): Promise<{data: Data}> => {
-    const [ users ] = await connection.query('SELECT * FROM users WHERE idroles = ?;',[data])
+    const [ users] = await connection.query(`
+        SELECT * FROM users U
+            LEFT JOIN roles R ON U.idroles = R.idroles
+            LEFT JOIN sedes S ON U.idsedes = S.idsedes
+                WHERE idroles = ?;`,[data])
     return { data: users }
 };
 

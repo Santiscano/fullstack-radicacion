@@ -64,16 +64,16 @@ const EditProviderForm: FC = () => {
                 <TextFieldOutlined type={"text"} value={"PROVEEDOR"} disabled />
               </article>
               <article className="md:w-1/2">
-                {/* <InputEditCedi
+                <InputEditCedi
                   type={"text"}
                   title="Asignar Cedi"
                   placeholder="Cedi"
                   name="cedi"
                   required
-                  value={cedi}
+                  value={userscedi}
                   onChange={handleCedi}
                   itemDefault="selecciona una opcion"
-                /> */}
+                />
               </article>
             </div>
             <div className="md:flex md:flex-wrap">

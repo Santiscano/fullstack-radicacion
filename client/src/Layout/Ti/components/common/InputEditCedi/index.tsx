@@ -57,7 +57,7 @@ export default function InputEditCedi(props:any) {
           name={props.name}
         >
           <MenuItem value="">
-            <em>{props.itemDefault}</em>
+            <em>{props}</em>
           </MenuItem>
 
           {cedis.map((item: any, index: any) => (

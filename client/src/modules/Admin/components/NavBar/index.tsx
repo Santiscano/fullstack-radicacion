@@ -107,14 +107,14 @@ export default function MenuAppBar(props: any) {
           onClick={handleLogo}
         />
 
-        <Typography 
-          variant="h6" 
-          component="h3" 
-          sx={{ flexGrow: 1,textAlign:"end", display:{xs:"none ", sm:"block"}, fontWeight: 700 }} 
+        <Typography
+          variant="h6"
+          component="h3"
+          sx={{ flexGrow: 1,textAlign:"end", display:{xs:"none ", sm:"block"}, fontWeight: 700 }}
         >
             {titleSection}
         </Typography>
-        
+
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }} />
 
         {/* image */}

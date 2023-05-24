@@ -9,6 +9,7 @@ import Upload from "../../components/common/Upload";
 import {
   optionAccountType,
   optionCediType,
+  optionsInvoiceType,
 } from "../../components/tools/OptionsValuesSelects";
 import "./provider.css";
 
@@ -63,7 +64,7 @@ function GenerateFiles() {
   // validar condicionales para renderizar
   const [documentType, setDocumentType] = useState(""); // tipos documentos lo recibe de un type creado
   const [isSettled, setIsSettled] = useState(false); // es true cuando el numero de radicado llega de la DB
-  const [invoiceType, setInvoiceType] = useState("Administrativo"); // define las opciondes de a quien va dirigido
+  const [invoiceType, setInvoiceType] = useState(""); // define las opciondes de a quien va dirigido
   const [accountType, setAccountType] = useState(""); // con esto se hace un filtro para los tipos de usuario
   const [statusResponse, setStatusResponse] = useState(false); // status 200 para mostrar modal
   const [modalSuccess, setModalSuccess] = useState(false); // status 200 filePath para mostrar hijo modal
@@ -160,10 +161,9 @@ function GenerateFiles() {
    * @param e captura valor
    */
   const handleCedi = (e: SelectChangeEvent) => setCedi(e.target.value);
-  const handleAccountType = (e: SelectChangeEvent) =>
-    setAccountType(e.target.value);
-  const handleRedirectTo = (e: SelectChangeEvent) =>
-    setRedirectTo(Number(e.target.value));
+  const handleAccountType = (e: SelectChangeEvent) => setAccountType(e.target.value);
+  const handleRedirectTo = (e: SelectChangeEvent) => setRedirectTo(Number(e.target.value));
+  const handleInvoiceType = (e: SelectChangeEvent) => setInvoiceType(e.target.value);
   const handleComments = (e: any) => setComments(e.target.value);
   //ChangeEventHandler<HTMLTextAreaElement>
 
@@ -244,7 +244,7 @@ function GenerateFiles() {
    * ?Formulario parte 2
    * formulario data set DB
    * 1- se envia los datos del radicado
-   * 2- abro modal si es status 200 convirtiendo true variable statusFileResponse
+   * 2- si es status 200 dejo ver la segunda parte
    * 3- guardo respuesta en variable result
    * @param e
    */
@@ -261,6 +261,7 @@ function GenerateFiles() {
         redirectTo,
         // @ts-ignore
         cedi.idsedes,
+        invoiceType,
         accountType,
         preAccountNumber + "-" + accountNumber,
         get("idusers")
@@ -596,6 +597,18 @@ function GenerateFiles() {
                         onChange={handleRedirectTo}
                         itemDefault="selecciona el Auditor"
                         items={optionsRedirectTo}
+                      />
+                    </article>
+                    <article className="md:w-1/2">
+                      <InputSelectOnlyValue
+                        type={"text"}
+                        title="Tipo de Factura"
+                        placeholder="Tipo"
+                        required
+                        value={invoiceType}
+                        onChange={handleInvoiceType}
+                        itemDefault="selecciona el tipo de factura"
+                        items={optionsInvoiceType}
                       />
                     </article>
                   </div>
