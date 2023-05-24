@@ -74,7 +74,7 @@ function useSubmit() {
   const [reset, setReset] = useState(false);
   // view tables
   // --------------------------Context-------------------------------//
-  const { setPreLoad, handleMessageSnackbar, cediConection } = useContextProvider();
+  const { setPreLoad, handleMessageSnackbar, cediConection, handleOpenModalAuth } = useContextProvider();
   const user = useAppSelector((state) => state.modalUserViewSlice);
   // --------------------------handles-------------------------------//
   /**
@@ -304,9 +304,57 @@ function useSubmit() {
       }, getHeader())
         .then((res) => {
           console.log('updateProv: ', res);
+          if(res.data.message == "SUCCESS"){
+            handleMessageSnackbar(
+              "success",
+              `Archivo Actualizado Con Exito`
+            );
+            handleOpenModalAuth()
+          }
         })
     } catch(err){
-      console.log(err)
+      handleMessageSnackbar(
+        "error",
+        `No se pudo Actualizar el proveedor, Ocurrio Un Error`
+      );
+    } finally{setPreLoad(false)}
+  };
+  const handleSubmitInactiveProvider = async (e: any) => {
+    try{
+      console.log("email: ",user)
+      setPreLoad(true);
+      e.preventDefault();
+      axios.put(allRoutes.api.users.editUser,{
+        idusers: user.idusers,
+        idroles: 1,
+        idsedes: user.idsedes,
+        users_identification_type: user.users_identification_type,
+        users_identification: user.users_identification,
+        users_identification_digital_check: user.users_identification_digital_check,
+        users_name: user.users_name,
+        users_lastname: user.users_lastname,
+        users_address: user.users_address,
+        users_phone: user.users_phone,
+        users_email: user.users_email,
+        users_providers_paydays: user.users_providers_paydays,
+        users_providers_expiration_date:cleanFileName(user.users_providers_expiration_date),
+        users_status: user.users_status == "ACTIVO" ? "INACTIVO" : "ACTIVO",
+      }, getHeader())
+        .then((res) => {
+          console.log('updateProv: ', res);
+          if(res.data.message == "SUCCESS"){
+            handleMessageSnackbar(
+              "success",
+              `Archivo Actualizado Con Exito`
+            );
+            handleOpenModalAuth()
+          }
+        })
+    } catch(err){
+      handleMessageSnackbar(
+        "error",
+        `No se pudo Actualizar el proveedor, Ocurrio Un Error`
+      );
     } finally{setPreLoad(false)}
   };
 
@@ -566,7 +614,7 @@ function useSubmit() {
     inputDeleted,
     setInputDeleted,
     handleDeleteFile,
-    // view tables
+    handleSubmitInactiveProvider,
   };
 }
 
