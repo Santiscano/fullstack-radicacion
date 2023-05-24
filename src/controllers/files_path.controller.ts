@@ -6,7 +6,7 @@ import { getFilesPathModel, postFilePathModel, deleteFilePathModel } from '../mo
 import { FilePath } from '../interfaces/file_path.interface';
 
 // import postChargeFilePath
-import { upload } from '../helpers/multerAddPdf';
+import { upload } from '../utilities/PDF/upload/pdfMulter.utilities';
 import { postTrakingModel } from '../models/tracking.model';
 import { connection } from '../config/database/db';
 import moment from 'moment-timezone';

@@ -3,14 +3,14 @@ import { apiKeyValidate } from '../utilities/apiKeyValidate.utilities';
 import { errorMessage, success, unauthorized, uncompleted, unsuccessfully } from '../utilities/responses.utilities';
 import { postPersonalInformationModel, putPersonalInformationModel, deletePersonalInformationModel } from '../models/personal_information.model';
 import { missingData } from '../utilities/missingData.utilities';
-import { getAllTable } from '../utilities/countTable.utilities';
+import { getAllRowTable } from '../utilities/SQL/countTable.utilities';
 
 // TRAER INFORMACIÓN PERSONAL
 export const getPersonalInformation = async (req: Request, res: Response) => {
     const { api_key } = req.headers;
     try {
         if (apiKeyValidate(api_key)) return res.status(401).json(unauthorized());
-        return res.status(200).json(success(await getAllTable("personal_information")));
+        return res.status(200).json(success(await getAllRowTable("personal_information")));
     } catch (error) {
         return res.status(512).json(unsuccessfully(error));
     };

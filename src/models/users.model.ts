@@ -22,7 +22,7 @@ export const getNoAdminProvModel = async(): Promise<Data> => {
         SELECT * FROM users U
             LEFT JOIN roles R ON U.idroles = R.idroles
             LEFT JOIN sedes S ON U.idsedes = S.idsedes
-                WHERE U.idroles != ? AND U.idroles != ?;`, [1, 10]);
+                WHERE U.idroles <> ? AND U.idroles <> ?;`, [1, 10]);
     return data
 };
 
@@ -68,7 +68,7 @@ export const postUsersModel = async ( data: Users ): Promise<{ message?: string;
 };
 
 // EDITAR USUARIOS
-export const putUsersModel = async ( data: Users ): Promise<{ message: string; data?: Data}> => {
+export const putUsersModel = async ( data: Users ): Promise<{ message?: string; data?: Data}> => {
     data.users_lastname === undefined ? data.users_lastname = "" : data.users_lastname;
     data.users_providers_paydays === undefined ? data.users_providers_paydays = null : data.users_providers_paydays;
     data.users_providers_expiration_date === undefined ? data.users_providers_expiration_date = null : data.users_providers_expiration_date;
@@ -99,7 +99,7 @@ export const putUsersModel = async ( data: Users ): Promise<{ message: string; d
     const [ userInfo ] = await connection.query(`
         SELECT * FROM users WHERE users_identification = ? AND users_identification_type = ?;
     `, [ data.users_identification, data.users_identification_type ]);
-    return { message: `Usuario con rol: ${data.idroles} y ${ data.users_identification_type }: ${ data.users_identification } editado correctamente`, data: userInfo};
+    return { data: userInfo};
 };
 
 // ELIMINAR USUARIOS
@@ -107,12 +107,12 @@ export const deleteUserModel = async (data: UserDocumentRol ): Promise<{ message
     let [ validate ] = await connection.query(`
             SELECT count(*) AS contador FROM users WHERE idroles = ? AND users_identification = ? AND users_identification_type = ?;
         `, [ data.idroles, data.users_identification, data.users_identification_type ]);
-        // @ts-ignore
-        if(parseInt(validate[0].contador) === 0){
-            return { message: `El usuario con rol: ${ data.idroles } y ${data.users_identification_type}: ${data.users_identification}, no se encuentra registrado en sistema` };
-        };
-        await connection.query(`
-            DELETE FROM users WHERE idroles = ? AND users_identification = ? AND users_identification_type = ?;
-        `, [ data.idroles, data.users_identification, data.users_identification_type ]);
-        return { message: `El usuario con rol: ${ data.idroles } y ${ data.users_identification_type }: ${ data.users_identification }, eliminado satisfactoriamente` };
+    // @ts-ignore
+    if(parseInt(validate[0].contador) === 0){
+        return { message: `El usuario con rol: ${ data.idroles } y ${data.users_identification_type}: ${data.users_identification}, no se encuentra registrado en sistema` };
+    };
+    await connection.query(`
+        DELETE FROM users WHERE idroles = ? AND users_identification = ? AND users_identification_type = ?;
+    `, [ data.idroles, data.users_identification, data.users_identification_type ]);
+    return { message: `El usuario con rol: ${ data.idroles } y ${ data.users_identification_type }: ${ data.users_identification }, eliminado satisfactoriamente` };
 };

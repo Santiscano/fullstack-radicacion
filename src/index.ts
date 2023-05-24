@@ -10,6 +10,7 @@ import fs from 'fs';
 import router from './routes/index.routes';
 import routerSig from './routes/sig.routes';
 import routerEControl from './routes/eControl.routes';
+import bodyParser from 'body-parser';
 
 const app = express();
 
@@ -49,9 +50,13 @@ const swaggerSpec = {
 
 
 // MIDDELWARE
-app.use(express.json());
+// app.use(express.json());
 app.use(morgan("dev"));
 app.use(cors());
+
+// Configurar body-parser
+app.use(bodyParser.urlencoded({ limit: 'Infinity', extended: true }));
+app.use(bodyParser.json({ limit: 'Infinity' }));
 
 // ROUTES
 app.use('/', router)

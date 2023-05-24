@@ -1,7 +1,7 @@
 import "dotenv/config";
 import fs from 'fs';
 import { Request, Response } from 'express';
-import { upload } from '../../helpers/multerAddPdf';
+import { upload } from '../../utilities/PDF/upload/pdfMulter.utilities';
 import { uploadFile } from '../../config/gcp/storage';
 import { connection } from '../../config/database/db';
 import { editPDF } from '../../utilities/PDF/editPDF';

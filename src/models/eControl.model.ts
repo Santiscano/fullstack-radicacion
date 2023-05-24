@@ -1,37 +1,82 @@
-import fs from 'fs-extra';
-import path from 'path';
+import fs from 'fs';
 import { connection } from '../config/database/db';
-import { RowDataPacket, OkPacket, ResultSetHeader } from 'mysql2/promise';
+import { uploadFile } from '../config/gcp/storage';
+import { editPDF } from '../utilities/PDF/editPDF';
+import { pdfBase64 } from '../utilities/PDF/upload/pdfBase64.utilities';
+import { postFileModel } from './files.model';
+import { postFilePathModel } from './file_path.model';
 import { eControl } from '../interfaces/eControl.interface';
-
-type Data = RowDataPacket[] | RowDataPacket[][] | OkPacket | OkPacket[] | ResultSetHeader | ResultSetHeader
-
-
-// export const eControlOperativoModel = async(pdfBase64: string): Promise<string> =>{
-//     // RUTA DEL ARCHIVO DONDE SE GUARDARA TEMPORALMENTE
-//     const tempFolderPath = path.join(__dirname, '../../temp'); 
-//     // CREAR LA CARPETA TEMPORAL SI NO EXISTE
-//     await fs.ensureDir(tempFolderPath);
-//     // NOMBRE DEL ARCHIVO
-//     const fileName = `documento_${Date.now()}.pdf`;
-//     // RUTA COMPLETA DEL ARCHIVO EN LA CARPETA TEMPORAL
-//     const filePath = path.join(tempFolderPath, fileName);
-//     // DECODIFICA Y GUARDA EL ARCHIVO EN LA CARPETA TEMPORAL
-//     await fs.writeFile(filePath, Buffer.from(pdfBase64, 'base64'));
-//     return filePath; // DEVUELVE LA RUTA DEL ARCHIVO
-// };
+import { File } from '../interfaces/files.interface';
+import { FilePath } from '../interfaces/file_path.interface';
+import { genRegistered } from '../utilities/generate_file_registered.controller';
 
 
-export const eControlOperativoModel = async(data: eControl): Promise<string> =>{
-    // RUTA DEL ARCHIVO DONDE SE GUARDARA TEMPORALMENTE
-    const tempFolderPath = path.join(__dirname, '../../temp'); 
-    // CREAR LA CARPETA TEMPORAL SI NO EXISTE
-    await fs.ensureDir(tempFolderPath);
-    // NOMBRE DEL ARCHIVO
-    const fileName = `documento_${Date.now()}.pdf`;
-    // RUTA COMPLETA DEL ARCHIVO EN LA CARPETA TEMPORAL
-    const filePath = path.join(tempFolderPath, fileName);
-    // DECODIFICA Y GUARDA EL ARCHIVO EN LA CARPETA TEMPORAL
-    await fs.writeFile(filePath, Buffer.from(data.pdfPurchaseOrder, 'base64'));
-    return filePath; // DEVUELVE LA RUTA DEL ARCHIVO
+// CONEXIÓN OPERATIVA ECONTROL / GESTIÓN ADMINISTRATIVA
+export const eControlOperativoModel = async(data: eControl) => {
+    const radicado: string = await genRegistered();
+    const userSession = 5;
+    // VALIDACIÓN DE PROVEEDOR
+    const [ proValidate ]: any = await connection.query(`SELECT * FROM users WHERE users_identification_type = ? AND users_identification = ? AND idroles = 1;`, [data.users_identification_type.toUpperCase(), data.users_identification]);
+    if(proValidate.length === 0) return {message: `El PROVEEDOR con ${data.users_identification_type.toUpperCase()}: ${data.users_identification}, no se encuentra registrado`}
+    
+    const dataFile: File = {
+        files_registered: radicado, 
+        idsedes: 1,                                 // CEDI MEDELLÍN
+        idproviders: proValidate[0].idusers, 
+        idusers: 3,                                 // USUARIO CONTABILIDAD GENERAL
+        files_type: 2,                              // OPERATIVO
+        files_price: data.files_price,
+        files_account_type: data.files_account_type,
+        files_account_type_number: data.files_account_type_number,
+        userSession                                 // USUARIO E-CONTROL
+    };
+
+    // CREAR EL FILE EN LA BD
+    const file: any = await postFileModel(dataFile);
+    
+    if(!file.data) return {message: file.message}
+
+    // CARGA DE LOS DOCUMENTOS AL BACKEND
+    const pdfPurchaseOrder = await pdfBase64(data.pdfPurchaseOrder);
+    const pdfElectronicBill = await pdfBase64(data.pdfElectronicBill);
+
+    /**BUCKET GOOGLE */
+    const purchaseOrderName = `${radicado}-OC`;
+    const electronicBillName = `${radicado}-FE`;
+    
+    // URL DEL LOS ARCHIVOS
+    const urlPurchaseOrder: string = `https://storage.cloud.google.com/${process.env.BUCKET_NAME}/${process.env.BUCKET_ASSIGN_ECONTROL}/operativo/${purchaseOrderName}.pdf?authuser=3`
+    const urlElectronicBill: string = `https://storage.cloud.google.com/${process.env.BUCKET_NAME}/${process.env.BUCKET_ASSIGN_ECONTROL}/operativo/${electronicBillName}.pdf?authuser=3`
+    
+    // EDITAR PDF (AGREGAR RADICADO)
+    await editPDF(pdfPurchaseOrder.filePath, pdfPurchaseOrder.filePath, purchaseOrderName);
+    await editPDF(pdfElectronicBill.filePath, pdfElectronicBill.filePath, electronicBillName);
+    
+    // CARGAR EL PDF AL BUCKET
+    await uploadFile(pdfPurchaseOrder.fileName, `${process.env.BUCKET_ASSIGN_ECONTROL}/operativo/${purchaseOrderName}.pdf`);
+    await uploadFile(pdfElectronicBill.fileName, `${process.env.BUCKET_ASSIGN_ECONTROL}/operativo/${electronicBillName}.pdf`);
+    
+    // ELIMINAR ARCHIVO DEL SERVIDOR
+    fs.unlinkSync(pdfPurchaseOrder.filePath);
+    fs.unlinkSync(pdfElectronicBill.filePath);    
+    
+    const dataFilePathOC: FilePath = {
+        idfiles: file.data[0].idfiles,
+        files_path: urlPurchaseOrder,
+        files_path_observation: `ORDEN DE COMPRA: ${data.files_account_type_number.toUpperCase()}, cargada con éxito`, 
+        userSession
+    };
+
+    const dataFilePathFE: FilePath = {
+        idfiles: file.data[0].idfiles,
+        files_path: urlElectronicBill,
+        files_path_observation: `${data.files_account_type.toUpperCase()}, adjuntada a la ORDEN DE COMPRA: ${data.files_account_type_number.toUpperCase()}, cargada con éxito`, 
+        userSession
+    };
+
+    await postFilePathModel(dataFilePathOC);
+    await postFilePathModel(dataFilePathFE);
+
+
+    return { message: dataFilePathOC.files_path_observation };
 };

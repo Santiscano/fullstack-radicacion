@@ -34,10 +34,10 @@ export const getUserbyRol = async (req: Request, res: Response) => {
     try {
         if (apiKeyValidate(api_key)) return res.status(401).json(unauthorized());
         if (missingData({idroles}).error) return res.status(422).json(uncompleted(missingData({idroles}).missing));
-        return res.status(200).json(success(await getUserbyRolModel(idroles)));
+        return res.status(200).json(success((await getUserbyRolModel(idroles)).data));
     } catch(error) {
         return res.status(512).json(unsuccessfully(error));
-    }
+    };
 };
 
 // CREAR USUARIOS

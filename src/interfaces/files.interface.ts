@@ -1,6 +1,6 @@
 enum FilesType {
-    'ADMINISTRATIVO',
-    'OPERATIVO'
+    'ADMINISTRATIVO' = 1,
+    'OPERATIVO' = 2
 };
 
 export interface File {

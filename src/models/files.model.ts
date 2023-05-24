@@ -46,7 +46,7 @@ export const postFileModel = async(data: File): Promise<{message?: string, data?
         postTrakingModel(idfiles_states, file[0].idfiles, data.userSession, tracking_observation);
         // CREAR PDF RADICADO
         // createPDF(files_registered.toUpperCase(), files_account_type.toUpperCase(), files_type.toUpperCase());
-        return { message: "Cargado exitosamente", data: file };
+        return { data: file };
 };
 
 export const putFileModel = async( data: PutFile ): Promise<{ message?: string, data?: Data }>  => {
