@@ -1,4 +1,4 @@
-import { DisplayRoles, Roles } from '../../interfaces/Roles';
+import { Roles } from '../../interfaces/Roles';
 
 export const roles:Roles = Object.freeze({
   Proveedor   : 1,

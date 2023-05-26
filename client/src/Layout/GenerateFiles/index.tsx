@@ -1,6 +1,6 @@
 import { SelectChangeEvent } from "@mui/material/Select";
 import { useContext, useEffect, useState } from "react";
-import InputSelect from "../../components/common/InputSelect";
+import { useNavigate } from "react-router-dom";
 import Button from "../../components/common/Button";
 import InputSelectRedirectTo from "../../components/common/InputSelectRedirectTo";
 import UploadFileModal from "../../components/common/ModalUploadFile";
@@ -33,7 +33,7 @@ import { formattedAmount } from "../../Utilities/formatted.utility";
 import InputSelectOnlyValue from "../../components/common/InputSelectOnlyValue";
 import ModalSuccess from "../../components/common/ModalSuccess";
 import SearchUser from "../../components/common/SearchUser";
-import { get, roles } from "../../components/tools/SesionSettings";
+import { get, remove, roles } from "../../components/tools/SesionSettings";
 import { AllCedis, CedisIdName } from "../../interfaces/Cedis";
 import { createFilePath } from "../../services/FilesPath.routes";
 import InputSelectCedi from "./components/InputSelectCedi";
@@ -41,7 +41,8 @@ import InputSelectCedi from "./components/InputSelectCedi";
 // import { savePDF, printPDF } from "./components/PDF/print";
 import { ChildModalPdf } from "../../components/common/ModalUploadFile";
 import InputDouble from "./components/InputDouble";
-import { useDataGlobal } from "../../redux/Redux-actions/useDataGlobal"
+import { useDataGlobal } from "../../redux/Redux-actions/useDataGlobal";
+import useHooksToken from "../../Context/HooksTokenContext";
 
 function GenerateFiles() {
   // ------------------------------VARIABLES------------------------------//
@@ -50,7 +51,7 @@ function GenerateFiles() {
   const [statusFileResponse, setStatusFileResponse] = useState(false);
   // valores actualizables con DB
   const [allUsers, setAllUsers] = useState([""]); // recibi todos los usuarios de DB
-  const [allCedis, setAllCedis] = useState<any[]>([""]);
+  const [allCedis, setAllCedis] = useState<any[] >([""]);
   const [optionsCedisIdName, setOptionsCedisIdName] = useState<CedisIdName[]>(
     []
   ); // recibe nombre y id de todas las cedis
@@ -99,7 +100,9 @@ function GenerateFiles() {
   const [fileName, setFileName] = useState("");
 
   const { setPreLoad } = useContext(GeneralValuesContext);
+  const { finishedSession } = useHooksToken()
   const { changeTitleSection } = useDataGlobal();
+  const navigate = useNavigate();
 
   // -----------------------METHODS INPUTS--------------------------------//
 
@@ -114,6 +117,10 @@ function GenerateFiles() {
     // cedis
     const allCedis: AllCedis[] = await getCedis();
     console.log("allCedis: ", allCedis);
+    // @ts-ignore
+    if(allCedis == 'TOKEN_EXPIRED' || allCedis == 'INVALID_TOKEN_ACCESS'){
+      finishedSession();
+    }
     setAllCedis(allCedis);
 
     // users

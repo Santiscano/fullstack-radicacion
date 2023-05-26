@@ -3,7 +3,7 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
-import { alpha, styled } from "@mui/material/styles";
+import { styled } from "@mui/material/styles";
 import axios from "axios";
 import allRoutes from "../../../../../services/allRoutes";
 import { getHeader } from "../../../../../components/tools/SesionSettings";
@@ -43,6 +43,7 @@ export default function InputEditCedi(props:any) {
     }
   };
 
+
   const handleCedi = (e: SelectChangeEvent) => {
     // @ts-ignore
     setValue(e.target.value);
@@ -52,6 +53,17 @@ export default function InputEditCedi(props:any) {
 
   useEffect(() => {
     handleGetCedis();
+    console.log(user)
+    // @ts-ignore
+    setValue({
+      idsedes: user.idsedes,
+      sedes_address: user.sedes_address,
+      sedes_city: user.sedes_city,
+      sedes_country: user.sedes_country,
+      sedes_name: user.sedes_name,
+      sedes_state: user.sedes_state,
+      sedes_type: user.sedes_type,
+    })
   }, []);
 
   return (
@@ -82,7 +94,7 @@ export default function InputEditCedi(props:any) {
           </MenuItem>
 
           {cedis.map((item: any, index: any) => (
-            <MenuItem key={index} value={item} sx={{ m: 1, minWidth: 300 }}>
+            <MenuItem key={index} value={item.idsedes} sx={{ m: 1, minWidth: 300 }}>
               {item.sedes_city} - {item.sedes_name}
             </MenuItem>
           ))}
