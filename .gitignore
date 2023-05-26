@@ -3,6 +3,7 @@ dist/
 companyFiles/
 temp/
 keys/
+logs/
 
 # dotenv environment variables file
 .env

@@ -3,23 +3,23 @@ import { connection } from '../config/database/db';
 import { uploadFile } from '../config/gcp/storage';
 import { editPDF } from '../utilities/PDF/editPDF';
 import { pdfBase64 } from '../utilities/PDF/upload/pdfBase64.utilities';
-import { postFileModel } from './files.model';
+import { postFileEcontrolModel } from './files.model';
 import { postFilePathModel } from './file_path.model';
 import { eControl } from '../interfaces/eControl.interface';
-import { File } from '../interfaces/files.interface';
+import { FileEcontrol } from '../interfaces/files.interface';
 import { FilePath } from '../interfaces/file_path.interface';
 import { genRegistered } from '../utilities/generate_file_registered.controller';
 
 
 // CONEXIÓN OPERATIVA ECONTROL / GESTIÓN ADMINISTRATIVA
-export const eControlOperativoModel = async(data: eControl) => {
+export const eControlOperativoModel = async(data: eControl): Promise<{error:boolean, message: string}> => {
     const radicado: string = await genRegistered();
     const userSession = 5;
     // VALIDACIÓN DE PROVEEDOR
     const [ proValidate ]: any = await connection.query(`SELECT * FROM users WHERE users_identification_type = ? AND users_identification = ? AND idroles = 1;`, [data.users_identification_type.toUpperCase(), data.users_identification]);
-    if(proValidate.length === 0) return {message: `El PROVEEDOR con ${data.users_identification_type.toUpperCase()}: ${data.users_identification}, no se encuentra registrado`}
+    if(proValidate.length === 0) return {error: true, message: `El PROVEEDOR con ${data.users_identification_type.toUpperCase()}: ${data.users_identification}, no se encuentra registrado en GESTIÓN ADMINISTRATIVO`}
     
-    const dataFile: File = {
+    const dataFile: FileEcontrol = {
         files_registered: radicado, 
         idsedes: 1,                                 // CEDI MEDELLÍN
         idproviders: proValidate[0].idusers, 
@@ -28,13 +28,15 @@ export const eControlOperativoModel = async(data: eControl) => {
         files_price: data.files_price,
         files_account_type: data.files_account_type,
         files_account_type_number: data.files_account_type_number,
+        files_cost_center: data.files_cost_center,
+        files_code_accounting: data.files_code_accounting,
         userSession                                 // USUARIO E-CONTROL
     };
 
     // CREAR EL FILE EN LA BD
-    const file: any = await postFileModel(dataFile);
+    const file: any = await postFileEcontrolModel(dataFile);
     
-    if(!file.data) return {message: file.message}
+    if(!file.data) return {error: true, message: file.message};
 
     // CARGA DE LOS DOCUMENTOS AL BACKEND
     const pdfPurchaseOrder = await pdfBase64(data.pdfPurchaseOrder);
@@ -63,14 +65,14 @@ export const eControlOperativoModel = async(data: eControl) => {
     const dataFilePathOC: FilePath = {
         idfiles: file.data[0].idfiles,
         files_path: urlPurchaseOrder,
-        files_path_observation: `ORDEN DE COMPRA: ${data.files_account_type_number.toUpperCase()}, cargada con éxito`, 
+        files_path_observation: `ORDEN DE COMPRA: ${data.files_account_type_number.toUpperCase()}, cargada con éxito.`, 
         userSession
     };
 
     const dataFilePathFE: FilePath = {
         idfiles: file.data[0].idfiles,
         files_path: urlElectronicBill,
-        files_path_observation: `${data.files_account_type.toUpperCase()}, adjuntada a la ORDEN DE COMPRA: ${data.files_account_type_number.toUpperCase()}, cargada con éxito`, 
+        files_path_observation: `${data.files_account_type.toUpperCase()}, adjuntada a la ORDEN DE COMPRA: ${data.files_account_type_number.toUpperCase()}, cargada con éxito.`, 
         userSession
     };
 
@@ -78,5 +80,5 @@ export const eControlOperativoModel = async(data: eControl) => {
     await postFilePathModel(dataFilePathFE);
 
 
-    return { message: dataFilePathOC.files_path_observation };
+    return { error: false, message: dataFilePathOC.files_path_observation };
 };

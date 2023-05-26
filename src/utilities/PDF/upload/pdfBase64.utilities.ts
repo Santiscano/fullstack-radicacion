@@ -1,5 +1,6 @@
 import fs from 'fs-extra';
 import path from 'path';
+const uuid = require("uuid/v4");
 
 
 export const pdfBase64 = async( pdfBase64: string ): Promise<{fileName: string, filePath: string}> =>{
@@ -8,7 +9,7 @@ export const pdfBase64 = async( pdfBase64: string ): Promise<{fileName: string, 
     // CREAR LA CARPETA TEMPORAL SI NO EXISTE
     await fs.ensureDir(tempFolderPath);
     // NOMBRE DEL ARCHIVO
-    const fileName = `documento_${Date.now()}.pdf`;
+    const fileName = `${uuid()}.pdf`;
     // RUTA COMPLETA DEL ARCHIVO EN LA CARPETA TEMPORAL
     const filePath = path.join(tempFolderPath, fileName);
     // DECODIFICA Y GUARDA EL ARCHIVO EN LA CARPETA TEMPORAL

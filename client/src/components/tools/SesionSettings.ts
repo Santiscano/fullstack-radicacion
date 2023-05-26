@@ -1,4 +1,7 @@
 import { DisplayRoles, Roles } from '../../interfaces/Roles';
+import { useNavigate } from 'react-router-dom';
+
+const navigate = useNavigate();
 
 export const roles:Roles = Object.freeze({
   Proveedor   : 1,
@@ -42,6 +45,11 @@ export function remove(item:string): void {
 export function removeAll(): void {
   sessionStorage.clear();
 }
+
+export function finishedSession (){
+  remove("accessToken");
+  navigate("/login");
+} 
 
 export function getJWT(key = null):any {
 //   const jwt = jwt_decode(get("jwt"));

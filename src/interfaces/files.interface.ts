@@ -15,6 +15,11 @@ export interface File {
     userSession: number
 };
 
+export interface FileEcontrol extends File {
+    files_cost_center: string;
+    files_code_accounting: string;
+}
+
 export interface PutFile extends File {
     idfiles: number,
     idfiles_states: number,

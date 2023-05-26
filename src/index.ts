@@ -63,7 +63,7 @@ app.use('/', router)
 
 // VERIFICACIÓN BACKEND PRODUCCIÓN
 app.use("/api/", (req, res, next) => {
-    res.send("Backend Digitalización EnviExpress Funciónando con Éxito");
+    res.send("Backend Digitalización EnviExpress Funcionando con Éxito");
 });
 
 // PUERTO DEL SERVIDOR LOCAL
@@ -78,10 +78,10 @@ app.use('/eControl/', routerEControl)
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerJsdoc(swaggerSpec)))
 
 // CONEXIÓN FRONTEND
-// app.use(express.static(path.join(__dirname, '../client/dist')))
-// app.get("*", (req, res)=>{
-//     res.sendFile(path.join(__dirname, '../client/dist/index.html'))
-// });
+app.use(express.static(path.join(__dirname, '../client/dist')))
+app.get("*", (req, res)=>{
+    res.sendFile(path.join(__dirname, '../client/dist/index.html'))
+});
 
 // INICIAR EL SERVIDOR http://
 app.listen(app.get("port"), () => {
@@ -90,5 +90,5 @@ app.listen(app.get("port"), () => {
 
 // INICIAR EL SERVIDOR https://
 // httpsServer.listen( 443, () => {
-//     console.log(`Server started at ${process.env.URL_SERVER}:443}`);
+//     console.log(`Server started at ${process.env.URL_SERVER}:443`);
 // });
