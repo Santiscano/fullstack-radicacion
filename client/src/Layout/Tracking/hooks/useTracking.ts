@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useDataGlobal } from "../../../redux/Redux-actions/useDataGlobal"
 import { getTrackingByAccountType, getTrackingBySettled } from "../../../services/Tracking.routes";
 import useContextProvider from "../../../Context/GeneralValuesContext";
+import { remove } from "../../../components/tools/SesionSettings";
+import { useNavigate } from "react-router-dom";
 
 
 function useTracking () {
@@ -37,6 +39,7 @@ function useTracking () {
 
   const { setPreLoad, handleMessageSnackbar } = useContextProvider()
   const { changeTitleSection } = useDataGlobal();
+  const navigate = useNavigate();
   // ---------------------submits tracking ---------------------------------//
   const handleTrackingBySettled = async (e:any) => {
     try{
@@ -53,9 +56,16 @@ function useTracking () {
         setNotFile(true);
         setTracking(bySettled?.data || []);
       }
-    }catch(error){
-      console.log(error);
+    }catch (err) {
       handleMessageSnackbar("error", "Error al cargar los datos");
+      // @ts-ignore
+      console.log("error ejecutado",err.response.data.message);
+      // @ts-ignore
+      const message = err.response.data.message;
+      if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+        remove("accessToken");
+        navigate("/login");
+      }
     }finally{
       setPreLoad(false);
       console.log('tracking by settled: ', tracking);
@@ -77,9 +87,16 @@ function useTracking () {
         setNotFile(true);
         setTracking(byDocument?.data || []);
       }
-    }catch(error){
-      console.log(error);
+    }catch (err) {
       handleMessageSnackbar("error", "Error al cargar los datos");
+      // @ts-ignore
+      console.log("error ejecutado",err.response.data.message);
+      // @ts-ignore
+      const message = err.response.data.message;
+      if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+        remove("accessToken");
+        navigate("/login");
+      }
     }finally{
       setPreLoad(false);
       console.log('tracking by Account: ', tracking)

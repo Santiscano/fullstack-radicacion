@@ -5,6 +5,8 @@ import Select from "@mui/material/Select";
 import { styled } from "@mui/material/styles";
 import { useEffect, useState } from "react";
 import { getArea } from "../../../../../services/CenterCost.routes";
+import { useNavigate } from "react-router-dom";
+import { remove } from "../../../../../components/tools/SesionSettings";
 
 const Selecting = styled(FormControl)({
   "& .MuiOutlinedInput-root": {
@@ -16,14 +18,26 @@ const Selecting = styled(FormControl)({
 
 function SelectArea({ valueArea, onChangeArea }: any) {
   const [areas, setAreas] = useState<any>();
+  const navigate = useNavigate();
 
   /**
    * traer de nuevo todas las areas
    */
   const handleArea = async () => {
-    const getAreas = await getArea();
-    console.log("areas: ", getAreas);
-    setAreas(getAreas?.data.data);
+    try {
+      const getAreas = await getArea();
+      console.log("areas: ", getAreas);
+      setAreas(getAreas?.data.data);
+    } catch (err) {
+      // @ts-ignore
+      console.log("error ejecutado",err.response.data.message);
+      // @ts-ignore
+      const message = err.response.data.message;
+      if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+        remove("accessToken");
+        navigate("/login");
+      }
+    }
   };
 
   useEffect(() => {

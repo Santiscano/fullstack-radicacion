@@ -7,7 +7,13 @@ export const getPdfSettled = async (settledNumber:number) => {
     // const response = await axios.post(Routes.api.pdfSettledNumber, settledNumber, getHeader() )
     // console.log(response)
     // return response;
-  } catch(err) {
-    // console.log(err)
+  } catch (err) {
+    // @ts-ignore
+    console.log("error ejecutado",err.response.data.message);
+    // @ts-ignore
+    const message = err.response.data.message;
+    if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+      return message
+    }
   }
 }

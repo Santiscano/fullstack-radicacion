@@ -8,8 +8,14 @@ export const getRoles = async () => {
     console.log('get roles: ', getRoles.data);
     const roles = getRoles.data;
     return roles;
-  } catch (error) {
-    console.log(error);
+  } catch (err) {
+    // @ts-ignore
+    console.log("error ejecutado",err.response.data.message);
+    // @ts-ignore
+    const message = err.response.data.message;
+    if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+      return message
+    }
   }
 };
 
@@ -19,8 +25,14 @@ export const getNotAdminProv = async () => {
     console.log('get admin prov: ', getAdminProv.data);
     const adminProv = getAdminProv.data;
     return adminProv;
-  }catch(error){
-    console.log(error);
+  } catch (err) {
+    // @ts-ignore
+    console.log("error ejecutado",err.response.data.message);
+    // @ts-ignore
+    const message = err.response.data.message;
+    if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+      return message
+    }
   }
 };
 
@@ -30,8 +42,14 @@ export const getProvider = async () => {
     console.log('get provider: ', getProvider.data);
     const provider = getProvider.data;
     return provider;
-  } catch(error) {
-    console.log(error)
+  } catch (err) {
+    // @ts-ignore
+    console.log("error ejecutado",err.response.data.message);
+    // @ts-ignore
+    const message = err.response.data.message;
+    if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+      return message
+    }
   }
 };
 
@@ -47,8 +65,14 @@ export const createRol = async (rol: string, description: string) => {
     );
     console.log("response createRol: ", response);
     return response;
-  } catch (error) {
-    console.log(error);
+  } catch (err) {
+    // @ts-ignore
+    console.log("error ejecutado",err.response.data.message);
+    // @ts-ignore
+    const message = err.response.data.message;
+    if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+      return message
+    }
   }
 };
 
@@ -65,8 +89,14 @@ export const editRol = async () => {
     );
     // console.log('response: ', response);
     return response;
-  } catch (error) {
-    // console.log(error)
+  } catch (err) {
+    // @ts-ignore
+    console.log("error ejecutado",err.response.data.message);
+    // @ts-ignore
+    const message = err.response.data.message;
+    if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+      return message
+    }
   }
 };
 
@@ -82,7 +112,13 @@ export const deleteRol = async () => {
     });
     console.log("response delete: ", response);
     return response;
-  } catch (error) {
-    console.log(error);
+  } catch (err) {
+    // @ts-ignore
+    console.log("error ejecutado",err.response.data.message);
+    // @ts-ignore
+    const message = err.response.data.message;
+    if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+      return message
+    }
   }
 };

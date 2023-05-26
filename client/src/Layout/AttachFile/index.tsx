@@ -2,7 +2,7 @@ import { SelectChangeEvent, Tooltip } from "@mui/material";
 import Box from "@mui/material/Box";
 import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { capitalizeFirstLatterUppercase } from "../../Utilities/formatted.utility";
 import Button from "../../components/common/Button";
 import InputSelectOnlyValue from "../../components/common/InputSelectOnlyValue";
@@ -12,18 +12,10 @@ import TextFieldOutlined from "../../components/common/TextFieldOutline";
 import Upload from "../../components/common/Upload";
 import { TabPanel, a11yProps } from "../../components/tools/MultiViewPanel";
 import { optionAccountType } from "../../components/tools/OptionsValuesSelects";
-import { get } from "../../components/tools/SesionSettings";
-import { createFilePath } from "../../services/FilesPath.routes";
-import { uploadfile } from "../../services/Pdf.routes";
-import useContextProvider from "./../../Context/GeneralValuesContext";
-import SearchSettled from "./components/SearchSettled/index";
-import {
-  SearchWithDocument,
-  SearchWithSettled,
-} from "./../../services/SearchFile.routes";
+import { useDataGlobal } from "../../redux/Redux-actions/useDataGlobal";
 import "./AttachFile.css";
+import SearchSettled from "./components/SearchSettled/index";
 import { useAttachFile } from "./hooks/useAttachFile";
-import { useDataGlobal } from "../../redux/Redux-actions/useDataGlobal"
 
 
 function AttachFile() {

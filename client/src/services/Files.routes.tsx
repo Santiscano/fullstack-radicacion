@@ -12,8 +12,14 @@ export const getFiles = async () => {
     );
     console.log("response : ", response);
     return response;
-  } catch (error) {
-    console.log("error: ", error);
+  } catch (err) {
+    // @ts-ignore
+    console.log("error ejecutado",err.response.data.message);
+    // @ts-ignore
+    const message = err.response.data.message;
+    if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+      return message
+    }
   }
 };
 
@@ -46,8 +52,14 @@ export const addFile = async (
     );
     console.log("response addfile: ", response);
     return response;
-  } catch (error) {
-    console.log("response addfile: ", error);
+  } catch (err) {
+    // @ts-ignore
+    console.log("error ejecutado",err.response.data.message);
+    // @ts-ignore
+    const message = err.response.data.message;
+    if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+      return message
+    }
   }
 };
 
@@ -89,8 +101,14 @@ export const editFile = async (
     );
     console.log("response putfile", response);
     return response;
-  } catch (error) {
-    console.log("error putfile: ", error);
+  } catch (err) {
+    // @ts-ignore
+    console.log("error ejecutado",err.response.data.message);
+    // @ts-ignore
+    const message = err.response.data.message;
+    if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+      return message
+    }
   }
 };
 
@@ -105,7 +123,13 @@ export const deleteFile = async (files_registered: string) => {
       getHeader()
     );
     return response;
-  } catch (error) {
-    // console.log("error: ", error);
+  } catch (err) {
+    // @ts-ignore
+    console.log("error ejecutado",err.response.data.message);
+    // @ts-ignore
+    const message = err.response.data.message;
+    if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+      return message
+    }
   }
 };

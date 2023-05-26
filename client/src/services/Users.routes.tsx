@@ -16,8 +16,14 @@ export const validateUser = async () => {
     );
     // console.log('response: ', response);
     return response;
-  } catch (error) {
-    // console.log(error);
+  } catch (err) {
+    // @ts-ignore
+    console.log("error ejecutado",err.response.data.message);
+    // @ts-ignore
+    const message = err.response.data.message;
+    if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+      return message
+    }
   }
 };
 
@@ -27,8 +33,14 @@ export const getUsers = async () => {
     const users = response.data.data;
     console.log("users: ", users);
     return users;
-  } catch (error) {
-    console.log(error);
+  } catch (err) {
+    // @ts-ignore
+    console.log("error ejecutado",err.response.data.message);
+    // @ts-ignore
+    const message = err.response.data.message;
+    if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+      return message
+    }
   }
 };
 
@@ -37,8 +49,14 @@ export const getUsersNotAdminProv = async () => {
     const getUsersNotAdminProv = await axios.get(Routes.api.users.notAdminProv, getHeader());
     const users = getUsersNotAdminProv.data.data;
     return users;
-  } catch(error) {
-    console.log('error: ', error);
+  } catch (err) {
+    // @ts-ignore
+    console.log("error ejecutado",err.response.data.message);
+    // @ts-ignore
+    const message = err.response.data.message;
+    if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+      return message
+    }
   }
 };
 
@@ -64,8 +82,14 @@ export const createUser = async (idroles: number, idsedes: number, users_identif
     );
     console.log("create user: ", response);
     return response;
-  } catch (error) {
-    console.log(error);
+  } catch (err) {
+    // @ts-ignore
+    console.log("error ejecutado",err.response.data.message);
+    // @ts-ignore
+    const message = err.response.data.message;
+    if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+      return message
+    }
   }
 };
 export const editUser = async () => {
@@ -89,8 +113,14 @@ export const editUser = async () => {
     });
     console.log("response edit user: ", response);
     return response;
-  } catch (error) {
-    console.log(error);
+  } catch (err) {
+    // @ts-ignore
+    console.log("error ejecutado",err.response.data.message);
+    // @ts-ignore
+    const message = err.response.data.message;
+    if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+      return message
+    }
   }
 };
 export const createProvider = async (
@@ -124,8 +154,14 @@ export const createProvider = async (
     );
     console.log("create user: ", response);
     return response;
-  } catch (error) {
-    console.log(error);
+  } catch (err) {
+    // @ts-ignore
+    console.log("error ejecutado",err.response.data.message);
+    // @ts-ignore
+    const message = err.response.data.message;
+    if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+      return message
+    }
   }
 };
 export const updateProvider = async () => {
@@ -148,7 +184,15 @@ export const updateProvider = async () => {
       users_status: user.users_status,
     }, getHeader())
     return updateProv
-  } catch(err){console.log(err)}
+  } catch (err) {
+    // @ts-ignore
+    console.log("error ejecutado",err.response.data.message);
+    // @ts-ignore
+    const message = err.response.data.message;
+    if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+      return message
+    }
+  }
 };
 
 
@@ -160,7 +204,13 @@ export const deleteUser = async () => {
       getHeader()
     );
     return response;
-  } catch (error) {
-    // console.log(error);
+  } catch (err) {
+    // @ts-ignore
+    console.log("error ejecutado",err.response.data.message);
+    // @ts-ignore
+    const message = err.response.data.message;
+    if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+      return message
+    }
   }
 };

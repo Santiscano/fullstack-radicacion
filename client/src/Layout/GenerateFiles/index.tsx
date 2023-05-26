@@ -42,7 +42,6 @@ import InputSelectCedi from "./components/InputSelectCedi";
 import { ChildModalPdf } from "../../components/common/ModalUploadFile";
 import InputDouble from "./components/InputDouble";
 import { useDataGlobal } from "../../redux/Redux-actions/useDataGlobal";
-import useHooksToken from "../../Context/HooksTokenContext";
 
 function GenerateFiles() {
   // ------------------------------VARIABLES------------------------------//
@@ -100,7 +99,6 @@ function GenerateFiles() {
   const [fileName, setFileName] = useState("");
 
   const { setPreLoad } = useContext(GeneralValuesContext);
-  const { finishedSession } = useHooksToken()
   const { changeTitleSection } = useDataGlobal();
   const navigate = useNavigate();
 
@@ -119,7 +117,8 @@ function GenerateFiles() {
     console.log("allCedis: ", allCedis);
     // @ts-ignore
     if(allCedis == 'TOKEN_EXPIRED' || allCedis == 'INVALID_TOKEN_ACCESS'){
-      finishedSession();
+      remove("accessToken");
+      navigate("login");
     }
     setAllCedis(allCedis);
 
@@ -127,6 +126,10 @@ function GenerateFiles() {
     const getAllUsers = await getUsers();
     console.log("getAllUsers: ", getAllUsers);
     const allUsers = getAllUsers;
+    if(getAllUsers == 'TOKEN_EXPIRED' || getAllUsers == 'INVALID_TOKEN_ACCESS'){
+      remove("accessToken");
+      navigate("login");
+    }
     setAllUsers(allUsers);
 
     // options redirectTo Administration
@@ -141,6 +144,10 @@ function GenerateFiles() {
     setOptionsRedirectTo(filterAuditors);
 
     const getAllFiles = await getFiles();
+    if(getAllFiles == 'TOKEN_EXPIRED' || getAllFiles == 'INVALID_TOKEN_ACCESS'){
+      remove("accessToken");
+      navigate("login");
+    }
     setAllFiles(getAllFiles?.data);
 
     setObjectUser([]);
@@ -240,8 +247,15 @@ function GenerateFiles() {
 
       setSettledNumber(newSettled);
       newSettled ? setIsSettled(true) : setIsSettled(false);
-    } catch (error) {
-      console.log("error: ", error);
+    } catch (err) {
+      // @ts-ignore
+      console.log("error ejecutado",err.response.data.message);
+      // @ts-ignore
+      const message = err.response.data.message;
+      if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+        remove("accessToken");
+        navigate("/login");
+      }
     } finally {
       setPreLoad(false);
     }
@@ -283,8 +297,15 @@ function GenerateFiles() {
       // guardo respuesta completa en variable result
       // @ts-ignore
       setResult(addFileResponse);
-    } catch (error) {
-      // console.log("error: ", error);
+    } catch (err) {
+      // @ts-ignore
+      console.log("error ejecutado",err.response.data.message);
+      // @ts-ignore
+      const message = err.response.data.message;
+      if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+        remove("accessToken");
+        navigate("/login");
+      }
     } finally {
       setPreLoad(false);
     }
@@ -322,9 +343,16 @@ function GenerateFiles() {
       if (responseConcatFilePath?.status === 200) {
         setModalSuccess(true);
       }
-    } catch (error) {
-      console.log("error: ", error);
+    } catch (err) {
+      // @ts-ignore
+      console.log("error ejecutado",err.response.data.message);
+      // @ts-ignore
+      const message = err.response.data.message;
       setPreLoad(false);
+      if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+        remove("accessToken");
+        navigate("/login");
+      }
     } finally {
       setPreLoad(false);
     }
@@ -361,6 +389,10 @@ function GenerateFiles() {
    */
   const newSettledSameUser = async () => {
     const newSettled = await getSettled();
+    if(newSettled == 'TOKEN_EXPIRED' || newSettled == 'INVALID_TOKEN_ACCESS'){
+      remove("accessToken");
+      navigate("login");
+    }
     setSettledNumber(newSettled);
     // setAccountType('');
     setPrice("");

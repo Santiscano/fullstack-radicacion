@@ -6,9 +6,10 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { styled } from "@mui/material/styles";
 import axios from "axios";
 import allRoutes from "../../../../../services/allRoutes";
-import { getHeader } from "../../../../../components/tools/SesionSettings";
+import { getHeader, remove } from "../../../../../components/tools/SesionSettings";
 import { useAppSelector } from "../../../../../redux/hooks/useStore";
 import { useModalUserView } from "../../../../../redux/Redux-actions/useModalUserView";
+import { useNavigate } from "react-router-dom";
 
 const Selecting = styled(FormControl)({
   "& .MuiOutlinedInput-root": {
@@ -19,6 +20,7 @@ const Selecting = styled(FormControl)({
 });
 
 export default function InputEditCedi(props:any) {
+  const navigate = useNavigate();
   const user = useAppSelector((state) => state.modalUserViewSlice);
   const { setEditSedes } = useModalUserView();
   const [cedis, setCedis] = useState([]);
@@ -38,8 +40,15 @@ export default function InputEditCedi(props:any) {
       const allCedis = getCedis.data.data;
       console.log('allCedis: ', allCedis);
       setCedis(allCedis);
-    } catch (e) {
-      console.log(e);
+    } catch (err) {
+      // @ts-ignore
+      console.log("error ejecutado",err.response.data.message);
+      // @ts-ignore
+      const message = err.response.data.message;
+      if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+        remove("accessToken");
+        navigate("/login");
+      }
     }
   };
 

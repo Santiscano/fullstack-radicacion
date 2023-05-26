@@ -1,9 +1,10 @@
 import { Button } from "@mui/material";
 import { useState } from "react";
 import useContextProvider from "../../../../../Context/GeneralValuesContext";
-import { get } from "../../../../../components/tools/SesionSettings";
+import { get, remove } from "../../../../../components/tools/SesionSettings";
 import { editFile } from "../../../../../services/Files.routes";
 import { useAppSelector } from "../../../../../redux/hooks/useStore";
+import { useNavigate } from "react-router-dom";
 
 function PendingTemporaryState({
   activitySelect,
@@ -14,6 +15,7 @@ function PendingTemporaryState({
   const { handleOpenModalAuth, handleUpdateRows } = useContextProvider();
 
   const user = useAppSelector((state) => state.modalUserViewSlice);
+  const navigate = useNavigate();
 
   const handleComments = (e: any) => setComments(e.target.value);
 
@@ -24,27 +26,38 @@ function PendingTemporaryState({
   };
 
   const handleSubmit = async (e: any) => {
-    e.preventDefault();
-    const response = await editFile(
-      user.idfiles,
-      user.idproviders,
-      Number(get("idusers")),
-      activitySelect,
-      user.files_type,
-      user.files_registered,
-      user.files_cost_center,
+    try{
+      e.preventDefault();
+      const response = await editFile(
+        user.idfiles,
+        user.idproviders,
+        Number(get("idusers")),
+        activitySelect,
+        user.files_type,
+        user.files_registered,
+        user.files_cost_center,
+        // @ts-ignore
+        user.files_code_accounting,
+        user.files_code_treasury,
+        user.files_price,
+        user.files_account_type,
+        user.files_account_type_number,
+        comments
+      );
+      // console.log(response);
+      if (response?.status == 200) {
+        handleClear();
+        handleUpdateRows();
+      }
+    } catch (err) {
       // @ts-ignore
-      user.files_code_accounting,
-      user.files_code_treasury,
-      user.files_price,
-      user.files_account_type,
-      user.files_account_type_number,
-      comments
-    );
-    // console.log(response);
-    if (response?.status == 200) {
-      handleClear();
-      handleUpdateRows();
+      console.log("error ejecutado",err.response.data.message);
+      // @ts-ignore
+      const message = err.response.data.message;
+      if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+        remove("accessToken");
+        navigate("/login");
+      }
     }
   };
 

@@ -8,7 +8,7 @@ import useContextProvider from "../../../../../Context/GeneralValuesContext";
 import { capitalizeFirstLatterUppercase, formattedAmount} from "../../../../../Utilities/formatted.utility";
 import { useAppSelector } from "../../../../../redux/hooks/useStore";
 import allRoutes from "../../../../../services/allRoutes";
-import { get, getHeader, roles, stateFile } from "../../../../../components/tools/SesionSettings";
+import { get, getHeader, remove, roles, stateFile } from "../../../../../components/tools/SesionSettings";
 import InputSelectStateFile from "../InputSelectStateFile";
 import InputSelectRedirectTo from "../../../../../components/common/InputSelectRedirectTo";
 import { InputSelectReturnTo } from "../InputSelectReturnTo";
@@ -18,6 +18,7 @@ import Decline from "../../Decline";
 import Return from "../../Return";
 import PendingTemporaryState from "../PendingTemporaryState";
 import Cancel from "../../Cancel";
+import { useNavigate } from "react-router-dom";
 
 const style = {
   position: "absolute" as "absolute",
@@ -48,6 +49,7 @@ const ModalAuth = () => {
   const file = useAppSelector((state) => state.modalUserViewSlice);
   const changeStateFile = useAppSelector((state) => state.changeStateFileSlice)
   console.log('changeStateFile: ', changeStateFile);
+  const navigate = useNavigate();
 
   const handleListFilesPDF = async () => {
     axios
@@ -61,7 +63,16 @@ const ModalAuth = () => {
         setListRoutesPDF(res?.data.path);
         res?.status == 200 && setViewPDF(true);
       })
-      .catch((err) => console.log(err));
+      .catch ((err) => {
+        // @ts-ignore
+        console.log("error ejecutado",err.response.data.message);
+        // @ts-ignore
+        const message = err.response.data.message;
+        if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+          remove("accessToken");
+          navigate("/login");
+        }
+      })
   };
 
   const handleActivitySelect = (e: SelectChangeEvent) => {
@@ -91,7 +102,16 @@ const ModalAuth = () => {
         console.log('handleOptionsRedirectTo: ', res.data.data);
         setOptionsRedirectTo(res.data.data)
       })
-      .catch((err) => console.log(err));
+      .catch ((err) => {
+        // @ts-ignore
+        console.log("error ejecutado",err.response.data.message);
+        // @ts-ignore
+        const message = err.response.data.message;
+        if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+          remove("accessToken");
+          navigate("/login");
+        }
+      })
   };
 
   const handleReturnTo = () => {
@@ -100,7 +120,16 @@ const ModalAuth = () => {
         console.log('return', res.data.data)
         setOptionsReturnTo(res.data.data)
       })
-      .catch((err) => console.log(err))
+      .catch ((err) => {
+        // @ts-ignore
+        console.log("error ejecutado",err.response.data.message);
+        // @ts-ignore
+        const message = err.response.data.message;
+        if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+          remove("accessToken");
+          navigate("/login");
+        }
+      })
   };
 
   useEffect(() => {
