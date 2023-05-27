@@ -1,5 +1,4 @@
 import { Roles } from '../../interfaces/Roles';
-import 'dotenv/config'
 
 export const roles:Roles = Object.freeze({
   Proveedor   : 1,
