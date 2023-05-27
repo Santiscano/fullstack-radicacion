@@ -15,8 +15,14 @@ export const showTablePending = async () => {
     );
     console.log("response showtablePending: ", response);
     return response;
-  } catch (error) {
-    console.log("error: ", error);
+  } catch (err) {
+    // @ts-ignore
+    console.log("error ejecutado",err.response.data.message);
+    // @ts-ignore
+    const message = err.response.data.message;
+    if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+      return message
+    }
   }
 };
 
@@ -25,8 +31,14 @@ export const showTableAllFiles = async () => {
     const response = await axios.get(Routes.api.tables.allFiles, getHeader());
     console.log("response allTable: ", response);
     return response;
-  } catch (error) {
-    console.log("error: ", error);
+  } catch (err) {
+    // @ts-ignore
+    console.log("error ejecutado",err.response.data.message);
+    // @ts-ignore
+    const message = err.response.data.message;
+    if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+      return message
+    }
   }
 };
 
@@ -37,7 +49,13 @@ export const showTableHistory = async () => {
     },getHeader())
     console.log('history: ', history)
     return history
-  } catch(error){
-    console.log('history error: ', error)
+  } catch (err) {
+    // @ts-ignore
+    console.log("error ejecutado",err.response.data.message);
+    // @ts-ignore
+    const message = err.response.data.message;
+    if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+      return message
+    }
   }
 };

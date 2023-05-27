@@ -17,8 +17,14 @@ export const uploadfile = async (file_pdf: any, idFiles: any) => {
     );
     console.log("response uploadfile: ", response);
     return response;
-  } catch (error) {
-    console.log(error);
+  } catch (err) {
+    // @ts-ignore
+    console.log("error ejecutado",err.response.data.message);
+    // @ts-ignore
+    const message = err.response.data.message;
+    if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+      return message
+    }
   }
 };
 
@@ -27,7 +33,13 @@ export const getFile = async () => {
     const response = await axios.post(Routes.api.Pdf.getFile, {}, getHeader());
     console.log(response);
     return response;
-  } catch (error) {
-    console.log(error);
+  } catch (err) {
+    // @ts-ignore
+    console.log("error ejecutado",err.response.data.message);
+    // @ts-ignore
+    const message = err.response.data.message;
+    if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+      return message
+    }
   }
 };

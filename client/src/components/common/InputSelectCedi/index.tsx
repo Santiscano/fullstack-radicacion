@@ -6,7 +6,8 @@ import Select from "@mui/material/Select";
 import { alpha, styled } from "@mui/material/styles";
 import axios from "axios";
 import Routes from "../../../services/allRoutes";
-import { getHeader } from "../../tools/SesionSettings";
+import { getHeader, remove } from "../../tools/SesionSettings";
+import { useNavigate } from "react-router-dom";
 
 const Selecting = styled(FormControl)({
   "& .MuiOutlinedInput-root": {
@@ -17,16 +18,23 @@ const Selecting = styled(FormControl)({
 });
 export default function index(props: any) {
   const [cedis, setCedis] = useState([]);
+  const navigate = useNavigate()
 
   const handleGetCedis = async () => {
     try {
       const getCedis = await axios.get(Routes.api.cedis.get, getHeader());
       const allCedis = getCedis.data.data;
       console.log('allCedis: ', allCedis);
-
       setCedis(allCedis);
-    } catch (e) {
-      console.log(e);
+    } catch (err) {
+      // @ts-ignore
+      console.log("error ejecutado",err.response.data.message);
+      // @ts-ignore
+      const message = err.response.data.message;
+      if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+        remove("accessToken");
+        navigate("/login");
+      }
     }
   };
 

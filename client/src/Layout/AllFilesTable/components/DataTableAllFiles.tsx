@@ -64,7 +64,6 @@ const delayAlerts = (params: any) => {
   if (params.row.files_type == "ADMINISTRATIVO" && params.row.idfiles !== 199) {
     return "willExpireSoon";
   } else if (params.row.idfiles == 199) {
-    // console.log("resolvi por aqui", params.row);
     return "overduePending";
   } else {
     return "good";

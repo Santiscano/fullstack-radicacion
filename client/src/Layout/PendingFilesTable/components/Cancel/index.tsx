@@ -3,10 +3,13 @@ import { useState } from "react";
 import useContextProvider from "./../../../../Context/GeneralValuesContext";
 import { editFile } from "./../../../../services/Files.routes";
 import { useAppSelector } from "../../../../redux/hooks/useStore";
+import { remove } from "../../../../components/tools/SesionSettings";
+import { useNavigate } from "react-router-dom";
 
 function Cancel({ activitySelect, setActivitySelect }: any) {
   const [comments, setComments] = useState("");
   const { handleOpenModalAuth, handleUpdateRows } = useContextProvider();
+  const navigate = useNavigate();
 
   const user = useAppSelector((state) => state.modalUserViewSlice);
   console.log("user: ", user);
@@ -19,27 +22,38 @@ function Cancel({ activitySelect, setActivitySelect }: any) {
   };
 
   const handleSubmit = async (e: any) => {
-    e.preventDefault();
-    const response = await editFile(
-      user.idfiles,
-      user.idproviders,
-      1,
-      activitySelect,
-      user.files_type,
-      user.files_registered,
-      user.files_cost_center,
+    try{
+      e.preventDefault();
+      const response = await editFile(
+        user.idfiles,
+        user.idproviders,
+        1,
+        activitySelect,
+        user.files_type,
+        user.files_registered,
+        user.files_cost_center,
+        // @ts-ignore
+        user.files_code_accounting,
+        user.files_code_treasury,
+        user.files_price,
+        user.files_account_type,
+        user.files_account_type_number,
+        comments
+      );
+      console.log("editfile response: ", response);
+      if (response?.status == 200) {
+        handleClear();
+        handleUpdateRows();
+      }
+    } catch (err) {
       // @ts-ignore
-      user.files_code_accounting,
-      user.files_code_treasury,
-      user.files_price,
-      user.files_account_type,
-      user.files_account_type_number,
-      comments
-    );
-    console.log("editfile response: ", response);
-    if (response?.status == 200) {
-      handleClear();
-      handleUpdateRows();
+      console.log("error ejecutado",err.response.data.message);
+      // @ts-ignore
+      const message = err.response.data.message;
+      if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+        remove("accessToken");
+        navigate("/login");
+      }
     }
   };
 

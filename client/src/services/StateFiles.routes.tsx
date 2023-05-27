@@ -10,8 +10,14 @@ export const getStatesFiles = async () => {
     );
     console.log("response getstatefiles: ", response);
     return response;
-  } catch (error) {
-    console.log("error statefiles: ", error);
+  } catch (err) {
+    // @ts-ignore
+    console.log("error ejecutado",err.response.data.message);
+    // @ts-ignore
+    const message = err.response.data.message;
+    if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+      return message
+    }
   }
 };
 
@@ -28,8 +34,14 @@ export const addStateFile = async () => {
     );
     console.log("response: ", response);
     return response;
-  } catch (error) {
-    console.log("error: ", error);
+  } catch (err) {
+    // @ts-ignore
+    console.log("error ejecutado",err.response.data.message);
+    // @ts-ignore
+    const message = err.response.data.message;
+    if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+      return message
+    }
   }
 };
 export const editStateFile = async () => {
@@ -46,8 +58,14 @@ export const editStateFile = async () => {
     );
     // console.log("response: ", response);
     return response;
-  } catch (error) {
-    // console.log("error: ", error);
+  } catch (err) {
+    // @ts-ignore
+    console.log("error ejecutado",err.response.data.message);
+    // @ts-ignore
+    const message = err.response.data.message;
+    if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+      return message
+    }
   }
 };
 export const deleteStateFile = async () => {
@@ -58,7 +76,13 @@ export const deleteStateFile = async () => {
     );
     // console.log("response: ", response);
     return response;
-  } catch (error) {
-    // console.log("error: ", error);
+  } catch (err) {
+    // @ts-ignore
+    console.log("error ejecutado",err.response.data.message);
+    // @ts-ignore
+    const message = err.response.data.message;
+    if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+      return message
+    }
   }
 };

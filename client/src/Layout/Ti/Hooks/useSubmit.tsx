@@ -16,8 +16,10 @@ import { createProvider, createUser, updateProvider } from "../../../services/Us
 import allRoutes from "../../../services/allRoutes";
 import { getCitys } from "../../../services/getCitysColombia.routes";
 import useContextProvider from "./../../../Context/GeneralValuesContext";
-import { getHeader } from "../../../components/tools/SesionSettings";
+import { getHeader, remove } from "../../../components/tools/SesionSettings";
 import { useAppSelector } from "../../../redux/hooks/useStore";
+import { getRoles } from "../../../services/Roles.routes";
+import { useNavigate } from "react-router-dom";
 
 function useSubmit() {
   // --------------------------Variable-------------------------------//
@@ -76,13 +78,19 @@ function useSubmit() {
   // --------------------------Context-------------------------------//
   const { setPreLoad, handleMessageSnackbar, cediConection, handleOpenModalAuth } = useContextProvider();
   const user = useAppSelector((state) => state.modalUserViewSlice);
+  const navigate = useNavigate();
   // --------------------------handles-------------------------------//
   /**
    * traigo los departamentos, ciudades, cedis,
    * y almaceno en variables
    */
   const handleGetCitys = async () => {
+
     const departmentsResponse: any = await getCitys();
+    if( departmentsResponse == "TOKEN_EXPIRED" || departmentsResponse == "INVALID_TOKEN_ACCESS"){
+      remove("accessToken");
+      navigate("/login");
+    }
     setListDepartment(departmentsResponse?.Department);
     setListCitys(departmentsResponse?.DepartamentCity);
     setAllCitys(departmentsResponse?.DepartamentCity);
@@ -91,7 +99,23 @@ function useSubmit() {
   const handleCedis = async () => {
     const allCedis: AllCedis[] = await getCedis();
     console.log("allCedis: ", allCedis);
+    // @ts-ignore
+    if( allCedis == "TOKEN_EXPIRED" || allCedis == "INVALID_TOKEN_ACCESS"){
+      remove("accessToken");
+      navigate("/login");
+    }
     setOptionsCedisIdName(allCedis);
+  };
+  const handleGetRoles = async () => {
+    const roles = await getRoles();
+    // @ts-ignore
+    if( roles == "TOKEN_EXPIRED" || roles == "INVALID_TOKEN_ACCESS"){
+      remove("accessToken");
+      navigate("/login");
+    }
+    const listRoles = roles.data;
+    console.log('roles: ', listRoles);
+    setOptionsRol(listRoles)
   };
 
   /**
@@ -165,8 +189,16 @@ function useSubmit() {
         handleMessageSnackbar("error", "Cedi No Fue Creada Ocurrio Un Error");
         setPreLoad(false);
       }
-    } catch (error) {
+    } catch (err) {
       handleMessageSnackbar("error", "Ocurrio Un Error Intenta De Nuevo");
+      // @ts-ignore
+      console.log("error ejecutado",err.response.data.message);
+      // @ts-ignore
+      const message = err.response.data.message;
+      if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+        remove("accessToken");
+        navigate("/login");
+      }
     }
   };
   const handleSubmitCreateUser = async (e: any, close: any) => {
@@ -215,9 +247,16 @@ function useSubmit() {
         );
         setPreLoad(false);
       }
-    } catch (error) {
-      console.log("error: ", error);
+    } catch (err) {
       handleMessageSnackbar("error", "Ocurrio Un Error Intenta De Nuevo");
+      // @ts-ignore
+      console.log("error ejecutado",err.response.data.message);
+      // @ts-ignore
+      const message = err.response.data.message;
+      if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+        remove("accessToken");
+        navigate("/login");
+      }
     } finally {
       setReset(false);
       close();
@@ -274,9 +313,16 @@ function useSubmit() {
         );
         setPreLoad(false);
       }
-    } catch (error) {
-      console.log("error: ", error);
+    } catch (err) {
       handleMessageSnackbar("error", "Ocurrio Un Error Intenta De Nuevo");
+      // @ts-ignore
+      console.log("error ejecutado",err.response.data.message);
+      // @ts-ignore
+      const message = err.response.data.message;
+      if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+        remove("accessToken");
+        navigate("/login");
+      }
     } finally {
       setReset(false);
     }
@@ -312,11 +358,19 @@ function useSubmit() {
             handleOpenModalAuth()
           }
         })
-    } catch(err){
+    } catch (err) {
       handleMessageSnackbar(
         "error",
         `No se pudo Actualizar el proveedor, Ocurrio Un Error`
       );
+      // @ts-ignore
+      console.log("error ejecutado",err.response.data.message);
+      // @ts-ignore
+      const message = err.response.data.message;
+      if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+        remove("accessToken");
+        navigate("/login");
+      }
     } finally{setPreLoad(false)}
   };
   const handleSubmitInactiveProvider = async (e: any) => {
@@ -350,11 +404,19 @@ function useSubmit() {
             handleOpenModalAuth()
           }
         })
-    } catch(err){
+    } catch (err) {
       handleMessageSnackbar(
         "error",
         `No se pudo Actualizar el proveedor, Ocurrio Un Error`
       );
+      // @ts-ignore
+      console.log("error ejecutado",err.response.data.message);
+      // @ts-ignore
+      const message = err.response.data.message;
+      if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+        remove("accessToken");
+        navigate("/login");
+      }
     } finally{setPreLoad(false)}
   };
 
@@ -383,12 +445,19 @@ function useSubmit() {
         );
         setPreLoad(false);
       }
-    } catch (error) {
-      // console.log("error: ", error);
+    } catch (err) {
       handleMessageSnackbar(
         "error",
         "Ocurrio Un Error En El Servidor Intenta De Nuevo"
       );
+      // @ts-ignore
+      console.log("error ejecutado",err.response.data.message);
+      // @ts-ignore
+      const message = err.response.data.message;
+      if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+        remove("accessToken");
+        navigate("/login");
+      }
     } finally {
       setPreLoad(false);
     }
@@ -425,11 +494,19 @@ function useSubmit() {
         );
         setPreLoad(false);
       }
-    } catch (error) {
+    } catch (err) {
       handleMessageSnackbar(
         "error",
         "Ocurrio Un Error En El Servidor Intenta De Nuevo"
       );
+      // @ts-ignore
+      console.log("error ejecutado",err.response.data.message);
+      // @ts-ignore
+      const message = err.response.data.message;
+      if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+        remove("accessToken");
+        navigate("/login");
+      }
     } finally {
       setPreLoad(false);
     }
@@ -472,12 +549,19 @@ function useSubmit() {
         );
         setPreLoad(false);
       }
-    } catch (error) {
-      // console.log("error: ", error);
+    } catch (err) {
       handleMessageSnackbar(
         "error",
         "Ocurrio Un Error En El Servidor Intenta De Nuevo"
       );
+      // @ts-ignore
+      console.log("error ejecutado",err.response.data.message);
+      // @ts-ignore
+      const message = err.response.data.message;
+      if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+        remove("accessToken");
+        navigate("/login");
+      }
     } finally {
       setPreLoad(false);
     }
@@ -510,8 +594,15 @@ function useSubmit() {
         setPreLoad(false);
         handleCloseDialogDelete();
       }
-    } catch (error) {
-      // console.log("error: ", error);
+    } catch (err) {
+      // @ts-ignore
+      console.log("error ejecutado",err.response.data.message);
+      // @ts-ignore
+      const message = err.response.data.message;
+      if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+        remove("accessToken");
+        navigate("/login");
+      }
       handleMessageSnackbar("error", "Ocurrio Un Error Intenta De Nuevo");
       handleCloseDialogDelete();
     } finally {
@@ -524,6 +615,7 @@ function useSubmit() {
   useEffect(() => {
     handleGetCitys();
     handleCedis();
+    handleGetRoles();
     changeTitleSection("PANEL ADMINISTRATIVO");
 
     return () => {

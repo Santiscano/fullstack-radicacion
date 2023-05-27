@@ -1,6 +1,6 @@
 import axios from "axios";
 import Routes from "./allRoutes";
-import { getHeader, set } from "../components/tools/SesionSettings";
+import { getHeader } from "../components/tools/SesionSettings";
 
 export const getCedis = async () => {
   try {
@@ -9,7 +9,13 @@ export const getCedis = async () => {
     console.log("fetch cedis: ", cedis);
     return cedis;
   } catch (err) {
-    console.log(err);
+    // @ts-ignore
+    console.log("error ejecutado",err.response.data.message);
+    // @ts-ignore
+    const message = err.response.data.message;
+    if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+      return message
+    }
   }
 };
 
@@ -37,7 +43,13 @@ export const createCedi = async (
     // console.log("response create cedi: ", response);
     return response;
   } catch (err) {
-    // console.log(err);
+    // @ts-ignore
+    console.log("error ejecutado",err.response.data.message);
+    // @ts-ignore
+    const message = err.response.data.message;
+    if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+      return message
+    }
   }
 };
 
@@ -55,8 +67,14 @@ export const editCedi = async () => {
       getHeader()
     );
     // console.log("response edit: ", response);
-  } catch (error) {
-    // console.log(error);
+  } catch (err) {
+    // @ts-ignore
+    console.log("error ejecutado",err.response.data.message);
+    // @ts-ignore
+    const message = err.response.data.message;
+    if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+      return message
+    }
   }
 };
 
@@ -68,7 +86,13 @@ export const deleteCedi = async (id: number) => {
     );
     // console.log("response delete: ", response);
     return response;
-  } catch (error) {
-    // console.log(error);
+  } catch (err) {
+    // @ts-ignore
+    console.log("error ejecutado",err.response.data.message);
+    // @ts-ignore
+    const message = err.response.data.message;
+    if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+      return message
+    }
   }
 };
