@@ -2,12 +2,13 @@ import { Button, SelectChangeEvent } from "@mui/material";
 import { useState } from "react";
 import TextFieldOutlined from "../../../../components/common/TextFieldOutline";
 import Upload from "../../../../components/common/Upload";
-import { get, roles } from "../../../../components/tools/SesionSettings";
+import { get, remove, roles } from "../../../../components/tools/SesionSettings";
 import { editFile } from "../../../../services/Files.routes";
 import { createFilePath } from "../../../../services/FilesPath.routes";
 import { uploadfile } from "../../../../services/Pdf.routes";
 import useContextProvider from "./../../../../Context/GeneralValuesContext";
 import { useAppSelector } from "../../../../redux/hooks/useStore";
+import { useNavigate } from "react-router-dom";
 
 function Finally({ endActivitySelect }: any) {
   // console.log("user: ", user);
@@ -15,8 +16,8 @@ function Finally({ endActivitySelect }: any) {
   const [filePDF, setFilePDF] = useState("");
   const [fileName, setFileName] = useState("");
   const [comments, setComments] = useState("");
-  const { setPreLoad, handleOpenModalAuth, handleUpdateRows } =
-    useContextProvider();
+  const { setPreLoad, handleOpenModalAuth, handleUpdateRows } = useContextProvider();
+  const navigate = useNavigate();
 
   const user = useAppSelector((state) => state.modalUserViewSlice);
 
@@ -29,8 +30,6 @@ function Finally({ endActivitySelect }: any) {
     handleUpdateRows();
   };
   const handleChangeFile = (e: SelectChangeEvent) => {
-    // @ts-ignore
-    // console.log("archivo capturado", e.target.files[0]);
     // @ts-ignore
     setFilePDF(e.target.files[0]);
     const fileNameEvent = e.target.value.replace(/^.*\\/, ""); // renombrar archivo
@@ -62,8 +61,15 @@ function Finally({ endActivitySelect }: any) {
         handleClear();
         handleOpenModalAuth();
       }
-    } catch (error) {
-      console.log("error: ", error);
+    } catch (err) {
+      // @ts-ignore
+      console.log("error ejecutado",err.response.data.message);
+      // @ts-ignore
+      const message = err.response.data.message;
+      if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+        remove("accessToken");
+        navigate("/login");
+      }
     } finally {
       setPreLoad(false);
     }
@@ -84,11 +90,19 @@ function Finally({ endActivitySelect }: any) {
         handleClear();
         handleOpenModalAuth();
       }
-    } catch (error) {
-      console.log("error: ", error);
-    } finally {
+    } catch (err) {
+      // @ts-ignore
+      console.log("error ejecutado",err.response.data.message);
+      // @ts-ignore
+      const message = err.response.data.message;
+      if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+        remove("accessToken");
+        navigate("/login");
+      }
     }
   };
+
+
   return (
     <section className="flex flex-wrap w-full items-center justify-between ">
       <form className="w-full my-0" onSubmit={handleSubmit}>

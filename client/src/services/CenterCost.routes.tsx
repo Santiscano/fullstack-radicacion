@@ -17,8 +17,14 @@ export const getArea = async () => {
     );
     // console.log("response: ", response);
     return response;
-  } catch (error) {
-    // console.log("error: ", error);
+  } catch (err) {
+    // @ts-ignore
+    console.log("error ejecutado",err.response.data.message);
+    // @ts-ignore
+    const message = err.response.data.message;
+    if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+      return message
+    }
   }
 };
 export const createArea = async (
@@ -36,8 +42,14 @@ export const createArea = async (
     );
     // console.log("response: ", response);
     return response;
-  } catch (error) {
-    // console.log("error: ", error);
+  } catch (err) {
+    // @ts-ignore
+    console.log("error ejecutado",err.response.data.message);
+    // @ts-ignore
+    const message = err.response.data.message;
+    if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+      return message
+    }
   }
 };
 export const deleteArea = async () => {
@@ -48,8 +60,14 @@ export const deleteArea = async () => {
     );
     // console.log("response: ", response);
     return response;
-  } catch (error) {
-    // console.log("error: ", error);
+  } catch (err) {
+    // @ts-ignore
+    console.log("error ejecutado",err.response.data.message);
+    // @ts-ignore
+    const message = err.response.data.message;
+    if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+      return message
+    }
   }
 };
 /**
@@ -64,8 +82,14 @@ export const getAllSubAreas = async () => {
     );
     // console.log("response:", response);
     return response;
-  } catch (error) {
-    // console.log("error: ", error);
+  } catch (err) {
+    // @ts-ignore
+    console.log("error ejecutado",err.response.data.message);
+    // @ts-ignore
+    const message = err.response.data.message;
+    if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+      return message
+    }
   }
 };
 export const getSubAreaById = async (idcost_center_area: any) => {
@@ -80,8 +104,14 @@ export const getSubAreaById = async (idcost_center_area: any) => {
     );
     // console.log("response:", response);
     return response;
-  } catch (error) {
-    // console.log("error: ", error);
+  } catch (err) {
+    // @ts-ignore
+    console.log("error ejecutado",err.response.data.message);
+    // @ts-ignore
+    const message = err.response.data.message;
+    if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+      return message
+    }
   }
 };
 export const createSubArea = async (
@@ -101,8 +131,14 @@ export const createSubArea = async (
     );
     // console.log("response:", response);
     return response;
-  } catch (error) {
-    // console.log("error: ", error);
+  } catch (err) {
+    // @ts-ignore
+    console.log("error ejecutado",err.response.data.message);
+    // @ts-ignore
+    const message = err.response.data.message;
+    if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+      return message
+    }
   }
 };
 export const deleteSubArea = async () => {
@@ -113,8 +149,14 @@ export const deleteSubArea = async () => {
     );
     // console.log("response:", response);
     return response;
-  } catch (error) {
-    // console.log("error: ", error);
+  } catch (err) {
+    // @ts-ignore
+    console.log("error ejecutado",err.response.data.message);
+    // @ts-ignore
+    const message = err.response.data.message;
+    if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+      return message
+    }
   }
 };
 /**
@@ -131,8 +173,14 @@ export const getCostCenter = async () => {
     );
     // console.log("getCostCenter:", response);
     return response;
-  } catch (error) {
-  } finally {
+  } catch (err) {
+    // @ts-ignore
+    console.log("error ejecutado",err.response.data.message);
+    // @ts-ignore
+    const message = err.response.data.message;
+    if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+      return message
+    }
   }
 };
 export const getCostCenterById = async (id: any) => {
@@ -149,8 +197,14 @@ export const getCostCenterById = async (id: any) => {
     );
     // console.log("getCostCenter:", response);
     return response;
-  } catch (error) {
-  } finally {
+  } catch (err) {
+    // @ts-ignore
+    console.log("error ejecutado",err.response.data.message);
+    // @ts-ignore
+    const message = err.response.data.message;
+    if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+      return message
+    }
   }
 };
 export const createCostCenter = async (
@@ -170,8 +224,14 @@ export const createCostCenter = async (
     );
     console.log("response:", response);
     return response;
-  } catch (error) {
-    // console.log("error: ", error);
+  } catch (err) {
+    // @ts-ignore
+    console.log("error ejecutado",err.response.data.message);
+    // @ts-ignore
+    const message = err.response.data.message;
+    if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+      return message
+    }
   }
 };
 export const deleteCostCenter = async () => {
@@ -182,8 +242,14 @@ export const deleteCostCenter = async () => {
     );
     // console.log("response:", response);
     return response;
-  } catch (error) {
-    // console.log("error: ", error);
+  } catch (err) {
+    // @ts-ignore
+    console.log("error ejecutado",err.response.data.message);
+    // @ts-ignore
+    const message = err.response.data.message;
+    if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+      return message
+    }
   }
 };
 export const centerCostTable = async () => {
@@ -194,7 +260,13 @@ export const centerCostTable = async () => {
     );
     console.log("get Table Center cost", getTable);
     return getTable.data;
-  } catch (error) {
-    console.log("error: ", error);
+  } catch (err) {
+    // @ts-ignore
+    console.log("error ejecutado",err.response.data.message);
+    // @ts-ignore
+    const message = err.response.data.message;
+    if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+      return message
+    }
   }
 };

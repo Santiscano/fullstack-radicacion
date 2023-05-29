@@ -55,8 +55,8 @@ function AllEmployees({
   useEffect(() => {
     changeTitleSection("Todos los Empleados");
   },[])
-  return (
 
+  return (
     <div>
       <div
         style={{ position: "absolute", left: position.x, top: position.y }}
@@ -65,6 +65,7 @@ function AllEmployees({
         onMouseUp={handleMouseUp}
       >
         <p>¡Mueve este elemento haciendo clic y arrastrando!</p>
+        <p>este no mueve</p>
       </div>
     </div>
   );

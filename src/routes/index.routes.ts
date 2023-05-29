@@ -98,7 +98,7 @@ router.post('/validateUser', validateUser);                                     
 router.post('/changePassword', changePassword);                                     // Cambiar la contraseña por medio del correo
 
 // Upload File (Google Cloud)
-router.post('/uploadFileDocument/:idfiles', decodeToken, uploadFileDocument);       // Cargar una imagen en el bucket
+router.post('/uploadFileDocument/:idfiles/:files_type', decodeToken, uploadFileDocument);       // Cargar una imagen en el bucket
 
 // TABLAS
 router.get('/showTable', decodeToken, showTable);                                   // Todos los archivos

@@ -1,8 +1,9 @@
 import { Autocomplete, Box, TextField } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { useEffect, useState } from "react";
-import { useResolvedPath } from "react-router-dom";
+import { useNavigate, useResolvedPath } from "react-router-dom";
 import { GetAllSettled } from "../../../../services/SearchFile.routes";
+import { remove } from "../../../../components/tools/SesionSettings";
 
 const AutocompleteStyled = styled(Autocomplete)({
   "& .MuiOutlinedInput-root": {
@@ -24,6 +25,8 @@ function SearchSettled({
   const [listSettleds, setListSettleds] = useState<any>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
+  const navigate = useNavigate();
+
   const getAllRegisteredFiles = async () => {
     try {
       const resSettleds = await GetAllSettled();
@@ -39,8 +42,15 @@ function SearchSettled({
         setListSettleds(elements);
         setLoading(false);
       }
-    } catch (error) {
-      console.log("error: ", error);
+    } catch (err) {
+      // @ts-ignore
+      console.log("error ejecutado",err.response.data.message);
+      // @ts-ignore
+      const message = err.response.data.message;
+      if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+        remove("accessToken");
+        navigate("/login");
+      }
     }
   };
 

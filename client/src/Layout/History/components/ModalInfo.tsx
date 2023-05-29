@@ -6,7 +6,8 @@ import { useAppSelector } from '../../../redux/hooks/useStore';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import allRoutes from '../../../services/allRoutes';
-import { getHeader } from '../../../components/tools/SesionSettings';
+import { getHeader, remove } from '../../../components/tools/SesionSettings';
+import { useNavigate } from 'react-router-dom';
 
 const style = {
   position: "absolute" as "absolute",
@@ -30,6 +31,7 @@ const ModalInfo = () => {
 
   const { openModalAuth, handleOpenModalAuth } = useContextProvider();
   const user = useAppSelector((state) => state.modalUserViewSlice);
+  const navigate = useNavigate();
 
   const handleListFilesPDF = async () => {
     axios
@@ -43,7 +45,16 @@ const ModalInfo = () => {
         setListRoutesPDF(res?.data.path);
         res?.status == 200 && setViewPDF(true);
       })
-      .catch((err) => console.log(err));
+      .catch ((err) => {
+        // @ts-ignore
+        console.log("error ejecutado",err.response.data.message);
+        // @ts-ignore
+        const message = err.response.data.message;
+        if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+          remove("accessToken");
+          navigate("/login");
+        }
+      })
   };
 
   useEffect(() => {

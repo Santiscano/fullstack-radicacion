@@ -4,6 +4,8 @@ import { styled } from "@mui/material/styles";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Route from "../../../../../services/allRoutes";
+import { useNavigate } from "react-router-dom";
+import { remove } from '../../../../../components/tools/SesionSettings'
 
 const AutocompleteStyled = styled(Autocomplete)({
   "& .MuiOutlinedInput-root": {
@@ -32,6 +34,7 @@ function BusinessUnitCedi({
   // const documents = ["CEDULA CIUDADANIA", "NIT", "CEDULA EXTRANGERIA"];
   const [cedi, setCedi] = useState([]);
   const [disabledCediAction, setDisabledCediAction] = useState(false);
+  const navigate = useNavigate();
 
   const handleBusinessUnit = (id: any) => {
     axios
@@ -45,7 +48,17 @@ function BusinessUnitCedi({
       .then((res) => {
         // console.log(res.data.data);
         setBusinessUnit(res?.data.data);
-      });
+      })
+      .catch ((err) => {
+        // @ts-ignore
+        console.log("error ejecutado",err.response.data.message);
+        // @ts-ignore
+        const message = err.response.data.message;
+        if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+          remove("accessToken");
+          navigate("/login");
+        }
+      })
   };
 
   const handleDocumentNumber = (idcost_center_area: any) => {
@@ -61,7 +74,17 @@ function BusinessUnitCedi({
       .then((res) => {
         // console.log(res.data.data);
         setCedi(res.data.data);
-      });
+      })
+      .catch ((err) => {
+        // @ts-ignore
+        console.log("error ejecutado",err.response.data.message);
+        // @ts-ignore
+        const message = err.response.data.message;
+        if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+          remove("accessToken");
+          navigate("/login");
+        }
+      })
   };
 
   /**

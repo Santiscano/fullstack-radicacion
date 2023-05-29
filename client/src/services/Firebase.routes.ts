@@ -16,8 +16,14 @@ export const createUser = async (
       getHeader()
     );
     console.log("response: ", response);
-  } catch (error) {
-    console.log("error: ", error);
+  } catch (err) {
+    // @ts-ignore
+    console.log("error ejecutado",err.response.data.message);
+    // @ts-ignore
+    const message = err.response.data.message;
+    if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+      return message
+    }
   }
 };
 
@@ -37,7 +43,15 @@ export const login = async (users_email: string, users_password: string) => {
     // console.log('accessToken: ', accessToken);
     set("accessToken", accessToken);
     return response;
-  } catch (err: any) {
+  } catch (err) {
+    // @ts-ignore
+    console.log("error ejecutado",err.response.data.message);
+    // @ts-ignore
+    const message = err.response.data.message;
+    if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+      return message
+    }
+    // @ts-ignore
     const response = err.response;
     console.log("response: ", response);
     return response;
@@ -56,8 +70,14 @@ export const validateUserFirebase = async () => {
     set("fullName", `${user.users_name} ${user.users_lastname}`);
     console.log("user save in sesionStorage: ", user);
     return response;
-  } catch (error) {
-    console.log("error: ", error);
+  } catch (err) {
+    // @ts-ignore
+    console.log("error ejecutado",err.response.data.message);
+    // @ts-ignore
+    const message = err.response.data.message;
+    if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+      return message
+    }
   }
 };
 
@@ -72,5 +92,13 @@ export const changePassword = async (users_email: string) => {
     );
     console.log("response: ", response);
     return response;
-  } catch (error) {}
+  } catch (err) {
+    // @ts-ignore
+    console.log("error ejecutado",err.response.data.message);
+    // @ts-ignore
+    const message = err.response.data.message;
+    if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+      return message
+    }
+  }
 };

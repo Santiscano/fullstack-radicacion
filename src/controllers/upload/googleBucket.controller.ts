@@ -12,7 +12,7 @@ import { apiKeyValidate } from "../../utilities/apiKeyValidate.utilities";
 // CARGAR UN PDF AL BUCKET DE GOOGLE
 export const uploadFileDocument = async (req: Request, res: Response) => {
     const { api_key } = req.headers;
-    const { idfiles } = req.params;
+    const { idfiles, files_type } = req.params;
     const message = `Archivo cargado satisfactoriamente al bucker y almacenado en la base de datos`
     try {
         if(apiKeyValidate(api_key)) return res.status(401).json(unauthorized());
@@ -28,7 +28,7 @@ export const uploadFileDocument = async (req: Request, res: Response) => {
                 // NOMBRE DEL ARCHIVO EN EL BUCKET
                 const destino: string = `${file[0].files_registered}-${filePathCount[0].contador + 1}`;
                 const pathPDF: string = req.file.path;
-                const pathFile: string = `https://storage.cloud.google.com/${process.env.BUCKET_NAME}/${process.env.BUCKET_ASSIGN}/administrativo/${destino}.pdf?authuser=3`
+                const pathFile: string = `https://storage.cloud.google.com/${process.env.BUCKET_NAME}/${process.env.BUCKET_ASSIGN}/${files_type}/${destino}.pdf?authuser=3`
                 // EDITAR PDF (AGREGAR RADICADO)
                 await editPDF(pathPDF, pathPDF, destino);
                 // CARGAR EL PDF AL BUCKET

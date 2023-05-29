@@ -54,7 +54,6 @@ function App() {
             <Route path="/dashboard" element={<Admin />}>
               <Route path="home" element={<Home />} />
 
-              {/* Protegidas por roles */}
               <Route
                 element={
                   // @ts-ignore

@@ -60,7 +60,7 @@ export const postFilePath = async ( req: Request, res: Response ) => {
     const data = { idfiles, files_path, files_path_observation, userSession };
     try {
         if (apiKeyValidate(api_key)) return res.status(401).json(unauthorized());
-        if (missingData(data).error) return res.status(422).json(uncompleted(missingData(data).missing));
+        if (missingData({ idfiles, files_path, userSession }).error) return res.status(422).json(uncompleted(missingData({ idfiles, files_path, userSession }).missing));
         return res.status(200).json(success((await postFilePathModel(data)).data));
     } catch (error) {
         return res.status(512).json(unsuccessfully(error));

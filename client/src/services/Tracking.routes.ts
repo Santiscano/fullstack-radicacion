@@ -18,8 +18,14 @@ export const getTrackingBySettled = async (files_registered:any) => {
     },getHeader())
     console.log('tracking: ', tracking);
     return tracking;
-  }catch(error){
-    console.log(error)
+  }catch (err) {
+    // @ts-ignore
+    console.log("error ejecutado",err.response.data.message);
+    // @ts-ignore
+    const message = err.response.data.message;
+    if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+      return message
+    }
   }
 };
 export const getTrackingByAccountType = async (files_account_type:any, files_account_type_number:any) => {
@@ -30,7 +36,13 @@ export const getTrackingByAccountType = async (files_account_type:any, files_acc
     },getHeader())
     console.log('tracking: ', tracking);
     return tracking;
-  }catch(error){
-    console.log(error)
+  }catch (err) {
+    // @ts-ignore
+    console.log("error ejecutado",err.response.data.message);
+    // @ts-ignore
+    const message = err.response.data.message;
+    if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+      return message
+    }
   }
 };

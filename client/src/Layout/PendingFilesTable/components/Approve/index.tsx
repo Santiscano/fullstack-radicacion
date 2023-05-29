@@ -3,13 +3,14 @@ import { Button } from "@mui/material";
 import { useState } from "react";
 import TextFieldOutlined from "../../../../components/common/TextFieldOutline";
 import Upload from "../../../../components/common/Upload";
-import { get, roles } from "../../../../components/tools/SesionSettings";
+import { get, roles, remove } from "../../../../components/tools/SesionSettings";
 import { editFile } from "../../../../services/Files.routes";
 import { createFilePath } from "../../../../services/FilesPath.routes";
 import { uploadfile } from "../../../../services/Pdf.routes";
 import InputsSelectCenterCost from "../common/InputsSelectCenterCost";
 import useContextProvider from "./../../../../Context/GeneralValuesContext";
 import { useAppSelector } from "../../../../redux/hooks/useStore";
+import { useNavigate } from "react-router-dom";
 
 function Approve({
   newAssigned,
@@ -39,6 +40,8 @@ function Approve({
   const [comments, setComments] = useState("");
   const [filePDFGoogle, setFilePDFGoogle] = useState("");
   const [fileName, setFileName] = useState("");
+
+  const navigate = useNavigate();
 
   const {
     setPreLoad,
@@ -92,8 +95,15 @@ function Approve({
         get("idusers")
       ); // relaciona pdf y archivo
       console.log("concat: ", responseConcatFilePath);
-    } catch (error) {
-      console.log("error: ", error);
+    } catch (err) {
+      // @ts-ignore
+      console.log("error ejecutado",err.response.data.message);
+      // @ts-ignore
+      const message = err.response.data.message;
+      if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+        remove("accessToken");
+        navigate("/login");
+      }
     } finally {
       setPreLoad(false);
     }
@@ -128,8 +138,15 @@ function Approve({
         handleClear();
         handleUpdateRows();
       }
-    } catch (error) {
-      console.log("error: ", error);
+    } catch (err) {
+      // @ts-ignore
+      console.log("error ejecutado",err.response.data.message);
+      // @ts-ignore
+      const message = err.response.data.message;
+      if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+        remove("accessToken");
+        navigate("/login");
+      }
     } finally {
       setPreLoad(true);
     }

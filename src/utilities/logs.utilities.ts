@@ -16,6 +16,10 @@ export interface Logs {
     message: string;
 };
 
+export interface GeneralLogs {
+    
+};
+
 const logPath = path.join(__dirname, '../../logs'); 
 
 
@@ -31,7 +35,7 @@ export const writeLog = (data: Logs) => {
     let alert = "";
 
     data.error === true
-        ? alert = "[ERROR]"
+        ? alert = "[WARNING]"
         : alert = "[SUCCESS]"
 
     infoLog = `${newDate} ${alert} ${data.users_identification_type.toUpperCase()}: ${data.users_identification} '${data.files_account_type_number.toUpperCase()}': ${data.message}\n`

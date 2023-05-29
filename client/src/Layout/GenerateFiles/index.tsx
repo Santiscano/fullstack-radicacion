@@ -1,6 +1,6 @@
 import { SelectChangeEvent } from "@mui/material/Select";
 import { useContext, useEffect, useState } from "react";
-import InputSelect from "../../components/common/InputSelect";
+import { useNavigate } from "react-router-dom";
 import Button from "../../components/common/Button";
 import InputSelectRedirectTo from "../../components/common/InputSelectRedirectTo";
 import UploadFileModal from "../../components/common/ModalUploadFile";
@@ -33,7 +33,7 @@ import { formattedAmount } from "../../Utilities/formatted.utility";
 import InputSelectOnlyValue from "../../components/common/InputSelectOnlyValue";
 import ModalSuccess from "../../components/common/ModalSuccess";
 import SearchUser from "../../components/common/SearchUser";
-import { get, roles } from "../../components/tools/SesionSettings";
+import { get, remove, roles } from "../../components/tools/SesionSettings";
 import { AllCedis, CedisIdName } from "../../interfaces/Cedis";
 import { createFilePath } from "../../services/FilesPath.routes";
 import InputSelectCedi from "./components/InputSelectCedi";
@@ -41,7 +41,7 @@ import InputSelectCedi from "./components/InputSelectCedi";
 // import { savePDF, printPDF } from "./components/PDF/print";
 import { ChildModalPdf } from "../../components/common/ModalUploadFile";
 import InputDouble from "./components/InputDouble";
-import { useDataGlobal } from "../../redux/Redux-actions/useDataGlobal"
+import { useDataGlobal } from "../../redux/Redux-actions/useDataGlobal";
 
 function GenerateFiles() {
   // ------------------------------VARIABLES------------------------------//
@@ -50,7 +50,7 @@ function GenerateFiles() {
   const [statusFileResponse, setStatusFileResponse] = useState(false);
   // valores actualizables con DB
   const [allUsers, setAllUsers] = useState([""]); // recibi todos los usuarios de DB
-  const [allCedis, setAllCedis] = useState<any[]>([""]);
+  const [allCedis, setAllCedis] = useState<any[] >([""]);
   const [optionsCedisIdName, setOptionsCedisIdName] = useState<CedisIdName[]>(
     []
   ); // recibe nombre y id de todas las cedis
@@ -100,6 +100,7 @@ function GenerateFiles() {
 
   const { setPreLoad } = useContext(GeneralValuesContext);
   const { changeTitleSection } = useDataGlobal();
+  const navigate = useNavigate();
 
   // -----------------------METHODS INPUTS--------------------------------//
 
@@ -114,12 +115,21 @@ function GenerateFiles() {
     // cedis
     const allCedis: AllCedis[] = await getCedis();
     console.log("allCedis: ", allCedis);
+    // @ts-ignore
+    if(allCedis == 'TOKEN_EXPIRED' || allCedis == 'INVALID_TOKEN_ACCESS'){
+      remove("accessToken");
+      navigate("login");
+    }
     setAllCedis(allCedis);
 
     // users
     const getAllUsers = await getUsers();
     console.log("getAllUsers: ", getAllUsers);
     const allUsers = getAllUsers;
+    if(getAllUsers == 'TOKEN_EXPIRED' || getAllUsers == 'INVALID_TOKEN_ACCESS'){
+      remove("accessToken");
+      navigate("login");
+    }
     setAllUsers(allUsers);
 
     // options redirectTo Administration
@@ -134,6 +144,10 @@ function GenerateFiles() {
     setOptionsRedirectTo(filterAuditors);
 
     const getAllFiles = await getFiles();
+    if(getAllFiles == 'TOKEN_EXPIRED' || getAllFiles == 'INVALID_TOKEN_ACCESS'){
+      remove("accessToken");
+      navigate("login");
+    }
     setAllFiles(getAllFiles?.data);
 
     setObjectUser([]);
@@ -233,8 +247,15 @@ function GenerateFiles() {
 
       setSettledNumber(newSettled);
       newSettled ? setIsSettled(true) : setIsSettled(false);
-    } catch (error) {
-      console.log("error: ", error);
+    } catch (err) {
+      // @ts-ignore
+      console.log("error ejecutado",err.response.data.message);
+      // @ts-ignore
+      const message = err.response.data.message;
+      if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+        remove("accessToken");
+        navigate("/login");
+      }
     } finally {
       setPreLoad(false);
     }
@@ -276,8 +297,15 @@ function GenerateFiles() {
       // guardo respuesta completa en variable result
       // @ts-ignore
       setResult(addFileResponse);
-    } catch (error) {
-      // console.log("error: ", error);
+    } catch (err) {
+      // @ts-ignore
+      console.log("error ejecutado",err.response.data.message);
+      // @ts-ignore
+      const message = err.response.data.message;
+      if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+        remove("accessToken");
+        navigate("/login");
+      }
     } finally {
       setPreLoad(false);
     }
@@ -315,9 +343,16 @@ function GenerateFiles() {
       if (responseConcatFilePath?.status === 200) {
         setModalSuccess(true);
       }
-    } catch (error) {
-      console.log("error: ", error);
+    } catch (err) {
+      // @ts-ignore
+      console.log("error ejecutado",err.response.data.message);
+      // @ts-ignore
+      const message = err.response.data.message;
       setPreLoad(false);
+      if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+        remove("accessToken");
+        navigate("/login");
+      }
     } finally {
       setPreLoad(false);
     }
@@ -354,6 +389,10 @@ function GenerateFiles() {
    */
   const newSettledSameUser = async () => {
     const newSettled = await getSettled();
+    if(newSettled == 'TOKEN_EXPIRED' || newSettled == 'INVALID_TOKEN_ACCESS'){
+      remove("accessToken");
+      navigate("login");
+    }
     setSettledNumber(newSettled);
     // setAccountType('');
     setPrice("");
