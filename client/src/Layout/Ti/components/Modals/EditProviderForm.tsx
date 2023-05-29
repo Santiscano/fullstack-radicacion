@@ -173,8 +173,8 @@ const EditProviderForm: FC = () => {
                   value={user.users_providers_expiration_date}
                   setValue={setUsersExpiration}
                 />
-                <label className="block mx-2 text-base font-semibold dark:text-white">
-                  Seleccione una nueva solo si desea cambiarla
+                <label className="block mx-2 text-base text-red-700 font-semibold dark:text-white">
+                  * Seleccione una nueva solo si desea cambiarla *
                 </label>
               </article>
             </div>
