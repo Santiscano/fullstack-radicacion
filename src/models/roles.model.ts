@@ -1,7 +1,7 @@
 import { connection } from '../config/database/db';
 import { RowDataPacket, OkPacket, ResultSetHeader } from 'mysql2/promise';
 import { Roles } from '../interfaces/roles.interface';
-import { countTable, getTableRow } from '../utilities/countTable.utilities';
+import { countTable, getOneRowTable } from '../utilities/SQL/countTable.utilities';
 
 type Data = RowDataPacket[] | RowDataPacket[][] | OkPacket | OkPacket[] | ResultSetHeader | ResultSetHeader 
 
