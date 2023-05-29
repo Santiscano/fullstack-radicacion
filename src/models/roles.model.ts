@@ -1,7 +1,7 @@
 import { connection } from '../config/database/db';
 import { RowDataPacket, OkPacket, ResultSetHeader } from 'mysql2/promise';
 import { Roles } from '../interfaces/roles.interface';
-import { countTable, getTableRow } from '../utilities/countTable.utilities';
+import { countTable, getOneRowTable } from '../utilities/SQL/countTable.utilities';
 
 type Data = RowDataPacket[] | RowDataPacket[][] | OkPacket | OkPacket[] | ResultSetHeader | ResultSetHeader 
 
@@ -11,12 +11,11 @@ export const getRolesModel = async(): Promise<{ data: Data }> => {
     return { data: roles }
 };
 
-// TRAER IDSEDES
+// TRAER IDROLES SEGÚN NOMBRE DEL ROL
 export const getIdRolesModel = async (roles:string): Promise<{message?:string, data?:Data}> => {
     if(await countTable("roles", "roles", roles) === 0 ) return { message: "Rol No Existente"};
     const [ idroles ]: any = await connection.query('SELECT idroles FROM roles WHERE roles = ?;',[roles])
-    console.log('idroles: ', idroles);
-    return { data: idroles[0].idsedes };
+    return { data: idroles[0].idroles };
 };
 
 // TRAER  !== ADMINISTRADOR & PROOVEDOR

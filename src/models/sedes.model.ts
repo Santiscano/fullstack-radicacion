@@ -1,7 +1,7 @@
 import { connection } from '../config/database/db';
 import { RowDataPacket, OkPacket, ResultSetHeader } from 'mysql2/promise';
 import { Sedes } from '../interfaces/sedes.interface';
-import { countTable } from '../utilities/countTable.utilities';
+import { countTable } from '../utilities/SQL/countTable.utilities';
 
 
 type Data = RowDataPacket[] | RowDataPacket[][] | OkPacket | OkPacket[] | ResultSetHeader | ResultSetHeader 
@@ -16,7 +16,6 @@ export const getSedesModel = async(): Promise<{data: Data}> => {
 export const getIdSedesModel = async(sedes_name:string): Promise<{message?:string, data?: Data}> => {
     if( await countTable("sedes", "sedes_name", sedes_name) === 0 ) return { message: "Sede No Existe" };
     const [ idsedes ]: any = await connection.query('SELECT idsedes FROM sedes WHERE sedes_name = ?;',[sedes_name])
-    console.log('idsedes: ', idsedes);
     return { data: idsedes[0].idsedes };
 };
 

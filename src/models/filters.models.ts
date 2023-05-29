@@ -1,8 +1,8 @@
 import { connection } from '../config/database/db';
 import { RowDataPacket, OkPacket, ResultSetHeader } from 'mysql2/promise';
 import { Roles } from '../interfaces/roles.interface';
-import { countTable, getAllTable } from '../utilities/countTable.utilities';
-import { getTableRow } from '../utilities/countTable.utilities';
+import { countTable, getAllRowTable } from '../utilities/SQL/countTable.utilities';
+import { getOneRowTable } from '../utilities/SQL/countTable.utilities';
 
 type Data = RowDataPacket[] | RowDataPacket[][] | OkPacket | OkPacket[] | ResultSetHeader | ResultSetHeader
 
@@ -66,7 +66,7 @@ export const accountTypeFilterModel = async (data: {files_account_type: string, 
 // ACCIÓN DE DOCUMENTOS
 export const actionFilterModel = async (data: number): Promise<{ message?:string, data?: {stateFile: string;}[] }> => {
     if(await countTable("roles", "idroles", data) === 0) return {message: `Numero de ROL: ${data}, no esxiste en el sistema`};
-    const [ rolInfo ]: any = await getTableRow("roles", "idroles", data);
+    const [ rolInfo ]: any = await getOneRowTable("roles", "idroles", data);
     const [ stateInfo ]: any = await connection.query(`SELECT * FROM files_states`);
     if(rolInfo.roles_description === "AUDITOR") {
         return { data: 

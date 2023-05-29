@@ -1,6 +1,6 @@
 import { connection } from '../config/database/db';
 import { RowDataPacket, OkPacket, ResultSetHeader } from 'mysql2/promise';
-import { upload } from '../helpers/multerAddPdf';
+import { upload } from '../utilities/PDF/upload/pdfMulter.utilities';
 import { postTrakingModel } from '../models/tracking.model';
 import { FilePath, FilePathUpload } from '../interfaces/file_path.interface';
 import moment from 'moment-timezone';

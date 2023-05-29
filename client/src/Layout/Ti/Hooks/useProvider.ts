@@ -23,8 +23,8 @@ export const useProvider = () => {
     setPreLoad(true);
     axios.post(allRoutes.api.users.getByRol,{ idroles: 1 }, getHeader())
       .then((res) => {
-        console.log('providers: ', res.data.data.data);
-        setRows(res.data.data.data)
+        console.log('providers: ', res);
+        setRows(res.data.data)
       })
       .catch ((err) => {
         // @ts-ignore
