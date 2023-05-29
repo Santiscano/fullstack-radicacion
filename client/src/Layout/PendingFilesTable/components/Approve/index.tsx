@@ -83,7 +83,7 @@ function Approve({
       setPreLoad(true);
       const idFile = user.idfiles;
       console.log("idFile: ", idFile, filePDFGoogle);
-      const responseUploadFile = await uploadfile(filePDFGoogle, idFile); // guarda PDF
+      const responseUploadFile = await uploadfile(filePDFGoogle, idFile, user.files_type); // guarda PDF
       console.log("responseUploadFile: ", responseUploadFile);
       const pathFileUpload = await responseUploadFile?.data.pathFile; //almacena ruta asignada en variable
 

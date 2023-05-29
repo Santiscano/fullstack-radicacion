@@ -62,7 +62,6 @@ export function CustomNoRowsOverlay() {
 const ProvidersTables = () => {
   const { rows, open, handleOpen, handleCloseModal } = useProvider()
   const { openModalAuth, handleOpenModalAuth } = useContextProvider();
-  const [cedi, setCedi] = useState([])
   const { addModalUser } = useModalUserView();
 
   const handleView = (params: any) => {

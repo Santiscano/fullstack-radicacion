@@ -32,7 +32,7 @@ export const uploadFileDocument = async (req: Request, res: Response) => {
                 // EDITAR PDF (AGREGAR RADICADO)
                 await editPDF(pathPDF, pathPDF, destino);
                 // CARGAR EL PDF AL BUCKET
-                await uploadFile(ruta, `${process.env.BUCKET_ASSIGN}/administrativo/${destino}.pdf`);
+                await uploadFile(ruta, `${process.env.BUCKET_ASSIGN}/${files_type}/${destino}.pdf`);
                 // ELIMINAR ARCHIVO DEL SERVIDOR
                 fs.unlinkSync(pathPDF);
                 return res.status(200).json({error: false, fileName: destino, pathFile, message});

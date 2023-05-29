@@ -326,8 +326,9 @@ function GenerateFiles() {
       // @ts-ignore
       const idFiles = result?.data.data[0].idfiles;
       console.log("idFiles: ", idFiles);
+      console.log('tipo archivo', invoiceType)
 
-      const responseUploadFile = await uploadfile(filePDFGoogle, idFiles); // guarda pdf
+      const responseUploadFile = await uploadfile(filePDFGoogle, idFiles, invoiceType); // guarda pdf
       console.log("responseUploadFile: ", responseUploadFile);
       const pathFileUpload = await responseUploadFile?.data.pathFile; // almacena ruta asignada en variable
 

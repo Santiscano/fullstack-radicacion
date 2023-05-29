@@ -5,11 +5,11 @@ import {
   getHeaderMultipart,
 } from "../components/tools/SesionSettings";
 
-export const uploadfile = async (file_pdf: any, idFiles: any) => {
+export const uploadfile = async (file_pdf: any, idFiles: number | string, files_type: string) => {
   console.log("file_pdf: ", file_pdf, idFiles);
   try {
     const response = await axios.post(
-      `${Routes.api.Pdf.uploadfile}/${idFiles}`,
+      `${Routes.api.Pdf.uploadfile}/${idFiles}/${files_type}`,
       {
         pdf_file: file_pdf,
       },

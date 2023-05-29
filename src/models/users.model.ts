@@ -85,7 +85,7 @@ export const putUsersModel = async ( data: Users ): Promise<{ message?: string; 
     };
     await connection.query(`
         UPDATE users SET idroles = ?, idsedes = ?, users_name = ?, users_lastname = ?, users_address = ?, users_phone = ?, users_email = ?, users_providers_paydays = ?, users_providers_expiration_date = ?, users_status = ?
-            WHERE users_identification = ? AND users_identification_type = ?;`, 
+            WHERE idusers = ?;`, 
             [   
                 data.idroles,
                 data.idsedes,
@@ -97,13 +97,12 @@ export const putUsersModel = async ( data: Users ): Promise<{ message?: string; 
                 data.users_providers_paydays,
                 data.users_providers_expiration_date,
                 data.users_status!.toUpperCase(),
-                data.users_identification,
-                data.users_identification_type 
+                data.idusers
             ]);
     const [ userInfo ] = await connection.query(`
-        SELECT * FROM users WHERE users_identification = ? AND users_identification_type = ?;
-    `, [ data.users_identification, data.users_identification_type ]);
-    return { data: userInfo};
+        SELECT * FROM users WHERE idusers = ?;
+    `, [ data.idusers ]);
+    return { message: `Usuario con rol: ${data.idroles} y ${ data.users_identification_type }: ${ data.users_identification } editado correctamente`, data: userInfo};
 };
 
 // ELIMINAR USUARIOS

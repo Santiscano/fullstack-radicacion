@@ -22,24 +22,17 @@ const Selecting = styled(FormControl)({
 export default function InputEditCedi(props:any) {
   const navigate = useNavigate();
   const user = useAppSelector((state) => state.modalUserViewSlice);
-  const { setEditSedes } = useModalUserView();
+  const { setSedesName } = useModalUserView();
   const [cedis, setCedis] = useState([]);
-  const [value, setValue] = useState({
-    idsedes: user.idsedes,
-    sedes_address: user.sedes_address,
-    sedes_city: user.sedes_city,
-    sedes_country: user.sedes_country,
-    sedes_name: user.sedes_name,
-    sedes_state: user.sedes_state,
-    sedes_type: user.sedes_type,
-  });
+  const [value, setValue] = useState('');
 
   const handleGetCedis = async () => {
     try {
-      const getCedis = await axios.get(allRoutes.api.cedis.get, getHeader());
+      const getCedis = await axios.get(allRoutes.api.cedis.cedisName, getHeader());
       const allCedis = getCedis.data.data;
-      console.log('allCedis: ', allCedis);
-      setCedis(allCedis);
+      const sedesName = allCedis.map((row: any) => row.sedes_name)
+      console.log('allCedis input: ', sedesName);
+      setCedis(sedesName);
     } catch (err) {
       // @ts-ignore
       console.log("error ejecutado",err.response.data.message);
@@ -57,28 +50,19 @@ export default function InputEditCedi(props:any) {
     // @ts-ignore
     setValue(e.target.value);
     console.log('handlecedi ejecutado', e.target.value);
-    setEditSedes(value.idsedes, value.sedes_address, value.sedes_city, value.sedes_country, value.sedes_name, value.sedes_state, value.sedes_type);
+    setSedesName(e.target.value);
   };
 
   useEffect(() => {
     handleGetCedis();
     console.log(user)
-    // @ts-ignore
-    setValue({
-      idsedes: user.idsedes,
-      sedes_address: user.sedes_address,
-      sedes_city: user.sedes_city,
-      sedes_country: user.sedes_country,
-      sedes_name: user.sedes_name,
-      sedes_state: user.sedes_state,
-      sedes_type: user.sedes_type,
-    })
+    setValue(user.sedes_name);
   }, []);
 
   return (
     <>
       <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-        {props.title} - valor actual: {value.sedes_name}
+        {props.title} - valor actual: {value}
       </label>
       <Selecting sx={{m:1, width: 0.98}}>
         <InputLabel id={`${props.placeholder}-label`}>
@@ -103,8 +87,8 @@ export default function InputEditCedi(props:any) {
           </MenuItem>
 
           {cedis.map((item: any, index: any) => (
-            <MenuItem key={index} value={item.idsedes} sx={{ m: 1, minWidth: 300 }}>
-              {item.sedes_city} - {item.sedes_name}
+            <MenuItem key={index} value={item} sx={{ m: 1, minWidth: 300 }}>
+              {item}
             </MenuItem>
           ))}
         </Select>
