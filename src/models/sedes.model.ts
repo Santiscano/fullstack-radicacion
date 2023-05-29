@@ -1,6 +1,7 @@
 import { connection } from '../config/database/db';
 import { RowDataPacket, OkPacket, ResultSetHeader } from 'mysql2/promise';
 import { Sedes } from '../interfaces/sedes.interface';
+import { countTable } from '../utilities/countTable.utilities';
 
 
 type Data = RowDataPacket[] | RowDataPacket[][] | OkPacket | OkPacket[] | ResultSetHeader | ResultSetHeader 
@@ -11,8 +12,24 @@ export const getSedesModel = async(): Promise<{data: Data}> => {
     return { data: sedes };
 };
 
+// TRAER IDSEDES
+export const getIdSedesModel = async(sedes_name:string): Promise<{message?:string, data?: Data}> => {
+    if( await countTable("sedes", "sedes_name", sedes_name) === 0 ) return { message: "Sede No Existe" };
+    const [ idsedes ]: any = await connection.query('SELECT idsedes from sedes WHERE sedes_name = ?;',[sedes_name])
+    console.log('idsedes: ', idsedes);
+    return { data: idsedes[0].idsedes };
+};
+
+// TRAER SEDES_NAME
+export const getSedesNameModel = async(): Promise<{data: Data}> => {
+    const [ sedes_name ] = await connection.query('SELECT sedes_name from sedes;')
+    return { data: sedes_name };
+};
+
 // CREAR CEDI
 export const postSedeModel = async(data: Sedes): Promise<{message: string, data?:Data}> =>{
+    
+    if( await countTable("sedes", "sedes_name", data.sedes_name) ) return { message: "Nombre de la sede ya se encuentra registarada" }
     const [ validate ] = await connection.query(`
         SELECT count(*) AS contador FROM sedes WHERE sedes_city = ? AND sedes_address = ?;`,
         [data.sedes_city, data.sedes_address]);

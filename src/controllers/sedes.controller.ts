@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import { missingData } from '../utilities/missingData.utilities';
 import { apiKeyValidate } from '../utilities/apiKeyValidate.utilities';
 import { success, unauthorized, uncompleted, unsuccessfully } from '../utilities/responses.utilities';
-import { deleteSedeModel, getSedesModel, postSedeModel, putSedeModel } from '../models/sedes.model';
+import { deleteSedeModel, getIdSedesModel, getSedesModel, getSedesNameModel, postSedeModel, putSedeModel } from '../models/sedes.model';
 
 
 // TRAER CEDIS
@@ -15,6 +15,29 @@ export const getSedes = async ( req: Request, res: Response ) =>{
     } catch (error) {
         return res.status(512).json(unsuccessfully(error));
     };
+};
+
+// TRAER IDSEDES
+export const getIdSedes = async (req: Request, res: Response) => {
+    const { api_key } = req.headers;
+    const { sedes_name } = req.body;
+    try{ 
+        if(apiKeyValidate(api_key)) return res.status(401).json(unauthorized());
+        return res.status(200).json(success(await getIdSedesModel(sedes_name)).data)
+    } catch(err) {
+        return res.status(512).json(unsuccessfully(err));
+    }
+};
+
+// TRAER SEDES_NAME
+export const getSedesName = async (req: Request, res: Response) => {
+    const { api_key } = req.headers;
+    try{
+        if(apiKeyValidate(api_key)) return res.status(401).json(unauthorized());
+        return res.status(200).json(success((await getSedesNameModel()).data));
+    } catch(err) {
+        return res.status(512).json(unsuccessfully(err));
+    }
 };
 
 // CREAR CEDI

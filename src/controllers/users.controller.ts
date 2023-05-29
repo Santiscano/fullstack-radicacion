@@ -3,6 +3,7 @@ import { missingData } from '../utilities/missingData.utilities';
 import { UserDocumentRol, Users } from '../interfaces/users.interface';
 import { success, unsuccessfully, unauthorized, uncompleted, errorMessage } from "../utilities/responses.utilities";
 import { getUsersModel, getNoAdminProvModel, getUserbyRolModel, postUsersModel, putUsersModel, deleteUserModel } from '../models/users.model';
+import { getIdSedesModel } from '../models/sedes.model';
 import { apiKeyValidate } from '../utilities/apiKeyValidate.utilities';
 
 // TRAER USUARIOS
@@ -114,10 +115,16 @@ export const postUsers = async (req: Request, res: Response) => {
 // };
 
 // EDITAR USUARIOS
+
 export const putUsers = async ( req:Request, res:Response ) => {
     const { api_key } = req.headers;
-    const { idroles, idsedes, users_identification_type, users_identification, users_name, users_lastname, users_address, users_phone, users_email, users_providers_paydays,users_providers_expiration_date,users_status } = req.body;
-    const validate = { idroles, idsedes, users_identification_type, users_identification, users_name, users_address, users_phone, users_email,users_status };
+    const { idroles, sedes_name, users_identification_type, users_identification, users_name, users_lastname, users_address, users_phone, users_email, users_providers_paydays,users_providers_expiration_date,users_status } = req.body;
+    const validate = { idroles, sedes_name, users_identification_type, users_identification, users_name, users_address, users_phone, users_email,users_status };
+    // codigo santiago
+    let response = await getIdSedesModel(sedes_name);
+    if (response.message) { return res.status(203).json(errorMessage(response.message)) }
+    let idsedes = Number(response.data);
+    // 
     const data: Users = { idroles, idsedes, users_identification_type, users_identification, users_name, users_lastname, users_address, users_phone, users_email,users_providers_paydays,users_providers_expiration_date,users_status }
     try {
         if (apiKeyValidate(api_key)) return res.status(401).json(unauthorized());

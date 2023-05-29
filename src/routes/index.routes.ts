@@ -2,7 +2,7 @@ import { Router } from 'express';
 
 // Importando controladores de las rutas
 import { getRoles, postRol, putRol, deleteRol, getRolesNotAdminProvider, getRolProvider } from '../controllers/roles.controller';
-import { getSedes, postSede, putSede, deleteSede } from '../controllers/sedes.controller';
+import { getSedes, postSede, putSede, deleteSede, getSedesName, getIdSedes } from '../controllers/sedes.controller';
 import { getUsers, getNoAdminProv, postUsers, putUsers, deleteUser, getUserbyRol } from '../controllers/users.controller';
 import { getFiles, postFile, putFile, deleteFile, genFileRegistered } from '../controllers/files.controller';
 import { getFileStates } from '../controllers/files_states.controller';
@@ -36,6 +36,8 @@ router.post('/deleteRol', decodeToken, deleteRol);                          // E
 
 // Sedes
 router.get('/getSedes', decodeToken, getSedes);                             // Traer sedes
+router.get('/getIdSedes', decodeToken, getIdSedes);                      // Traer sedes_name
+router.get('/getSedesName', decodeToken, getSedesName);                      // Traer sedes_name
 router.post('/postSede', decodeToken, postSede);                             // Crear sedes
 router.put('/putSede', decodeToken, putSede);                                // Editar sedes
 router.post('/deleteSede', decodeToken, deleteSede);                       // Eliminar sedes

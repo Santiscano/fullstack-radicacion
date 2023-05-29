@@ -51,6 +51,9 @@ export const useModalUserView = () => {
   const setidentificationType = (newDate: any) => {
     dispatch(setModalUserView({users_identification_type: newDate}))
   };
+  const setSedesName = (sedes_name: any) => {
+    dispatch(setModalUserView({sedes_name}))
+  };
 
   return {
     addModalUser,
@@ -65,6 +68,7 @@ export const useModalUserView = () => {
     setUsersExpiration,
     setEditSedes,
     setidentificationType,
+    setSedesName,
   };
 };
 
