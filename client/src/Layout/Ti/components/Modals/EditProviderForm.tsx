@@ -2,18 +2,15 @@ import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import { Box, Divider, Modal } from "@mui/material";
 import "animate.css";
 import { FC } from "react";
-import Button from "../../../../components/common/Button";
-import InputSelectCedi from "../../../../components/common/InputSelectCedi";
-import InputSelectDocType from "../../../../components/common/InputSelectDocType";
-import LoadingMUI from "../../../../components/common/LoadingMUI";
-import TextFieldOutlined from "../../../../components/common/TextFieldOutline";
-import useSubmit from "../../Hooks/useSubmit";
-import { useAppSelector } from "../../../../redux/hooks/useStore";
 import useContextProvider from "../../../../Context/GeneralValuesContext";
-import InputEditCedi from "../common/InputEditCedi";
+import { formateData } from "../../../../Utilities/formatted.utility";
+import Button from "../../../../components/common/Button";
+import TextFieldOutlined from "../../../../components/common/TextFieldOutline";
 import { useModalUserView } from "../../../../redux/Redux-actions/useModalUserView";
+import { useAppSelector } from "../../../../redux/hooks/useStore";
+import useSubmit from "../../Hooks/useSubmit";
+import InputEditCedi from "../common/InputEditCedi";
 import InputEditDocumentType from "../common/InputEditDocumentType";
-import { formateData, formatearFecha } from "../../../../Utilities/formatted.utility";
 
 const style = {
   position: "absolute" as "absolute",
@@ -55,7 +52,7 @@ const EditProviderForm: FC = () => {
           <Divider />
           <form
             onSubmit={(event) =>
-              handleSubmitUpdateProvider(event, handleOpenModalAuth)
+              handleSubmitUpdateProvider(event)
             }
           >
             <div className="md:flex md:flex-wrap">

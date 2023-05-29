@@ -222,7 +222,7 @@ export const useAttachFile = () => {
     try {
       e.preventDefault();
       setPreLoad(true);
-      const responseUploadFile = await uploadfile(filePDF, file.idfiles);
+      const responseUploadFile = await uploadfile(filePDF, file.idfiles, file.fileType);
       console.log("responseUploadFile: ", responseUploadFile);
       const pathFileUpload = await responseUploadFile?.data.pathFile;
 

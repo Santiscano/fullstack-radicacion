@@ -77,7 +77,7 @@ function Finally({ endActivitySelect }: any) {
   const handleFileSubmit = async (e: any) => {
     try {
       e.preventDefault();
-      const responseUploadFile = await uploadfile(filePDF, user.idfiles); // idfiles es 1 porque se enviara a admin donde se almacenaran todos
+      const responseUploadFile = await uploadfile(filePDF, user.idfiles, user.files_type); // idfiles es 1 porque se enviara a admin donde se almacenaran todos
       const pathFileUpload = await responseUploadFile?.data.pathFile; // almacena ruta asignada en variable
 
       const responseConcatFilePath = await createFilePath(

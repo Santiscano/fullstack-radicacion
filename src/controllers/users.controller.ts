@@ -5,6 +5,7 @@ import { success, unsuccessfully, unauthorized, uncompleted, errorMessage } from
 import { getUsersModel, getNoAdminProvModel, getUserbyRolModel, postUsersModel, putUsersModel, deleteUserModel } from '../models/users.model';
 import { getIdSedesModel } from '../models/sedes.model';
 import { apiKeyValidate } from '../utilities/apiKeyValidate.utilities';
+import { getIdRolesModel } from '../models/roles.model';
 
 // TRAER USUARIOS
 export const getUsers = async (req: Request, res: Response) =>{
@@ -114,18 +115,22 @@ export const postUsers = async (req: Request, res: Response) => {
 //     };
 // };
 
-// EDITAR USUARIOS
 
+// EDITAR USUARIOS
 export const putUsers = async ( req:Request, res:Response ) => {
     const { api_key } = req.headers;
-    const { idroles, sedes_name, users_identification_type, users_identification, users_name, users_lastname, users_address, users_phone, users_email, users_providers_paydays,users_providers_expiration_date,users_status } = req.body;
-    const validate = { idroles, sedes_name, users_identification_type, users_identification, users_name, users_address, users_phone, users_email,users_status };
-    // codigo santiago
-    let response = await getIdSedesModel(sedes_name);
-    if (response.message) { return res.status(203).json(errorMessage(response.message)) }
-    let idsedes = Number(response.data);
+    const { idusers, roles, sedes_name, users_identification_type, users_identification, users_name, users_lastname, users_address, users_phone, users_email, users_providers_paydays,users_providers_expiration_date,users_status } = req.body;
+    const validate = { idusers, roles, sedes_name, users_identification_type, users_identification, users_name, users_address, users_phone, users_email,users_status };
+    // sedes
+    let resSedes = await getIdSedesModel(sedes_name);
+    if (resSedes.message) { return res.status(203).json(errorMessage(resSedes.message))};
+    let idsedes = Number(resSedes.data);
+    // roles
+    let resRoles = await getIdRolesModel(roles);
+    if(resRoles.message) { return res.status(203).json(errorMessage(resRoles.message))};
+    let idroles = Number(resRoles.data);
     // 
-    const data: Users = { idroles, idsedes, users_identification_type, users_identification, users_name, users_lastname, users_address, users_phone, users_email,users_providers_paydays,users_providers_expiration_date,users_status }
+    const data: Users = { idusers, idroles, idsedes, users_identification_type, users_identification, users_name, users_lastname, users_address, users_phone, users_email,users_providers_paydays,users_providers_expiration_date,users_status }
     try {
         if (apiKeyValidate(api_key)) return res.status(401).json(unauthorized());
         if (missingData(validate).error) return res.status(422).json(uncompleted(missingData(validate).missing));

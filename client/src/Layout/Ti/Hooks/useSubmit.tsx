@@ -1,6 +1,6 @@
 import { SelectChangeEvent } from "@mui/material";
 import axios from "axios";
-import { SyntheticEvent, useEffect, useState } from "react";
+import { FormEvent, MouseEventHandler, SyntheticEvent, useEffect, useState } from "react";
 import { numberToStringWithTwoDigitNumber as numberToString, cleanFileName } from "../../../Utilities/formatted.utility";
 import { AllCedis } from "../../../interfaces/Cedis";
 import { useDataGlobal } from "../../../redux/Redux-actions/useDataGlobal";
@@ -327,15 +327,47 @@ function useSubmit() {
       setReset(false);
     }
   };
-  const handleSubmitUpdateProvider = async (e: any, close:any) => {
+  const handleSubmitUpdateUser = async (e: any) => {
     try{
-      console.log("email: ",user)
+      console.log("update user", user)
+      setPreLoad(true)
+      e.preventDefault();
+      axios.put(allRoutes.api.users.editUser,{
+        idusers: user.idusers,
+        roles: user.roles,
+        users_identification_type: user.users_identification_type,
+        users_identification: user.users_identification,
+        users_identification_digital_check: user.users_identification_digital_check,
+        users_name: user.users_name,
+        users_lastname: user.users_lastname,
+        users_address: user.users_address,
+        users_phone: user.users_phone,
+        users_email: user.users_email,
+        users_providers_paydays: user.users_providers_paydays,
+        users_providers_expiration_date:cleanFileName(user.users_providers_expiration_date),
+        users_status: user.users_status,
+      },getHeader())
+    } catch(err) {
+      handleMessageSnackbar("error", "Ocurrio Un Error Intenta De Nuevo");
+      // @ts-ignore
+      console.log("error ejecutado",err.response.data.message);
+      // @ts-ignore
+      const message = err.response.data.message;
+      if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+        remove("accessToken");
+        navigate("/login");
+      }
+    } finally {setPreLoad(false)}
+  };
+  const handleSubmitUpdateProvider = async (e: any) => {
+    try{
+      console.log("updateProvider: ",user)
       setPreLoad(true);
       e.preventDefault();
       axios.put(allRoutes.api.users.editUser,{
         idusers: user.idusers,
-        idroles: 1,
-        idsedes: user.idsedes,
+        roles: "PROVEEDOR",
+        sedes_name: user.sedes_name,
         users_identification_type: user.users_identification_type,
         users_identification: user.users_identification,
         users_identification_digital_check: user.users_identification_digital_check,
@@ -381,7 +413,7 @@ function useSubmit() {
       axios.put(allRoutes.api.users.editUser,{
         idusers: user.idusers,
         idroles: 1,
-        idsedes: user.idsedes,
+        sedes_name: user.sedes_name,
         users_identification_type: user.users_identification_type,
         users_identification: user.users_identification,
         users_identification_digital_check: user.users_identification_digital_check,
@@ -396,10 +428,11 @@ function useSubmit() {
       }, getHeader())
         .then((res) => {
           console.log('updateProv: ', res);
-          if(res.data.message == "SUCCESS"){
+          console.log('message: ', res.data.message);
+          if(res.data.data){
             handleMessageSnackbar(
               "success",
-              `Archivo Actualizado Con Exito`
+              res.data.message
             );
             handleOpenModalAuth()
           }
@@ -418,6 +451,53 @@ function useSubmit() {
         navigate("/login");
       }
     } finally{setPreLoad(false)}
+  };
+  const handleSubmitInactiveUser = async (e:any) => {
+    try{
+      console.log("user", user);
+      setPreLoad(true);
+      e.preventDefault();
+      axios.put(allRoutes.api.users.editUser,{
+        idusers: user.idusers,
+        roles: user.roles,
+        sedes_name: user.sedes_name,
+        users_identification_type: user.users_identification_type,
+        users_identification: user.users_identification,
+        users_identification_digital_check: user.users_identification_digital_check,
+        users_name: user.users_name,
+        users_lastname: user.users_lastname,
+        users_address: user.users_address,
+        users_phone: user.users_phone,
+        users_email: user.users_email,
+        users_providers_paydays: user.users_providers_paydays,
+        users_providers_expiration_date:cleanFileName(user.users_providers_expiration_date),
+        users_status: user.users_status == "ACTIVO" ? "INACTIVO" : "ACTIVO",
+      }, getHeader())
+        .then((res) => {
+          console.log('updateUser: ', res);
+          console.log('message: ', res.data.message);
+          if(res.data.data){
+            handleMessageSnackbar(
+              "success",
+              res.data.message
+            );
+            handleOpenModalAuth()
+          }
+        })
+    } catch(err) {
+      handleMessageSnackbar(
+        "error",
+        `No se pudo Actualizar el usuario, Ocurrio Un Error`
+      );
+      // @ts-ignore
+      console.log("error ejecutado",err.response.data.message);
+      // @ts-ignore
+      const message = err.response.data.message;
+      if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+        remove("accessToken");
+        navigate("/login");
+      }
+    } finally {setPreLoad(false)}
   };
 
 
@@ -647,8 +727,11 @@ function useSubmit() {
     severitySnackbar,
     messageSnackbar,
     handleSubmitCreateUser,
+    handleSubmitUpdateUser,
+    handleSubmitInactiveUser,
     handleSubmitCreateProvider,
     handleSubmitUpdateProvider,
+    handleSubmitInactiveProvider,
     assignRole,
     handleRol,
     reset,
@@ -706,7 +789,6 @@ function useSubmit() {
     inputDeleted,
     setInputDeleted,
     handleDeleteFile,
-    handleSubmitInactiveProvider,
   };
 }
 

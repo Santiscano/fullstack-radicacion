@@ -12,6 +12,7 @@ import { columnsUsers } from "../../../../interfaces/GridColumns";
 import { useModalUserView } from "../../../../redux/Redux-actions/useModalUserView";
 import { useUsers } from "../../Hooks/useUsers";
 import CreateUserForm from "../Modals/CreateUserForm";
+import EditUserForm from "../Modals/EditUserForm";
 
 function GridToolbarConfig() {
   return (
@@ -60,6 +61,7 @@ const UsersTables = () => {
   const { addModalUser } = useModalUserView();
 
   const handleView = (params: any) => {
+    console.log('params: ', params);
     addModalUser(params.row);
     handleOpenModalAuth();
   };
@@ -96,6 +98,9 @@ const UsersTables = () => {
         </Box>
       </section>
       <CreateUserForm open={open} close={handleCloseModal} />
+      {openModalAuth && (
+        <EditUserForm/>
+      )}
     </>
   );
 };

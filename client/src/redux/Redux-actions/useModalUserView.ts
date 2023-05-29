@@ -12,32 +12,32 @@ export const useModalUserView = () => {
     dispatch(setRemoveUserView());
   };
 
-  const setUsersIdentification = (newIdentification: any) => {
-    dispatch(setModalUserView({users_identification:newIdentification}))
+  const setUsersIdentification = (users_identification: string) => {
+    dispatch(setModalUserView({users_identification}))
   };
 
-  const setUsersName = (newDate:any) => {
-    dispatch(setModalUserView({users_name:newDate}))
+  const setUsersName = (users_name:string) => {
+    dispatch(setModalUserView({users_name}))
   };
-  const setUsersLastName = (newDate:any) => {
-    dispatch(setModalUserView({users_lastname:newDate}))
+  const setUsersLastName = (users_lastname:string) => {
+    dispatch(setModalUserView({users_lastname}))
   };
-  const setUsersAddress = (newDate:any) => {
-    dispatch(setModalUserView({users_address:newDate}))
+  const setUsersAddress = (users_address:string) => {
+    dispatch(setModalUserView({users_address}))
   };
-  const setUsersPhone = (newDate:any) => {
-    dispatch(setModalUserView({users_phone:newDate}))
+  const setUsersPhone = (users_phone:string) => {
+    dispatch(setModalUserView({users_phone}))
   };
-  const setUsersEmail = (newDate:any) => {
-    dispatch(setModalUserView({users_email:newDate}))
+  const setUsersEmail = (users_email:string) => {
+    dispatch(setModalUserView({users_email}))
   };
-  const setUsersLimitDayPayment = (newDate:any) => {
-    dispatch(setModalUserView({users_providers_paydays:newDate}))
+  const setUsersLimitDayPayment = (users_providers_paydays:number) => {
+    dispatch(setModalUserView({users_providers_paydays}))
   };
-  const setUsersExpiration = (newDate:any) => {
-    dispatch(setModalUserView({users_providers_expiration_date:newDate}))
+  const setUsersExpiration = (users_providers_expiration_date:string) => {
+    dispatch(setModalUserView({users_providers_expiration_date}))
   };
-  const setEditSedes = (idsedes:any,sedes_address:any, sedes_city:any, sedes_country:any, sedes_name:any, sedes_state:any, sedes_type:any ) => {
+  const setEditSedes = (idsedes:number,sedes_address:string, sedes_city:string, sedes_country:string, sedes_name:string, sedes_state:string, sedes_type:string ) => {
     dispatch(setModalUserView({
       idsedes,
       sedes_address,
@@ -48,11 +48,14 @@ export const useModalUserView = () => {
       sedes_type,
     }))
   };
-  const setidentificationType = (newDate: any) => {
-    dispatch(setModalUserView({users_identification_type: newDate}))
+  const setidentificationType = (users_identification_type: any) => {
+    dispatch(setModalUserView({users_identification_type}))
   };
   const setSedesName = (sedes_name: any) => {
     dispatch(setModalUserView({sedes_name}))
+  };
+  const setRoles = (roles: string) => {
+    dispatch(setModalUserView({roles}))
   };
 
   return {
@@ -69,6 +72,7 @@ export const useModalUserView = () => {
     setEditSedes,
     setidentificationType,
     setSedesName,
+    setRoles,
   };
 };
 

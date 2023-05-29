@@ -15,6 +15,7 @@ export interface UserDocumentRol {
 
 
 export interface Users extends UserDocumentRol {
+    idusers?: number;
     idsedes: number;
     users_name: string;
     users_lastname?: string;
