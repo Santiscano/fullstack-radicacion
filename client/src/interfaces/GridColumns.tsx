@@ -452,7 +452,7 @@ export const columnsUsers: GridColDef[] = [
   {
     field: "users_lastname",
     headerName: "Apellidos",
-    width: 170,
+    width: 150,
   },
   {
     field: "users_identification_type",
@@ -487,7 +487,12 @@ export const columnsUsers: GridColDef[] = [
   {
     field: "sedes_city",
     headerName: "Ciudad",
-    width: 150,
+    width: 120,
+  },
+  {
+    field: "users_status",
+    headerName: "Estado Usuario",
+    width: 130,
   },
 ];
 export const columnsProvider: GridColDef[] = [
@@ -520,5 +525,10 @@ export const columnsProvider: GridColDef[] = [
     field: "users_email",
     headerName: "Email",
     width: 190,
+  },
+  {
+    field: "users_status",
+    headerName: "Estado Proveedor",
+    width: 130,
   },
 ];

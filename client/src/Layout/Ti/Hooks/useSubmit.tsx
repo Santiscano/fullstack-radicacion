@@ -1,6 +1,7 @@
 import { SelectChangeEvent } from "@mui/material";
-import { SyntheticEvent, useEffect, useState } from "react";
-import { numberToStringWithTwoDigitNumber as numberToString } from "../../../Utilities/formatted.utility";
+import axios from "axios";
+import { FormEvent, MouseEventHandler, SyntheticEvent, useEffect, useState } from "react";
+import { numberToStringWithTwoDigitNumber as numberToString, cleanFileName } from "../../../Utilities/formatted.utility";
 import { AllCedis } from "../../../interfaces/Cedis";
 import { useDataGlobal } from "../../../redux/Redux-actions/useDataGlobal";
 import { createCedi, getCedis } from "../../../services/Cedis.routes";
@@ -11,9 +12,14 @@ import {
   getArea,
 } from "../../../services/CenterCost.routes";
 import { deleteFile } from "../../../services/Files.routes";
-import { createProvider, createUser } from "../../../services/Users.routes";
+import { createProvider, createUser, updateProvider } from "../../../services/Users.routes";
+import allRoutes from "../../../services/allRoutes";
 import { getCitys } from "../../../services/getCitysColombia.routes";
 import useContextProvider from "./../../../Context/GeneralValuesContext";
+import { getHeader, remove } from "../../../components/tools/SesionSettings";
+import { useAppSelector } from "../../../redux/hooks/useStore";
+import { getRoles } from "../../../services/Roles.routes";
+import { useNavigate } from "react-router-dom";
 
 function useSubmit() {
   // --------------------------Variable-------------------------------//
@@ -70,15 +76,21 @@ function useSubmit() {
   const [reset, setReset] = useState(false);
   // view tables
   // --------------------------Context-------------------------------//
-  const { setPreLoad, handleMessageSnackbar, cediConection } =
-    useContextProvider();
+  const { setPreLoad, handleMessageSnackbar, cediConection, handleOpenModalAuth } = useContextProvider();
+  const user = useAppSelector((state) => state.modalUserViewSlice);
+  const navigate = useNavigate();
   // --------------------------handles-------------------------------//
   /**
    * traigo los departamentos, ciudades, cedis,
    * y almaceno en variables
    */
   const handleGetCitys = async () => {
+
     const departmentsResponse: any = await getCitys();
+    if( departmentsResponse == "TOKEN_EXPIRED" || departmentsResponse == "INVALID_TOKEN_ACCESS"){
+      remove("accessToken");
+      navigate("/login");
+    }
     setListDepartment(departmentsResponse?.Department);
     setListCitys(departmentsResponse?.DepartamentCity);
     setAllCitys(departmentsResponse?.DepartamentCity);
@@ -87,7 +99,23 @@ function useSubmit() {
   const handleCedis = async () => {
     const allCedis: AllCedis[] = await getCedis();
     console.log("allCedis: ", allCedis);
+    // @ts-ignore
+    if( allCedis == "TOKEN_EXPIRED" || allCedis == "INVALID_TOKEN_ACCESS"){
+      remove("accessToken");
+      navigate("/login");
+    }
     setOptionsCedisIdName(allCedis);
+  };
+  const handleGetRoles = async () => {
+    const roles = await getRoles();
+    // @ts-ignore
+    if( roles == "TOKEN_EXPIRED" || roles == "INVALID_TOKEN_ACCESS"){
+      remove("accessToken");
+      navigate("/login");
+    }
+    const listRoles = roles.data;
+    console.log('roles: ', listRoles);
+    setOptionsRol(listRoles)
   };
 
   /**
@@ -161,8 +189,16 @@ function useSubmit() {
         handleMessageSnackbar("error", "Cedi No Fue Creada Ocurrio Un Error");
         setPreLoad(false);
       }
-    } catch (error) {
+    } catch (err) {
       handleMessageSnackbar("error", "Ocurrio Un Error Intenta De Nuevo");
+      // @ts-ignore
+      console.log("error ejecutado",err.response.data.message);
+      // @ts-ignore
+      const message = err.response.data.message;
+      if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+        remove("accessToken");
+        navigate("/login");
+      }
     }
   };
   const handleSubmitCreateUser = async (e: any, close: any) => {
@@ -211,9 +247,16 @@ function useSubmit() {
         );
         setPreLoad(false);
       }
-    } catch (error) {
-      console.log("error: ", error);
+    } catch (err) {
       handleMessageSnackbar("error", "Ocurrio Un Error Intenta De Nuevo");
+      // @ts-ignore
+      console.log("error ejecutado",err.response.data.message);
+      // @ts-ignore
+      const message = err.response.data.message;
+      if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+        remove("accessToken");
+        navigate("/login");
+      }
     } finally {
       setReset(false);
       close();
@@ -270,13 +313,194 @@ function useSubmit() {
         );
         setPreLoad(false);
       }
-    } catch (error) {
-      console.log("error: ", error);
+    } catch (err) {
       handleMessageSnackbar("error", "Ocurrio Un Error Intenta De Nuevo");
+      // @ts-ignore
+      console.log("error ejecutado",err.response.data.message);
+      // @ts-ignore
+      const message = err.response.data.message;
+      if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+        remove("accessToken");
+        navigate("/login");
+      }
     } finally {
       setReset(false);
     }
   };
+  const handleSubmitUpdateUser = async (e: any) => {
+    try{
+      console.log("update user", user)
+      setPreLoad(true)
+      e.preventDefault();
+      axios.put(allRoutes.api.users.editUser,{
+        idusers: user.idusers,
+        roles: user.roles,
+        users_identification_type: user.users_identification_type,
+        users_identification: user.users_identification,
+        users_identification_digital_check: user.users_identification_digital_check,
+        users_name: user.users_name,
+        users_lastname: user.users_lastname,
+        users_address: user.users_address,
+        users_phone: user.users_phone,
+        users_email: user.users_email,
+        users_providers_paydays: user.users_providers_paydays,
+        users_providers_expiration_date:cleanFileName(user.users_providers_expiration_date),
+        users_status: user.users_status,
+      },getHeader())
+    } catch(err) {
+      handleMessageSnackbar("error", "Ocurrio Un Error Intenta De Nuevo");
+      // @ts-ignore
+      console.log("error ejecutado",err.response.data.message);
+      // @ts-ignore
+      const message = err.response.data.message;
+      if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+        remove("accessToken");
+        navigate("/login");
+      }
+    } finally {setPreLoad(false)}
+  };
+  const handleSubmitUpdateProvider = async (e: any) => {
+    try{
+      console.log("updateProvider: ",user)
+      setPreLoad(true);
+      e.preventDefault();
+      axios.put(allRoutes.api.users.editUser,{
+        idusers: user.idusers,
+        roles: "PROVEEDOR",
+        sedes_name: user.sedes_name,
+        users_identification_type: user.users_identification_type,
+        users_identification: user.users_identification,
+        users_identification_digital_check: user.users_identification_digital_check,
+        users_name: user.users_name,
+        users_lastname: user.users_lastname,
+        users_address: user.users_address,
+        users_phone: user.users_phone,
+        users_email: user.users_email,
+        users_providers_paydays: user.users_providers_paydays,
+        users_providers_expiration_date:cleanFileName(user.users_providers_expiration_date),
+        users_status: user.users_status,
+      }, getHeader())
+        .then((res) => {
+          console.log('updateProv: ', res);
+          if(res.data.message == "SUCCESS"){
+            handleMessageSnackbar(
+              "success",
+              `Archivo Actualizado Con Exito`
+            );
+            handleOpenModalAuth()
+          }
+        })
+    } catch (err) {
+      handleMessageSnackbar(
+        "error",
+        `No se pudo Actualizar el proveedor, Ocurrio Un Error`
+      );
+      // @ts-ignore
+      console.log("error ejecutado",err.response.data.message);
+      // @ts-ignore
+      const message = err.response.data.message;
+      if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+        remove("accessToken");
+        navigate("/login");
+      }
+    } finally{setPreLoad(false)}
+  };
+  const handleSubmitInactiveProvider = async (e: any) => {
+    try{
+      console.log("email: ",user)
+      setPreLoad(true);
+      e.preventDefault();
+      axios.put(allRoutes.api.users.editUser,{
+        idusers: user.idusers,
+        idroles: 1,
+        sedes_name: user.sedes_name,
+        users_identification_type: user.users_identification_type,
+        users_identification: user.users_identification,
+        users_identification_digital_check: user.users_identification_digital_check,
+        users_name: user.users_name,
+        users_lastname: user.users_lastname,
+        users_address: user.users_address,
+        users_phone: user.users_phone,
+        users_email: user.users_email,
+        users_providers_paydays: user.users_providers_paydays,
+        users_providers_expiration_date:cleanFileName(user.users_providers_expiration_date),
+        users_status: user.users_status == "ACTIVO" ? "INACTIVO" : "ACTIVO",
+      }, getHeader())
+        .then((res) => {
+          console.log('updateProv: ', res);
+          console.log('message: ', res.data.message);
+          if(res.data.data){
+            handleMessageSnackbar(
+              "success",
+              res.data.message
+            );
+            handleOpenModalAuth()
+          }
+        })
+    } catch (err) {
+      handleMessageSnackbar(
+        "error",
+        `No se pudo Actualizar el proveedor, Ocurrio Un Error`
+      );
+      // @ts-ignore
+      console.log("error ejecutado",err.response.data.message);
+      // @ts-ignore
+      const message = err.response.data.message;
+      if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+        remove("accessToken");
+        navigate("/login");
+      }
+    } finally{setPreLoad(false)}
+  };
+  const handleSubmitInactiveUser = async (e:any) => {
+    try{
+      console.log("user", user);
+      setPreLoad(true);
+      e.preventDefault();
+      axios.put(allRoutes.api.users.editUser,{
+        idusers: user.idusers,
+        roles: user.roles,
+        sedes_name: user.sedes_name,
+        users_identification_type: user.users_identification_type,
+        users_identification: user.users_identification,
+        users_identification_digital_check: user.users_identification_digital_check,
+        users_name: user.users_name,
+        users_lastname: user.users_lastname,
+        users_address: user.users_address,
+        users_phone: user.users_phone,
+        users_email: user.users_email,
+        users_providers_paydays: user.users_providers_paydays,
+        users_providers_expiration_date:cleanFileName(user.users_providers_expiration_date),
+        users_status: user.users_status == "ACTIVO" ? "INACTIVO" : "ACTIVO",
+      }, getHeader())
+        .then((res) => {
+          console.log('updateUser: ', res);
+          console.log('message: ', res.data.message);
+          if(res.data.data){
+            handleMessageSnackbar(
+              "success",
+              res.data.message
+            );
+            handleOpenModalAuth()
+          }
+        })
+    } catch(err) {
+      handleMessageSnackbar(
+        "error",
+        `No se pudo Actualizar el usuario, Ocurrio Un Error`
+      );
+      // @ts-ignore
+      console.log("error ejecutado",err.response.data.message);
+      // @ts-ignore
+      const message = err.response.data.message;
+      if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+        remove("accessToken");
+        navigate("/login");
+      }
+    } finally {setPreLoad(false)}
+  };
+
+
   const handleSubmitCreateArea = async (e: any) => {
     try {
       setPreLoad(true);
@@ -301,12 +525,19 @@ function useSubmit() {
         );
         setPreLoad(false);
       }
-    } catch (error) {
-      // console.log("error: ", error);
+    } catch (err) {
       handleMessageSnackbar(
         "error",
         "Ocurrio Un Error En El Servidor Intenta De Nuevo"
       );
+      // @ts-ignore
+      console.log("error ejecutado",err.response.data.message);
+      // @ts-ignore
+      const message = err.response.data.message;
+      if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+        remove("accessToken");
+        navigate("/login");
+      }
     } finally {
       setPreLoad(false);
     }
@@ -343,11 +574,19 @@ function useSubmit() {
         );
         setPreLoad(false);
       }
-    } catch (error) {
+    } catch (err) {
       handleMessageSnackbar(
         "error",
         "Ocurrio Un Error En El Servidor Intenta De Nuevo"
       );
+      // @ts-ignore
+      console.log("error ejecutado",err.response.data.message);
+      // @ts-ignore
+      const message = err.response.data.message;
+      if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+        remove("accessToken");
+        navigate("/login");
+      }
     } finally {
       setPreLoad(false);
     }
@@ -390,12 +629,19 @@ function useSubmit() {
         );
         setPreLoad(false);
       }
-    } catch (error) {
-      // console.log("error: ", error);
+    } catch (err) {
       handleMessageSnackbar(
         "error",
         "Ocurrio Un Error En El Servidor Intenta De Nuevo"
       );
+      // @ts-ignore
+      console.log("error ejecutado",err.response.data.message);
+      // @ts-ignore
+      const message = err.response.data.message;
+      if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+        remove("accessToken");
+        navigate("/login");
+      }
     } finally {
       setPreLoad(false);
     }
@@ -428,8 +674,15 @@ function useSubmit() {
         setPreLoad(false);
         handleCloseDialogDelete();
       }
-    } catch (error) {
-      // console.log("error: ", error);
+    } catch (err) {
+      // @ts-ignore
+      console.log("error ejecutado",err.response.data.message);
+      // @ts-ignore
+      const message = err.response.data.message;
+      if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+        remove("accessToken");
+        navigate("/login");
+      }
       handleMessageSnackbar("error", "Ocurrio Un Error Intenta De Nuevo");
       handleCloseDialogDelete();
     } finally {
@@ -442,6 +695,7 @@ function useSubmit() {
   useEffect(() => {
     handleGetCitys();
     handleCedis();
+    handleGetRoles();
     changeTitleSection("PANEL ADMINISTRATIVO");
 
     return () => {
@@ -473,7 +727,11 @@ function useSubmit() {
     severitySnackbar,
     messageSnackbar,
     handleSubmitCreateUser,
+    handleSubmitUpdateUser,
+    handleSubmitInactiveUser,
     handleSubmitCreateProvider,
+    handleSubmitUpdateProvider,
+    handleSubmitInactiveProvider,
     assignRole,
     handleRol,
     reset,
@@ -531,7 +789,6 @@ function useSubmit() {
     inputDeleted,
     setInputDeleted,
     handleDeleteFile,
-    // view tables
   };
 }
 

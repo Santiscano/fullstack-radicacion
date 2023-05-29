@@ -4,7 +4,8 @@ import { SearchWithDocument, SearchWithSettled } from "../../../services/SearchF
 import { SelectChangeEvent } from "@mui/material";
 import { uploadfile } from "../../../services/Pdf.routes";
 import { createFilePath } from "../../../services/FilesPath.routes";
-import { get } from "../../../components/tools/SesionSettings";
+import { get, remove } from "../../../components/tools/SesionSettings";
+import { useNavigate } from "react-router-dom";
 
 export const useAttachFile = () => {
   // ------------ STATES ---------------//
@@ -36,6 +37,7 @@ export const useAttachFile = () => {
   const [listRoutesPDF, setListRoutesPDF] = useState<any>("");
 
   const { setPreLoad, handleMessageSnackbar } = useContextProvider();
+  const navigate = useNavigate()
 
   // --------------SETSTATES ---------------//
   const onType = (newValue: any) => {
@@ -110,9 +112,16 @@ export const useAttachFile = () => {
         setNotFile(true);
         onFile({});
       }
-    } catch (error) {
-      console.log('error: ', error);
+    } catch (err) {
       handleMessageSnackbar("error", "Algo paso vuelve a intentar")
+      // @ts-ignore
+      console.log("error ejecutado",err.response.data.message);
+      // @ts-ignore
+      const message = err.response.data.message;
+      if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+        remove("accessToken");
+        navigate("/login");
+      }
     } finally {
       setPreLoad(false);
     }
@@ -142,8 +151,15 @@ export const useAttachFile = () => {
         setNotFile(true);
         onFile({});
       }
-    } catch (error) {
-      console.log("error: ", error);
+    } catch (err) {
+      // @ts-ignore
+      console.log("error ejecutado",err.response.data.message);
+      // @ts-ignore
+      const message = err.response.data.message;
+      if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+        remove("accessToken");
+        navigate("/login");
+      }
     } finally {
       setPreLoad(false);
     }
@@ -206,7 +222,7 @@ export const useAttachFile = () => {
     try {
       e.preventDefault();
       setPreLoad(true);
-      const responseUploadFile = await uploadfile(filePDF, file.idfiles);
+      const responseUploadFile = await uploadfile(filePDF, file.idfiles, file.fileType);
       console.log("responseUploadFile: ", responseUploadFile);
       const pathFileUpload = await responseUploadFile?.data.pathFile;
 
@@ -221,9 +237,16 @@ export const useAttachFile = () => {
         handleMessageSnackbar("success", "PDF Cargado Con Exito");
         setPreLoad(false);
       }
-    } catch (error) {
-      console.log('error: ', error);
+    } catch (err) {
       handleMessageSnackbar("error", "Algo paso vuelve a intentar")
+      // @ts-ignore
+      console.log("error ejecutado",err.response.data.message);
+      // @ts-ignore
+      const message = err.response.data.message;
+      if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+        remove("accessToken");
+        navigate("/login");
+      }
     } finally {
       setPreLoad(false);
       setComments("");

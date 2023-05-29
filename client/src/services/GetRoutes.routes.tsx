@@ -15,6 +15,12 @@ export const getRoutes = async () => {
     // await getCedis();
     return payload;
   } catch (err) {
-    // console.log(err)
+    // @ts-ignore
+    console.log("error ejecutado",err.response.data.message);
+    // @ts-ignore
+    const message = err.response.data.message;
+    if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+      return message
+    }
   }
 };

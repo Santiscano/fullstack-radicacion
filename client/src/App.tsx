@@ -20,6 +20,7 @@ import {
   optionsViewsSettled,
   optionsViewsFiles,
   optionsViewsAllFiles,
+  optionsViewsNotAuditors,
   optionsViewsTI,
   optionsViewsDigitization,
   optionsViewTraking,
@@ -53,7 +54,6 @@ function App() {
             <Route path="/dashboard" element={<Admin />}>
               <Route path="home" element={<Home />} />
 
-              {/* Protegidas por roles */}
               <Route
                 element={
                   // @ts-ignore
@@ -86,7 +86,14 @@ function App() {
                   />
                 }
               >
-                <Route path="todos-los-archivos" element={<AllFilesTable />} />
+                <Route element={
+                  <WithRoleAllowedComponent
+                    // @ts-ignore
+                    allowedRolesList={optionsViewsNotAuditors}
+                  />
+                }>
+                  <Route path="todos-los-archivos" element={<AllFilesTable />} />
+                </Route>
                 <Route path="trazabilidad" element={<Tracking/>} />
               </Route>
 

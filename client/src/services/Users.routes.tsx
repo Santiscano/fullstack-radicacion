@@ -1,6 +1,7 @@
 import axios from "axios";
 import Routes from "./allRoutes";
 import { getHeader, set } from "../components/tools/SesionSettings";
+import { useAppSelector } from "../redux/hooks/useStore";
 
 export const validateUser = async () => {
   try {
@@ -15,8 +16,14 @@ export const validateUser = async () => {
     );
     // console.log('response: ', response);
     return response;
-  } catch (error) {
-    // console.log(error);
+  } catch (err) {
+    // @ts-ignore
+    console.log("error ejecutado",err.response.data.message);
+    // @ts-ignore
+    const message = err.response.data.message;
+    if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+      return message
+    }
   }
 };
 
@@ -26,8 +33,14 @@ export const getUsers = async () => {
     const users = response.data.data;
     console.log("users: ", users);
     return users;
-  } catch (error) {
-    console.log(error);
+  } catch (err) {
+    // @ts-ignore
+    console.log("error ejecutado",err.response.data.message);
+    // @ts-ignore
+    const message = err.response.data.message;
+    if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+      return message
+    }
   }
 };
 
@@ -36,8 +49,14 @@ export const getUsersNotAdminProv = async () => {
     const getUsersNotAdminProv = await axios.get(Routes.api.users.notAdminProv, getHeader());
     const users = getUsersNotAdminProv.data.data;
     return users;
-  } catch(error) {
-    console.log('error: ', error);
+  } catch (err) {
+    // @ts-ignore
+    console.log("error ejecutado",err.response.data.message);
+    // @ts-ignore
+    const message = err.response.data.message;
+    if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+      return message
+    }
   }
 };
 
@@ -63,8 +82,45 @@ export const createUser = async (idroles: number, idsedes: number, users_identif
     );
     console.log("create user: ", response);
     return response;
-  } catch (error) {
-    console.log(error);
+  } catch (err) {
+    // @ts-ignore
+    console.log("error ejecutado",err.response.data.message);
+    // @ts-ignore
+    const message = err.response.data.message;
+    if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+      return message
+    }
+  }
+};
+export const editUser = async () => {
+  try {
+    const response = await axios.put(Routes.api.users.editUser, {
+      idusers: 19,
+      idroles: 6,
+      idsedes: 1,
+      users_identification_type: "PASAPORTE",
+      users_identification: "123456789",
+      users_identification_digital_check: "6",
+      users_name: "FRONTEND",
+      users_lastname: "REACT ANGULAR",
+      users_address: "CODIGO HACK",
+      users_phone: "3045435131",
+      users_email: "react@angular.javascript.css",
+      users_password: "123456",
+      users_providers_paydays: null,
+      users_providers_expiration_date: null,
+      users_status: "ACTIVO",
+    });
+    console.log("response edit user: ", response);
+    return response;
+  } catch (err) {
+    // @ts-ignore
+    console.log("error ejecutado",err.response.data.message);
+    // @ts-ignore
+    const message = err.response.data.message;
+    if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+      return message
+    }
   }
 };
 export const createProvider = async (
@@ -98,36 +154,48 @@ export const createProvider = async (
     );
     console.log("create user: ", response);
     return response;
-  } catch (error) {
-    console.log(error);
+  } catch (err) {
+    // @ts-ignore
+    console.log("error ejecutado",err.response.data.message);
+    // @ts-ignore
+    const message = err.response.data.message;
+    if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+      return message
+    }
+  }
+};
+export const updateProvider = async () => {
+  const user = useAppSelector((state) => state.modalUserViewSlice)
+  try{
+    const updateProv = await axios.put(Routes.api.users.editUser, {
+      idusers: user.idusers,
+      idroles: 1,
+      idsedes: user.idsedes,
+      users_identification_type: user.users_identification_type,
+      users_identification: user.users_identification,
+      users_identification_digital_check: user.users_identification_digital_check,
+      users_name: user.users_name,
+      users_lastname: user.users_lastname,
+      users_address: user.users_address,
+      users_phone: user.users_phone,
+      users_email: user.users_email,
+      users_providers_paydays: user.users_providers_paydays,
+      users_providers_expiration_date: user.users_providers_expiration_date,
+      users_status: user.users_status,
+    }, getHeader())
+    return updateProv
+  } catch (err) {
+    // @ts-ignore
+    console.log("error ejecutado",err.response.data.message);
+    // @ts-ignore
+    const message = err.response.data.message;
+    if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+      return message
+    }
   }
 };
 
-export const editUser = async () => {
-  try {
-    const response = await axios.put(Routes.api.users.editUser, {
-      idusers: 19,
-      idroles: 6,
-      idsedes: 1,
-      users_identification_type: "PASAPORTE",
-      users_identification: "123456789",
-      users_identification_digital_check: "6",
-      users_name: "FRONTEND",
-      users_lastname: "REACT ANGULAR",
-      users_address: "CODIGO HACK",
-      users_phone: "3045435131",
-      users_email: "react@angular.javascript.css",
-      users_password: "123456",
-      users_providers_paydays: null,
-      users_providers_expiration_date: null,
-      users_status: "ACTIVO",
-    });
-    console.log("response edit user: ", response);
-    return response;
-  } catch (error) {
-    console.log(error);
-  }
-};
+
 
 export const deleteUser = async () => {
   try {
@@ -136,7 +204,13 @@ export const deleteUser = async () => {
       getHeader()
     );
     return response;
-  } catch (error) {
-    // console.log(error);
+  } catch (err) {
+    // @ts-ignore
+    console.log("error ejecutado",err.response.data.message);
+    // @ts-ignore
+    const message = err.response.data.message;
+    if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+      return message
+    }
   }
 };

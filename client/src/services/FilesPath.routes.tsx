@@ -12,8 +12,14 @@ export const getFilesPath = async () => {
       getHeader()
     );
     // console.log("response: ", response);
-  } catch (error) {
-    // console.log("error: ", error);
+  } catch (err) {
+    // @ts-ignore
+    console.log("error ejecutado",err.response.data.message);
+    // @ts-ignore
+    const message = err.response.data.message;
+    if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+      return message
+    }
   }
 };
 export const createFilePath = async (
@@ -35,8 +41,14 @@ export const createFilePath = async (
     );
     console.log("response createFilepath: ", response);
     return response;
-  } catch (error) {
-    console.log("error: ", error);
+  } catch (err) {
+    // @ts-ignore
+    console.log("error ejecutado",err.response.data.message);
+    // @ts-ignore
+    const message = err.response.data.message;
+    if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+      return message
+    }
   }
 };
 
@@ -47,7 +59,13 @@ export const deleteFilePath = async () => {
       getHeader()
     );
     // console.log("response: ", response);
-  } catch (error) {
-    // console.log("error: ", error);
+  } catch (err) {
+    // @ts-ignore
+    console.log("error ejecutado",err.response.data.message);
+    // @ts-ignore
+    const message = err.response.data.message;
+    if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+      return message
+    }
   }
 };

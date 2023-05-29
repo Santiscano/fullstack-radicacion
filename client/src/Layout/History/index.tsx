@@ -13,6 +13,7 @@ const History = () => {
       changeTitleSection("");
     }
   },[])
+
   return (
     <main className='layout'>
       <section className='layout-section'>

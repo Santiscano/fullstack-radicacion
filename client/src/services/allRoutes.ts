@@ -13,6 +13,7 @@ export default {
     },
     cedis: {
       get: `${host}/getSedes`,
+      cedisName: `${host}/getSedesName`,
       create: `${host}/postSede`,
       edit: `${host}/putSede`,
       delete: `${host}/deleteSede`,

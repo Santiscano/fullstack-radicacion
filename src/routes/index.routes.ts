@@ -1,8 +1,8 @@
 import { Router } from 'express';
 
 // Importando controladores de las rutas
-import { getRoles, postRol, putRol, deleteRol, getRolesNotAdminProvider, getRolProvider } from '../controllers/roles.controller';
-import { getSedes, postSede, putSede, deleteSede } from '../controllers/sedes.controller';
+import { getRoles, postRol, putRol, deleteRol, getRolesNotAdminProvider, getRolProvider, getIdRol } from '../controllers/roles.controller';
+import { getSedes, postSede, putSede, deleteSede, getSedesName, getIdSedes } from '../controllers/sedes.controller';
 import { getUsers, getNoAdminProv, postUsers, putUsers, deleteUser, getUserbyRol } from '../controllers/users.controller';
 import { getFiles, postFile, putFile, deleteFile, genFileRegistered } from '../controllers/files.controller';
 import { getFileStates } from '../controllers/files_states.controller';
@@ -28,6 +28,7 @@ const router = Router();
 
 // Roles
 router.get('/getRoles', decodeToken, getRoles);                             // Traer roles
+router.get('/getIdRol',decodeToken, getIdRol);                              // Trea el idroles segun el nombre del rol
 router.get('/getNotAdminProv', decodeToken, getRolesNotAdminProvider);      // Traer !== Admin & Provider
 router.get('/getProvider', decodeToken, getRolProvider);                  // Traer Provider
 router.post('/postRol', decodeToken, postRol);                              // Crear un rol
@@ -36,6 +37,8 @@ router.post('/deleteRol', decodeToken, deleteRol);                          // E
 
 // Sedes
 router.get('/getSedes', decodeToken, getSedes);                             // Traer sedes
+router.get('/getIdSedes', decodeToken, getIdSedes);                      // Traer sedes_name
+router.get('/getSedesName', decodeToken, getSedesName);                      // Traer sedes_name
 router.post('/postSede', decodeToken, postSede);                             // Crear sedes
 router.put('/putSede', decodeToken, putSede);                                // Editar sedes
 router.post('/deleteSede', decodeToken, deleteSede);                       // Eliminar sedes
@@ -98,7 +101,7 @@ router.post('/validateUser', validateUser);                                     
 router.post('/changePassword', changePassword);                                     // Cambiar la contraseña por medio del correo
 
 // Upload File (Google Cloud)
-router.post('/uploadFileDocument/:idfiles', decodeToken, uploadFileDocument);       // Cargar una imagen en el bucket
+router.post('/uploadFileDocument/:idfiles/:files_type', decodeToken, uploadFileDocument);       // Cargar una imagen en el bucket
 
 // TABLAS
 router.get('/showTable', decodeToken, showTable);                                   // Todos los archivos

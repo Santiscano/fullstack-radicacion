@@ -13,6 +13,7 @@ import { useModalUserView } from "../../../../redux/Redux-actions/useModalUserVi
 import { useProvider } from "../../Hooks/useProvider";
 import CreateProviderForm from "../Modals/CreateProviderForm";
 import EditProviderForm from "../Modals/EditProviderForm";
+import { useState } from "react";
 
 function GridToolbarConfig() {
   return (
@@ -64,6 +65,7 @@ const ProvidersTables = () => {
   const { addModalUser } = useModalUserView();
 
   const handleView = (params: any) => {
+    console.log('params: ', params.row);
     addModalUser(params.row);
     handleOpenModalAuth();
   };
@@ -84,7 +86,7 @@ const ProvidersTables = () => {
             rows={rows}
             getRowId={(row) => row.idusers}
             columns={columnsProvider}
-            // onRowDoubleClick={handleView}
+            onRowDoubleClick={handleView}
             // pageSize={7}
             rowsPerPageOptions={[5, 10, 25, 50, 100]}
             disableSelectionOnClick

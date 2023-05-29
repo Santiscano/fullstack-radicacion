@@ -187,7 +187,7 @@ const CreateUserForm: FC<Props> = ({ open, close }) => {
             <div className="md:flex md:flex-wrap">
               <article className="md:w-1/2">
                 <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                  Correo Electronico
+                  Correo Electrónico
                 </label>
                 <TextFieldOutlined
                   type={"email"}

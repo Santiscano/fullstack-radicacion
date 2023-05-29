@@ -2,16 +2,15 @@ import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import { Box, Divider, Modal } from "@mui/material";
 import "animate.css";
 import { FC } from "react";
-import Button from "../../../../components/common/Button";
-import InputSelectCedi from "../../../../components/common/InputSelectCedi";
-import InputSelectDocType from "../../../../components/common/InputSelectDocType";
-import LoadingMUI from "../../../../components/common/LoadingMUI";
-import TextFieldOutlined from "../../../../components/common/TextFieldOutline";
-import useSubmit from "../../Hooks/useSubmit";
-import { useAppSelector } from "../../../../redux/hooks/useStore";
 import useContextProvider from "../../../../Context/GeneralValuesContext";
-import InputEditCedi from "../common/InputEditCedi";
+import { formateData } from "../../../../Utilities/formatted.utility";
+import Button from "../../../../components/common/Button";
+import TextFieldOutlined from "../../../../components/common/TextFieldOutline";
 import { useModalUserView } from "../../../../redux/Redux-actions/useModalUserView";
+import { useAppSelector } from "../../../../redux/hooks/useStore";
+import useSubmit from "../../Hooks/useSubmit";
+import InputEditCedi from "../common/InputEditCedi";
+import InputEditDocumentType from "../common/InputEditDocumentType";
 
 const style = {
   position: "absolute" as "absolute",
@@ -30,7 +29,7 @@ const style = {
 const EditProviderForm: FC = () => {
   const { openModalAuth, handleOpenModalAuth } = useContextProvider();
   const user = useAppSelector((state) => state.modalUserViewSlice);
-  const { handleSubmitCreateProvider } = useSubmit();
+  const { handleSubmitUpdateProvider, handleSubmitInactiveProvider } = useSubmit();
   const { setUsersIdentification, setUsersName, setUsersAddress, setUsersPhone, setUsersEmail, setUsersLimitDayPayment, setUsersExpiration } = useModalUserView();
 
   return (
@@ -53,7 +52,7 @@ const EditProviderForm: FC = () => {
           <Divider />
           <form
             onSubmit={(event) =>
-              handleSubmitCreateProvider(event, handleOpenModalAuth)
+              handleSubmitUpdateProvider(event)
             }
           >
             <div className="md:flex md:flex-wrap">
@@ -64,30 +63,26 @@ const EditProviderForm: FC = () => {
                 <TextFieldOutlined type={"text"} value={"PROVEEDOR"} disabled />
               </article>
               <article className="md:w-1/2">
-                {/* <InputEditCedi
+                <InputEditCedi
                   type={"text"}
                   title="Asignar Cedi"
                   placeholder="Cedi"
                   name="cedi"
                   required
-                  value={cedi}
-                  onChange={handleCedi}
                   itemDefault="selecciona una opcion"
-                /> */}
+                />
               </article>
             </div>
             <div className="md:flex md:flex-wrap">
               <article className="md:w-1/2">
-                {/* <InputSelectDocType
+                <InputEditDocumentType
                   type={"text"}
                   title="Tipo de Documento"
                   placeholder="C.C, NIT..."
                   name="type"
-                  required
-                  value={user.users_identification_type}
-                  onChange={setUsersIdentificationType}
                   itemDefault="selecciona un tipo"
-                /> */}
+                  disabled
+                />
               </article>
               <article className="md:w-1/2">
                 <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
@@ -99,6 +94,7 @@ const EditProviderForm: FC = () => {
                   value={user.users_identification}
                   setValue={setUsersIdentification}
                   required
+                  disabled
                 />
               </article>
             </div>
@@ -169,16 +165,25 @@ const EditProviderForm: FC = () => {
               </article>
               <article className="md:w-1/2">
                 <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                  Fecha de Actualización
+                  Fecha de Actualización - {formateData(user.users_providers_expiration_date)}
                 </label>
                 <TextFieldOutlined
                   type={"date"}
                   label={""}
                   value={user.users_providers_expiration_date}
                   setValue={setUsersExpiration}
-                  required
                 />
+                <label className="block mx-2 text-base font-semibold dark:text-white">
+                  Seleccione una nueva solo si desea cambiarla
+                </label>
               </article>
+            </div>
+            <div className="flex justify-between">
+              <Button name="Actualizar"/>
+              { user.users_status == "ACTIVO"
+                ? <button className="button button--flex mt-4 bg-[red]" onClick={handleSubmitInactiveProvider}>Inactivar Proveedor</button>
+                : <button className="button button--flex mt-4 bg-[geen]" onClick={handleSubmitInactiveProvider}>Activar Proveedor</button>
+              }
             </div>
           </form>
         </Box>
