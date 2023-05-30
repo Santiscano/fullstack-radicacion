@@ -32,7 +32,10 @@ export const addFile = async (
   files_type: string,
   files_account_type: any,
   files_account_type_number: any,
-  userSession: number
+  userSession: number,
+  handleMessageSnackbar?: any,
+  remove?:any,
+  navigate?:any,
 ) => {
   try {
     const response = await axios.post(
@@ -50,15 +53,22 @@ export const addFile = async (
       },
       getHeader()
     );
-    console.log("response addfile: ", response);
+    console.log("response addFile: ", response);
     return response;
   } catch (err) {
     // @ts-ignore
-    console.log("error ejecutado",err.response.data.message);
+    const info =  err.response.data.message == 'INCOMPLETE_INFORMATION'
+      ? 'INFORMACION INCOMPLETA, POR FAVOR VERIFICAR'
+      // @ts-ignore
+      : err.response.data.message;
+    handleMessageSnackbar("error", info );
+    // @ts-ignore
+    console.log("error ejected",err.response.data.message);
     // @ts-ignore
     const message = err.response.data.message;
     if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
-      return message
+      remove("accessToken");
+      navigate("/login");
     }
   }
 };

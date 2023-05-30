@@ -28,7 +28,7 @@ import { uploadfile } from "../../services/Pdf.routes";
 import { getUsers } from "../../services/Users.routes";
 import { getSettled } from "../../services/generateSettled.routes";
 
-import { GeneralValuesContext } from "../../Context/GeneralValuesContext";
+import useContextProvider, { GeneralValuesContext } from "../../Context/GeneralValuesContext";
 import { formattedAmount } from "../../Utilities/formatted.utility";
 import InputSelectOnlyValue from "../../components/common/InputSelectOnlyValue";
 import ModalSuccess from "../../components/common/ModalSuccess";
@@ -101,6 +101,7 @@ function GenerateFiles() {
   const { setPreLoad } = useContext(GeneralValuesContext);
   const { changeTitleSection } = useDataGlobal();
   const navigate = useNavigate();
+  const { handleMessageSnackbar } = useContextProvider()
 
   // -----------------------METHODS INPUTS--------------------------------//
 
@@ -285,7 +286,10 @@ function GenerateFiles() {
         invoiceType,
         accountType,
         preAccountNumber + "-" + accountNumber,
-        get("idusers")
+        get("idusers"),
+        handleMessageSnackbar,
+        remove,
+        navigate,
       );
       console.log("addFileResponse: ", addFileResponse);
 
@@ -298,14 +302,7 @@ function GenerateFiles() {
       // @ts-ignore
       setResult(addFileResponse);
     } catch (err) {
-      // @ts-ignore
-      console.log("error ejecutado",err.response.data.message);
-      // @ts-ignore
-      const message = err.response.data.message;
-      if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
-        remove("accessToken");
-        navigate("/login");
-      }
+      console.log("error en addFile: ", err);
     } finally {
       setPreLoad(false);
     }
