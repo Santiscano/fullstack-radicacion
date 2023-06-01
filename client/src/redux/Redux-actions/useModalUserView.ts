@@ -54,7 +54,7 @@ export const useModalUserView = () => {
   const setSedesName = (sedes_name: any) => {
     dispatch(setModalUserView({sedes_name}))
   };
-  const setRoles = (roles: string) => {
+  const setRolesName = (roles: string) => {
     dispatch(setModalUserView({roles}))
   };
 
@@ -72,7 +72,7 @@ export const useModalUserView = () => {
     setEditSedes,
     setidentificationType,
     setSedesName,
-    setRoles,
+    setRolesName,
   };
 };
 

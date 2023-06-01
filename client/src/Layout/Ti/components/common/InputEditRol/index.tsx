@@ -1,15 +1,15 @@
-import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { styled } from "@mui/material/styles";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import allRoutes from "../../../../../services/allRoutes";
+import { useEffect, useState } from "react";
 import { getHeader, remove } from "../../../../../components/tools/SesionSettings";
-import { useAppSelector } from "../../../../../redux/hooks/useStore";
 import { useModalUserView } from "../../../../../redux/Redux-actions/useModalUserView";
+import { useAppSelector } from "../../../../../redux/hooks/useStore";
+import allRoutes from "../../../../../services/allRoutes";
+import axios from "axios";
 
 const Selecting = styled(FormControl)({
   "& .MuiOutlinedInput-root": {
@@ -19,24 +19,23 @@ const Selecting = styled(FormControl)({
   },
 });
 
-type Sedes = {
-  sedes_name: string
+type Roles = {
+  roles: string
 };
 
-export default function InputEditCedi(props:any) {
+export default function InputEditRol(props:any) {
   const navigate = useNavigate();
   const user = useAppSelector((state) => state.modalUserViewSlice);
-  const { setSedesName } = useModalUserView();
-  const [cedis, setCedis] = useState([]);
+  const { setRolesName } = useModalUserView();
+  const [roles, setRoles] = useState<string[]>([]);
   const [value, setValue] = useState('');
 
-  const handleGetCedis = async () => {
-    try {
-      const getCedis = await axios.get(allRoutes.api.cedis.cedisName, getHeader());
-      const allCedis = getCedis.data.data;
-      const sedesName = allCedis.map((row: Sedes) => row.sedes_name)
-      console.log('allCedis input: ', sedesName);
-      setCedis(sedesName);
+  const handleGetRoles = async () => {
+    try{
+      const getRolesName = await axios.get(allRoutes.api.roles.getName, getHeader());
+      const allRoles = getRolesName.data.data;
+      const rolesName = allRoles.map((row: Roles) => row.roles)
+      setRoles(rolesName);
     } catch (err) {
       // @ts-ignore
       console.log("error ejecutado",err.response.data.message);
@@ -49,25 +48,25 @@ export default function InputEditCedi(props:any) {
     }
   };
 
-  const handleCedi = (e: SelectChangeEvent) => {
+  const handleRol = (e:SelectChangeEvent) => {
     // @ts-ignore
     setValue(e.target.value);
-    console.log('handlecedi ejecutado', e.target.value);
-    setSedesName(e.target.value);
+    console.log('handle Rol', e.target.value);
+    setRolesName(e.target.value);
   };
 
   useEffect(() => {
-    handleGetCedis();
-    setValue(user.sedes_name);
-    console.log('useEffect editcedi',user);
-  }, []);
+    handleGetRoles();
+    setValue(user.roles);
+    console.log('useEffect inputEditRol',user);
+  },[]);
 
   return (
     <>
       <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
         {props.title}
       </label>
-      <Selecting sx={{m:1, width: 0.98}}>
+      <Selecting sx={{ m: 1, width: 0.98 }}>
         <InputLabel id={`${props.placeholder}-label`}>
           {props.placeholder}
         </InputLabel>
@@ -76,9 +75,8 @@ export default function InputEditCedi(props:any) {
           label={props.placeholder}
           labelId={`${props.placeholder}-label`}
           id={props.placeholder}
-          // @ts-ignore
           value={value}
-          onChange={handleCedi}
+          onChange={handleRol}
           autoWidth
           required={props.required}
           disabled={props.disabled}
@@ -86,11 +84,15 @@ export default function InputEditCedi(props:any) {
           name={props.name}
         >
           <MenuItem value="">
-            <em>seleccione el nuevo valor</em>
+            <em>{props.itemDefault}</em>
           </MenuItem>
 
-          {cedis.map((item: any, index: any) => (
-            <MenuItem key={index} value={item} sx={{ m: 1, minWidth: 300 }}>
+          {roles.map((item: any, index: any) => (
+            <MenuItem
+              key={index}
+              value={item}
+              sx={{ m: 1, minWidth: 300 }}
+            >
               {item}
             </MenuItem>
           ))}
@@ -98,4 +100,5 @@ export default function InputEditCedi(props:any) {
       </Selecting>
     </>
   )
-};
+
+}

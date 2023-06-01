@@ -91,11 +91,12 @@ export function formateData(fecha:any) {
 }
 
 /**
- * transforma en formato 2122-12-12
+ * transforma en formato YYYY-MM-DD
  * @param fileName fecha rara "2122-12-12T05:00:00.000Z"
  * @returns
  */
 export const cleanFileName = (fileName: string) => {
+  if(fileName == null) return null;
   const file = fileName.split('T').shift();
   return file
 };

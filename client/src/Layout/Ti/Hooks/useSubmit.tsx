@@ -335,6 +335,7 @@ function useSubmit() {
       axios.put(allRoutes.api.users.editUser,{
         idusers: user.idusers,
         roles: user.roles,
+        sedes_name: user.sedes_name,
         users_identification_type: user.users_identification_type,
         users_identification: user.users_identification,
         users_identification_digital_check: user.users_identification_digital_check,
@@ -347,10 +348,19 @@ function useSubmit() {
         users_providers_expiration_date:cleanFileName(user.users_providers_expiration_date),
         users_status: user.users_status,
       },getHeader())
+        .then((res) => {
+          if(res.data.data){
+            handleMessageSnackbar(
+              "success",
+              res.data.message
+            );
+            handleOpenModalAuth();
+          }
+        })
     } catch(err) {
       handleMessageSnackbar("error", "Ocurrio Un Error Intenta De Nuevo");
       // @ts-ignore
-      console.log("error ejecutado",err.response.data.message);
+      console.log("error ejecutado: ", err);
       // @ts-ignore
       const message = err.response.data.message;
       if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
@@ -382,10 +392,10 @@ function useSubmit() {
       }, getHeader())
         .then((res) => {
           console.log('updateProv: ', res);
-          if(res.data.message == "SUCCESS"){
+          if(res.data.data){
             handleMessageSnackbar(
               "success",
-              `Archivo Actualizado Con Exito`
+              res.data.message
             );
             handleOpenModalAuth()
           }
@@ -412,7 +422,7 @@ function useSubmit() {
       e.preventDefault();
       axios.put(allRoutes.api.users.editUser,{
         idusers: user.idusers,
-        idroles: 1,
+        roles: "PROVEEDOR",
         sedes_name: user.sedes_name,
         users_identification_type: user.users_identification_type,
         users_identification: user.users_identification,

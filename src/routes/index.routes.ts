@@ -1,7 +1,7 @@
 import { Router } from 'express';
 
 // Importando controladores de las rutas
-import { getRoles, postRol, putRol, deleteRol, getRolesNotAdminProvider, getRolProvider, getIdRol } from '../controllers/roles.controller';
+import { getRoles, postRol, putRol, deleteRol, getRolesNotAdminProvider, getRolProvider, getIdRol, getRolesName } from '../controllers/roles.controller';
 import { getSedes, postSede, putSede, deleteSede, getSedesName, getIdSedes } from '../controllers/sedes.controller';
 import { getUsers, getNoAdminProv, postUsers, putUsers, deleteUser, getUserbyRol } from '../controllers/users.controller';
 import { getFiles, postFile, putFile, deleteFile, genFileRegistered } from '../controllers/files.controller';
@@ -28,6 +28,7 @@ const router = Router();
 
 // Roles
 router.get('/getRoles', decodeToken, getRoles);                             // Traer roles
+router.get('/getRolesName', decodeToken, getRolesName);                     // Traer nombre Roles
 router.get('/getIdRol',decodeToken, getIdRol);                              // Trea el idroles segun el nombre del rol
 router.get('/getNotAdminProv', decodeToken, getRolesNotAdminProvider);      // Traer !== Admin & Provider
 router.get('/getProvider', decodeToken, getRolProvider);                  // Traer Provider

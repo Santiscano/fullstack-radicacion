@@ -1,4 +1,7 @@
+import useAttachEmployee from "./hooks/useAttachEmployee";
+
 function AttachEmployeeDocuments() {
+  const {} = useAttachEmployee();
   return (
     <div>
       <h2></h2>

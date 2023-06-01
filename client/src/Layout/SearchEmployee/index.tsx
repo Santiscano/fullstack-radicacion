@@ -1,4 +1,7 @@
+import useSearchEmployee from "./hooks/useSearchEmployee";
+
 function SearchEmployee() {
+  const {} = useSearchEmployee();
   return (
     <div>
       <h1>hola mundo desde SearchEmployee</h1>

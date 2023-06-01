@@ -1,17 +1,14 @@
 import { useState } from "react";
 import TestAutocomplete from "../../components/common/SearchDobleDepCity";
+import useNewEmployee from "./hooks/useNewEmployee";
 
 function NewEmployee() {
-  const [documentType, setDocumentType] = useState("");
-  const [user, setUser] = useState("");
+  const {} = useNewEmployee();
 
   return (
-    <TestAutocomplete
-      department={documentType}
-      setDepartment={setDocumentType}
-      city={user}
-      setCity={setUser}
-    />
+    <>
+      <h2>Crear nuevos empleados</h2>
+    </>
   );
 }
 
