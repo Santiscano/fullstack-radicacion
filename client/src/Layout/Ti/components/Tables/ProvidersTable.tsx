@@ -60,7 +60,7 @@ export function CustomNoRowsOverlay() {
 }
 
 const ProvidersTables = () => {
-  const { rows, open, handleOpen, handleCloseModal } = useProvider()
+  const { rows, open, handleOpen, handleCloseModal, handleClearDataProviders } = useProvider()
   const { openModalAuth, handleOpenModalAuth } = useContextProvider();
   const { addModalUser } = useModalUserView();
 
@@ -76,6 +76,9 @@ const ProvidersTables = () => {
         <label className="block ml-4 text-base font-semibold dark:text-white">
           PROVEEDORES
         </label>
+        <button className="button button--flex" onClick={handleClearDataProviders}>
+          Actualizar Tabla Proveedores
+        </button>
         <button className="button button--flex" onClick={handleOpen}>
           Nuevo Proveedor
         </button>

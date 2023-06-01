@@ -1,25 +1,22 @@
 import { SelectChangeEvent } from "@mui/material";
 import axios from "axios";
-import { FormEvent, MouseEventHandler, SyntheticEvent, useEffect, useState } from "react";
-import { numberToStringWithTwoDigitNumber as numberToString, cleanFileName } from "../../../Utilities/formatted.utility";
+import { SyntheticEvent, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { cleanFileName, numberToStringWithTwoDigitNumber as numberToString } from "../../../Utilities/formatted.utility";
+import { getHeader, remove } from "../../../components/tools/SesionSettings";
 import { AllCedis } from "../../../interfaces/Cedis";
 import { useDataGlobal } from "../../../redux/Redux-actions/useDataGlobal";
+import { useAppSelector } from "../../../redux/hooks/useStore";
 import { createCedi, getCedis } from "../../../services/Cedis.routes";
-import {
-  createArea,
-  createCostCenter,
-  createSubArea,
-  getArea,
-} from "../../../services/CenterCost.routes";
+import { createArea, createCostCenter, createSubArea, getArea } from "../../../services/CenterCost.routes";
 import { deleteFile } from "../../../services/Files.routes";
-import { createProvider, createUser, updateProvider } from "../../../services/Users.routes";
+import { getRoles } from "../../../services/Roles.routes";
+import { createProvider, createUser } from "../../../services/Users.routes";
 import allRoutes from "../../../services/allRoutes";
 import { getCitys } from "../../../services/getCitysColombia.routes";
 import useContextProvider from "./../../../Context/GeneralValuesContext";
-import { getHeader, remove } from "../../../components/tools/SesionSettings";
-import { useAppSelector } from "../../../redux/hooks/useStore";
-import { getRoles } from "../../../services/Roles.routes";
-import { useNavigate } from "react-router-dom";
+import { useUsers } from "./useUsers";
+import { useProvider } from "./useProvider";
 
 function useSubmit() {
   // --------------------------Variable-------------------------------//
@@ -79,13 +76,14 @@ function useSubmit() {
   const { setPreLoad, handleMessageSnackbar, cediConection, handleOpenModalAuth } = useContextProvider();
   const user = useAppSelector((state) => state.modalUserViewSlice);
   const navigate = useNavigate();
+  const { handleClearDataUsers } = useUsers();
+  const { handleClearDataProviders, handleGetProvider } = useProvider();
   // --------------------------handles-------------------------------//
   /**
    * traigo los departamentos, ciudades, cedis,
    * y almaceno en variables
    */
   const handleGetCitys = async () => {
-
     const departmentsResponse: any = await getCitys();
     if( departmentsResponse == "TOKEN_EXPIRED" || departmentsResponse == "INVALID_TOKEN_ACCESS"){
       remove("accessToken");

@@ -56,7 +56,7 @@ export function CustomNoRowsOverlay() {
 }
 
 const UsersTables = () => {
-  const { rows, open, handleOpen, handleCloseModal} = useUsers();
+  const { rows, open, handleOpen, handleCloseModal, handleClearDataUsers } = useUsers();
   const { openModalAuth, handleOpenModalAuth } = useContextProvider();
   const { addModalUser } = useModalUserView();
 
@@ -72,6 +72,9 @@ const UsersTables = () => {
         <label className="block ml-4 text-base font-semibold dark:text-white">
           USUARIOS
         </label>
+        <button className="button button--flex" onClick={handleClearDataUsers}>
+          actualizar Tabla Usuarios
+        </button>
         <button className="button button--flex" onClick={handleOpen}>
           Nuevo Usuario
         </button>
