@@ -1,6 +1,6 @@
 enum FilesType {
-    'ADMINISTRATIVO',
-    'OPERATIVO'
+    'ADMINISTRATIVO' = 1,
+    'OPERATIVO' = 2
 };
 
 export interface File {
@@ -14,6 +14,11 @@ export interface File {
     files_account_type_number: string 
     userSession: number
 };
+
+export interface FileEcontrol extends File {
+    files_cost_center: string;
+    files_code_accounting: string;
+}
 
 export interface PutFile extends File {
     idfiles: number,

@@ -9,6 +9,8 @@ import {
   getSubAreaById,
   getCostCenterById,
 } from "../../../../../services/CenterCost.routes";
+import { remove } from "../../../../../components/tools/SesionSettings";
+import { useNavigate } from "react-router-dom";
 
 const Selecting = styled(FormControl)({
   "& .MuiOutlinedInput-root": {
@@ -18,28 +20,57 @@ const Selecting = styled(FormControl)({
   },
 });
 export default function InputSelect(props: any) {
-  // console.log("props: ", props);
   const [area, setArea] = useState<any>();
   const [subArea, setSubArea] = useState<any>();
   const [costCenter, setCostCenter] = useState<any>();
+  const navigate = useNavigate();
 
   const handleList = async () => {
-    const area = await getArea();
-    // console.log("area: ", area);
-    setArea(area?.data.data);
+    try{
+      const area = await getArea();
+      setArea(area?.data.data);
+    } catch (err) {
+      // @ts-ignore
+      console.log("error ejecutado",err.response.data.message);
+      // @ts-ignore
+      const message = err.response.data.message;
+      if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+        remove("accessToken");
+        navigate("/login");
+      }
+    }
   };
 
   const handleSubArea = async () => {
-    // console.log("props.valueArea: ", props.valueArea);
-    const subArea = await getSubAreaById(props.valueArea?.id);
-    // console.log("subArea: ", subArea);
-    setSubArea(subArea?.data.data);
+    try {
+      const subArea = await getSubAreaById(props.valueArea?.id);
+      setSubArea(subArea?.data.data);
+    } catch (err) {
+      // @ts-ignore
+      console.log("error ejecutado",err.response.data.message);
+      // @ts-ignore
+      const message = err.response.data.message;
+      if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+        remove("accessToken");
+        navigate("/login");
+      }
+    }
   };
 
   const handleCostCenter = async () => {
-    const centerCost = await getCostCenterById(props.valueSubArea?.id);
-    // console.log("centerCost: ", centerCost);
-    setCostCenter(centerCost?.data.data);
+    try {
+      const centerCost = await getCostCenterById(props.valueSubArea?.id);
+      setCostCenter(centerCost?.data.data);
+    } catch (err) {
+      // @ts-ignore
+      console.log("error ejecutado",err.response.data.message);
+      // @ts-ignore
+      const message = err.response.data.message;
+      if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+        remove("accessToken");
+        navigate("/login");
+      }
+    }
   };
 
   const List = ({

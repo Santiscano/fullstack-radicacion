@@ -21,7 +21,6 @@ const Transition = forwardRef(function Transition(
 
 function AlertDialogSlide(inputDeleted: any) {
   const valueDelete = inputDeleted.inputDeleted;
-  // console.log("inputDeleted: ", valueDelete);
   const [open, setOpen] = useState(false);
 
   const handleClickOpenDialogDelete = () => {

@@ -1,4 +1,4 @@
-import { DisplayRoles, Roles } from '../../interfaces/Roles';
+import { Roles } from '../../interfaces/Roles';
 
 export const roles:Roles = Object.freeze({
   Proveedor   : 1,
@@ -61,7 +61,7 @@ export function getHeader() {
   return {
     headers: {
       "Content-Type": "application/json",
-      "api_key": "37323a416eb548626b3e668255c4d436",
+      "api_key": import.meta.env.VITE_API_KEY,
       authorization: `Bearer ` + get("accessToken"),
     },
   };

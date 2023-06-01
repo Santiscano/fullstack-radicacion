@@ -5,6 +5,7 @@ export default {
   api: {
     roles: {
       get: `${host}/getRoles`,
+      getName: `${host}/getRolesName`,
       notAdminProv:`${host}/getNotAdminProv`,
       provider: `${host}/getProvider`,
       create: `${host}/postRol`,
@@ -13,6 +14,7 @@ export default {
     },
     cedis: {
       get: `${host}/getSedes`,
+      cedisName: `${host}/getSedesName`,
       create: `${host}/postSede`,
       edit: `${host}/putSede`,
       delete: `${host}/deleteSede`,
@@ -20,6 +22,8 @@ export default {
     users: {
       validate: `${host}/getValidateUser`,
       getUsers: `${host}/getUsers`,
+      getNoAdminProv: `${host}/getNoAdminProv`,
+      getByRol: `${host}/getUserbyRol`,
       createUser: `${host}/postUser`,
       editUser: `${host}/putUser`,
       deleteUser: `${host}/deleteUser`,

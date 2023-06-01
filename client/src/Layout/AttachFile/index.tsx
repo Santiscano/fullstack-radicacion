@@ -2,7 +2,7 @@ import { SelectChangeEvent, Tooltip } from "@mui/material";
 import Box from "@mui/material/Box";
 import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { capitalizeFirstLatterUppercase } from "../../Utilities/formatted.utility";
 import Button from "../../components/common/Button";
 import InputSelectOnlyValue from "../../components/common/InputSelectOnlyValue";
@@ -12,18 +12,10 @@ import TextFieldOutlined from "../../components/common/TextFieldOutline";
 import Upload from "../../components/common/Upload";
 import { TabPanel, a11yProps } from "../../components/tools/MultiViewPanel";
 import { optionAccountType } from "../../components/tools/OptionsValuesSelects";
-import { get } from "../../components/tools/SesionSettings";
-import { createFilePath } from "../../services/FilesPath.routes";
-import { uploadfile } from "../../services/Pdf.routes";
-import useContextProvider from "./../../Context/GeneralValuesContext";
-import SearchSettled from "./components/SearchSettled/index";
-import {
-  SearchWithDocument,
-  SearchWithSettled,
-} from "./../../services/SearchFile.routes";
+import { useDataGlobal } from "../../redux/Redux-actions/useDataGlobal";
 import "./AttachFile.css";
+import SearchSettled from "./components/SearchSettled/index";
 import { useAttachFile } from "./hooks/useAttachFile";
-import { useDataGlobal } from "../../redux/Redux-actions/useDataGlobal"
 
 
 function AttachFile() {
@@ -157,7 +149,7 @@ function AttachFile() {
                       </span>
                     </p>
                     <p className="font-bold inline-block mr-4">
-                      Numero de Cuenta:
+                      Número de Cuenta:
                       <span className="text-slate-600 font-normal">
                         {` ${file.accountNumber}`}
                       </span>
@@ -165,13 +157,13 @@ function AttachFile() {
                   </div>
                   <div className="flex mt-4">
                     <p className="font-bold inline-block mr-4 w-1/2">
-                      Numero Radicado
+                      Número Radicado:
                       <span className="text-slate-600 font-normal">
                         {` ${capitalizeFirstLatterUppercase(file.settled)}`}
                       </span>
                     </p>
                     <p className="font-bold inline-block mr-4">
-                      Tipo de Archivo
+                      Tipo de Archivo:
                       <span className="text-slate-600 font-normal">
                         {` ${capitalizeFirstLatterUppercase(file.fileType)}`}
                       </span>
@@ -179,13 +171,13 @@ function AttachFile() {
                   </div>
                   <div className="flex mt-4">
                     <p className="font-bold inline-block mr-4 w-1/2">
-                      Email
+                      Email:
                       <span className="text-slate-600 font-normal">
                         {` ${capitalizeFirstLatterUppercase(file.email)}`}
                       </span>
                     </p>
                     <p className="font-bold inline-block mr-4">
-                      Teléfono
+                      Teléfono:
                       <span className="text-slate-600 font-normal">
                         {` ${capitalizeFirstLatterUppercase(file.phone)}`}
                       </span>
@@ -193,13 +185,13 @@ function AttachFile() {
                   </div>
                   <div className="flex mt-4">
                     <p className="font-bold inline-block mr-4 w-1/2">
-                      Direccion
+                      Dirección:
                       <span className="text-slate-600 font-normal">
                         {` ${capitalizeFirstLatterUppercase(file.address)}`}
                       </span>
                     </p>
                     <p className="font-bold inline-block mr-4">
-                      Nombre Cedi
+                      Nombre Cedi:
                       <span className="text-slate-600 font-normal">
                         {` ${capitalizeFirstLatterUppercase(file.cediName)}`}
                       </span>
@@ -207,7 +199,7 @@ function AttachFile() {
                   </div>
                   <div className="flex mt-4">
                     <p className="font-bold inline-block mr-4 w-1/2">
-                      Tipo de Identificacion
+                      Tipo de Identificación:
                       <span className="text-slate-600 font-normal">
                         {` ${capitalizeFirstLatterUppercase(
                           file.identificationType
@@ -215,7 +207,7 @@ function AttachFile() {
                       </span>
                     </p>
                     <p className="font-bold inline-block mr-4">
-                      Numero de Identificacion
+                      Número de Identificación:
                       <span className="text-slate-600 font-normal">
                         {` ${capitalizeFirstLatterUppercase(
                           file.identificationNumber

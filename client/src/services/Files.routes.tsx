@@ -2,6 +2,7 @@ import Modal from "@mui/material/Modal";
 import axios from "axios";
 import Routes from "./allRoutes";
 import { get, getHeader, set } from "../components/tools/SesionSettings";
+import { selectCase } from "../components/tools/switchCaseInput";
 
 export const getFiles = async () => {
   try {
@@ -12,8 +13,14 @@ export const getFiles = async () => {
     );
     console.log("response : ", response);
     return response;
-  } catch (error) {
-    console.log("error: ", error);
+  } catch (err) {
+    // @ts-ignore
+    console.log("error ejecutado",err.response.data.message);
+    // @ts-ignore
+    const message = err.response.data.message;
+    if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+      return message
+    }
   }
 };
 
@@ -23,22 +30,16 @@ export const addFile = async (
   files_price: string,
   idusers: number,
   idsedes: number,
+  files_type: string,
   files_account_type: any,
-  files_account_type_number: any,
-  userSession: number
+  unitedValues: any,
+  userSession: number,
+  handleMessageSnackbar?: any,
+  remove?:any,
+  navigate?:any,
 ) => {
   try {
-    console.log(
-      "info envio:",
-      files_registered,
-      idsedes,
-      idproviders,
-      idusers,
-      files_price,
-      files_account_type,
-      files_account_type_number,
-      userSession
-    );
+    const files_account_type_number = unitedValues == "-" ? "" : unitedValues;
     const response = await axios.post(
       Routes.api.files.addFile,
       {
@@ -46,7 +47,7 @@ export const addFile = async (
         idsedes,
         idproviders,
         idusers,
-        files_type: "ADMINISTRATIVO",
+        files_type,
         files_price,
         files_account_type,
         files_account_type_number,
@@ -54,10 +55,25 @@ export const addFile = async (
       },
       getHeader()
     );
-    console.log("response addfile: ", response);
+    console.log("response addFile: ", response);
     return response;
-  } catch (error) {
-    console.log("response addfile: ", error);
+  } catch (err) {
+    // @ts-ignore
+    const missing = selectCase(err.response.data.missing);
+    // @ts-ignore
+    const info =  err.response.data.message == 'INCOMPLETE_INFORMATION'
+      ? `${missing} INCOMPLETO.`
+      // @ts-ignore
+      : err.response.data.message;
+    handleMessageSnackbar("error", info );
+    // @ts-ignore
+    console.log("error ejected",err.response.data.message);
+    // @ts-ignore
+    const message = err.response.data.message;
+    if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+      remove("accessToken");
+      navigate("/login");
+    }
   }
 };
 
@@ -99,8 +115,14 @@ export const editFile = async (
     );
     console.log("response putfile", response);
     return response;
-  } catch (error) {
-    console.log("error putfile: ", error);
+  } catch (err) {
+    // @ts-ignore
+    console.log("error ejecutado",err.response.data.message);
+    // @ts-ignore
+    const message = err.response.data.message;
+    if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+      return message
+    }
   }
 };
 
@@ -115,7 +137,13 @@ export const deleteFile = async (files_registered: string) => {
       getHeader()
     );
     return response;
-  } catch (error) {
-    // console.log("error: ", error);
+  } catch (err) {
+    // @ts-ignore
+    console.log("error ejecutado",err.response.data.message);
+    // @ts-ignore
+    const message = err.response.data.message;
+    if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+      return message
+    }
   }
 };

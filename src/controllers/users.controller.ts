@@ -2,8 +2,10 @@ import { Request, Response } from 'express';
 import { missingData } from '../utilities/missingData.utilities';
 import { UserDocumentRol, Users } from '../interfaces/users.interface';
 import { success, unsuccessfully, unauthorized, uncompleted, errorMessage } from "../utilities/responses.utilities";
-import { getUsersModel, getUserbyRolModel, postUsersModel, putUsersModel, deleteUserModel } from '../models/users.model';
+import { getUsersModel, getNoAdminProvModel, getUserbyRolModel, postUsersModel, putUsersModel, deleteUserModel } from '../models/users.model';
+import { getIdSedesModel } from '../models/sedes.model';
 import { apiKeyValidate } from '../utilities/apiKeyValidate.utilities';
+import { getIdRolesModel } from '../models/roles.model';
 
 // TRAER USUARIOS
 export const getUsers = async (req: Request, res: Response) =>{
@@ -16,6 +18,17 @@ export const getUsers = async (req: Request, res: Response) =>{
     };
 };
 
+// TRAER USUARIOS MENOS ADMIN Y PROVEEDORES
+export const getNoAdminProv = async (req: Request, res: Response) => {
+    const { api_key } = req.headers;
+    try {
+        if (apiKeyValidate(api_key)) return res.status(401).json(unauthorized());
+        return res.status(200).json(success(await getNoAdminProvModel()));
+    } catch (error) {
+        return res.status(512).json(unsuccessfully(error));
+    };
+};
+
 // TRAER USUARIOS SEGÚN EL ROL
 export const getUserbyRol = async (req: Request, res: Response) => {
     const { api_key } = req.headers;
@@ -23,10 +36,10 @@ export const getUserbyRol = async (req: Request, res: Response) => {
     try {
         if (apiKeyValidate(api_key)) return res.status(401).json(unauthorized());
         if (missingData({idroles}).error) return res.status(422).json(uncompleted(missingData({idroles}).missing));
-        return res.status(200).json(success(await getUserbyRolModel(idroles)));
+        return res.status(200).json(success((await getUserbyRolModel(idroles)).data));
     } catch(error) {
         return res.status(512).json(unsuccessfully(error));
-    }
+    };
 };
 
 // CREAR USUARIOS
@@ -102,12 +115,22 @@ export const postUsers = async (req: Request, res: Response) => {
 //     };
 // };
 
+
 // EDITAR USUARIOS
 export const putUsers = async ( req:Request, res:Response ) => {
     const { api_key } = req.headers;
-    const { idroles, idsedes, users_identification_type, users_identification, users_name, users_lastname, users_address, users_phone, users_email, users_providers_paydays,users_providers_expiration_date,users_status } = req.body;
-    const validate = { idroles, idsedes, users_identification_type, users_identification, users_name, users_address, users_phone, users_email,users_status };
-    const data: Users = { idroles, idsedes, users_identification_type, users_identification, users_name, users_lastname, users_address, users_phone, users_email,users_providers_paydays,users_providers_expiration_date,users_status }
+    const { idusers, roles, sedes_name, users_identification_type, users_identification, users_name, users_lastname, users_address, users_phone, users_email, users_providers_paydays,users_providers_expiration_date,users_status } = req.body;
+    const validate = { idusers, roles, sedes_name, users_identification_type, users_identification, users_name, users_address, users_phone, users_email,users_status };
+    // sedes
+    let resSedes = await getIdSedesModel(sedes_name);
+    if (resSedes.message) { return res.status(203).json(errorMessage(resSedes.message))};
+    let idsedes = Number(resSedes.data);
+    // roles
+    let resRoles = await getIdRolesModel(roles);
+    if(resRoles.message) { return res.status(203).json(errorMessage(resRoles.message))};
+    let idroles = Number(resRoles.data);
+    // 
+    const data: Users = { idusers, idroles, idsedes, users_identification_type, users_identification, users_name, users_lastname, users_address, users_phone, users_email,users_providers_paydays,users_providers_expiration_date,users_status }
     try {
         if (apiKeyValidate(api_key)) return res.status(401).json(unauthorized());
         if (missingData(validate).error) return res.status(422).json(uncompleted(missingData(validate).missing));

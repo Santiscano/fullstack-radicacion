@@ -1,8 +1,8 @@
 import { roles } from "./SesionSettings";
 
 export const optionsInvoiceType = [
-  'Administrativo',
-  'Operativo'
+  'ADMINISTRATIVO',
+  'OPERATIVO'
 ];
 export const optionsProvider = [
   'Servientrega',
@@ -53,12 +53,19 @@ export const optionsViewsAllFiles = [
   roles.Gerencia, roles.Contabilidad, roles.Tesoreria,
   roles.AuditorGH, roles.AuditorCRTL, roles.AuditorRG, roles.AuditorTI
 ];
+export const optionsViewsNotAuditors = [
+  roles.Administrador, roles.Contabilidad, roles.Gerencia,
+  roles.Radicacion, roles.Tesoreria
+];
 export const optionsViewsTI = [
   roles.Contabilidad, roles.Administrador, roles.AuditorTI
 ];
 export const optionsViewTraking = [
   roles.Administrador, roles.Gerencia, roles.Contabilidad, roles.Tesoreria
 ];
-export const optionsViewsDigitization = [
+export const optionsViewsHumanManagement = [
+  roles.Administrador, roles.AuditorGH,
+];
+export const optionsViewsDevelopment = [
   roles.Administrador
 ];

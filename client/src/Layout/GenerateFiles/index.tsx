@@ -1,6 +1,6 @@
 import { SelectChangeEvent } from "@mui/material/Select";
 import { useContext, useEffect, useState } from "react";
-import InputSelect from "../../components/common/InputSelect";
+import { useNavigate } from "react-router-dom";
 import Button from "../../components/common/Button";
 import InputSelectRedirectTo from "../../components/common/InputSelectRedirectTo";
 import UploadFileModal from "../../components/common/ModalUploadFile";
@@ -9,6 +9,7 @@ import Upload from "../../components/common/Upload";
 import {
   optionAccountType,
   optionCediType,
+  optionsInvoiceType,
 } from "../../components/tools/OptionsValuesSelects";
 import "./provider.css";
 
@@ -27,12 +28,12 @@ import { uploadfile } from "../../services/Pdf.routes";
 import { getUsers } from "../../services/Users.routes";
 import { getSettled } from "../../services/generateSettled.routes";
 
-import { GeneralValuesContext } from "../../Context/GeneralValuesContext";
+import useContextProvider, { GeneralValuesContext } from "../../Context/GeneralValuesContext";
 import { formattedAmount } from "../../Utilities/formatted.utility";
 import InputSelectOnlyValue from "../../components/common/InputSelectOnlyValue";
 import ModalSuccess from "../../components/common/ModalSuccess";
 import SearchUser from "../../components/common/SearchUser";
-import { get, roles } from "../../components/tools/SesionSettings";
+import { get, remove, roles } from "../../components/tools/SesionSettings";
 import { AllCedis, CedisIdName } from "../../interfaces/Cedis";
 import { createFilePath } from "../../services/FilesPath.routes";
 import InputSelectCedi from "./components/InputSelectCedi";
@@ -40,7 +41,7 @@ import InputSelectCedi from "./components/InputSelectCedi";
 // import { savePDF, printPDF } from "./components/PDF/print";
 import { ChildModalPdf } from "../../components/common/ModalUploadFile";
 import InputDouble from "./components/InputDouble";
-import { useDataGlobal } from "../../redux/Redux-actions/useDataGlobal"
+import { useDataGlobal } from "../../redux/Redux-actions/useDataGlobal";
 
 function GenerateFiles() {
   // ------------------------------VARIABLES------------------------------//
@@ -49,7 +50,7 @@ function GenerateFiles() {
   const [statusFileResponse, setStatusFileResponse] = useState(false);
   // valores actualizables con DB
   const [allUsers, setAllUsers] = useState([""]); // recibi todos los usuarios de DB
-  const [allCedis, setAllCedis] = useState<any[]>([""]);
+  const [allCedis, setAllCedis] = useState<any[] >([""]);
   const [optionsCedisIdName, setOptionsCedisIdName] = useState<CedisIdName[]>(
     []
   ); // recibe nombre y id de todas las cedis
@@ -63,7 +64,7 @@ function GenerateFiles() {
   // validar condicionales para renderizar
   const [documentType, setDocumentType] = useState(""); // tipos documentos lo recibe de un type creado
   const [isSettled, setIsSettled] = useState(false); // es true cuando el numero de radicado llega de la DB
-  const [invoiceType, setInvoiceType] = useState("Administrativo"); // define las opciondes de a quien va dirigido
+  const [invoiceType, setInvoiceType] = useState(""); // define las opciondes de a quien va dirigido
   const [accountType, setAccountType] = useState(""); // con esto se hace un filtro para los tipos de usuario
   const [statusResponse, setStatusResponse] = useState(false); // status 200 para mostrar modal
   const [modalSuccess, setModalSuccess] = useState(false); // status 200 filePath para mostrar hijo modal
@@ -99,6 +100,8 @@ function GenerateFiles() {
 
   const { setPreLoad } = useContext(GeneralValuesContext);
   const { changeTitleSection } = useDataGlobal();
+  const navigate = useNavigate();
+  const { handleMessageSnackbar } = useContextProvider()
 
   // -----------------------METHODS INPUTS--------------------------------//
 
@@ -113,12 +116,21 @@ function GenerateFiles() {
     // cedis
     const allCedis: AllCedis[] = await getCedis();
     console.log("allCedis: ", allCedis);
+    // @ts-ignore
+    if(allCedis == 'TOKEN_EXPIRED' || allCedis == 'INVALID_TOKEN_ACCESS'){
+      remove("accessToken");
+      navigate("login");
+    }
     setAllCedis(allCedis);
 
     // users
     const getAllUsers = await getUsers();
     console.log("getAllUsers: ", getAllUsers);
     const allUsers = getAllUsers;
+    if(getAllUsers == 'TOKEN_EXPIRED' || getAllUsers == 'INVALID_TOKEN_ACCESS'){
+      remove("accessToken");
+      navigate("login");
+    }
     setAllUsers(allUsers);
 
     // options redirectTo Administration
@@ -133,6 +145,10 @@ function GenerateFiles() {
     setOptionsRedirectTo(filterAuditors);
 
     const getAllFiles = await getFiles();
+    if(getAllFiles == 'TOKEN_EXPIRED' || getAllFiles == 'INVALID_TOKEN_ACCESS'){
+      remove("accessToken");
+      navigate("login");
+    }
     setAllFiles(getAllFiles?.data);
 
     setObjectUser([]);
@@ -160,10 +176,9 @@ function GenerateFiles() {
    * @param e captura valor
    */
   const handleCedi = (e: SelectChangeEvent) => setCedi(e.target.value);
-  const handleAccountType = (e: SelectChangeEvent) =>
-    setAccountType(e.target.value);
-  const handleRedirectTo = (e: SelectChangeEvent) =>
-    setRedirectTo(Number(e.target.value));
+  const handleAccountType = (e: SelectChangeEvent) => setAccountType(e.target.value);
+  const handleRedirectTo = (e: SelectChangeEvent) => setRedirectTo(Number(e.target.value));
+  const handleInvoiceType = (e: SelectChangeEvent) => setInvoiceType(e.target.value);
   const handleComments = (e: any) => setComments(e.target.value);
   //ChangeEventHandler<HTMLTextAreaElement>
 
@@ -233,8 +248,15 @@ function GenerateFiles() {
 
       setSettledNumber(newSettled);
       newSettled ? setIsSettled(true) : setIsSettled(false);
-    } catch (error) {
-      console.log("error: ", error);
+    } catch (err) {
+      // @ts-ignore
+      console.log("error ejecutado",err.response.data.message);
+      // @ts-ignore
+      const message = err.response.data.message;
+      if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+        remove("accessToken");
+        navigate("/login");
+      }
     } finally {
       setPreLoad(false);
     }
@@ -244,7 +266,7 @@ function GenerateFiles() {
    * ?Formulario parte 2
    * formulario data set DB
    * 1- se envia los datos del radicado
-   * 2- abro modal si es status 200 convirtiendo true variable statusFileResponse
+   * 2- si es status 200 dejo ver la segunda parte
    * 3- guardo respuesta en variable result
    * @param e
    */
@@ -261,9 +283,13 @@ function GenerateFiles() {
         redirectTo,
         // @ts-ignore
         cedi.idsedes,
+        invoiceType,
         accountType,
         preAccountNumber + "-" + accountNumber,
-        get("idusers")
+        get("idusers"),
+        handleMessageSnackbar,
+        remove,
+        navigate,
       );
       console.log("addFileResponse: ", addFileResponse);
 
@@ -275,8 +301,8 @@ function GenerateFiles() {
       // guardo respuesta completa en variable result
       // @ts-ignore
       setResult(addFileResponse);
-    } catch (error) {
-      // console.log("error: ", error);
+    } catch (err) {
+      console.log("error en addFile: ", err);
     } finally {
       setPreLoad(false);
     }
@@ -297,8 +323,9 @@ function GenerateFiles() {
       // @ts-ignore
       const idFiles = result?.data.data[0].idfiles;
       console.log("idFiles: ", idFiles);
+      console.log('tipo archivo', invoiceType)
 
-      const responseUploadFile = await uploadfile(filePDFGoogle, idFiles); // guarda pdf
+      const responseUploadFile = await uploadfile(filePDFGoogle, idFiles, invoiceType); // guarda pdf
       console.log("responseUploadFile: ", responseUploadFile);
       const pathFileUpload = await responseUploadFile?.data.pathFile; // almacena ruta asignada en variable
 
@@ -314,9 +341,16 @@ function GenerateFiles() {
       if (responseConcatFilePath?.status === 200) {
         setModalSuccess(true);
       }
-    } catch (error) {
-      console.log("error: ", error);
+    } catch (err) {
+      // @ts-ignore
+      console.log("error ejecutado",err.response.data.message);
+      // @ts-ignore
+      const message = err.response.data.message;
       setPreLoad(false);
+      if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+        remove("accessToken");
+        navigate("/login");
+      }
     } finally {
       setPreLoad(false);
     }
@@ -353,6 +387,10 @@ function GenerateFiles() {
    */
   const newSettledSameUser = async () => {
     const newSettled = await getSettled();
+    if(newSettled == 'TOKEN_EXPIRED' || newSettled == 'INVALID_TOKEN_ACCESS'){
+      remove("accessToken");
+      navigate("login");
+    }
     setSettledNumber(newSettled);
     // setAccountType('');
     setPrice("");
@@ -457,11 +495,11 @@ function GenerateFiles() {
                   <div className="md:flex md:flex-wrap">
                     <article className="md:w-1/2">
                       <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                        Razon social
+                        Razón social
                       </label>
                       <TextFieldOutlined
                         type={"text"}
-                        label={"Razon Social"}
+                        label={"Razón Social"}
                         value={companyName}
                         setValue={setCompanyName}
                         required
@@ -471,11 +509,11 @@ function GenerateFiles() {
                     </article>
                     <article className="md:w-1/2">
                       <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                        Direccion
+                        Dirección
                       </label>
                       <TextFieldOutlined
                         type={"text"}
-                        label={"Direccion"}
+                        label={"Dirección"}
                         value={address}
                         setValue={setAddress}
                         required
@@ -519,7 +557,7 @@ function GenerateFiles() {
                   <div className="md:flex md:flex-wrap">
                     <article className="md:w-1/2">
                       <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                        Numero de Radicado
+                        Número de Radicado
                       </label>
                       <TextFieldOutlined
                         type={"text"}
@@ -566,7 +604,7 @@ function GenerateFiles() {
                     </article>
                     <article className="md:w-1/2">
                       <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                        Numero de Cuenta
+                        Número de Cuenta
                       </label>
                       <div>
                         <InputDouble
@@ -576,7 +614,7 @@ function GenerateFiles() {
                           setValue1={setPreAccountNumber}
                           required1
                           type2={"text"}
-                          label2={"Numero"}
+                          label2={"Número"}
                           value2={accountNumber}
                           setValue2={setAccountNumber}
                           required2
@@ -598,12 +636,24 @@ function GenerateFiles() {
                         items={optionsRedirectTo}
                       />
                     </article>
+                    <article className="md:w-1/2">
+                      <InputSelectOnlyValue
+                        type={"text"}
+                        title="Tipo de Factura"
+                        placeholder="Tipo"
+                        required
+                        value={invoiceType}
+                        onChange={handleInvoiceType}
+                        itemDefault="selecciona el tipo de factura"
+                        items={optionsInvoiceType}
+                      />
+                    </article>
                   </div>
                   <button
                     className="button button--flex mt-6"
                     onClick={() => setStatusResponse(true)}
                   >
-                    Validar Informacion
+                    Validar Información
                   </button>
                 </section>
 

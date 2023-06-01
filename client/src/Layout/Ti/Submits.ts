@@ -21,7 +21,7 @@ export const handleSubmitCreateRol = async (
     setRolName('');
     setRolDescription('');
   } catch(error) {
-    // console.log('error: ', error);
+    console.log('error: ', error);
   } finally {
     setPreLoad(false);
   }
@@ -39,7 +39,7 @@ export const handleSubmitCreateArea = async (e:any, areaNumber:number, setAreaNu
     }
     return response;
   } catch(error) {
-    // console.log('error: ', error);
+    console.log('error: ', error);
   } finally{
     setPreLoad(false);
   }
@@ -49,7 +49,7 @@ export const handleSubmitCreateSubArea = async () => {
   try{
     setPreLoad(true);
   } catch(error) {
-    // console.log('error: ', error);
+    console.log('error: ', error);
   } finally{
     setPreLoad(false);
   }
@@ -59,7 +59,7 @@ export const handleSubmitCreateCostCenter = async () => {
   try{
     setPreLoad(true);
   } catch(error) {
-    // console.log('error: ', error);
+    console.log('error: ', error);
   } finally{
     setPreLoad(false);
   }

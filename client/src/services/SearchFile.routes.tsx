@@ -16,8 +16,14 @@ export const SearchWithSettled = async (files_registered: any) => {
     );
     console.log("response searchWithSettled: ", response);
     return response;
-  } catch (error) {
-    console.log("error", error);
+  } catch (err) {
+    // @ts-ignore
+    console.log("error ejecutado",err.response.data.message);
+    // @ts-ignore
+    const message = err.response.data.message;
+    if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+      return message
+    }
   }
 };
 
@@ -41,12 +47,18 @@ export const SearchWithDocument = async (
     );
     console.log("searchWithdocument response: ", response);
     return response;
-  } catch (error) {
-    console.log("error", error);
+  } catch (err) {
+    // @ts-ignore
+    console.log("error ejecutado",err.response.data.message);
+    // @ts-ignore
+    const message = err.response.data.message;
+    if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+      return message
+    }
   }
 };
 
-export const GetAllSettled = async () => {
+export const GetAllSettled = async (remove:any, navigate:any) => {
   try {
     const response = await axios.get(
       Routes.api.searchingFile.getAllSettled,
@@ -54,9 +66,14 @@ export const GetAllSettled = async () => {
     );
     console.log("response: ", response);
     return response;
-  } catch (error:any) {
-    console.log("error axios: ", error);
-    // handleMessageSnackbar("error",)
-    return error;
+  } catch (err) {
+    // @ts-ignore
+    console.log("error ejecutado getallsettled",err.response.data.message);
+    // @ts-ignore
+    const message = err.response.data.message;
+    if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+      remove("accessToken")
+      navigate("/login")
+    }
   }
 };

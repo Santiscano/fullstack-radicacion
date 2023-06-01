@@ -9,6 +9,8 @@ import https from 'https';
 import fs from 'fs';
 import router from './routes/index.routes';
 import routerSig from './routes/sig.routes';
+import routerEControl from './routes/eControl.routes';
+import bodyParser from 'body-parser';
 
 const app = express();
 
@@ -48,33 +50,38 @@ const swaggerSpec = {
 
 
 // MIDDELWARE
-app.use(express.json());
+// app.use(express.json());
 app.use(morgan("dev"));
 app.use(cors());
+
+// Configurar body-parser
+app.use(bodyParser.urlencoded({ limit: 'Infinity', extended: true }));
+app.use(bodyParser.json({ limit: 'Infinity' }));
 
 // ROUTES
 app.use('/', router)
 
 // VERIFICACIÓN BACKEND PRODUCCIÓN
 app.use("/api/", (req, res, next) => {
-    res.send("Backend Digitalización EnviExpress Funciónando con Éxito");
+    res.send("Backend Digitalización EnviExpress Funcionando con Éxito");
 });
 
 // PUERTO DEL SERVIDOR LOCAL
 app.set("port", process.env.LOCAL_PORT || 3000);
 
 // ROUTES
-app.use('/', router)
-app.use('/sig/', routerSig)
+app.use('/', router);
+app.use('/sig/', routerSig);
+app.use('/eControl/', routerEControl)
 
 // SWAGGER
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerJsdoc(swaggerSpec)))
 
 // CONEXIÓN FRONTEND
-// app.use(express.static(path.join(__dirname, '../client/dist')))
-// app.get("*", (req, res)=>{
-//     res.sendFile(path.join(__dirname, '../client/dist/index.html'))
-// });
+app.use(express.static(path.join(__dirname, '../client/dist')))
+app.get("*", (req, res)=>{
+    res.sendFile(path.join(__dirname, '../client/dist/index.html'))
+});
 
 // INICIAR EL SERVIDOR http://
 app.listen(app.get("port"), () => {
@@ -83,5 +90,5 @@ app.listen(app.get("port"), () => {
 
 // INICIAR EL SERVIDOR https://
 // httpsServer.listen( 443, () => {
-//     console.log(`Server started at ${process.env.URL_SERVER}:443}`);
+//     console.log(`Server started at ${process.env.URL_SERVER}:443`);
 // });

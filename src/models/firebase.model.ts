@@ -6,7 +6,7 @@ import { Roles } from '../interfaces/roles.interface';
 type Data = RowDataPacket[] | RowDataPacket[][] | OkPacket | OkPacket[] | ResultSetHeader | ResultSetHeader 
 
 export const logInModel = async (email: string): Promise<{data:Data}> => {
-    const [ validate ] = await connection.query(`SELECT users_status FROM users WHERE users_email = ?`, [ email ]);
+    const [ validate ] = await connection.query(`SELECT users_status FROM users WHERE users_email = ?;`, [ email ]);
     return {data: validate}
 };
 
@@ -20,7 +20,7 @@ export const validateUserModel = async (emailToken: string): Promise<{message?:s
                     FROM users U 
                     LEFT JOIN roles R ON U.idroles = R.idroles 
                     LEFT JOIN sedes S ON U.idsedes = S.idsedes 
-                    WHERE users_status = 'ACTIVO' AND users_email = ? ;`, [ emailToken ]);
+                    WHERE U.users_status = 'ACTIVO' AND U.users_email = ? AND U.idroles <> 1;`, [ emailToken ]);
         if(result.length === 0){
             return { message: `El email: ${emailToken} se encuentra registrado en Firebase, pero no existe en el sistema`};
         };

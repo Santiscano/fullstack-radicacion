@@ -1,12 +1,10 @@
 import Box from "@mui/material/Box";
 import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
+import useContextProvider from "../../Context/GeneralValuesContext";
 import Button from "../../components/common/Button";
-import InputSelectCedi from "../../components/common/InputSelectCedi";
 import InputSelectCity from "../../components/common/InputSelectCity";
-import InputSelectDocType from "../../components/common/InputSelectDocType";
 import InputSelectOnlyValue from "../../components/common/InputSelectOnlyValue";
-import InputSelectRol from "../../components/common/InputSelectRol";
 import LoadingMUI from "../../components/common/LoadingMUI";
 import TextFieldOutlined from "../../components/common/TextFieldOutline";
 import { TabPanel, a11yProps } from "../../components/tools/MultiViewPanel";
@@ -14,12 +12,11 @@ import { optionCediType } from "../../components/tools/OptionsValuesSelects";
 import { get, roles } from "../../components/tools/SesionSettings";
 import useSubmit from "./Hooks/useSubmit";
 import "./TI.css";
-import AlertDialogSlide from "./components/common/AlertDialogSlide";
-import SelectArea from "./components/common/SelectArea";
-import UsersTable from "./components/Tables/UsersTable";
 import ProvidersTables from "./components/Tables/ProvidersTable";
+import UsersTable from "./components/Tables/UsersTable";
+import AlertDialogSlide from "./components/common/AlertDialogSlide";
 import GetCediToBusinessUnit from "./components/common/GetCedisToBusinessUnit";
-import useContextProvider from "../../Context/GeneralValuesContext";
+import SelectArea from "./components/common/SelectArea";
 
 function TI() {
   const {
@@ -38,39 +35,12 @@ function TI() {
     setCediName,
     type,
     handleCediType,
-    handleSubmitCreateUser,
-    handleSubmitCreateProvider,
-    assignRole,
-    handleRol,
-    optionsRol,
-    onlyRolProvider,
-    cedi,
-    handleCedi,
-    identificationType,
-    handleCedity,
-    identificationNumber,
-    setIdentificationNumber,
-    firstName,
-    setFirstname,
-    lastName,
-    setLastName,
-    phone,
-    setPhone,
-    email,
-    setEmail,
-    password,
-    setPassword,
-    limitDaysPayment,
-    setLimitDaysPayment,
-    documentationUpdate,
-    setDocumentationUpdate,
     // create Area
     handleSubmitCreateArea,
     areaNumber,
     setAreaNumber,
     areaName,
     setAreaName,
-    setMessageSnackbar,
     // crear sub Area
     handleSubmitCreateSubArea,
     subAreaNumber,
@@ -87,17 +57,11 @@ function TI() {
     setCostCenterNumber,
     costCenterName,
     setCostCenterName,
-    connectionSubArea,
-    handleConnectionSubArea,
     //
     inputDeleted,
     setInputDeleted,
     handleDeleteFile,
     //view table
-    isCreateUser,
-    setIsCreateUser,
-    isCreateProvider,
-    setIsCreateProvider,
   } = useSubmit();
   const { cediConection } = useContextProvider();
 
@@ -242,13 +206,13 @@ function TI() {
               {(Number(get("idroles")) == roles.AuditorTI ||
                 Number(get("idroles")) == roles.Administrador) && (
                 <TabPanel value={showValue} index={2}>
-                  <UsersTable setIsCreateUser={setIsCreateUser} />
+                  <UsersTable/>
                 </TabPanel>
               )}
               {(Number(get("idroles")) == roles.Contabilidad ||
                 Number(get("idroles")) == roles.Administrador) && (
                 <TabPanel value={showValue} index={3}>
-                  <ProvidersTables setIsCreateProvider={setIsCreateProvider} />
+                  <ProvidersTables/>
                 </TabPanel>
               )}
               {(Number(get("idroles")) == roles.Contabilidad ||

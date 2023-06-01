@@ -3,6 +3,8 @@ import { useState } from "react";
 import { editFile } from "../../../../services/Files.routes";
 import useContextProvider from "./../../../../Context/GeneralValuesContext";
 import { useAppSelector } from "../../../../redux/hooks/useStore";
+import { useNavigate } from "react-router-dom";
+import { remove } from "../../../../components/tools/SesionSettings";
 
 function Return({
   redirectTo,
@@ -12,6 +14,7 @@ function Return({
 }: any) {
   const [comments, setComments] = useState("");
   const { handleUpdateRows } = useContextProvider();
+  const navigate = useNavigate();
 
   const user = useAppSelector((state) => state.modalUserViewSlice);
 
@@ -44,11 +47,19 @@ function Return({
         handleClear();
         handleUpdateRows();
       }
-    } catch (error) {
-      // console.log("error: ", error);
-    } finally {
+    } catch (err) {
+      // @ts-ignore
+      console.log("error ejecutado",err.response.data.message);
+      // @ts-ignore
+      const message = err.response.data.message;
+      if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+        remove("accessToken");
+        navigate("/login");
+      }
     }
   };
+
+
   return (
     <section className="flex flex-wrap w-full items-center justify-between ">
       <form className="w-full my-0" onSubmit={handleSubmit}>

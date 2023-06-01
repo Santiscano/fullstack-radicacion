@@ -8,8 +8,9 @@ import { getSubAreaById } from "../../../../../services/CenterCost.routes";
 
 import axios from "axios";
 import Route from "../../../../../services/allRoutes";
-import { getHeader } from "../../../../../components/tools/SesionSettings";
+import { getHeader, remove } from "../../../../../components/tools/SesionSettings";
 import useContextProvider, { GeneralValuesContext } from "../../../../../Context/GeneralValuesContext";
+import { useNavigate } from "react-router-dom";
 
 const Selecting = styled(FormControl)({
   "& .MuiOutlinedInput-root": {
@@ -23,6 +24,7 @@ function GetCediToBusinessUnit({ BusinessUnit }: any) {
   const { cediConection, setCediConection } = useContextProvider();
   // const [cedi, setCedi] = useState<any>();
   const [listCedis, setListCedis] = useState([]);
+  const navigate = useNavigate();
 
   const handleDocumentNumber = (idcost_center_area: any) => {
     axios
@@ -37,7 +39,17 @@ function GetCediToBusinessUnit({ BusinessUnit }: any) {
       .then((res) => {
         console.log("getcideByid", res.data.data);
         setListCedis(res.data.data);
-      });
+      })
+      .catch ((err) => {
+        // @ts-ignore
+        console.log("error ejecutado",err.response.data.message);
+        // @ts-ignore
+        const message = err.response.data.message;
+        if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+          remove("accessToken");
+          navigate("/login");
+        }
+      })
   };
 
   useEffect(() => {
