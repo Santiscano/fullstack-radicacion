@@ -159,14 +159,16 @@ function index() {
                 autoHideDuration={6000}
                 TransitionComponent={TransitionLeft}
                 onClose={handleCloseSnackbar}
-                style={{ height: "70px" }}
+                style={{ height: "120px" }}
               >
                 <Alert
                   onClose={handleCloseSnackbar}
                   severity={severitySnackbar}
                   sx={{
                     width: "100%",
-                    height: "40px",
+                    height: "auto",
+                    display: "flex",
+                    alignItems: "center",
                     fontSize: "18px",
                   }}
                 >

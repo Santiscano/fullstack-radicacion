@@ -8,6 +8,10 @@ import { useModalUserView } from "../../../redux/Redux-actions/useModalUserView"
 import useContextProvider from "../../../Context/GeneralValuesContext";
 import ModalInfo from "./ModalInfo";
 
+/**
+ *
+ * @returns
+ */
 function GridToolbarConfig() {
   return (
     <div>
@@ -67,7 +71,6 @@ export default function DataTableHistory({ row }: any) {
           getRowId={(row) => row.idfiles}
           columns={columnsAllFiles}
           onRowDoubleClick={handleView}
-          // pageSize={7}
           rowsPerPageOptions={[5, 10, 25, 50, 100]}
           disableSelectionOnClick
           experimentalFeatures={{ newEditingApi: true }}

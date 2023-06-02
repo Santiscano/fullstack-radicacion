@@ -16,7 +16,7 @@ export const useUsers = () => {
   };
   const handleCloseModal = () => setOpen(false);
 
-  const handleClearDataUsers = () =>{
+  const handleUpdateDataUsers = () =>{
     setRows([])
     handleGetUsersNoAdminProv()
   };
@@ -48,7 +48,7 @@ export const useUsers = () => {
     open,
     handleOpen,
     handleCloseModal,
-    handleClearDataUsers,
+    handleUpdateDataUsers,
     handleGetUsersNoAdminProv,
   };
 };

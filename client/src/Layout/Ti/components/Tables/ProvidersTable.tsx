@@ -1,5 +1,6 @@
-import { styled } from "@mui/material";
+import { IconButton, Tooltip, styled } from "@mui/material";
 import Box from "@mui/material/Box";
+import RefreshIcon from '@mui/icons-material/Refresh';
 import {
   DataGrid,
   GridToolbarColumnsButton,
@@ -60,7 +61,7 @@ export function CustomNoRowsOverlay() {
 }
 
 const ProvidersTables = () => {
-  const { rows, open, handleOpen, handleCloseModal, handleClearDataProviders } = useProvider()
+  const { rows, open, handleOpen, handleCloseModal, handleUpdateDataProviders } = useProvider()
   const { openModalAuth, handleOpenModalAuth } = useContextProvider();
   const { addModalUser } = useModalUserView();
 
@@ -76,9 +77,11 @@ const ProvidersTables = () => {
         <label className="block ml-4 text-base font-semibold dark:text-white">
           PROVEEDORES
         </label>
-        <button className="button button--flex" onClick={handleClearDataProviders}>
-          Actualizar Tabla Proveedores
-        </button>
+        <Tooltip title="Actualizar Tabla">
+          <IconButton onClick={handleUpdateDataProviders}>
+            <RefreshIcon style={{color: "black"}}/>
+          </IconButton>
+        </Tooltip>
         <button className="button button--flex" onClick={handleOpen}>
           Nuevo Proveedor
         </button>

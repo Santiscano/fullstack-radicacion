@@ -1,5 +1,6 @@
-import { styled } from "@mui/material";
+import { IconButton, Tooltip, styled } from "@mui/material";
 import Box from "@mui/material/Box";
+import RefreshIcon from '@mui/icons-material/Refresh';
 import {
   DataGrid,
   GridToolbarColumnsButton,
@@ -15,11 +16,17 @@ import CreateUserForm from "../Modals/CreateUserForm";
 import EditUserForm from "../Modals/EditUserForm";
 
 function GridToolbarConfig() {
+  const { handleUpdateDataUsers } = useUsers();
   return (
     <div>
       <GridToolbarColumnsButton style={{ color: "#000", marginLeft: "17px" }} />
       <GridToolbarFilterButton style={{ color: "#000", marginLeft: "17px" }} />
       <GridToolbarExport style={{ color: "#000", marginLeft: "17px" }} />
+      <Tooltip title="Actualizar Tabla">
+        <IconButton onClick={handleUpdateDataUsers}>
+          <RefreshIcon style={{color: "black"}}/>
+        </IconButton>
+      </Tooltip>
     </div>
   );
 }
@@ -56,7 +63,7 @@ export function CustomNoRowsOverlay() {
 }
 
 const UsersTables = () => {
-  const { rows, open, handleOpen, handleCloseModal, handleClearDataUsers } = useUsers();
+  const { rows, open, handleOpen, handleCloseModal, handleUpdateDataUsers } = useUsers();
   const { openModalAuth, handleOpenModalAuth } = useContextProvider();
   const { addModalUser } = useModalUserView();
 
@@ -72,9 +79,11 @@ const UsersTables = () => {
         <label className="block ml-4 text-base font-semibold dark:text-white">
           USUARIOS
         </label>
-        <button className="button button--flex" onClick={handleClearDataUsers}>
-          actualizar Tabla Usuarios
-        </button>
+        <Tooltip title="Actualizar Tabla">
+          <IconButton onClick={handleUpdateDataUsers}>
+            <RefreshIcon style={{color: "black"}}/>
+          </IconButton>
+        </Tooltip>
         <button className="button button--flex" onClick={handleOpen}>
           Nuevo Usuario
         </button>
