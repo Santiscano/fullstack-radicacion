@@ -7,7 +7,8 @@ import { alpha, styled } from "@mui/material/styles";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Route from "../../../services/allRoutes";
-import { getHeader } from "../../tools/SesionSettings";
+import { getHeader, remove } from "../../tools/SesionSettings";
+import { useNavigate } from "react-router-dom";
 
 const Selecting = styled(FormControl)({
   "& .MuiOutlinedInput-root": {
@@ -18,6 +19,7 @@ const Selecting = styled(FormControl)({
 });
 export default function InputSelectDocTypeFormData(props: any) {
   const [documentType, setDocumentType] = useState([]);
+  const navigate = useNavigate();
 
   const handleReadDocumentType = () => {
     axios
@@ -27,7 +29,15 @@ export default function InputSelectDocTypeFormData(props: any) {
         const listTypes = res.data.data.map((item:any) =>item.typeDocument )
         setDocumentType(listTypes);
         console.log('listTypes: ', listTypes);
-      });
+      })
+      .catch((err) => {
+        // @ts-ignore
+        const message = err.response.data.message
+        if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+          remove("accessToken");
+          navigate("/login");
+        }
+      })
   };
 
   useEffect(() => {
