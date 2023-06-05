@@ -15,8 +15,6 @@ import { createProvider, createUser } from "../../../services/Users.routes";
 import allRoutes from "../../../services/allRoutes";
 import { getCitys } from "../../../services/getCitysColombia.routes";
 import useContextProvider from "./../../../Context/GeneralValuesContext";
-import { useUsers } from "./useUsers";
-import { useProvider } from "./useProvider";
 
 function useSubmit() {
   // --------------------------Variable-------------------------------//
@@ -65,7 +63,6 @@ function useSubmit() {
   const [costCenterName, setCostCenterName] = useState("");
   const [connectionSubArea, setConnectionSubArea] = useState("");
   // success
-  const [modalSuccess, setModalSuccess] = useState(false); // status 200 filePath para mostrar hijo modal
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [messageSnackbar, setMessageSnackbar] = useState("");
   const [severitySnackbar, setSeveritySnackbar] = useState("");
@@ -76,8 +73,6 @@ function useSubmit() {
   const { setPreLoad, handleMessageSnackbar, cediConection, handleOpenModalAuth } = useContextProvider();
   const user = useAppSelector((state) => state.modalUserViewSlice);
   const navigate = useNavigate();
-  const { handleClearDataUsers } = useUsers();
-  const { handleClearDataProviders, handleGetProvider } = useProvider();
   // --------------------------handles-------------------------------//
   /**
    * traigo los departamentos, ciudades, cedis,
@@ -155,7 +150,6 @@ function useSubmit() {
   const handleCedity = (e: SelectChangeEvent) => {
     setIdentificationType(e.target.value);
   };
-  const handleCloseModalChild = () => setModalSuccess(false);
 
   // --------------------------handles Submit-------------------------------//
   /**

@@ -1,40 +1,118 @@
-import { useState } from "react";
+import { FC, useState } from "react";
 import TestAutocomplete from "../../components/common/SearchDobleDepCity";
 import useNewEmployee from "./hooks/useNewEmployee";
 import InputOutlinedFormData from "../../components/common/InputOutlinedFormData";
 import TextFieldOutlined from "../../components/common/TextFieldOutline";
 import InputSelectDocTypeFormData from "../../components/common/InputSelectDocTypeFormData";
-import LinearProgress from '@mui/material/LinearProgress';
+import LinearProgress from "@mui/material/LinearProgress";
 import { Box, Typography } from "@mui/material";
 import CreateEmployee from "./components/Forms/CreateEmployee";
+import InputSelectCedi from "../../components/common/InputSelectCedi";
 
-function NewEmployee() {
-  const { progress, buffer, formSection, handleSubmitEmployee, handleSubmitPersonalInformation, handleSubmitHiring, handleEmergencyContact, handleSocioDemographicProfile, handleDocuments, handleNewEmployee } = useNewEmployee();
+interface Props {}
+const NewEmployee: FC = () => {
+  const {
+    progress,
+    buffer,
+    formSection,
+    cedi,
+    handleCedi,
+    handleSubmitEmployee,
+    handleSubmitPersonalInformation,
+    handleSubmitHiring,
+    handleEmergencyContact,
+    handleSocioDemographicProfile,
+    handleDocuments,
+    handleNewEmployee,
+  } = useNewEmployee();
 
   return (
     <div className="layout">
       <section className="layout-section">
         <div className="layout-left">
           <article className="filing">
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              <Box sx={{ width: '100%', mr: 1 }}>
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <Box sx={{ width: "100%", mr: 1 }}>
                 <LinearProgress
                   color="success"
                   variant="buffer"
-                  value={progress*100}
-                  valueBuffer={buffer*100}
+                  value={progress * 100}
+                  valueBuffer={buffer * 100}
                 />
               </Box>
               <Box sx={{ minWidth: 35 }}>
-                <Typography variant="h5" color="green" >{(progress*100).toFixed(2)}%</Typography>
+                <Typography variant="h5" color="green">
+                  {(progress * 100).toFixed(2)}%
+                </Typography>
               </Box>
             </Box>
-            {formSection == 0 &&
-              (<>
-                <Box sx={{ width:"100%", display:"flex", justifyContent:"center"}}>
-                  <Typography variant="h4" component="h4" sx={{ fontWeight:"bold"}}>CREAR USUARIO</Typography>
+            {formSection == 0 && (
+              <>
+                <Box
+                  sx={{
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Typography
+                    variant="h4"
+                    component="h4"
+                    sx={{ fontWeight: "bold" }}
+                  >
+                    CREAR USUARIO
+                  </Typography>
                 </Box>
                 <form onSubmit={handleSubmitEmployee}>
+                  <div className="md:flex md:flex-wrap">
+                    <article className="md:w-1/2">
+                      <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
+                        Rol
+                      </label>
+                      <TextFieldOutlined
+                        type={"text"}
+                        label={"Empleado"}
+                        value={"Empleado"}
+                        required
+                        disabled
+                      />
+                    </article>
+                    <article className="md:w-1/2">
+                      <InputSelectCedi
+                        type={"text"}
+                        title="Asignar Cedi"
+                        placeholder="Cedi"
+                        name="cedi"
+                        required
+                        value={cedi}
+                        onChange={handleCedi}
+                        itemDefault="selecciona una opcion"
+                      />
+                    </article>
+                  </div>
+                  <div className="md:flex md:flex-wrap">
+                    <article className="md:w-1/2">
+                      <InputSelectDocTypeFormData
+                        type={"text"}
+                        title={"Tipo de Documento"}
+                        placeholder="C.C, NIT..."
+                        name={"identification_type"}
+                        required
+                        itemDefault="Seleccione un Tipo"
+                      />
+                    </article>
+                    <article className="md:w-1/2">
+                      <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
+                        Numero de Documento
+                      </label>
+                      <InputOutlinedFormData
+                        label={"Numero de Documento"}
+                        name={"identification"}
+                        type={"number"}
+                        required
+                      />
+                    </article>
+                  </div>
                   <div className="md:flex md:flex-wrap">
                     <article className="md:w-1/2">
                       <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
@@ -95,57 +173,32 @@ function NewEmployee() {
                         required
                       />
                     </article>
-                    <article className="md:w-1/2">
-                      <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                        Tipo de Usuario
-                      </label>
-                      <TextFieldOutlined
-                        type={"text"}
-                        label={"Empleado"}
-                        value={"Empleado"}
-                        required
-                        disabled
-                      />
-                    </article>
                   </div>
-                  <div className="md:flex md:flex-wrap">
-                    <article className="md:w-1/2">
-                      <InputSelectDocTypeFormData
-                        type={"text"}
-                        title={"Tipo de Documento"}
-                        placeholder="C.C, NIT..."
-                        name={"identification_type"}
-                        required
-                        itemDefault="Seleccione un Tipo"
-                      />
-                    </article>
-                    <article className="md:w-1/2">
-                      <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                        Numero de Documento
-                      </label>
-                      <InputOutlinedFormData
-                        label={"Numero de Documento"}
-                        name={"identification"}
-                        type={"number"}
-                        required
-                      />
-                    </article>
-                  </div>
-                  <button
-                    className="button button--flex mt-6"
-                    // type="submit"
-                  >
-                    de 0 a 16%
+
+                  <button className="button button--flex mt-6">
+                    Crear Empleado
                   </button>
                 </form>
               </>
-              )}
-              {formSection == 1 &&
-                (<>
-                  <Box sx={{ width:"100%", display:"flex", justifyContent:"center"}}>
-                    <Typography variant="h4" component="h4" sx={{ fontWeight:"bold"}}>INFORMACIÓN PERSONAL</Typography>
-                  </Box>
-                  <form onSubmit={handleSubmitPersonalInformation}>
+            )}
+            {formSection == 1 && (
+              <>
+                <Box
+                  sx={{
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Typography
+                    variant="h4"
+                    component="h4"
+                    sx={{ fontWeight: "bold" }}
+                  >
+                    INFORMACIÓN PERSONAL
+                  </Typography>
+                </Box>
+                <form onSubmit={handleSubmitPersonalInformation}>
                   <div className="md:flex md:flex-wrap">
                     <article className="md:w-1/2">
                       <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
@@ -254,13 +307,28 @@ function NewEmployee() {
                       </label>
                     </article>
                   </div>
-                  <button className="button button--flex mt-6">de 16% a 33%</button>
+                  <button className="button button--flex mt-6">
+                    Guardar Informacion Personal
+                  </button>
                 </form>
-                </>)}
-              {formSection == 2 &&
-              (<>
-                <Box sx={{ width:"100%", display:"flex", justifyContent:"center"}}>
-                  <Typography variant="h4" component="h4" sx={{ fontWeight:"bold"}}>CONTRATACIÓN</Typography>
+              </>
+            )}
+            {formSection == 2 && (
+              <>
+                <Box
+                  sx={{
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Typography
+                    variant="h4"
+                    component="h4"
+                    sx={{ fontWeight: "bold" }}
+                  >
+                    CONTRATACIÓN
+                  </Typography>
                 </Box>
                 <form onSubmit={handleSubmitHiring}>
                   <div className="md:flex md:flex-wrap">
@@ -323,14 +391,28 @@ function NewEmployee() {
                       </label>
                     </article>
                   </div>
-                  <button className="button button--flex mt-6">de 33% a 49%</button>
+                  <button className="button button--flex mt-6">
+                    Guardar Información Contratación
+                  </button>
                 </form>
               </>
-              )}
-              {formSection == 3 &&
-              (<>
-                <Box sx={{ width:"100%", display:"flex", justifyContent:"center"}}>
-                  <Typography variant="h4" component="h4" sx={{ fontWeight:"bold"}}>INFORMACIÓN CONTACTO DE EMERGENCIA</Typography>
+            )}
+            {formSection == 3 && (
+              <>
+                <Box
+                  sx={{
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Typography
+                    variant="h4"
+                    component="h4"
+                    sx={{ fontWeight: "bold" }}
+                  >
+                    INFORMACIÓN CONTACTO DE EMERGENCIA
+                  </Typography>
                 </Box>
                 <form onSubmit={handleEmergencyContact}>
                   <div className="md:flex md:flex-wrap">
@@ -364,14 +446,28 @@ function NewEmployee() {
                       </label>
                     </article>
                   </div>
-                  <button className="button button--flex mt-6">de 49% a 66%</button>
+                  <button className="button button--flex mt-6">
+                    Guardar Contacto Emergencia
+                  </button>
                 </form>
               </>
-              )}
-              {formSection == 4 &&
-              (<>
-                <Box sx={{ width:"100%", display:"flex", justifyContent:"center"}}>
-                  <Typography variant="h4" component="h4" sx={{ fontWeight:"bold"}}>INFORMACIÓN SOCIODEMOGRAFICA</Typography>
+            )}
+            {formSection == 4 && (
+              <>
+                <Box
+                  sx={{
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Typography
+                    variant="h4"
+                    component="h4"
+                    sx={{ fontWeight: "bold" }}
+                  >
+                    INFORMACIÓN SOCIODEMOGRAFICA
+                  </Typography>
                 </Box>
                 <form onSubmit={handleSocioDemographicProfile}>
                   <div className="md:flex md:flex-wrap">
@@ -382,7 +478,7 @@ function NewEmployee() {
                     </article>
                     <article className="md:w-1/2">
                       <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                      sociodemographic profile transportation help
+                        sociodemographic profile transportation help
                       </label>
                     </article>
                   </div>
@@ -394,7 +490,7 @@ function NewEmployee() {
                     </article>
                     <article className="md:w-1/2">
                       <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                      sociodemographic profile others contracts company
+                        sociodemographic profile others contracts company
                       </label>
                     </article>
                   </div>
@@ -406,7 +502,7 @@ function NewEmployee() {
                     </article>
                     <article className="md:w-1/2">
                       <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                      sociodemographic profile title academic training
+                        sociodemographic profile title academic training
                       </label>
                     </article>
                   </div>
@@ -418,7 +514,7 @@ function NewEmployee() {
                     </article>
                     <article className="md:w-1/2">
                       <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                      sociodemographic profile type transport
+                        sociodemographic profile type transport
                       </label>
                     </article>
                   </div>
@@ -430,7 +526,7 @@ function NewEmployee() {
                     </article>
                     <article className="md:w-1/2">
                       <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                      sociodemographic profile number children
+                        sociodemographic profile number children
                       </label>
                     </article>
                   </div>
@@ -442,7 +538,7 @@ function NewEmployee() {
                     </article>
                     <article className="md:w-1/2">
                       <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                      sociodemographic profile dependents disabilities
+                        sociodemographic profile dependents disabilities
                       </label>
                     </article>
                   </div>
@@ -454,7 +550,7 @@ function NewEmployee() {
                     </article>
                     <article className="md:w-1/2">
                       <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                      sociodemographic profile income enough
+                        sociodemographic profile income enough
                       </label>
                     </article>
                   </div>
@@ -466,7 +562,7 @@ function NewEmployee() {
                     </article>
                     <article className="md:w-1/2">
                       <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                      sociodemographic profile electric power
+                        sociodemographic profile electric power
                       </label>
                     </article>
                   </div>
@@ -478,7 +574,7 @@ function NewEmployee() {
                     </article>
                     <article className="md:w-1/2">
                       <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                      sociodemographic profile equeduct
+                        sociodemographic profile equeduct
                       </label>
                     </article>
                   </div>
@@ -490,7 +586,7 @@ function NewEmployee() {
                     </article>
                     <article className="md:w-1/2">
                       <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                      sociodemographic profile garbage colletion
+                        sociodemographic profile garbage colletion
                       </label>
                     </article>
                   </div>
@@ -502,7 +598,7 @@ function NewEmployee() {
                     </article>
                     <article className="md:w-1/2">
                       <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                      sociodemographic profile computer home
+                        sociodemographic profile computer home
                       </label>
                     </article>
                   </div>
@@ -514,7 +610,7 @@ function NewEmployee() {
                     </article>
                     <article className="md:w-1/2">
                       <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                      sociodemographic profile alcohol consumption
+                        sociodemographic profile alcohol consumption
                       </label>
                     </article>
                   </div>
@@ -526,7 +622,7 @@ function NewEmployee() {
                     </article>
                     <article className="md:w-1/2">
                       <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                      sociodemographic profile former smoke
+                        sociodemographic profile former smoke
                       </label>
                     </article>
                   </div>
@@ -538,7 +634,7 @@ function NewEmployee() {
                     </article>
                     <article className="md:w-1/2">
                       <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                      sociodemographic profile sport frequency
+                        sociodemographic profile sport frequency
                       </label>
                     </article>
                   </div>
@@ -550,7 +646,7 @@ function NewEmployee() {
                     </article>
                     <article className="md:w-1/2">
                       <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                      sociodemographic profile what crhonic disease
+                        sociodemographic profile what crhonic disease
                       </label>
                     </article>
                   </div>
@@ -562,7 +658,7 @@ function NewEmployee() {
                     </article>
                     <article className="md:w-1/2">
                       <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                      sociodemographic profile what medication take
+                        sociodemographic profile what medication take
                       </label>
                     </article>
                   </div>
@@ -574,18 +670,32 @@ function NewEmployee() {
                     </article>
                     <article className="md:w-1/2">
                       <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                      sociodemographic profile what allergic
+                        sociodemographic profile what allergic
                       </label>
                     </article>
                   </div>
-                  <button className="button button--flex mt-6">de 66% a 83%</button>
+                  <button className="button button--flex mt-6">
+                    Guardar Información Sociodemografica
+                  </button>
                 </form>
               </>
-              )}
-              {formSection == 5 &&
-              (<>
-                <Box sx={{ width:"100%", display:"flex", justifyContent:"center"}}>
-                  <Typography variant="h4" component="h4" sx={{ fontWeight:"bold"}}>CARGAR DOCUMENTOS</Typography>
+            )}
+            {formSection == 5 && (
+              <>
+                <Box
+                  sx={{
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Typography
+                    variant="h4"
+                    component="h4"
+                    sx={{ fontWeight: "bold" }}
+                  >
+                    CARGAR DOCUMENTOS
+                  </Typography>
                 </Box>
                 <form onSubmit={handleDocuments}>
                   <div className="md:flex md:flex-wrap">
@@ -596,27 +706,45 @@ function NewEmployee() {
                     </article>
                     <article className="md:w-1/2">
                       <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                      documents path
+                        documents path
                       </label>
                     </article>
                   </div>
-                  <button className="button button--flex mt-6">de 83% a 100%</button>
+                  <button className="button button--flex mt-6">
+                    Guardar Documentos
+                  </button>
                 </form>
               </>
-              )}
-              {formSection == 6 &&
-              (<>
-                <Box sx={{ width:"100%", display:"flex", justifyContent:"center"}}>
-                  <Typography variant="h4" component="h4" sx={{ fontWeight:"bold"}}>REGRESAR AL INICIO</Typography>
+            )}
+            {formSection == 6 && (
+              <>
+                <Box
+                  sx={{
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Typography
+                    variant="h4"
+                    component="h4"
+                    sx={{ fontWeight: "bold" }}
+                  >
+                    REGRESAR AL INICIO
+                  </Typography>
                 </Box>
-                <form onSubmit={handleNewEmployee}><button className="button button--flex mt-6">Crear nuevo Empleado</button></form>
+                <form onSubmit={handleNewEmployee}>
+                  <button className="button button--flex mt-6">
+                    Crear nuevo Empleado
+                  </button>
+                </form>
               </>
-              )}
+            )}
           </article>
         </div>
       </section>
     </div>
   );
-}
+};
 
 export default NewEmployee;

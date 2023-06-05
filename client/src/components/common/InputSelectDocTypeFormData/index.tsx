@@ -27,6 +27,7 @@ export default function InputSelectDocTypeFormData(props: any) {
       .then((res) => {
         console.log(res.data.data);
         const listTypes = res.data.data.map((item:any) =>item.typeDocument )
+        console.log('listTypes: ', listTypes);
         setDocumentType(listTypes);
         console.log('listTypes: ', listTypes);
       })
