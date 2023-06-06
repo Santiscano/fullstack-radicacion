@@ -12,6 +12,7 @@ import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import TopicOutlinedIcon from "@mui/icons-material/TopicOutlined";
 import { get, roles } from "../components/tools/SesionSettings";
 import MouseOutlinedIcon from '@mui/icons-material/MouseOutlined';
+import QrCode2Icon from '@mui/icons-material/QrCode2';
 
 const color = { color: "#293184" };
 
@@ -100,6 +101,11 @@ export default {
         name: "Mover Elementos Mouse",
         url: "/dashboard/mover-elementos-mouse",
         icon: <MouseOutlinedIcon sx={color} />,
+      },
+      {
+        name: "Generar Codigo QR",
+        url: "/dashboard/qr",
+        icon: <QrCode2Icon sx={color} />,
       },
     ],
   },

@@ -100,3 +100,19 @@ export const cleanFileName = (fileName: string) => {
   const file = fileName.split('T').shift();
   return file
 };
+
+/**
+ * se toma la parte que esta despues de // hasta el primer /
+ * un ejemplo es https://solucionesenviexpress.com/QR/web lo convierte en solucionesenviexpress.com
+ * @param url type string
+ */
+export const dividerURL = (url:any) => {
+  console.log('url', url)
+  const matches = url.match(/\/\/(.*?)\.com/);
+  console.log('matches: ', matches);
+  if (matches && matches.length > 1) {
+    const capturedString = matches[1];
+    console.log('result', capturedString);
+    return capturedString;
+  }
+}

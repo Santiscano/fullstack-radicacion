@@ -22,6 +22,7 @@ import History from "./Layout/History";
 import TableAllCostCenter from "./Layout/TableAllCostCenter";
 import Tracking from "./Layout/Tracking/Tracking";
 import MoveElement from "./Layout/MoveElement";
+import QRCodeComponent from './Layout/QRCodeComponent'
 import {
   optionsViewsAllFiles,
   optionsViewsFiles,
@@ -139,6 +140,7 @@ function App() {
                 }
               >
                 <Route path="mover-elementos-mouse" element={<MoveElement/>} />
+                <Route path="qr" element={<QRCodeComponent/>}/>
               </Route>
 
             </Route>
