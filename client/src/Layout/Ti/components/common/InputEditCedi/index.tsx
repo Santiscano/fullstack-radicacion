@@ -10,6 +10,7 @@ import allRoutes from "../../../../../services/allRoutes";
 import { getHeader, remove } from "../../../../../components/tools/SesionSettings";
 import { useAppSelector } from "../../../../../redux/hooks/useStore";
 import { useModalUserView } from "../../../../../redux/Redux-actions/useModalUserView";
+import useContextProvider from "../../../../../Context/GeneralValuesContext";
 
 const Selecting = styled(FormControl)({
   "& .MuiOutlinedInput-root": {
@@ -24,8 +25,11 @@ type Sedes = {
 };
 
 export default function InputEditCedi(props:any) {
+  // methods & context
   const navigate = useNavigate();
   const user = useAppSelector((state) => state.modalUserViewSlice);
+  const { handleMessageSnackbar } = useContextProvider();
+  // var
   const { setSedesName } = useModalUserView();
   const [cedis, setCedis] = useState([]);
   const [value, setValue] = useState('');
@@ -39,9 +43,9 @@ export default function InputEditCedi(props:any) {
       setCedis(sedesName);
     } catch (err) {
       // @ts-ignore
-      console.log("error ejecutado",err.response.data.message);
-      // @ts-ignore
       const message = err.response.data.message;
+      console.log("error ejecutado", message);
+      handleMessageSnackbar("error", message);
       if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
         remove("accessToken");
         navigate("/login");
@@ -50,9 +54,8 @@ export default function InputEditCedi(props:any) {
   };
 
   const handleCedi = (e: SelectChangeEvent) => {
-    // @ts-ignore
-    setValue(e.target.value);
     console.log('handlecedi ejecutado', e.target.value);
+    setValue(e.target.value);
     setSedesName(e.target.value);
   };
 

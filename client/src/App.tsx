@@ -35,6 +35,7 @@ import {
 import NotAuthentication from "./Middlewares/NotAuthentication";
 import WithAuthentication from "./Middlewares/WithAuthentication";
 import { WithRoleAllowedComponent } from "./Middlewares/WithRoleAllowed";
+import BussinessGroup from "./modules/Global/BussinessGroup";
 
 function App() {
   return (
@@ -145,6 +146,12 @@ function App() {
 
             </Route>
           </Route>
+
+          {/* Grupo Empresarial */}
+          <Route
+            path="QR/grupoEmpresarial"
+            element={<BussinessGroup/>}
+          />
 
           {/* no tienes permisos */}
           <Route
