@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import Route from "../../../services/allRoutes";
 import { getHeader, remove } from "../../tools/SesionSettings";
 import { useNavigate } from "react-router-dom";
+import useContextProvider from "../../../Context/GeneralValuesContext";
 
 const Selecting = styled(FormControl)({
   "& .MuiOutlinedInput-root": {
@@ -20,6 +21,7 @@ const Selecting = styled(FormControl)({
 export default function InputSelectDocTypeFormData(props: any) {
   const [documentType, setDocumentType] = useState([]);
   const navigate = useNavigate();
+  const { handleMessageSnackbar } = useContextProvider();
 
   const handleReadDocumentType = () => {
     axios
@@ -34,6 +36,7 @@ export default function InputSelectDocTypeFormData(props: any) {
       .catch((err) => {
         // @ts-ignore
         const message = err.response.data.message
+        handleMessageSnackbar("error", message);
         if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
           remove("accessToken");
           navigate("/login");
