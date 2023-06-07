@@ -13,6 +13,7 @@ import AssignmentOutlinedIcon from "@mui/icons-material/AssignmentOutlined";
 import CloseIcon from "@mui/icons-material/Close";
 import FolderOutlinedIcon from "@mui/icons-material/FolderOutlined";
 import FolderSharedOutlinedIcon from "@mui/icons-material/FolderSharedOutlined";
+import LogoDevOutlinedIcon from '@mui/icons-material/LogoDevOutlined';
 import { Collapse } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
@@ -22,7 +23,7 @@ import working from "../../../../assets/icons/data-analysis-case-study.png";
 import enviexpress from "../../../../assets/images/LOGOTIPO_ENVIEXPRESS_horizontal_150x50.png";
 import {
   optionsViewsAllFiles,
-  optionsViewsDigitization,
+  optionsViewsHumanManagement,
   optionsViewsFiles,
   optionsViewsNotAuditors,
   optionsViewsSettled,
@@ -56,14 +57,11 @@ function index(props: any) {
   const [openFiles, setOpenFiles] = useState(false);
   const handleOpenPending = () => setOpenFiles(!openFiles);
 
-  const [openAllFiles, setOpenAllFiles] = useState(false);
-  const handleOpenAllFiles = () => setOpenAllFiles(!openAllFiles);
-
-  const [openAuths, setOpenAuths] = useState(false);
-  const handleOpenAuth = () => setOpenAuths(!openAuths);
-
   const [openDG, setOpenDG] = useState(false);
   const handleOpenDG = () => setOpenDG(!openDG);
+
+  const [openDev, setOpenDev] = useState(false);
+  const handleOpenDev = () => setOpenDev(!openDev);
 
   const handleRouteValidate = (nav: any) => {
     // console.log("session", session());
@@ -128,7 +126,7 @@ function index(props: any) {
         <List component="div" disablePadding>
           <ListItemButton onClick={handleOpenPending}>
             <ListItemIcon>
-              <FolderOutlinedIcon sx={{ color: "#293184" }} />
+              <FolderOutlinedIcon sx={{ color: color }} />
             </ListItemIcon>
             <ListItemText primary="Mis Archivos" />
             {openFiles ? <ExpandLess /> : <ExpandMore />}
@@ -193,6 +191,7 @@ function index(props: any) {
         <Divider />
       </WithRoleAllowedRoutes>
 
+      {/* Centros de costos */}
       <List>
         {rutero.online.CenterCost.map((list, index) => (
           <ListItem key={index} disablePadding>
@@ -205,18 +204,47 @@ function index(props: any) {
       </List>
       <Divider />
 
-      <WithRoleAllowedRoutes allowedRolesList={optionsViewsDigitization}>
+      {/* Gestion Humana */}
+      <WithRoleAllowedRoutes allowedRolesList={optionsViewsHumanManagement}>
         <List>
           <ListItemButton onClick={handleOpenDG}>
             <ListItemIcon>
-              <FolderSharedOutlinedIcon sx={{ color: "#293184" }} />
+              <FolderSharedOutlinedIcon sx={{ color: color }} />
             </ListItemIcon>
             <ListItemText primary="Gestion Humana" />
             {openDG ? <ExpandLess /> : <ExpandMore />}
           </ListItemButton>
           <Collapse in={openDG} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
-              {rutero.online.digitalizacion.map((list, index) => (
+              {rutero.online.humanManagement.map((list, index) => (
+                <ListItem key={index} disablePadding>
+                  <ListItemButton
+                    sx={{ pl: 4 }}
+                    onClick={() => navigate(`${list.url}`)}
+                  >
+                    <ListItemIcon>{list.icon}</ListItemIcon>
+                    <ListItemText primary={list.name} />
+                  </ListItemButton>
+                </ListItem>
+              ))}
+            </List>
+          </Collapse>
+        </List>
+      </WithRoleAllowedRoutes>
+
+      {/* En desarrollo */}
+      <WithRoleAllowedRoutes allowedRolesList={optionsViewsHumanManagement}>
+        <List>
+          <ListItemButton onClick={handleOpenDev}>
+            <ListItemIcon>
+              <LogoDevOutlinedIcon sx={{ color: color }}/>
+            </ListItemIcon>
+            <ListItemText primary="En desarrollo" />
+            {openDev ? <ExpandLess /> : <ExpandMore />}
+          </ListItemButton>
+          <Collapse in={openDev} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding>
+              {rutero.online.dev.map((list, index) => (
                 <ListItem key={index} disablePadding>
                   <ListItemButton
                     sx={{ pl: 4 }}

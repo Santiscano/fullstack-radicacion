@@ -11,12 +11,17 @@ export const getRolesModel = async(): Promise<{ data: Data }> => {
     return { data: roles }
 };
 
-// TRAER IDSEDES
+//TRAER NOMBRE ROLES
+export const getRolesNameModel = async(): Promise<{data: Data}> => {
+    const [ roles ] = await connection.query('SELECT roles FROM roles;')
+    return { data: roles }
+};
+
+// TRAER IDROLES SEGÚN NOMBRE DEL ROL
 export const getIdRolesModel = async (roles:string): Promise<{message?:string, data?:Data}> => {
     if(await countTable("roles", "roles", roles) === 0 ) return { message: "Rol No Existente"};
     const [ idroles ]: any = await connection.query('SELECT idroles FROM roles WHERE roles = ?;',[roles])
-    console.log('idroles: ', idroles);
-    return { data: idroles[0].idsedes };
+    return { data: idroles[0].idroles };
 };
 
 // TRAER  !== ADMINISTRADOR & PROOVEDOR

@@ -81,7 +81,6 @@ const EditProviderForm: FC = () => {
                   placeholder="C.C, NIT..."
                   name="type"
                   itemDefault="selecciona un tipo"
-                  disabled
                 />
               </article>
               <article className="md:w-1/2">
@@ -94,7 +93,6 @@ const EditProviderForm: FC = () => {
                   value={user.users_identification}
                   setValue={setUsersIdentification}
                   required
-                  disabled
                 />
               </article>
             </div>
@@ -173,8 +171,8 @@ const EditProviderForm: FC = () => {
                   value={user.users_providers_expiration_date}
                   setValue={setUsersExpiration}
                 />
-                <label className="block mx-2 text-base font-semibold dark:text-white">
-                  Seleccione una nueva solo si desea cambiarla
+                <label className="block mx-2 text-base text-red-700 font-semibold dark:text-white">
+                  * Seleccione una nueva solo si desea cambiarla *
                 </label>
               </article>
             </div>

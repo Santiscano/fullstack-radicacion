@@ -28,7 +28,7 @@ import { uploadfile } from "../../services/Pdf.routes";
 import { getUsers } from "../../services/Users.routes";
 import { getSettled } from "../../services/generateSettled.routes";
 
-import { GeneralValuesContext } from "../../Context/GeneralValuesContext";
+import useContextProvider, { GeneralValuesContext } from "../../Context/GeneralValuesContext";
 import { formattedAmount } from "../../Utilities/formatted.utility";
 import InputSelectOnlyValue from "../../components/common/InputSelectOnlyValue";
 import ModalSuccess from "../../components/common/ModalSuccess";
@@ -101,6 +101,7 @@ function GenerateFiles() {
   const { setPreLoad } = useContext(GeneralValuesContext);
   const { changeTitleSection } = useDataGlobal();
   const navigate = useNavigate();
+  const { handleMessageSnackbar } = useContextProvider()
 
   // -----------------------METHODS INPUTS--------------------------------//
 
@@ -285,7 +286,10 @@ function GenerateFiles() {
         invoiceType,
         accountType,
         preAccountNumber + "-" + accountNumber,
-        get("idusers")
+        get("idusers"),
+        handleMessageSnackbar,
+        remove,
+        navigate,
       );
       console.log("addFileResponse: ", addFileResponse);
 
@@ -298,14 +302,7 @@ function GenerateFiles() {
       // @ts-ignore
       setResult(addFileResponse);
     } catch (err) {
-      // @ts-ignore
-      console.log("error ejecutado",err.response.data.message);
-      // @ts-ignore
-      const message = err.response.data.message;
-      if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
-        remove("accessToken");
-        navigate("/login");
-      }
+      console.log("error en addFile: ", err);
     } finally {
       setPreLoad(false);
     }
@@ -498,11 +495,11 @@ function GenerateFiles() {
                   <div className="md:flex md:flex-wrap">
                     <article className="md:w-1/2">
                       <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                        Razon social
+                        Razón social
                       </label>
                       <TextFieldOutlined
                         type={"text"}
-                        label={"Razon Social"}
+                        label={"Razón Social"}
                         value={companyName}
                         setValue={setCompanyName}
                         required
@@ -512,11 +509,11 @@ function GenerateFiles() {
                     </article>
                     <article className="md:w-1/2">
                       <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                        Direccion
+                        Dirección
                       </label>
                       <TextFieldOutlined
                         type={"text"}
-                        label={"Direccion"}
+                        label={"Dirección"}
                         value={address}
                         setValue={setAddress}
                         required
@@ -560,7 +557,7 @@ function GenerateFiles() {
                   <div className="md:flex md:flex-wrap">
                     <article className="md:w-1/2">
                       <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                        Numero de Radicado
+                        Número de Radicado
                       </label>
                       <TextFieldOutlined
                         type={"text"}
@@ -607,7 +604,7 @@ function GenerateFiles() {
                     </article>
                     <article className="md:w-1/2">
                       <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                        Numero de Cuenta
+                        Número de Cuenta
                       </label>
                       <div>
                         <InputDouble
@@ -617,7 +614,7 @@ function GenerateFiles() {
                           setValue1={setPreAccountNumber}
                           required1
                           type2={"text"}
-                          label2={"Numero"}
+                          label2={"Número"}
                           value2={accountNumber}
                           setValue2={setAccountNumber}
                           required2
@@ -656,7 +653,7 @@ function GenerateFiles() {
                     className="button button--flex mt-6"
                     onClick={() => setStatusResponse(true)}
                   >
-                    Validar Informacion
+                    Validar Información
                   </button>
                 </section>
 

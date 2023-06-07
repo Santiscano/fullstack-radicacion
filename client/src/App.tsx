@@ -1,30 +1,16 @@
-import "./App.css";
-
-import Admin from "./modules/Admin";
-import Auth from "./modules/Auth";
-// import { NotFound } from './modules/NotFound';
+import { Route, Routes } from "react-router-dom";
+import { Paper, ThemeProvider } from "@mui/material";
 import forbidden403Img from "./assets/images/403.jpg";
 import notFound404Img from "./assets/images/404.png";
 import errorServerImg from "./assets/images/500.jpg";
+import "./App.css";
+import { Styles } from "./config/theme.config";
+import Admin from "./modules/Admin";
+import Auth from "./modules/Auth";
 import AttachFile from "./Layout/AttachFile";
 import Error from "./Layout/Error";
 import GenerateFiles from "./Layout/GenerateFiles";
 import Ti from "./Layout/Ti";
-
-import { Paper, ThemeProvider } from "@mui/material";
-
-import { Styles } from "./config/theme.config";
-
-import { Route, Routes } from "react-router-dom";
-import {
-  optionsViewsSettled,
-  optionsViewsFiles,
-  optionsViewsAllFiles,
-  optionsViewsNotAuditors,
-  optionsViewsTI,
-  optionsViewsDigitization,
-  optionsViewTraking,
-} from "./components/tools/OptionsValuesSelects";
 import AllEmployees from "./Layout/AllEmployees";
 import AllFilesTable from "./Layout/AllFilesTable";
 import AttachEmployeeDocuments from "./Layout/AttachEmployeeDocuments";
@@ -32,13 +18,23 @@ import Home from "./Layout/Home/index";
 import NewEmployee from "./Layout/NewEmployee";
 import PendingFilesTable from "./Layout/PendingFilesTable/index";
 import SearchEmployee from "./Layout/SearchEmployee";
-// import Administracion from "./Layout/Admin";
+import History from "./Layout/History";
+import TableAllCostCenter from "./Layout/TableAllCostCenter";
+import Tracking from "./Layout/Tracking/Tracking";
+import MoveElement from "./Layout/MoveElement";
+import QRCodeComponent from './Layout/QRCodeComponent'
+import {
+  optionsViewsAllFiles,
+  optionsViewsFiles,
+  optionsViewsHumanManagement,
+  optionsViewsNotAuditors,
+  optionsViewsSettled,
+  optionsViewsTI,
+  optionsViewsDevelopment
+} from "./components/tools/OptionsValuesSelects";
 import NotAuthentication from "./Middlewares/NotAuthentication";
 import WithAuthentication from "./Middlewares/WithAuthentication";
 import { WithRoleAllowedComponent } from "./Middlewares/WithRoleAllowed";
-import Tracking from "./Layout/Tracking/Tracking";
-import TableAllCostCenter from "./Layout/TableAllCostCenter";
-import History from "./Layout/History";
 
 function App() {
   return (
@@ -54,6 +50,7 @@ function App() {
             <Route path="/dashboard" element={<Admin />}>
               <Route path="home" element={<Home />} />
 
+              {/* radicacion */}
               <Route
                 element={
                   // @ts-ignore
@@ -66,6 +63,7 @@ function App() {
                 <Route path="adjuntar" element={<AttachFile />} />
               </Route>
 
+              {/* mis archivos */}
               <Route
                 element={
                   // @ts-ignore
@@ -78,6 +76,7 @@ function App() {
                 <Route path="historial" element={<History/>} />
               </Route>
 
+              {/* todos los archivos - trazabilidad */}
               <Route
                 element={
                   // @ts-ignore
@@ -97,6 +96,7 @@ function App() {
                 <Route path="trazabilidad" element={<Tracking/>} />
               </Route>
 
+              {/* admin */}
               <Route
                 element={
                   // @ts-ignore
@@ -106,26 +106,18 @@ function App() {
                 <Route path="admin" element={<Ti />} />
               </Route>
 
+              {/* centros de costos */}
               <Route
                 path="centros-de-costos"
                 element={<TableAllCostCenter />}
               ></Route>
 
-              <Route
-                element={
-                  <WithRoleAllowedComponent
-                    allowedRolesList={optionsViewTraking}
-                  />
-                }
-              >
-                <Route path="tracking" element={<Tracking />} />
-              </Route>
-
+              {/* Gestion Humnana  */}
               <Route
                 element={
                   // @ts-ignore
                   <WithRoleAllowedComponent
-                    allowedRolesList={optionsViewsDigitization}
+                    allowedRolesList={optionsViewsHumanManagement}
                   />
                 }
               >
@@ -137,9 +129,24 @@ function App() {
                 />
                 <Route path="buscar-empleado" element={<SearchEmployee />} />
               </Route>
+
+              {/* modulo de desarrollo */}
+              <Route
+                element={
+                  // @ts-ignore
+                  <WithRoleAllowedComponent
+                    allowedRolesList={optionsViewsDevelopment}
+                  />
+                }
+              >
+                <Route path="mover-elementos-mouse" element={<MoveElement/>} />
+                <Route path="qr" element={<QRCodeComponent/>}/>
+              </Route>
+
             </Route>
           </Route>
 
+          {/* no tienes permisos */}
           <Route
             path="forbidden403"
             element={
@@ -152,6 +159,7 @@ function App() {
             }
           />
 
+          {/* error servidor */}
           <Route
             path="errorserver500"
             element={
@@ -164,6 +172,7 @@ function App() {
             }
           />
 
+          {/* ruta no existente */}
           <Route
             path="*"
             element={
@@ -175,6 +184,7 @@ function App() {
               />
             }
           />
+
         </Routes>
       </Paper>
     </ThemeProvider>

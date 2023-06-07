@@ -16,7 +16,6 @@ export const getSedesModel = async(): Promise<{data: Data}> => {
 export const getIdSedesModel = async(sedes_name:string): Promise<{message?:string, data?: Data}> => {
     if( await countTable("sedes", "sedes_name", sedes_name) === 0 ) return { message: "Sede No Existe" };
     const [ idsedes ]: any = await connection.query('SELECT idsedes FROM sedes WHERE sedes_name = ?;',[sedes_name])
-    console.log('idsedes: ', idsedes);
     return { data: idsedes[0].idsedes };
 };
 

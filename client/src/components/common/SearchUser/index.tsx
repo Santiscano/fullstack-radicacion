@@ -168,7 +168,7 @@ function LocationsSelect({
       <article className="md:w-1/2">
         <List
           type={"documentNumber"}
-          label={!labelCity ? "Numero Documento Proveedor" : labelCity}
+          label={!labelCity ? "Número Documento Proveedor" : labelCity}
           value={city}
           setValue={setCity}
           required={requiredCity}

@@ -70,9 +70,12 @@ const UploadFileModal: FC<Props> = ({
     const auditorSelected = allAuditors.filter(
       (user: { idusers: number }) => user.idusers === redirectTo
     );
-    const nameSelected = `${auditorSelected[0].users_name} ${auditorSelected[0].users_lastname}`;
-    setNameAuditorSelected(nameSelected);
-    console.log("compani name:", companyName);
+    console.log('auditor selected', auditorSelected);
+      if(auditorSelected.length > 0 ){
+        const nameSelected = `${auditorSelected[0].users_name} ${auditorSelected[0].users_lastname}`;
+        setNameAuditorSelected(nameSelected);
+      }
+    console.log("company name:", companyName);
   };
 
   useEffect(() => {
