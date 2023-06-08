@@ -17,6 +17,8 @@ export interface Logs {
 };
 
 export interface GeneralLogs {
+    fileName: string;
+    id: string | number;
     
 };
 

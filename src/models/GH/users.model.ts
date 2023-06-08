@@ -1,10 +1,6 @@
 import 'dotenv/config'
 import { connection } from '../../config/database/db';
 import type Data from '../../interfaces/DataSql2.interface';
-import { identificationDigitVerified } from '../../utilities/identificationDigitVerified.utilities';
-import { Users, UserDocumentRol } from '../../interfaces/users.interface';
-import auth from '../../config/firebase/auth';
-import { RowDataPacket, OkPacket, ResultSetHeader } from 'mysql2/promise';
 
 // OBSERVACION IMPORTANTE, AQUI AUN ESTAN PENDIENTES LOS INNER JOIN CON LAS CORRESPONDIENTES TABLAS NUEVAS CREADAS
 

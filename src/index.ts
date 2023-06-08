@@ -10,6 +10,7 @@ import fs from 'fs';
 import router from './routes/index.routes';
 import routerSig from './routes/sig.routes';
 import routerEControl from './routes/eControl.routes';
+import humanManagement from "./routes/humanManagement.routes";   
 import bodyParser from 'body-parser';
 
 const app = express();
@@ -72,16 +73,17 @@ app.set("port", process.env.LOCAL_PORT || 3000);
 // ROUTES
 app.use('/', router);
 app.use('/sig/', routerSig);
-app.use('/eControl/', routerEControl)
+app.use('/eControl/', routerEControl);
+router.use('/gh/', humanManagement);   
 
 // SWAGGER
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerJsdoc(swaggerSpec)))
 
 // CONEXIÓN FRONTEND
-app.use(express.static(path.join(__dirname, '../client/dist')))
-app.get("*", (req, res)=>{
-    res.sendFile(path.join(__dirname, '../client/dist/index.html'))
-});
+// app.use(express.static(path.join(__dirname, '../client/dist')))
+// app.get("*", (req, res)=>{
+//     res.sendFile(path.join(__dirname, '../client/dist/index.html'))
+// });
 
 // INICIAR EL SERVIDOR http://
 app.listen(app.get("port"), () => {
