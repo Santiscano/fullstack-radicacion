@@ -1,19 +1,18 @@
-import { Alert, AlertColor, Slide, Snackbar } from "@mui/material";
+import { Alert, Snackbar } from "@mui/material";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 import { styled } from "@mui/material/styles";
-import { TransitionProps } from "@mui/material/transitions";
-import { MouseEvent, SyntheticEvent, useEffect, useState } from "react";
+import { MouseEvent, useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import Loading from "../../components/common/Loading";
 import { session } from "../../components/tools/SesionSettings";
+import { useUserSession } from "../../redux/Redux-actions/useUserSession";
 import { validateUserFirebase } from "../../services/Firebase.routes";
 import useContextProvider from "./../../Context/GeneralValuesContext";
 import "./admin.css";
 import NavBar from "./components/NavBar";
 import SideBar from "./components/SideBar";
-import { useUserSession } from "../../redux/Redux-actions/useUserSession";
 
 // width drawer desplegable
 const drawerWidth = 240;
@@ -160,14 +159,16 @@ function index() {
                 autoHideDuration={6000}
                 TransitionComponent={TransitionLeft}
                 onClose={handleCloseSnackbar}
-                style={{ height: "70px" }}
+                style={{ height: "120px" }}
               >
                 <Alert
                   onClose={handleCloseSnackbar}
                   severity={severitySnackbar}
                   sx={{
                     width: "100%",
-                    height: "40px",
+                    height: "auto",
+                    display: "flex",
+                    alignItems: "center",
                     fontSize: "18px",
                   }}
                 >

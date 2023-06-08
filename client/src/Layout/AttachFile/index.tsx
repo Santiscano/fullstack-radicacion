@@ -149,7 +149,7 @@ function AttachFile() {
                       </span>
                     </p>
                     <p className="font-bold inline-block mr-4">
-                      Numero de Cuenta:
+                      Número de Cuenta:
                       <span className="text-slate-600 font-normal">
                         {` ${file.accountNumber}`}
                       </span>
@@ -157,13 +157,13 @@ function AttachFile() {
                   </div>
                   <div className="flex mt-4">
                     <p className="font-bold inline-block mr-4 w-1/2">
-                      Numero Radicado
+                      Número Radicado:
                       <span className="text-slate-600 font-normal">
                         {` ${capitalizeFirstLatterUppercase(file.settled)}`}
                       </span>
                     </p>
                     <p className="font-bold inline-block mr-4">
-                      Tipo de Archivo
+                      Tipo de Archivo:
                       <span className="text-slate-600 font-normal">
                         {` ${capitalizeFirstLatterUppercase(file.fileType)}`}
                       </span>
@@ -171,13 +171,13 @@ function AttachFile() {
                   </div>
                   <div className="flex mt-4">
                     <p className="font-bold inline-block mr-4 w-1/2">
-                      Email
+                      Email:
                       <span className="text-slate-600 font-normal">
                         {` ${capitalizeFirstLatterUppercase(file.email)}`}
                       </span>
                     </p>
                     <p className="font-bold inline-block mr-4">
-                      Teléfono
+                      Teléfono:
                       <span className="text-slate-600 font-normal">
                         {` ${capitalizeFirstLatterUppercase(file.phone)}`}
                       </span>
@@ -185,13 +185,13 @@ function AttachFile() {
                   </div>
                   <div className="flex mt-4">
                     <p className="font-bold inline-block mr-4 w-1/2">
-                      Direccion
+                      Dirección:
                       <span className="text-slate-600 font-normal">
                         {` ${capitalizeFirstLatterUppercase(file.address)}`}
                       </span>
                     </p>
                     <p className="font-bold inline-block mr-4">
-                      Nombre Cedi
+                      Nombre Cedi:
                       <span className="text-slate-600 font-normal">
                         {` ${capitalizeFirstLatterUppercase(file.cediName)}`}
                       </span>
@@ -199,7 +199,7 @@ function AttachFile() {
                   </div>
                   <div className="flex mt-4">
                     <p className="font-bold inline-block mr-4 w-1/2">
-                      Tipo de Identificacion
+                      Tipo de Identificación:
                       <span className="text-slate-600 font-normal">
                         {` ${capitalizeFirstLatterUppercase(
                           file.identificationType
@@ -207,7 +207,7 @@ function AttachFile() {
                       </span>
                     </p>
                     <p className="font-bold inline-block mr-4">
-                      Numero de Identificacion
+                      Número de Identificación:
                       <span className="text-slate-600 font-normal">
                         {` ${capitalizeFirstLatterUppercase(
                           file.identificationNumber

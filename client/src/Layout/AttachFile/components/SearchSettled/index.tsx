@@ -1,9 +1,11 @@
 import { Autocomplete, Box, TextField } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { useEffect, useState } from "react";
-import { useNavigate, useResolvedPath } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { GetAllSettled } from "../../../../services/SearchFile.routes";
-import { remove } from "../../../../components/tools/SesionSettings";
+import { getHeader, remove } from "../../../../components/tools/SesionSettings";
+import axios from "axios";
+import allRoutes from "../../../../services/allRoutes";
 
 const AutocompleteStyled = styled(Autocomplete)({
   "& .MuiOutlinedInput-root": {
@@ -29,8 +31,8 @@ function SearchSettled({
 
   const getAllRegisteredFiles = async () => {
     try {
-      const resSettleds = await GetAllSettled();
-      if(resSettleds.status == 200){
+      const resSettleds = await GetAllSettled(remove,navigate);
+      if(resSettleds?.status == 200){
         console.log("Settleds: ", resSettleds?.data.data);
         const elements = resSettleds?.data.data;
         const rows = [];
@@ -44,7 +46,7 @@ function SearchSettled({
       }
     } catch (err) {
       // @ts-ignore
-      console.log("error ejecutado",err.response.data.message);
+      console.log("error ejecutado getallregisteredfiles",err.response.data.message);
       // @ts-ignore
       const message = err.response.data.message;
       if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){

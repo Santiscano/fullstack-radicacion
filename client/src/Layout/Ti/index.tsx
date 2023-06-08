@@ -1,12 +1,10 @@
 import Box from "@mui/material/Box";
 import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
+import useContextProvider from "../../Context/GeneralValuesContext";
 import Button from "../../components/common/Button";
-import InputSelectCedi from "../../components/common/InputSelectCedi";
 import InputSelectCity from "../../components/common/InputSelectCity";
-import InputSelectDocType from "../../components/common/InputSelectDocType";
 import InputSelectOnlyValue from "../../components/common/InputSelectOnlyValue";
-import InputSelectRol from "../../components/common/InputSelectRol";
 import LoadingMUI from "../../components/common/LoadingMUI";
 import TextFieldOutlined from "../../components/common/TextFieldOutline";
 import { TabPanel, a11yProps } from "../../components/tools/MultiViewPanel";
@@ -14,12 +12,11 @@ import { optionCediType } from "../../components/tools/OptionsValuesSelects";
 import { get, roles } from "../../components/tools/SesionSettings";
 import useSubmit from "./Hooks/useSubmit";
 import "./TI.css";
-import AlertDialogSlide from "./components/common/AlertDialogSlide";
-import SelectArea from "./components/common/SelectArea";
-import UsersTable from "./components/Tables/UsersTable";
 import ProvidersTables from "./components/Tables/ProvidersTable";
+import UsersTable from "./components/Tables/UsersTable";
+import AlertDialogSlide from "./components/common/AlertDialogSlide";
 import GetCediToBusinessUnit from "./components/common/GetCedisToBusinessUnit";
-import useContextProvider from "../../Context/GeneralValuesContext";
+import SelectArea from "./components/common/SelectArea";
 
 function TI() {
   const {

@@ -1,25 +1,20 @@
 import { SelectChangeEvent } from "@mui/material";
 import axios from "axios";
-import { FormEvent, MouseEventHandler, SyntheticEvent, useEffect, useState } from "react";
-import { numberToStringWithTwoDigitNumber as numberToString, cleanFileName } from "../../../Utilities/formatted.utility";
+import { SyntheticEvent, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { cleanFileName, numberToStringWithTwoDigitNumber as numberToString } from "../../../Utilities/formatted.utility";
+import { getHeader, remove } from "../../../components/tools/SesionSettings";
 import { AllCedis } from "../../../interfaces/Cedis";
 import { useDataGlobal } from "../../../redux/Redux-actions/useDataGlobal";
+import { useAppSelector } from "../../../redux/hooks/useStore";
 import { createCedi, getCedis } from "../../../services/Cedis.routes";
-import {
-  createArea,
-  createCostCenter,
-  createSubArea,
-  getArea,
-} from "../../../services/CenterCost.routes";
+import { createArea, createCostCenter, createSubArea, getArea } from "../../../services/CenterCost.routes";
 import { deleteFile } from "../../../services/Files.routes";
-import { createProvider, createUser, updateProvider } from "../../../services/Users.routes";
+import { getRoles } from "../../../services/Roles.routes";
+import { createProvider, createUser } from "../../../services/Users.routes";
 import allRoutes from "../../../services/allRoutes";
 import { getCitys } from "../../../services/getCitysColombia.routes";
 import useContextProvider from "./../../../Context/GeneralValuesContext";
-import { getHeader, remove } from "../../../components/tools/SesionSettings";
-import { useAppSelector } from "../../../redux/hooks/useStore";
-import { getRoles } from "../../../services/Roles.routes";
-import { useNavigate } from "react-router-dom";
 
 function useSubmit() {
   // --------------------------Variable-------------------------------//
@@ -68,7 +63,6 @@ function useSubmit() {
   const [costCenterName, setCostCenterName] = useState("");
   const [connectionSubArea, setConnectionSubArea] = useState("");
   // success
-  const [modalSuccess, setModalSuccess] = useState(false); // status 200 filePath para mostrar hijo modal
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [messageSnackbar, setMessageSnackbar] = useState("");
   const [severitySnackbar, setSeveritySnackbar] = useState("");
@@ -85,7 +79,6 @@ function useSubmit() {
    * y almaceno en variables
    */
   const handleGetCitys = async () => {
-
     const departmentsResponse: any = await getCitys();
     if( departmentsResponse == "TOKEN_EXPIRED" || departmentsResponse == "INVALID_TOKEN_ACCESS"){
       remove("accessToken");
@@ -157,7 +150,6 @@ function useSubmit() {
   const handleCedity = (e: SelectChangeEvent) => {
     setIdentificationType(e.target.value);
   };
-  const handleCloseModalChild = () => setModalSuccess(false);
 
   // --------------------------handles Submit-------------------------------//
   /**
@@ -335,6 +327,7 @@ function useSubmit() {
       axios.put(allRoutes.api.users.editUser,{
         idusers: user.idusers,
         roles: user.roles,
+        sedes_name: user.sedes_name,
         users_identification_type: user.users_identification_type,
         users_identification: user.users_identification,
         users_identification_digital_check: user.users_identification_digital_check,
@@ -347,10 +340,19 @@ function useSubmit() {
         users_providers_expiration_date:cleanFileName(user.users_providers_expiration_date),
         users_status: user.users_status,
       },getHeader())
+        .then((res) => {
+          if(res.data.data){
+            handleMessageSnackbar(
+              "success",
+              res.data.message
+            );
+            handleOpenModalAuth();
+          }
+        })
     } catch(err) {
       handleMessageSnackbar("error", "Ocurrio Un Error Intenta De Nuevo");
       // @ts-ignore
-      console.log("error ejecutado",err.response.data.message);
+      console.log("error ejecutado: ", err);
       // @ts-ignore
       const message = err.response.data.message;
       if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
@@ -382,10 +384,10 @@ function useSubmit() {
       }, getHeader())
         .then((res) => {
           console.log('updateProv: ', res);
-          if(res.data.message == "SUCCESS"){
+          if(res.data.data){
             handleMessageSnackbar(
               "success",
-              `Archivo Actualizado Con Exito`
+              res.data.message
             );
             handleOpenModalAuth()
           }
@@ -412,7 +414,7 @@ function useSubmit() {
       e.preventDefault();
       axios.put(allRoutes.api.users.editUser,{
         idusers: user.idusers,
-        idroles: 1,
+        roles: "PROVEEDOR",
         sedes_name: user.sedes_name,
         users_identification_type: user.users_identification_type,
         users_identification: user.users_identification,

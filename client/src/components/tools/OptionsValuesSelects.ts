@@ -63,6 +63,9 @@ export const optionsViewsTI = [
 export const optionsViewTraking = [
   roles.Administrador, roles.Gerencia, roles.Contabilidad, roles.Tesoreria
 ];
-export const optionsViewsDigitization = [
+export const optionsViewsHumanManagement = [
+  roles.Administrador, roles.AuditorGH,
+];
+export const optionsViewsDevelopment = [
   roles.Administrador
 ];

@@ -16,6 +16,10 @@ export const useUsers = () => {
   };
   const handleCloseModal = () => setOpen(false);
 
+  const handleUpdateDataUsers = () =>{
+    setRows([])
+    handleGetUsersNoAdminProv()
+  };
   const handleGetUsersNoAdminProv = async () => {
     axios.get(allRoutes.api.users.getNoAdminProv, getHeader())
       .then((res) => {
@@ -44,6 +48,8 @@ export const useUsers = () => {
     open,
     handleOpen,
     handleCloseModal,
+    handleUpdateDataUsers,
+    handleGetUsersNoAdminProv,
   };
 };
 

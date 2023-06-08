@@ -527,6 +527,11 @@ export const columnsProvider: GridColDef[] = [
     width: 190,
   },
   {
+    field: "users_providers_paydays",
+    headerName: "Dias limite pago",
+    width: 130,
+  },
+  {
     field: "users_status",
     headerName: "Estado Proveedor",
     width: 130,

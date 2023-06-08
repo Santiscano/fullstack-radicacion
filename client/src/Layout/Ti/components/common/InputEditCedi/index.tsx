@@ -5,11 +5,12 @@ import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { styled } from "@mui/material/styles";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import allRoutes from "../../../../../services/allRoutes";
 import { getHeader, remove } from "../../../../../components/tools/SesionSettings";
 import { useAppSelector } from "../../../../../redux/hooks/useStore";
 import { useModalUserView } from "../../../../../redux/Redux-actions/useModalUserView";
-import { useNavigate } from "react-router-dom";
+import useContextProvider from "../../../../../Context/GeneralValuesContext";
 
 const Selecting = styled(FormControl)({
   "& .MuiOutlinedInput-root": {
@@ -19,9 +20,16 @@ const Selecting = styled(FormControl)({
   },
 });
 
+type Sedes = {
+  sedes_name: string
+};
+
 export default function InputEditCedi(props:any) {
+  // methods & context
   const navigate = useNavigate();
   const user = useAppSelector((state) => state.modalUserViewSlice);
+  const { handleMessageSnackbar } = useContextProvider();
+  // var
   const { setSedesName } = useModalUserView();
   const [cedis, setCedis] = useState([]);
   const [value, setValue] = useState('');
@@ -30,14 +38,14 @@ export default function InputEditCedi(props:any) {
     try {
       const getCedis = await axios.get(allRoutes.api.cedis.cedisName, getHeader());
       const allCedis = getCedis.data.data;
-      const sedesName = allCedis.map((row: any) => row.sedes_name)
+      const sedesName = allCedis.map((row: Sedes) => row.sedes_name)
       console.log('allCedis input: ', sedesName);
       setCedis(sedesName);
     } catch (err) {
       // @ts-ignore
-      console.log("error ejecutado",err.response.data.message);
-      // @ts-ignore
       const message = err.response.data.message;
+      console.log("error ejecutado", message);
+      handleMessageSnackbar("error", message);
       if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
         remove("accessToken");
         navigate("/login");
@@ -45,24 +53,22 @@ export default function InputEditCedi(props:any) {
     }
   };
 
-
   const handleCedi = (e: SelectChangeEvent) => {
-    // @ts-ignore
-    setValue(e.target.value);
     console.log('handlecedi ejecutado', e.target.value);
+    setValue(e.target.value);
     setSedesName(e.target.value);
   };
 
   useEffect(() => {
     handleGetCedis();
-    console.log(user)
     setValue(user.sedes_name);
+    console.log('useEffect editcedi',user);
   }, []);
 
   return (
     <>
       <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-        {props.title} - valor actual: {value}
+        {props.title}
       </label>
       <Selecting sx={{m:1, width: 0.98}}>
         <InputLabel id={`${props.placeholder}-label`}>

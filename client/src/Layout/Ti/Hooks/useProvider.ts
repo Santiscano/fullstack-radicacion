@@ -19,8 +19,11 @@ export const useProvider = () => {
   };
   const handleCloseModal = () => setOpen(false);
 
+  const handleUpdateDataProviders = () => {
+    setRows([])
+    handleGetProvider();
+  };
   const handleGetProvider = async () => {
-    setPreLoad(true);
     axios.post(allRoutes.api.users.getByRol,{ idroles: 1 }, getHeader())
       .then((res) => {
         console.log('providers: ', res);
@@ -36,7 +39,6 @@ export const useProvider = () => {
           navigate("/login");
         }
       })
-      .finally(() => setPreLoad(false))
   };
 
   useEffect(() => {
@@ -48,5 +50,7 @@ export const useProvider = () => {
     open,
     handleOpen,
     handleCloseModal,
+    handleUpdateDataProviders,
+    handleGetProvider,
   };
 };

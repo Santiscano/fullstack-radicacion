@@ -2,6 +2,7 @@ import Modal from "@mui/material/Modal";
 import axios from "axios";
 import Routes from "./allRoutes";
 import { get, getHeader, set } from "../components/tools/SesionSettings";
+import { selectCase } from "../components/tools/switchCaseInput";
 
 export const getFiles = async () => {
   try {
@@ -31,10 +32,14 @@ export const addFile = async (
   idsedes: number,
   files_type: string,
   files_account_type: any,
-  files_account_type_number: any,
-  userSession: number
+  unitedValues: any,
+  userSession: number,
+  handleMessageSnackbar?: any,
+  remove?:any,
+  navigate?:any,
 ) => {
   try {
+    const files_account_type_number = unitedValues == "-" ? "" : unitedValues;
     const response = await axios.post(
       Routes.api.files.addFile,
       {
@@ -50,15 +55,24 @@ export const addFile = async (
       },
       getHeader()
     );
-    console.log("response addfile: ", response);
+    console.log("response addFile: ", response);
     return response;
   } catch (err) {
     // @ts-ignore
-    console.log("error ejecutado",err.response.data.message);
+    const missing = selectCase(err.response.data.missing);
+    // @ts-ignore
+    const info =  err.response.data.message == 'INCOMPLETE_INFORMATION'
+      ? `${missing} INCOMPLETO.`
+      // @ts-ignore
+      : err.response.data.message;
+    handleMessageSnackbar("error", info );
+    // @ts-ignore
+    console.log("error ejected",err.response.data.message);
     // @ts-ignore
     const message = err.response.data.message;
     if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
-      return message
+      remove("accessToken");
+      navigate("/login");
     }
   }
 };
