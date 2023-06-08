@@ -2,15 +2,16 @@ import * as React from "react";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { alpha, styled } from "@mui/material/styles";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import allRoutes from "../../../../services/allRoutes";
+import Route from "../../../../services/allRoutes";
 import { getHeader, remove } from "../../../../components/tools/SesionSettings";
 import { useAppSelector } from "../../../../redux/hooks/useStore";
-import useContextProvider from "../../../../Context/GeneralValuesContext";
+import { useModalUserView } from "../../../../redux/Redux-actions/useModalUserView";
+import { useNavigate } from "react-router-dom";
+import { useEmployee } from "../../../../redux/Redux-actions/useEmployee";
 
 const Selecting = styled(FormControl)({
   "& .MuiOutlinedInput-root": {
@@ -19,38 +20,25 @@ const Selecting = styled(FormControl)({
     },
   },
 });
-type Props = {
-  type: string;
-  title:string;
-  placeholder:string;
-  name:string;
-  itemDefault?:string;
-  required?:boolean;
-  disabled?:boolean;
-  index?: number | string;
-  autoComplete?: string | undefined;
-}
-export default function InputSelectDocTypeFormData(props: Props) {
+export default function InputEditDocumentType(props: any) {
+  const user = useAppSelector((state) => state.modalUserViewSlice);
+  const { setidentificationType } = useEmployee();
   const [documentType, setDocumentType] = useState([]);
+  const [value, setValue] = useState(user.users_identification_type);
   const navigate = useNavigate();
-  const { handleMessageSnackbar } = useContextProvider();
-
 
   const handleReadDocumentType = () => {
     axios
-      .get(allRoutes.api.users.getTypeIdentification, getHeader())
+      .get(Route.api.users.getTypeIdentification, getHeader())
       .then((res) => {
-        console.log(res.data.data);
-        const listTypes = res.data.data.map((item:any) =>item.typeDocument )
-        console.log('listTypes: ', listTypes);
-        setDocumentType(listTypes);
-        console.log('listTypes: ', listTypes);
+        // console.log(res.data.data);
+        setDocumentType(res.data.data);
       })
-      .catch((err) => {
+      .catch ((err) => {
+        // @ts-ignore
+        console.log("error ejecutado",err.response.data.message);
         // @ts-ignore
         const message = err.response.data.message;
-        console.log('message: ', message);
-        handleMessageSnackbar("error", message);
         if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
           remove("accessToken");
           navigate("/login");
@@ -58,8 +46,15 @@ export default function InputSelectDocTypeFormData(props: Props) {
       })
   };
 
+  const handleDocumentType = (e: SelectChangeEvent) => {
+    setValue(e.target.value);
+    setidentificationType(e.target.value);
+
+  };
+
   useEffect(() => {
     handleReadDocumentType();
+    setValue(user.users_identification_type);
   }, []);
 
   return (
@@ -76,6 +71,8 @@ export default function InputSelectDocTypeFormData(props: Props) {
           label={props.placeholder}
           labelId={`${props.placeholder}-label`}
           id={props.placeholder}
+          value={value}
+          onChange={handleDocumentType}
           autoWidth
           required={props.required}
           disabled={props.disabled}
@@ -89,10 +86,10 @@ export default function InputSelectDocTypeFormData(props: Props) {
           {documentType.map((item: any, index: any) => (
             <MenuItem
               key={index}
-              value={item}
+              value={item.typeDocument}
               sx={{ m: 1, minWidth: 300 }}
             >
-              {item}
+              {item.typeDocument}
             </MenuItem>
           ))}
         </Select>

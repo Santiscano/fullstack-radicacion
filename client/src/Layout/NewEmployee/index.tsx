@@ -12,6 +12,7 @@ import useNewEmployee from "./hooks/useNewEmployee";
 // componets employee
 import InputSelectCedi from "../../components/common/InputSelectCedi";
 import CreateEmployee from "./components/TabsPanel/CreateEmployee";
+import Debounced from "../../components/common/Debounced";
 
 interface Props {}
 const NewEmployee: FC = () => {
@@ -36,6 +37,10 @@ const NewEmployee: FC = () => {
       <section className="layout-section">
         <div className="layout-left">
           <article className="filing">
+            <Debounced
+              label="debounced"
+            />
+
             <Box sx={{ display: "flex", alignItems: "center" }}>
               <Box sx={{ width: "100%", mr: 1 }}>
                 <LinearProgress

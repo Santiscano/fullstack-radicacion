@@ -39,9 +39,11 @@ type Props = {
 const InputSelectCediName:FC<Props> = (props) => {
   const navigate = useNavigate();
   const { handleMessageSnackbar } = useContextProvider();
+  const user = useAppSelector((state) => state.employeesSlice);
+  const { setSedesName } = useEmployee();
 
   const [cediName, setCediName] = useState<string[]>([]);
-  const [value, setvalue] = useState('');
+  const [value, setvalue] = useState<string | undefined>('');
 
   const handleGetCedis = async () => {
     try{
@@ -63,13 +65,16 @@ const InputSelectCediName:FC<Props> = (props) => {
   };
 
   const handleCedi = (e:SelectChangeEvent) => {
-    const sedes_name = e.target.value
+    const sedes_name = e.target.value;
     console.log(sedes_name);
     setvalue(sedes_name);
+    setSedesName(sedes_name);
   };
 
   useEffect(() => {
     handleGetCedis();
+    setvalue(user.sedes_name);
+    // console.log('user.sedes_name: ', user.sedes_name);
   },[])
 
 

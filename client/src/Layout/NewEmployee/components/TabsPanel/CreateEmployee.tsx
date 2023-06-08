@@ -4,10 +4,15 @@ import TextFieldOutlined from "../../../../components/common/TextFieldOutline";
 import useNewEmployee from "../../hooks/useNewEmployee";
 import InputSelectDocTypeFormData from "../../../../components/common/InputSelectDocTypeFormData";
 import InputOutlinedFormData from "../../../../components/common/InputOutlinedFormData";
-import InputSelectCediName from "../common/InputSelectCediName";
+import InputSelectCediName from "../Inputs/InputSelectCediName";
+import InputSelectTypeDocument from "../Inputs/InputSelectTypeDocument";
+import { useAppSelector } from "../../../../redux/hooks/useStore";
+import { useEmployee } from "../../../../redux/Redux-actions/useEmployee";
 
 const CreateEmployee:FC = () => {
   const { handleSubmitEmployee } = useNewEmployee();
+  const user = useAppSelector((state) => state.employeesSlice);
+  const { setUsersIdentification, setUsersName, setUsersLastName, setUsersAddress, setUsersPhone, setUsersEmail } = useEmployee();
   return (
     <>
       <Box
@@ -17,9 +22,9 @@ const CreateEmployee:FC = () => {
           justifyContent: "center",
         }}
       >
-        <Typography variant="h4" component="h4" sx={{ fontWeight: "bold" }}>
-          CREAR USUARIO
-        </Typography>
+        {/* <Typography variant="h4" component="h4" sx={{ fontWeight: "bold" }}>
+          CREAR EMPLEADO
+        </Typography> */}
       </Box>
       <form onSubmit={handleSubmitEmployee}>
         <div className="md:flex md:flex-wrap">
@@ -48,7 +53,7 @@ const CreateEmployee:FC = () => {
         </div>
         <div className="md:flex md:flex-wrap">
           <article className="md:w-1/2">
-            <InputSelectDocTypeFormData
+            <InputSelectTypeDocument
               type={"text"}
               title={"Tipo de Documento"}
               placeholder="C.C, NIT..."
@@ -59,12 +64,13 @@ const CreateEmployee:FC = () => {
           </article>
           <article className="md:w-1/2">
             <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-              Numero de Documento
+              Numero de documento
             </label>
-            <InputOutlinedFormData
-              label={"Numero de Documento"}
-              name={"identification"}
+            <TextFieldOutlined
               type={"number"}
+              label={"Numero"}
+              value={user.users_identification}
+              setValue={setUsersIdentification}
               required
             />
           </article>
@@ -74,23 +80,25 @@ const CreateEmployee:FC = () => {
             <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
               Nombre
             </label>
-            <InputOutlinedFormData
-              label={"Nombre"}
-              name={"name"}
-              type={"text"}
-              required
-            />
+            <TextFieldOutlined
+                  type={"text"}
+                  label={"Nombre"}
+                  value={user.users_name}
+                  setValue={setUsersName}
+                  required
+                />
           </article>
           <article className="md:w-1/2">
             <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
               Apellidos
             </label>
-            <InputOutlinedFormData
-              label={"Apellidos"}
-              name={"lastname"}
-              type={"text"}
-              required
-            />
+            <TextFieldOutlined
+                  type={"text"}
+                  label={"Apellidos"}
+                  value={user.users_lastname}
+                  setValue={setUsersLastName}
+                  required
+                />
           </article>
         </div>
         <div className="md:flex md:flex-wrap">
@@ -98,23 +106,25 @@ const CreateEmployee:FC = () => {
             <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
               Dirección
             </label>
-            <InputOutlinedFormData
-              label={"Dirección"}
-              name={"address"}
-              type={"text"}
-              required
-            />
+            <TextFieldOutlined
+                  type={"text"}
+                  label={"Dirección Ubicacion"}
+                  value={user.users_address}
+                  setValue={setUsersAddress}
+                  required
+                />
           </article>
           <article className="md:w-1/2">
             <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
               Telefono
             </label>
-            <InputOutlinedFormData
-              label={"Telefono"}
-              name={"phone"}
-              type={"number"}
-              required
-            />
+            <TextFieldOutlined
+                  type={"number"}
+                  label={"numero"}
+                  value={user.users_phone}
+                  setValue={setUsersPhone}
+                  required
+                />
           </article>
         </div>
         <div className="md:flex md:flex-wrap">
@@ -122,12 +132,13 @@ const CreateEmployee:FC = () => {
             <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
               Correo Electronico
             </label>
-            <InputOutlinedFormData
-              label={"Correo Electronico"}
-              name={"email"}
-              type={"email"}
-              required
-            />
+            <TextFieldOutlined
+                  type={"email"}
+                  label={"Email"}
+                  value={user.users_email}
+                  setValue={setUsersEmail}
+                  required
+                />
           </article>
         </div>
 

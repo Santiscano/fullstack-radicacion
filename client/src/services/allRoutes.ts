@@ -111,5 +111,13 @@ export default {
       putPersonalInformation: `${host}/putPersonalInformation`,
       deletePersonalInformation: `${host}/deletePersonalInformation`,
     },
+    humanManagement: {
+      getEmployees: `${host}/getEmployees`,
+      getByIdEmployee:`${host}/getEmployeeById`,
+      getDebouncedEmployee:`${host}/gh/employeeFilter`,
+      createEmployee:`${host}/postEmployee`,
+      updateEmployee:`${host}/putEmployee`,
+      deleteEmployee:`${host}/deleteEmployee`,
+    },
   },
 };
