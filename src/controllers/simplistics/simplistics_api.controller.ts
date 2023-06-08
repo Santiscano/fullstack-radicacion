@@ -10,7 +10,17 @@ export const simplisticsPortafolio = async (req: Request, res: Response) => {
     const { tipoDoc } = req.params;
     try {
         const [ query ] = await simplisticsConnection.query(`
-            SELECT * FROM TB_PORAFOLIO P
+            SELECT P.CODIGO_PK,
+                    P.SP_SKU,
+                    P.SP_EAN_BARCODE,
+                    P.SP_DESCRIPCION,
+                    P.SP_TALLA_LINEA,
+                    P.SP_COLOR,
+                    P.SP_FILE,
+                    P.FECHA,
+                    P.ESTADO,
+                    U.TIPODOC
+                FROM TB_PORAFOLIO P
                 LEFT JOIN TB_USUARIO U ON U.TB_USUARIO_LOGIN = P.SP_CLIENTE
                     WHERE U.TIPODOC = ?;`, tipoDoc);
         return res.status(200).json(success(query));
