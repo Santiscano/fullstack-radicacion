@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { getEmployeeById, getEmployees } from '../controllers/GH/users.controller';
+import { employeeFilter } from '../controllers/GH/filter.controller';
 
 
 // MIDDLEWARES
@@ -15,7 +16,8 @@ humanManagement.put("putEmployee",decodeToken, validateApikey, );
 humanManagement.delete("deleteEmployee",decodeToken, validateApikey, );
 
 
-
+// FILTERS
+humanManagement.post("/employeeFilter", employeeFilter);
 
 
 export default humanManagement;

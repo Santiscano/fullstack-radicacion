@@ -18,7 +18,7 @@ import { getTrackings, getTrackingRegistered, getTrackingAccountType } from '../
 import { uploadFileDocument } from '../controllers/upload/googleBucket.controller';
 
 // HUMAN MANAGEMENT ROUTES
-import humanManagement from './gestionHumana.routes';
+import humanManagement from './humanManagement.routes';
 
 // MIDDLEWARE TOKEN
 import { decodeToken } from '../middleware/manage.token';
@@ -127,7 +127,7 @@ router.get('/usersFilterReturnAuditor', decodeToken, usersFilterReturnAuditor); 
 router.get('/routerApi', routerApi);                                                // Traer las rutas que tiene el sistema
 
 
-router.use('/gh',humanManagement);                                                  // RUTAS GESTION HUMANA
+                                               // RUTAS GESTION HUMANA
 
 // Exportando el router
 export default router;

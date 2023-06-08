@@ -4,6 +4,7 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 import {
   DataGrid,
   GridToolbarColumnsButton,
+  GridToolbarContainer,
   GridToolbarExport,
   GridToolbarFilterButton,
 } from "@mui/x-data-grid";
@@ -77,11 +78,6 @@ const ProvidersTables = () => {
         <label className="block ml-4 text-base font-semibold dark:text-white">
           PROVEEDORES
         </label>
-        <Tooltip title="Actualizar Tabla">
-          <IconButton onClick={handleUpdateDataProviders}>
-            <RefreshIcon style={{color: "black"}}/>
-          </IconButton>
-        </Tooltip>
         <button className="button button--flex" onClick={handleOpen}>
           Nuevo Proveedor
         </button>
@@ -98,7 +94,20 @@ const ProvidersTables = () => {
             disableSelectionOnClick
             experimentalFeatures={{ newEditingApi: true }}
             components={{
-              Toolbar: GridToolbarConfig,
+              Toolbar: () => {
+                return (
+                  <GridToolbarContainer>
+                    <GridToolbarColumnsButton style={{ color: "#000", marginLeft: "17px" }} />
+                    <GridToolbarFilterButton style={{ color: "#000", marginLeft: "17px" }} />
+                    <GridToolbarExport style={{ color: "#000", marginLeft: "17px" }} />
+                    <Tooltip title="Actualizar Tabla">
+                      <IconButton onClick={handleUpdateDataProviders}>
+                        <RefreshIcon style={{color: "black"}}/>
+                      </IconButton>
+                    </Tooltip>
+                  </GridToolbarContainer>
+                )
+              },
               NoRowsOverlay: CustomNoRowsOverlay,
             }}
             initialState={{

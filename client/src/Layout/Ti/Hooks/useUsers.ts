@@ -11,9 +11,7 @@ export const useUsers = () => {
   const { setPreLoad } = useContextProvider();
   const navigate = useNavigate();
 
-  const handleOpen = () => {
-    setOpen(!open);
-  };
+  const handleOpen = () => setOpen(!open);
   const handleCloseModal = () => setOpen(false);
 
   const handleUpdateDataUsers = () =>{

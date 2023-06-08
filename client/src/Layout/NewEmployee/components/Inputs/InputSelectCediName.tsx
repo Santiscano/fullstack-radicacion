@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
@@ -6,11 +6,12 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { styled } from "@mui/material/styles";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import allRoutes from "../../../../../services/allRoutes";
-import { getHeader, remove } from "../../../../../components/tools/SesionSettings";
-import { useAppSelector } from "../../../../../redux/hooks/useStore";
-import { useModalUserView } from "../../../../../redux/Redux-actions/useModalUserView";
-import useContextProvider from "../../../../../Context/GeneralValuesContext";
+import { useAppSelector } from "../../../../redux/hooks/useStore";
+import { useEmployee } from "../../../../redux/Redux-actions/useEmployee";
+import { getHeader, remove } from "../../../../components/tools/SesionSettings";
+import useContextProvider from "../../../../Context/GeneralValuesContext";
+import allRoutes from "../../../../services/allRoutes";
+
 
 const Selecting = styled(FormControl)({
   "& .MuiOutlinedInput-root": {
@@ -23,25 +24,35 @@ const Selecting = styled(FormControl)({
 type Sedes = {
   sedes_name: string
 };
+type Props = {
+  type: string;
+  title:string;
+  placeholder:string;
+  name:string;
+  itemDefault?:string;
+  required?:boolean;
+  disabled?:boolean;
+  index?: number | string;
+  autoComplete?: string | undefined;
+}
 
-export default function InputEditCedi(props:any) {
-  // methods & context
+const InputSelectCediName:FC<Props> = (props) => {
   const navigate = useNavigate();
-  const user = useAppSelector((state) => state.modalUserViewSlice);
   const { handleMessageSnackbar } = useContextProvider();
-  // var
-  const { setSedesName } = useModalUserView();
-  const [cedis, setCedis] = useState([]);
-  const [value, setValue] = useState('');
+  const user = useAppSelector((state) => state.employeesSlice);
+  const { setSedesName } = useEmployee();
+
+  const [cediName, setCediName] = useState<string[]>([]);
+  const [value, setvalue] = useState<string | undefined>('');
 
   const handleGetCedis = async () => {
-    try {
-      const getCedis = await axios.get(allRoutes.api.cedis.cedisName, getHeader());
+    try{
+      const getCedis = await axios.get(allRoutes.api.cedis.cedisName, getHeader())
       const allCedis = getCedis.data.data;
       const sedesName = allCedis.map((row: Sedes) => row.sedes_name)
       console.log('allCedis input: ', sedesName);
-      setCedis(sedesName);
-    } catch (err) {
+      setCediName(sedesName);
+    }catch(err){
       // @ts-ignore
       const message = err.response.data.message;
       console.log("error ejecutado", message);
@@ -53,17 +64,19 @@ export default function InputEditCedi(props:any) {
     }
   };
 
-  const handleCedi = (e: SelectChangeEvent) => {
-    console.log('handlecedi ejecutado', e.target.value);
-    setValue(e.target.value);
-    setSedesName(e.target.value);
+  const handleCedi = (e:SelectChangeEvent) => {
+    const sedes_name = e.target.value;
+    console.log(sedes_name);
+    setvalue(sedes_name);
+    setSedesName(sedes_name);
   };
 
   useEffect(() => {
     handleGetCedis();
-    setValue(user.sedes_name);
-    console.log('useEffect editcedi',user);
-  }, []);
+    setvalue(user.sedes_name);
+    // console.log('user.sedes_name: ', user.sedes_name);
+  },[])
+
 
   return (
     <>
@@ -92,7 +105,7 @@ export default function InputEditCedi(props:any) {
             <em>seleccione el nuevo valor</em>
           </MenuItem>
 
-          {cedis.map((item: any, index: any) => (
+          {cediName.map((item: any, index: any) => (
             <MenuItem key={index} value={item} sx={{ m: 1, minWidth: 300 }}>
               {item}
             </MenuItem>
@@ -101,4 +114,6 @@ export default function InputEditCedi(props:any) {
       </Selecting>
     </>
   )
-};
+}
+
+export default InputSelectCediName
