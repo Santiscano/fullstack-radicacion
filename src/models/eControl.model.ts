@@ -6,7 +6,7 @@ import { pdfBase64 } from '../utilities/PDF/upload/pdfBase64.utilities';
 import { postFileEcontrolModel } from './files.model';
 import { postFilePathModel } from './file_path.model';
 import { eControl } from '../interfaces/eControl.interface';
-import { FileEcontrol } from '../interfaces/files.interface';
+import { FileEcontrol, FilesType } from '../interfaces/files.interface';
 import { FilePath } from '../interfaces/file_path.interface';
 import { genRegistered } from '../utilities/generate_file_registered.controller';
 
@@ -23,8 +23,8 @@ export const eControlOperativoModel = async(data: eControl): Promise<{error:bool
         files_registered: radicado, 
         idsedes: 1,                                 // CEDI MEDELLÍN
         idproviders: proValidate[0].idusers, 
-        idusers: 3,                                 // USUARIO CONTABILIDAD GENERAL
-        files_type: 2,                              // OPERATIVO
+        idusers: 3,                                 // USUARIO DE MELIZA (CONTABILIDAD) - 9 // MAESTRO DE CONTABILIDAD - 3
+        files_type: FilesType.OPERATIVO,
         files_price: data.files_price,
         files_account_type: data.files_account_type,
         files_account_type_number: data.files_account_type_number,
@@ -78,7 +78,6 @@ export const eControlOperativoModel = async(data: eControl): Promise<{error:bool
 
     await postFilePathModel(dataFilePathOC);
     await postFilePathModel(dataFilePathFE);
-
 
     return { error: false, message: dataFilePathOC.files_path_observation };
 };

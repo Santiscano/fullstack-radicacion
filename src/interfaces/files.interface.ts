@@ -1,4 +1,4 @@
-enum FilesType {
+export enum FilesType {
     'ADMINISTRATIVO' = 1,
     'OPERATIVO' = 2
 };
