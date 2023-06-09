@@ -1,4 +1,3 @@
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import logoEnviexpress from '../../../assets/images/LOGOTIPO_ENVIEXPRESS_horizontal_150x50.png';
 import image from '../../../assets/images/construction-under.png';

@@ -38,10 +38,10 @@ type Props = {
 
 const InputSelectCediName:FC<Props> = (props) => {
   const navigate = useNavigate();
-  const { handleMessageSnackbar } = useContextProvider();
   const user = useAppSelector((state) => state.employeesSlice);
-  const { setSedesName } = useEmployee();
+  const { handleMessageSnackbar } = useContextProvider();
 
+  const { setSedesName } = useEmployee();
   const [cediName, setCediName] = useState<string[]>([]);
   const [value, setvalue] = useState<string | undefined>('');
 

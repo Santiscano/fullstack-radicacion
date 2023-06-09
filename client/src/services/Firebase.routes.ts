@@ -38,7 +38,7 @@ export const login = async (users_email: string, users_password: string) => {
       },
       getHeader()
     );
-    console.log("res login: ", response.data.data.accessToken);
+    // console.log("res login: ", response.data.data.accessToken);
     const { accessToken } = response?.data.data;
     // console.log('accessToken: ', accessToken);
     set("accessToken", accessToken);
