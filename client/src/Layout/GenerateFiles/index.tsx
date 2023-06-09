@@ -140,8 +140,7 @@ function GenerateFiles() {
         user.idroles == roles.AuditorCRTL ||
         user.idroles == roles.AuditorRG ||
         user.idroles == roles.Gerencia ||
-        user.idroles == roles.AuditorTI ||
-        user.idroles == roles.Contabilidad
+        user.idroles == roles.AuditorTI
     );
     setOptionsRedirectTo(filterAuditors);
 
