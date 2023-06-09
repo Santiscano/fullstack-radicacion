@@ -66,16 +66,20 @@ const UploadFileModal: FC<Props> = ({
   // const [openSuccess, setOpenSuccess] = useState(false);
 
   const filterAuditorSelected = () => {
-    const allAuditors = optionsRedirectTo;
-    const auditorSelected = allAuditors.filter(
-      (user: { idusers: number }) => user.idusers === redirectTo
-    );
-    console.log('auditor selected', auditorSelected);
-      if(auditorSelected.length > 0 ){
-        const nameSelected = `${auditorSelected[0].users_name} ${auditorSelected[0].users_lastname}`;
-        setNameAuditorSelected(nameSelected);
-      }
-    console.log("company name:", companyName);
+    if(invoiceType == 'OPERATIVO'){
+      setNameAuditorSelected('Contabilidad')
+    } else {
+      const allAuditors = optionsRedirectTo;
+      const auditorSelected = allAuditors.filter(
+        (user: { idusers: number }) => user.idusers === redirectTo
+      );
+      console.log('auditor selected', auditorSelected);
+        if(auditorSelected.length > 0 ){
+          const nameSelected = `${auditorSelected[0].users_name} ${auditorSelected[0].users_lastname}`;
+          setNameAuditorSelected(nameSelected);
+        }
+      console.log("company name:", companyName);
+    }
   };
 
   useEffect(() => {

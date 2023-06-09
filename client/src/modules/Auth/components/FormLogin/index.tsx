@@ -37,6 +37,7 @@ function index() {
       const loger = await login(data.email, data.password);
       console.log("loger: ", loger);
       if (loger?.status === 200) {
+        setErrorLogin(undefined);
         const userValidate = await validateUserFirebase();
         console.log("userValidate: ", userValidate);
         const userLogin = userValidate?.data.data;
@@ -51,6 +52,7 @@ function index() {
           console.log("navigate home");
         }
       } else {
+        console.log('error',loger?.data.message)
         setErrorLogin(loger?.data.message);
       }
     } catch (error) {

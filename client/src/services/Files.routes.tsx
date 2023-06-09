@@ -39,6 +39,7 @@ export const addFile = async (
   navigate?:any,
 ) => {
   try {
+    console.log('redirectToID:',idusers)
     const files_account_type_number = unitedValues == "-" ? "" : unitedValues;
     const response = await axios.post(
       Routes.api.files.addFile,

@@ -140,7 +140,8 @@ function GenerateFiles() {
         user.idroles == roles.AuditorCRTL ||
         user.idroles == roles.AuditorRG ||
         user.idroles == roles.Gerencia ||
-        user.idroles == roles.AuditorTI
+        user.idroles == roles.AuditorTI ||
+        user.idroles == roles.Contabilidad
     );
     setOptionsRedirectTo(filterAuditors);
 
@@ -177,7 +178,10 @@ function GenerateFiles() {
    */
   const handleCedi = (e: SelectChangeEvent) => setCedi(e.target.value);
   const handleAccountType = (e: SelectChangeEvent) => setAccountType(e.target.value);
-  const handleRedirectTo = (e: SelectChangeEvent) => setRedirectTo(Number(e.target.value));
+  const handleRedirectTo = (e: SelectChangeEvent) => {
+    console.log('redirecTo',e.target.value);
+    setRedirectTo(Number(e.target.value));
+  }
   const handleInvoiceType = (e: SelectChangeEvent) => setInvoiceType(e.target.value);
   const handleComments = (e: any) => setComments(e.target.value);
   //ChangeEventHandler<HTMLTextAreaElement>
@@ -280,7 +284,7 @@ function GenerateFiles() {
         idUser,
         settledNumber,
         price,
-        redirectTo,
+        invoiceType == 'OPERATIVO' ? 9 : redirectTo,
         // @ts-ignore
         cedi.idsedes,
         invoiceType,
@@ -625,18 +629,6 @@ function GenerateFiles() {
 
                   <div className="md:flex md:flex-wrap">
                     <article className="md:w-1/2">
-                      <InputSelectRedirectTo
-                        type={"number"}
-                        title="Dirigido "
-                        placeholder="Para"
-                        required
-                        value={redirectTo}
-                        onChange={handleRedirectTo}
-                        itemDefault="selecciona el Auditor"
-                        items={optionsRedirectTo}
-                      />
-                    </article>
-                    <article className="md:w-1/2">
                       <InputSelectOnlyValue
                         type={"text"}
                         title="Tipo de Factura"
@@ -648,6 +640,20 @@ function GenerateFiles() {
                         items={optionsInvoiceType}
                       />
                     </article>
+                    { invoiceType == 'ADMINISTRATIVO' && (<article className="md:w-1/2">
+                      <InputSelectRedirectTo
+                        type={"number"}
+                        title="Dirigido "
+                        placeholder="Para"
+                        required
+                        disabled={invoiceType !== 'ADMINISTRATIVO'}
+                        value={redirectTo}
+                        onChange={handleRedirectTo}
+                        itemDefault="selecciona el Auditor"
+                        items={optionsRedirectTo}
+                      />
+                    </article>)}
+
                   </div>
                   <button
                     className="button button--flex mt-6"

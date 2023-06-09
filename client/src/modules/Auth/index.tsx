@@ -59,6 +59,8 @@ function index() {
                       ? "Usuario no registrado"
                       : errorLogin === "auth/wrong-password"
                       ? "Clave errónea"
+                      : errorLogin === "SERVER_PROBLEM"
+                      ? "El servidor a fallado"
                       : "Algo a Fallado"
                     }
                   </strong>{" "}
