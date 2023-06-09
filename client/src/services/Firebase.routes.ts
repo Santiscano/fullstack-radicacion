@@ -18,7 +18,7 @@ export const createUser = async (
     console.log("response: ", response);
   } catch (err) {
     // @ts-ignore
-    console.log("error ejecutado",err.response.data.message);
+    console.log("error ejecutado create user",err);
     // @ts-ignore
     const message = err.response.data.message;
     if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
@@ -38,14 +38,14 @@ export const login = async (users_email: string, users_password: string) => {
       },
       getHeader()
     );
-    console.log("res login: ", response.data.data.accessToken);
+    // console.log("res login: ", response.data.data.accessToken);
     const { accessToken } = response?.data.data;
     // console.log('accessToken: ', accessToken);
     set("accessToken", accessToken);
     return response;
   } catch (err) {
     // @ts-ignore
-    console.log("error ejecutado",err.response.data.message);
+    console.log("error ejecutado login",err);
     // @ts-ignore
     const message = err.response.data.message;
     if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
@@ -72,7 +72,7 @@ export const validateUserFirebase = async () => {
     return response;
   } catch (err) {
     // @ts-ignore
-    console.log("error ejecutado",err.response.data.message);
+    console.log("error ejecutado validate Firebase",err.response.data.message);
     // @ts-ignore
     const message = err.response.data.message;
     if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
@@ -94,7 +94,7 @@ export const changePassword = async (users_email: string) => {
     return response;
   } catch (err) {
     // @ts-ignore
-    console.log("error ejecutado",err.response.data.message);
+    console.log("error ejecutado change password",err.response.data.message);
     // @ts-ignore
     const message = err.response.data.message;
     if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){

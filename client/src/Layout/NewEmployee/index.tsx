@@ -37,9 +37,11 @@ const NewEmployee: FC = () => {
       <section className="layout-section">
         <div className="layout-left">
           <article className="filing">
-            <Debounced
-              label="debounced"
-            />
+            <div>
+              <Debounced
+                label="debounced"
+              />
+            </div>
 
             <Box sx={{ display: "flex", alignItems: "center" }}>
               <Box sx={{ width: "100%", mr: 1 }}>

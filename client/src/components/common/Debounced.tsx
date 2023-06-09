@@ -8,6 +8,7 @@ import allRoutes from "../../services/allRoutes";
 import { getHeader } from "../tools/SesionSettings";
 import useCatch from "../../hooks/useCatch";
 import { useEmployee } from "../../redux/Redux-actions/useEmployee";
+import useContextProvider from "../../Context/GeneralValuesContext";
 
 const CssTextField = styled(TextField)({
   "& .MuiOutlinedInput-root": {
@@ -59,32 +60,36 @@ const Debounced: FC<Props> = ({
   defaultValue,
   name,
 }) => {
-  const { handleCatch } = useCatch();
+  const { handleMessageSnackbar } = useContextProvider();
   const { addEmployee } = useEmployee();
+  const { handleCatch } = useCatch();
   // DEBOUNCE
   const [search, setSearch] = useState<string>("");
   const [optionsResult, setOptionsResult] = useState<TypeOptionEmployee[]>([]);
+  const [isFirstSearch, setIsFirstSearch] = useState<boolean>(true);
   const debouncedSearch = useDebounce(search, 500);
   // anchorEl
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const handleSubmitDebounced = (employee: string) => {
-    axios
-      .post(
-        allRoutes.sig.humanManagement.getDebouncedEmployee,
-        {
-          employee,
-        },
-        getHeader()
-      )
-      .then((res) => {
-        setOptionsResult(res.data.data);
-        console.log("res", res);
-      })
-      .catch((err) => {
-        // handleCatch(err);
-        console.log(err);
-      });
+    if(search !== ''){
+      axios
+        .post(
+          allRoutes.sig.humanManagement.getDebouncedEmployee,
+          {
+            employee,
+          },
+          getHeader()
+        )
+        .then((res) => {
+          setOptionsResult(res.data.data);
+          console.log("res", res);
+        })
+        .catch((err) => {
+          console.log(err);
+          handleCatch(err);
+        });
+    }
   };
 
   // Methods DEBOUNCE
@@ -92,28 +97,27 @@ const Debounced: FC<Props> = ({
     console.log("e: ", e);
     setSearch(e.target.value);
   };
-  // anchorEl
-  const handleClose = () => {
-    console.log("debe cerrar el menu");
-    setAnchorEl(null);
-  };
 
   const setEmployeeSelected = (option:TypeOptionEmployee) => {
-    handleClose();
+    setAnchorEl(null);
     setSearch(`${option.users_name} ${option.users_lastname}`);
     console.log('capturado', option);
     addEmployee(option)
   };
 
   useEffect(() => {
-    // Aquí puedes realizar la consulta a la base de datos con el valor debounced (debouncedSearch)
-    handleSubmitDebounced(search);
-    console.log("Consultando la base de datos:", debouncedSearch);
-    if (debouncedSearch) {
-      console.log("anchor entro", debouncedSearch);
-      setAnchorEl(document.getElementById("custom-css-outlined-input"));
+    if(!isFirstSearch){
+      // Aquí puedes realizar la consulta a la base de datos con el valor debounced (debouncedSearch)
+      handleSubmitDebounced(search);
+      console.log("Consultando la base de datos:", debouncedSearch);
+      if (debouncedSearch) {
+        console.log("anchor entro", debouncedSearch);
+        setAnchorEl(document.getElementById("custom-css-outlined-input"));
+      } else {
+        setAnchorEl(null);
+      }
     } else {
-      handleClose();
+      setIsFirstSearch(false);
     }
   }, [debouncedSearch]);
 
@@ -147,11 +151,11 @@ const Debounced: FC<Props> = ({
         <Menu
           anchorEl={anchorEl}
           open={Boolean(anchorEl)}
-          onClose={handleClose}
+          onClose={() => setAnchorEl(null)}
         >
           {optionsResult.map((option) => (
             <MenuItem key={option.idusers} onClick={() => setEmployeeSelected(option)}>
-              {`${option.users_name} ${option.users_lastname} - ${option.users_identification_type}`}
+              {`${option.users_name} ${option.users_lastname} - ${option.users_identification_type} - ${option.users_identification}`}
             </MenuItem>
           ))}
         </Menu>
