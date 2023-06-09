@@ -29,7 +29,8 @@ export const logIn = async (req: Request, res: Response) => {
     try {
         if ( missingData(data).error ) return res.status(422).json(uncompleted(missingData(data).missing));
         const info: any = await logInModel(users_email);
-        if (info.data[0].users_status === "INACTIVO") return res.status(401).json(errorMessage("INACTIVE_USER"))
+        if (info.data[0] === undefined) return res.status(401).json(errorMessage("auth/user-not-found"));
+        if (info.data[0].users_status !== "ACTIVO") return res.status(401).json(errorMessage("INACTIVE_USER"));
         const result: any = await auth.logIn(users_email, users_password);
         if ( result.error ) return res.status(401).json(errorMessage(result.data.code));
         return res.status(200).json(success(result.data.stsTokenManager));
@@ -42,13 +43,13 @@ export const logIn = async (req: Request, res: Response) => {
 export const validateUser = async (req: Request, res: Response) => {
     try{
         const token = req.headers.authorization?.split(" ")[1];
-        if (token === undefined) return res.status(404).json(success(undefined, "NOT_FOUND_TOKEN"));
+        if (token === undefined) return res.status(404).json(errorMessage("NOT_FOUND_TOKEN"));
         const decoded: any = jwt_decode(token);
         const emailToken: any = (Object.values(decoded))[7];
         const info = await validateUserModel(emailToken);
         return res.status(200).json(success(info.data, info.message))
     } catch(error){
-        return res.status(200).json(success(undefined, "INVALID_TOKEN"));
+        return res.status(512).json(errorMessage("INVALID_TOKEN"));
     };
 };
 
