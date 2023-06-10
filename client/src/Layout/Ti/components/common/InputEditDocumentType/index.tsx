@@ -3,14 +3,14 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
-import { alpha, styled } from "@mui/material/styles";
+import { styled } from "@mui/material/styles";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Route from "../../../../../services/allRoutes";
-import { getHeader, remove } from "../../../../../components/tools/SesionSettings";
+import { getHeader } from "../../../../../components/tools/SesionSettings";
 import { useAppSelector } from "../../../../../redux/hooks/useStore";
 import { useModalUserView } from "../../../../../redux/Redux-actions/useModalUserView";
-import { useNavigate } from "react-router-dom";
+import useCatch from "../../../../../hooks/useCatch";
 
 const Selecting = styled(FormControl)({
   "& .MuiOutlinedInput-root": {
@@ -24,7 +24,7 @@ export default function InputEditDocumentType(props: any) {
   const { setidentificationType } = useModalUserView();
   const [documentType, setDocumentType] = useState([]);
   const [value, setValue] = useState(user.users_identification_type);
-  const navigate = useNavigate();
+  const { handleCatch } = useCatch();
 
   const handleReadDocumentType = () => {
     axios
@@ -34,14 +34,7 @@ export default function InputEditDocumentType(props: any) {
         setDocumentType(res.data.data);
       })
       .catch ((err) => {
-        // @ts-ignore
-        console.log("error ejecutado",err.response.data.message);
-        // @ts-ignore
-        const message = err.response.data.message;
-        if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
-          remove("accessToken");
-          navigate("/login");
-        }
+        handleCatch(err);
       })
   };
 

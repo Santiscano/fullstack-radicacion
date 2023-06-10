@@ -35,9 +35,9 @@ function index() {
     try {
       setPreLoad(true);
       const loger = await login(data.email, data.password);
-      setErrorLogin(loger?.data.message);
       console.log("loger: ", loger);
       if (loger?.status === 200) {
+        setErrorLogin(undefined);
         const userValidate = await validateUserFirebase();
         console.log("userValidate: ", userValidate);
         const userLogin = userValidate?.data.data;
@@ -51,6 +51,9 @@ function index() {
           navigate("/dashboard/home");
           console.log("navigate home");
         }
+      } else {
+        console.log('error',loger?.data.message)
+        setErrorLogin(loger?.data.message);
       }
     } catch (error) {
       console.log("error login: ", error);
