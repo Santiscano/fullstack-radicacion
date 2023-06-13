@@ -9,7 +9,8 @@ interface Response {
     data?: Data | any;
     missing?: string | number | undefined | null;
     firebase?: {error: boolean, data: any};
-    path?: Data
+    path?: Data;
+    token?: string;
 }
 
 export const success = ( data?: Data | any, message?: string, firebase?: {error: boolean, data: any}, path?: Data ): Response => {
@@ -28,6 +29,10 @@ export const errorMessage = ( message: string ): Response => {
 
 export const unauthorized = (): Response => {
     return { error: true, message: 'UNAUTHORIZED_KEY_ACCESS' };
+};
+
+export const updateToken = (token: string): Response => {
+    return { error: false, message: 'UPDATE_TOKEN', token };
 };
 
 export const uncompleted = ( missing: string | undefined ): Response => {

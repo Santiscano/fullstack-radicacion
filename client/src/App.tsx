@@ -36,6 +36,7 @@ import NotAuthentication from "./Middlewares/NotAuthentication";
 import WithAuthentication from "./Middlewares/WithAuthentication";
 import { WithRoleAllowedComponent } from "./Middlewares/WithRoleAllowed";
 import BussinessGroup from "./modules/Global/BussinessGroup";
+import WebViewer from "./Layout/WebViewer";
 
 function App() {
   return (
@@ -142,6 +143,7 @@ function App() {
               >
                 <Route path="mover-elementos-mouse" element={<MoveElement/>} />
                 <Route path="qr" element={<QRCodeComponent/>}/>
+                <Route path="excel" element={<WebViewer/>}/>
               </Route>
 
             </Route>

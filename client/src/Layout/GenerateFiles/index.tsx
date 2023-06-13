@@ -33,7 +33,7 @@ import { formattedAmount } from "../../Utilities/formatted.utility";
 import InputSelectOnlyValue from "../../components/common/InputSelectOnlyValue";
 import ModalSuccess from "../../components/common/ModalSuccess";
 import SearchUser from "../../components/common/SearchUser";
-import { get, remove, roles } from "../../components/tools/SesionSettings";
+import { get, remove, roles, usersResponsibleFor } from "../../components/tools/SesionSettings";
 import { AllCedis, CedisIdName } from "../../interfaces/Cedis";
 import { createFilePath } from "../../services/FilesPath.routes";
 import InputSelectCedi from "./components/InputSelectCedi";
@@ -283,7 +283,7 @@ function GenerateFiles() {
         idUser,
         settledNumber,
         price,
-        invoiceType == 'OPERATIVO' ? 9 : redirectTo,
+        invoiceType == 'OPERATIVO' ? usersResponsibleFor.usuarioContableDeAdministrativos : redirectTo,
         // @ts-ignore
         cedi.idsedes,
         invoiceType,
