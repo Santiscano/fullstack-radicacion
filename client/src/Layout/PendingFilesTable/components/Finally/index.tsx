@@ -130,7 +130,7 @@ function Finally({ endActivitySelect }: any) {
           <textarea
             name="Comentario"
             id="comentary"
-            placeholder="Es necesario dejar alguna observacion"
+            placeholder="deja un comentario opcional"
             className="border-neutral-300 border-2 resize-none w-full my-1 h-24"
             required
             value={comments}

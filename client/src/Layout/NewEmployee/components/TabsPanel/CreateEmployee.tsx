@@ -13,6 +13,7 @@ const CreateEmployee:FC = () => {
   const { handleSubmitEmployee } = useNewEmployee();
   const user = useAppSelector((state) => state.employeesSlice);
   const { setUsersIdentification, setUsersName, setUsersLastName, setUsersAddress, setUsersPhone, setUsersEmail } = useEmployee();
+
   return (
     <>
       <Box
@@ -22,9 +23,6 @@ const CreateEmployee:FC = () => {
           justifyContent: "center",
         }}
       >
-        {/* <Typography variant="h4" component="h4" sx={{ fontWeight: "bold" }}>
-          CREAR EMPLEADO
-        </Typography> */}
       </Box>
       <form onSubmit={handleSubmitEmployee}>
         <div className="md:flex md:flex-wrap">

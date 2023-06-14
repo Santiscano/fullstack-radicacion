@@ -85,6 +85,7 @@ function useNewEmployee(){
 
     // form.reset();
   };
+
   const handleSubmitPersonalInformation = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     // crear formData
@@ -92,6 +93,7 @@ function useNewEmployee(){
     const formData = new FormData(form);
     changeToForm(2/6, 3/6);
   };
+
   const handleSubmitHiring = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     // crear formData
@@ -99,6 +101,7 @@ function useNewEmployee(){
     const formData = new FormData(form);
     changeToForm(3/6, 4/6);
   };
+
   const handleEmergencyContact = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     // crear formData
@@ -106,6 +109,7 @@ function useNewEmployee(){
     const formData = new FormData(form);
     changeToForm(4/6, 5/6)
   };
+
   const handleSocioDemographicProfile = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     // crear formData
@@ -113,6 +117,7 @@ function useNewEmployee(){
     const formData = new FormData(form);
     changeToForm(5/6, 1)
   };
+
   const handleDocuments = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     // crear formData
@@ -120,6 +125,7 @@ function useNewEmployee(){
     const formData = new FormData(form);
     changeToForm(1,1);
   };
+
   const handleNewEmployee =(event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     // limpiar todo

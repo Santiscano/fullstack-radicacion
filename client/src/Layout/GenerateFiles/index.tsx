@@ -697,7 +697,6 @@ function GenerateFiles() {
                         />
                         <button
                           className="button button--flex mt-4 relative top-12"
-                          // type='submit'
                         >
                           Adjuntar Archivos
                         </button>
@@ -705,7 +704,7 @@ function GenerateFiles() {
                       <textarea
                         name="Comentario"
                         id="comentary"
-                        placeholder="Es necesario dejar alguna observacion"
+                        placeholder="deja un comentario opcional"
                         className="border-neutral-300 border-2 resize-none division--containers"
                         required
                         value={comments}
