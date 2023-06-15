@@ -15,7 +15,7 @@ import PersonalInformation from "./components/TabsPanel/PersonalInformation";
 import SociodemographicProfile from "./components/TabsPanel/SociodemographicProfile";
 
 interface Props {}
-const NewEmployee: FC = () => {
+const NewEmployee: FC<Props> = () => {
   const { showValue, handleShowValue, progress, buffer, cedi, handleNewEmployee } = useNewEmployee();
 
   return (
@@ -57,7 +57,7 @@ const NewEmployee: FC = () => {
                   <Tab label="Contratación" {...a11yProps(2)} />
                   <Tab label="Información Contacto de Emergencia" {...a11yProps(3)} />
                   <Tab label="Información Sociodemográfica" {...a11yProps(4)} />
-                  <Tab label="Proceso Finalizado" {...a11yProps(5)} />
+                  <Tab label="Cargar Documentos" {...a11yProps(5)} />
                   <Tab label="Proceso Finalizado" {...a11yProps(6)} />
                 </Tabs>
               </Box>

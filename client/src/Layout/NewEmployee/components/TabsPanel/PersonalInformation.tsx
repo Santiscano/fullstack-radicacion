@@ -144,7 +144,7 @@ const PersonalInformation = () => {
             </label>
             <TextFieldOutlined
               type={"text"}
-              label="Cumpleaños"
+              label="DD/MM"
               value={user.birthdate}
               setValue={setBirthdate}
             />

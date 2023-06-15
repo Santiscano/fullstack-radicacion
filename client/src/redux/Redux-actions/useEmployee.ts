@@ -1,3 +1,4 @@
+import { ChangeEvent } from "react";
 import { setEmployee, setRemoveEmployee, type Employee } from "../Redux-reducer/employeesSlice";
 import { useAppDispatch } from "../hooks/useStore";
 
@@ -107,6 +108,9 @@ export const useEmployee = () => {
   const setCompanyPhone = (company_phone:number) => {
     dispatch(setEmployee({company_phone}))
   };
+  const setPersonaleInformationViculationDate = (personale_information_viculation_date:string) => {
+    dispatch(setEmployee({personale_information_viculation_date}))
+  };
   const setHiringEntryDate = (hiring_entry_Date:string) => {
     dispatch(setEmployee({hiring_entry_Date}))
   };
@@ -118,9 +122,6 @@ export const useEmployee = () => {
   };
   const setHiringCostCenter = (hiring_cost_center:string) => {
     dispatch(setEmployee({hiring_cost_center}))
-  };
-  const setPersonaleInformationViculationDate = (personale_information_viculation_date:string) => {
-    dispatch(setEmployee({personale_information_viculation_date}))
   };
   // --------------emergency contact----------//
   const setEmergencyContactName = (emergency_contact_name:string) => {
@@ -138,6 +139,110 @@ export const useEmployee = () => {
   const setEmergencyContactCellPhone = (emergency_contact_cell_phone:number) => {
     dispatch(setEmployee({emergency_contact_cell_phone}))
   };
+  // -------------sociodemographicProfile-----------//
+  const setProfilePlaceBirth = () => {
+    dispatch(setEmployee({}))
+  }
+  const setProfileTransportationHelp = (event:ChangeEvent<HTMLInputElement>) => {
+    dispatch(setEmployee({profile_transportation_help: event.target.value}))
+  }
+  const setProfileConnectivityHelp = (event:ChangeEvent<HTMLInputElement>) => {
+    dispatch(setEmployee({profile_connectivity_help:event.target.value}))
+  }
+  const setProfileOthersContractsCompany = (event:ChangeEvent<HTMLInputElement>) => {
+    dispatch(setEmployee({profile_others_contracts_company: event.target.value}))
+  }
+  const setProfileWorkingModality = () => {
+    dispatch(setEmployee({}))
+  }
+  const setProfileTitleAcademicTraining = () => {
+    dispatch(setEmployee({}))
+  }
+  const setProfileHomeTenure = () => {
+    dispatch(setEmployee({}))
+  }
+  const setProfileTypeTransport = () => {
+    dispatch(setEmployee({}))
+  }
+  const setProfileHeadFamily = (event:ChangeEvent<HTMLInputElement>) => {
+    dispatch(setEmployee({profile_head_family: event.target.value}))
+  }
+  const setProfileNumberChildren = () => {
+    dispatch(setEmployee({}))
+  }
+  const setProfileDependents = (event:ChangeEvent<HTMLInputElement>) => {
+    dispatch(setEmployee({profile_dependents: event.target.value}))
+  }
+  const setProfileDependentsDisabilities = (event:ChangeEvent<HTMLInputElement>) => {
+    dispatch(setEmployee({profile_dependents_disabilities: event.target.value}))
+  }
+  const setProfileMonthlyFamilyIncome = () => {
+    dispatch(setEmployee({}))
+  }
+  const setProfileIncomeEnough = (event:ChangeEvent<HTMLInputElement>) => {
+    dispatch(setEmployee({profile_income_enough: event.target.value}))
+  }
+  const setProfilePublicServicesStratum = () => {
+    dispatch(setEmployee({}))
+  }
+  const setProfileElectricPower = (event:ChangeEvent<HTMLInputElement>) => {
+    dispatch(setEmployee({profile_electric_power: event.target.value}))
+  }
+  const setProfileSewerage = (event:ChangeEvent<HTMLInputElement>) => {
+    dispatch(setEmployee({profile_sewerage: event.target.value}))
+  }
+  const setProfileAqueduct = (event:ChangeEvent<HTMLInputElement>) => {
+    dispatch(setEmployee({profile_aqueduct: event.target.value}))
+  }
+  const setProfileNaturalGasNetwork = (event:ChangeEvent<HTMLInputElement>) => {
+    dispatch(setEmployee({profile_natural_gas_network: event.target.value}))
+  }
+  const setProfileGarbageColletion = (event:ChangeEvent<HTMLInputElement>) => {
+    dispatch(setEmployee({profile_garbage_colletion: event.target.value}))
+  }
+  const setProfileLandline = (event:ChangeEvent<HTMLInputElement>) => {
+    dispatch(setEmployee({profile_landline: event.target.value}))
+  }
+  const setProfileComputerHome = (event:ChangeEvent<HTMLInputElement>) => {
+    dispatch(setEmployee({profile_computer_home: event.target.value}))
+  }
+  const setProfileInternetHome = (event:ChangeEvent<HTMLInputElement>) => {
+    dispatch(setEmployee({profile_internet_home: event.target.value}))
+  }
+  const setProfileAlcoholConsumption = (event:ChangeEvent<HTMLInputElement>) => {
+    dispatch(setEmployee({profile_alcohol_consumption: event.target.value}))
+  }
+  const setProfileSmoke = (event:ChangeEvent<HTMLInputElement>) => {
+    dispatch(setEmployee({profile_smoke: event.target.value}))
+  }
+  const setProfileFormerSmoke = (event:ChangeEvent<HTMLInputElement>) => {
+    dispatch(setEmployee({profile_former_smoke: event.target.value}))
+  }
+  const setProfilePlaySport = (event:ChangeEvent<HTMLInputElement>) => {
+    dispatch(setEmployee({profile_play_sport: event.target.value}))
+  }
+  const setProfileSportFrequency = () => {
+    dispatch(setEmployee({}))
+  }
+  const setProfileChronicDisease = (event:ChangeEvent<HTMLInputElement>) => {
+    dispatch(setEmployee({profile_chronic_disease: event.target.value}))
+  }
+  const setProfileWhatCrhonicDisease = () => {
+    dispatch(setEmployee({}))
+  }
+  const setProfileTakeMedication = (event:ChangeEvent<HTMLInputElement>) => {
+    dispatch(setEmployee({profile_take_medication: event.target.value}))
+  }
+  const setProfileWhatMedicationTake = () => {
+    dispatch(setEmployee({}))
+  }
+  const setProfileAllergic = (event:ChangeEvent<HTMLInputElement>) => {
+    dispatch(setEmployee({profile_allergic: event.target.value}))
+  }
+  const setProfileWhatAllergic = (profile_what_allergic:string) => {
+    dispatch(setEmployee({profile_what_allergic}))
+  }
+
 
   return {
     addEmployee,
@@ -185,6 +290,41 @@ export const useEmployee = () => {
     setEmergencyContactLastname,
     setEmergencyContactRelationship,
     setEmergencyContactPhone,
-    setEmergencyContactCellPhone
+    setEmergencyContactCellPhone,
+    // sociodemographicProfile
+    setProfilePlaceBirth,
+    setProfileTransportationHelp,
+    setProfileConnectivityHelp,
+    setProfileOthersContractsCompany,
+    setProfileWorkingModality,
+    setProfileTitleAcademicTraining,
+    setProfileHomeTenure,
+    setProfileTypeTransport,
+    setProfileHeadFamily,
+    setProfileNumberChildren,
+    setProfileDependents,
+    setProfileDependentsDisabilities,
+    setProfileMonthlyFamilyIncome,
+    setProfileIncomeEnough,
+    setProfilePublicServicesStratum,
+    setProfileElectricPower,
+    setProfileSewerage,
+    setProfileAqueduct,
+    setProfileNaturalGasNetwork,
+    setProfileGarbageColletion,
+    setProfileLandline,
+    setProfileComputerHome,
+    setProfileInternetHome,
+    setProfileAlcoholConsumption,
+    setProfileSmoke,
+    setProfileFormerSmoke,
+    setProfilePlaySport,
+    setProfileSportFrequency,
+    setProfileChronicDisease,
+    setProfileWhatCrhonicDisease,
+    setProfileTakeMedication,
+    setProfileWhatMedicationTake,
+    setProfileAllergic,
+    setProfileWhatAllergic,
   };
 };
