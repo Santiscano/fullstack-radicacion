@@ -12,7 +12,7 @@ import { useEmployee } from "../../../../redux/Redux-actions/useEmployee";
 
 const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
-const SociodemographicProfile = () => {
+const SociodemographicProfile: FC = () => {
   const { handleSocioDemographicProfile } = useNewEmployee();
   const user = useAppSelector((state) => state.employeesSlice);
   const { setProfilePlaceBirth, setProfileTransportationHelp, setProfileConnectivityHelp, setProfileOthersContractsCompany,
