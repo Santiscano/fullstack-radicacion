@@ -38,7 +38,7 @@ export const postFile = async (req: Request, res: Response) => {
         const info = await postFileModel(data);
         info.data
             ? res.status(200).json(success(info.data))
-            : res.status(201).json(errorMessage(info.message!));
+            : res.status(422).json(errorMessage(info.message!));
     } catch (error) {
         return res.status(512).json(unsuccessfully(error));
     };

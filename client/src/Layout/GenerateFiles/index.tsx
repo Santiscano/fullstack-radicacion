@@ -296,6 +296,11 @@ function GenerateFiles() {
       );
       console.log("addFileResponse: ", addFileResponse);
 
+      // si no hay data entregar mensaje
+      // if(!addFileResponse?.data.data){
+        // console.log('entro');
+        // handleMessageSnackbar('error', addFileResponse?.data.message)
+      // }
       //muestro input file y textarea
       if (addFileResponse?.data.data[0]) {
         setStatusFileResponse(true);
