@@ -140,8 +140,8 @@ export const useEmployee = () => {
     dispatch(setEmployee({emergency_contact_cell_phone}))
   };
   // -------------sociodemographicProfile-----------//
-  const setProfilePlaceBirth = () => {
-    dispatch(setEmployee({}))
+  const setProfilePlaceBirth = (profile_place_birth:string) => {
+    dispatch(setEmployee({profile_place_birth}))
   }
   const setProfileTransportationHelp = (event:ChangeEvent<HTMLInputElement>) => {
     dispatch(setEmployee({profile_transportation_help: event.target.value}))
@@ -152,23 +152,23 @@ export const useEmployee = () => {
   const setProfileOthersContractsCompany = (event:ChangeEvent<HTMLInputElement>) => {
     dispatch(setEmployee({profile_others_contracts_company: event.target.value}))
   }
-  const setProfileWorkingModality = () => {
-    dispatch(setEmployee({}))
+  const setProfileWorkingModality = (event: ChangeEvent<HTMLInputElement>) => {
+    dispatch(setEmployee({profile_working_modality: event.target.value}))
   }
-  const setProfileTitleAcademicTraining = () => {
-    dispatch(setEmployee({}))
+  const setProfileTitleAcademicTraining = (profile_title_academic_training:string) => {
+    dispatch(setEmployee({profile_title_academic_training}))
   }
-  const setProfileHomeTenure = () => {
-    dispatch(setEmployee({}))
+  const setProfileHomeTenure = (event:ChangeEvent<HTMLInputElement>) => {
+    dispatch(setEmployee({profile_home_tenure: event.target.value}))
   }
-  const setProfileTypeTransport = () => {
-    dispatch(setEmployee({}))
+  const setProfileTypeTransport = (event:ChangeEvent<HTMLInputElement>) => {
+    dispatch(setEmployee({profile_type_transport: event.target.value}))
   }
   const setProfileHeadFamily = (event:ChangeEvent<HTMLInputElement>) => {
     dispatch(setEmployee({profile_head_family: event.target.value}))
   }
-  const setProfileNumberChildren = () => {
-    dispatch(setEmployee({}))
+  const setProfileNumberChildren = (profile_number_children:number) => {
+    dispatch(setEmployee({profile_number_children}))
   }
   const setProfileDependents = (event:ChangeEvent<HTMLInputElement>) => {
     dispatch(setEmployee({profile_dependents: event.target.value}))
@@ -176,14 +176,14 @@ export const useEmployee = () => {
   const setProfileDependentsDisabilities = (event:ChangeEvent<HTMLInputElement>) => {
     dispatch(setEmployee({profile_dependents_disabilities: event.target.value}))
   }
-  const setProfileMonthlyFamilyIncome = () => {
-    dispatch(setEmployee({}))
+  const setProfileMonthlyFamilyIncome = (profile_monthly_family_income:number) => {
+    dispatch(setEmployee({profile_monthly_family_income}))
   }
   const setProfileIncomeEnough = (event:ChangeEvent<HTMLInputElement>) => {
     dispatch(setEmployee({profile_income_enough: event.target.value}))
   }
-  const setProfilePublicServicesStratum = () => {
-    dispatch(setEmployee({}))
+  const setProfilePublicServicesStratum = (profile_public_services_stratum:number) => {
+    dispatch(setEmployee({profile_public_services_stratum}))
   }
   const setProfileElectricPower = (event:ChangeEvent<HTMLInputElement>) => {
     dispatch(setEmployee({profile_electric_power: event.target.value}))
@@ -221,20 +221,20 @@ export const useEmployee = () => {
   const setProfilePlaySport = (event:ChangeEvent<HTMLInputElement>) => {
     dispatch(setEmployee({profile_play_sport: event.target.value}))
   }
-  const setProfileSportFrequency = () => {
-    dispatch(setEmployee({}))
+  const setProfileSportFrequency = (event:ChangeEvent<HTMLInputElement>) => {
+    dispatch(setEmployee({profile_sport_frequency: event.target.value}))
   }
   const setProfileChronicDisease = (event:ChangeEvent<HTMLInputElement>) => {
     dispatch(setEmployee({profile_chronic_disease: event.target.value}))
   }
-  const setProfileWhatCrhonicDisease = () => {
-    dispatch(setEmployee({}))
+  const setProfileWhatCrhonicDisease = (profile_what_crhonic_disease:string) => {
+    dispatch(setEmployee({profile_what_crhonic_disease}))
   }
   const setProfileTakeMedication = (event:ChangeEvent<HTMLInputElement>) => {
     dispatch(setEmployee({profile_take_medication: event.target.value}))
   }
-  const setProfileWhatMedicationTake = () => {
-    dispatch(setEmployee({}))
+  const setProfileWhatMedicationTake = (profile_what_medication_take:string) => {
+    dispatch(setEmployee({profile_what_medication_take}))
   }
   const setProfileAllergic = (event:ChangeEvent<HTMLInputElement>) => {
     dispatch(setEmployee({profile_allergic: event.target.value}))

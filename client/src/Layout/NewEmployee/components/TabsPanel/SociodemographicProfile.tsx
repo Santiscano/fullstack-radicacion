@@ -9,6 +9,8 @@ import InputSelectCediName from "../Inputs/InputSelectCediName";
 import InputSelectTypeDocument from "../Inputs/InputSelectTypeDocument";
 import { useAppSelector } from "../../../../redux/hooks/useStore";
 import { useEmployee } from "../../../../redux/Redux-actions/useEmployee";
+import InputSelect from "../../../../components/common/InputSelect";
+import { optionHomeTenure, optionSportFrequency, optionTypeTransport, optionWorkingModality } from "../../../../components/tools/OptionsValuesSelects";
 
 const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
@@ -99,26 +101,53 @@ const SociodemographicProfile: FC = () => {
         </div>
         <div className="md:flex md:flex-wrap">
           <article className="md:w-1/2">
-            <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-              Modalidad de trabajo
-            </label>
+            <InputSelect
+              label="Modalidad de trabajo"
+              title="Modalidad Trabajo"
+              placeholder="Modalidad"
+              required
+              value={user.profile_working_modality}
+              onChange={setProfileWorkingModality}
+              itemDefault="selecciona modalidad"
+              items={optionWorkingModality}
+            />
           </article>
           <article className="md:w-1/2">
             <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
               Título Formación Académica
             </label>
+            <TextFieldOutlined
+              type={"text"}
+              label="Lugar De Nacimiento"
+              value={user.profile_title_academic_training}
+              setValue={setProfileTitleAcademicTraining}
+            />
           </article>
         </div>
         <div className="md:flex md:flex-wrap">
           <article className="md:w-1/2">
-            <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-              Tenencia de la vivienda
-            </label>
+            <InputSelect
+              label="Tenencia de la vivienda"
+              title="Tenencia de la vivienda"
+              placeholder="Tipo Vivienda"
+              required
+              value={user.profile_home_tenure}
+              onChange={setProfileHomeTenure}
+              itemDefault="selecciona tipo Vivienda"
+              items={optionHomeTenure}
+            />
           </article>
           <article className="md:w-1/2">
-            <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-              Tipo de transporte
-            </label>
+            <InputSelect
+              label="Tipo de transporte"
+              title="Tipo de transporte"
+              placeholder="Tipo de transporte"
+              required
+              value={user.profile_type_transport}
+              onChange={setProfileTypeTransport}
+              itemDefault="selecciona tipo transporte"
+              items={optionTypeTransport}
+            />
           </article>
         </div>
         <div className="md:flex md:flex-wrap">
@@ -414,9 +443,16 @@ const SociodemographicProfile: FC = () => {
             </RadioGroup>
           </article>
           <article className="md:w-1/2">
-            <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-              Frecuencia con que Practica Deporte
-            </label>
+            <InputSelect
+              label="Frecuencia con que Practica Deporte"
+              title="Frecuencia Practica Deporte"
+              placeholder="Frecuencia Practica Deporte"
+              required
+              value={user.profile_sport_frequency}
+              onChange={setProfileSportFrequency}
+              itemDefault="selecciona Frecuencia"
+              items={optionSportFrequency}
+            />
           </article>
         </div>
         <div className="md:flex md:flex-wrap">

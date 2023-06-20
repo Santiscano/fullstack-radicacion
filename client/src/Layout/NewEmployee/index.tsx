@@ -16,7 +16,7 @@ import SociodemographicProfile from "./components/TabsPanel/SociodemographicProf
 
 interface Props {}
 const NewEmployee: FC<Props> = () => {
-  const { showValue, handleShowValue, progress, buffer, cedi, handleNewEmployee } = useNewEmployee();
+  const { showValue, handleShowValue, progress, buffer, handleNewEmployee } = useNewEmployee();
 
   return (
     <div className="layout">

@@ -50,7 +50,7 @@ const CreateEmployee:FC = () => {
           </article>
         </div>
         <div className="md:flex md:flex-wrap">
-          <article className="md:w-1/2">
+          <article className="md:w-1/2 font">
             <InputSelectTypeDocument
               type={"text"}
               title={"Tipo de Documento"}
