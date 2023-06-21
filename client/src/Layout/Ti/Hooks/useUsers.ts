@@ -15,7 +15,7 @@ export const useUsers = () => {
   const handleCloseModal = () => setOpen(false);
 
   const handleUpdateDataUsers = () =>{
-    setRows([])
+    setRows([]);
     handleGetUsersNoAdminProv()
   };
   const handleGetUsersNoAdminProv = async () => {

@@ -1,123 +1,157 @@
-import { Box, Tab, Tabs, Typography } from "@mui/material";
-import LinearProgress from "@mui/material/LinearProgress";
-import { FC } from "react";
-// componentes generales
-import { TabPanel, a11yProps } from "../../components/tools/MultiViewPanel";
-// hooks employee
-import useNewEmployee from "./hooks/useNewEmployee";
-// componets employee
+import { useEffect, useState } from "react";
+import Box from "@mui/material/Box";
+import Stepper from "@mui/material/Stepper";
+import Step from "@mui/material/Step";
+import StepLabel from "@mui/material/StepLabel";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
 import Debounced from "../../components/common/Debounced";
-import CreateEmployee from "./components/TabsPanel/CreateEmployee";
-import Documents from "./components/TabsPanel/Documents";
-import EmergencyContact from "./components/TabsPanel/EmergencyContact";
-import Hiring from "./components/TabsPanel/Hiring";
-import PersonalInformation from "./components/TabsPanel/PersonalInformation";
-import SociodemographicProfile from "./components/TabsPanel/SociodemographicProfile";
+import { EmployeeProvider } from "../../Context/EmployeeContext";
+import { DataGrid, GridToolbarColumnsButton, GridToolbarContainer, GridToolbarExport, GridToolbarFilterButton } from "@mui/x-data-grid";
+import axios from "axios";
+import allRoutes from "../../services/allRoutes";
+import { getHeader } from "../../components/tools/SesionSettings";
+import { columnsEmployee } from "../../interfaces/GridColumns";
+import { Tooltip, IconButton, styled } from "@mui/material";
+import RefreshIcon from '@mui/icons-material/Refresh';
+import NotFound from '../../assets/images/notFile.jpg';
+import useContextProvider from "../../Context/GeneralValuesContext";
+import { useEmployee } from "../../redux/Redux-actions/useEmployee";
+import EditEmployee from "./components/Modal/EditEmployee";
+import CreateEmployee from "./components/Modal/CreateEmployee";
+import useNewEmployee from "./hooks/useNewEmployee";
 
-interface Props {}
-const NewEmployee: FC<Props> = () => {
-  const { showValue, handleShowValue, progress, buffer, handleNewEmployee,
-    isCreatedEmployee, isPersonalInformation } = useNewEmployee();
+const steps = [
+  "Crear Empleado",
+  "Información Personal",
+  "Contratación",
+  "Información Contacto de Emergencia",
+  "Información Sociodemográfica",
+  "Cargar Documentos",
+  "Proceso Finalizado",
+];
+const StyledGridOverlay = styled("div")(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  justifyContent: "center",
+  color: "white",
+  height: "100%",
+  "& .ant-empty-img-1": {
+    fill: theme.palette.mode === "light" ? "#aeb8c2" : "#262626",
+  },
+  "& .ant-empty-img-2": {
+    fill: theme.palette.mode === "light" ? "#f5f5f7" : "#595959",
+  },
+  "& .ant-empty-img-3": {
+    fill: theme.palette.mode === "light" ? "#dce0e6" : "#434343",
+  },
+  "& .ant-empty-img-4": {
+    fill: theme.palette.mode === "light" ? "#fff" : "#1c1c1c",
+  },
+  "& .ant-empty-img-5": {
+    fillOpacity: theme.palette.mode === "light" ? "0.8" : "0.08",
+    fill: theme.palette.mode === "light" ? "#f5f5f5" : "#fff",
+  },
+}));
+function CustomNoRowsOverlay() {
+  return (
+    <StyledGridOverlay>
+      <img src={NotFound} width="250px" />
+    </StyledGridOverlay>
+  );
+}
+
+export default function NewEmployeeTest() {
+  const [activeStep, setActiveStep] = useState(0);
+  const [skipped, setSkipped] = useState(new Set<number>());
+  const [rows, setRows] = useState<any>([]);
+  const { openModalAuth, handleOpenModalAuth } = useContextProvider();
+  const { addEmployee } = useEmployee();
+  const { openModalCreateEmployee, handleCloseModal, handleOpenModal } = useNewEmployee();
+
+  const handleGetEmployees = async () => {
+    const res = await axios.get(allRoutes.sig.humanManagement.getEmployees, getHeader());
+    setRows(res.data.data);
+  };
+
+  const handleUpdateEmployee = () => {
+    setRows([]);
+    handleGetEmployees();
+  };
+
+  const handleView = (params: any) => {
+    console.log('params: ', params);
+    addEmployee(params.row);
+    handleOpenModalAuth();
+  };
+
+  useEffect(() => {
+    handleGetEmployees();
+  },[])
 
   return (
-    <div className="layout">
-      <section className="layout-section">
-        <div className="layout-left">
-          <article className="filing">
-            <div>
-              <Debounced label="debounced" />
-            </div>
-
-            <Box sx={{ display: "flex", alignItems: "center" }}>
-              <Box sx={{ width: "100%", mr: 1 }}>
-                <LinearProgress
-                  color="success"
-                  variant="buffer"
-                  value={progress * 100}
-                  valueBuffer={buffer * 100}
-                />
-              </Box>
-              <Box sx={{ minWidth: 35 }}>
-                <Typography variant="h5" color="green">
-                  {(progress * 100).toFixed(2)}%
-                </Typography>
-              </Box>
-            </Box>
-
-            {/* tabs panel */}
-            <Box sx={{ width: "100%" }}>
-              <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-                <Tabs
-                  value={showValue}
-                  onChange={handleShowValue}
-                  aria-label="Crear Empleados"
-                  variant="scrollable"
-                >
-                  <Tab label="Crear Empleado" {...a11yProps(0)} />
-                  <Tab label="Información Personal" {...a11yProps(1)} disabled={!isCreatedEmployee} />
-                  <Tab label="Contratación" {...a11yProps(2)} disabled={!isPersonalInformation}/>
-                  <Tab label="Información Contacto de Emergencia" {...a11yProps(3)} />
-                  <Tab label="Información Sociodemográfica" {...a11yProps(4)} />
-                  <Tab label="Cargar Documentos" {...a11yProps(5)} />
-                  <Tab label="Proceso Finalizado" {...a11yProps(6)} />
-                </Tabs>
-              </Box>
-
-              <TabPanel value={showValue} index={0}>
-                <CreateEmployee />
-              </TabPanel>
-
-              <TabPanel value={showValue} index={1}>
-                <PersonalInformation />
-              </TabPanel>
-
-              <TabPanel value={showValue} index={2}>
-                <Hiring />
-              </TabPanel>
-
-              <TabPanel value={showValue} index={3}>
-                <EmergencyContact />
-              </TabPanel>
-
-              <TabPanel value={showValue} index={4}>
-                <SociodemographicProfile />
-              </TabPanel>
-
-              <TabPanel value={showValue} index={5}>
-                <Documents />
-              </TabPanel>
-              <TabPanel value={showValue} index={6}>
-                <>
-                  <Box
-                    sx={{
-                      width: "100%",
-                      display: "flex",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <Typography
-                      variant="h4"
-                      component="h4"
-                      sx={{ fontWeight: "bold" }}
-                    >
-                      REGRESAR AL INICIO
-                    </Typography>
-                  </Box>
-                  <form onSubmit={handleNewEmployee}>
-                    <button className="button button--flex mt-6">
-                      Crear nuevo Empleado
-                    </button>
-                  </form>
-                </>
-              </TabPanel>
-            </Box>
-
-            {/* forms */}
-          </article>
-        </div>
-      </section>
-    </div>
+    <EmployeeProvider>
+      <div style={{width: "94%", margin:"auto"}}>
+        <section
+          style={{
+            backgroundColor:"white",
+            padding: 0,
+            margin: 0,
+            borderRadius: "25px",
+            height: "85vh"
+          }}>
+          <div className="flex flex-row justify-between items-center py-3">
+            <label className="block ml-4 text-base font-semibold dark:text-white">
+              Empleados
+            </label>
+            <button className="button button--flex" onClick={handleOpenModal}>
+              Nuevo Usuario
+            </button>
+          </div>
+          <Box sx={{ height: "83%", width: "97%", margin: "auto" }}>
+            <DataGrid
+              rows={rows}
+              getRowId={(row) => row.idusers}
+              columns={columnsEmployee}
+              onRowDoubleClick={handleView}
+              rowsPerPageOptions={[5, 10, 25, 50, 100]}
+              disableSelectionOnClick
+              experimentalFeatures={{ newEditingApi: true }}
+              components={{
+                Toolbar: () => {
+                  return (
+                    <GridToolbarContainer>
+                      <GridToolbarColumnsButton style={{ color: "#000", marginLeft: "17px" }} />
+                      <GridToolbarFilterButton style={{ color: "#000", marginLeft: "17px" }} />
+                      <GridToolbarExport style={{ color: "#000", marginLeft: "17px" }} />
+                      <Tooltip title="Actualizar Tabla">
+                        <IconButton onClick={handleUpdateEmployee}>
+                          <RefreshIcon style={{color: "black"}}/>
+                          <Typography
+                            variant="subtitle2"
+                            sx={{color:"#000", marginLeft: "12px"}}
+                          >
+                            Recargar
+                          </Typography>
+                        </IconButton>
+                      </Tooltip>
+                    </GridToolbarContainer>
+                  )
+                },
+                NoRowsOverlay: CustomNoRowsOverlay,
+              }}
+              initialState={{
+                pagination: { pageSize: 25 },
+              }}
+            />
+          </Box>
+        </section>
+      </div>
+      <CreateEmployee open={openModalCreateEmployee} close={handleCloseModal}/>
+      {openModalAuth && (
+        <EditEmployee/>
+      )}
+    </EmployeeProvider>
   );
-};
-
-export default NewEmployee;
+}

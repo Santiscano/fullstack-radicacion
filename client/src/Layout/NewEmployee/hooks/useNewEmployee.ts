@@ -19,6 +19,7 @@ function useNewEmployee(){
   const [cedi, setCedi] = useState<any>();
   const [isCreatedEmployee, setIsCreatedEmployee] = useState(false);
   const [isPersonalInformation, setIsPersonalInformation] = useState(false);
+  const [openModalCreateEmployee, setOpenModalCreateEmployee] = useState(false);
   //-------------------- methods ----------------------------//
   const navigate = useNavigate();
   const { changeTitleSection } = useDataGlobal();
@@ -38,49 +39,8 @@ function useNewEmployee(){
     setShowValue(newValue);
   };
 
-  const handleIsCreatedEmployee = () => {
-    if(
-      user.sedes_name !== '' &&
-      // user.users_identification !== '' &&
-      // user.users_identification_type !== '' &&
-      // user.users_name !== '' &&
-      // user.users_lastname !== '' &&
-      // user.users_address !== '' &&
-      // user.users_phone !== '' &&
-      user.users_email !== ''
-    ){
-      setIsCreatedEmployee(true)
-    } else {
-      setIsCreatedEmployee(false)
-    }
-  }
-  const handleIsPersonalInformation = () => {
-    if(
-      isCreatedEmployee === true &&
-      user.compensation_fund !== '' &&
-      user.pension !== '' &&
-      user.layoffs !== '' &&
-      user.eps !== '' &&
-      user.arl !== '' &&
-      user.medical_emergency !== '' &&
-      user.arl_emergency !== '' &&
-      user.rh !== '' &&
-      user.academic_level !== '' &&
-      user.birthdate !== '' &&
-      user.gender !== '' &&
-      user.civil_status !== '' &&
-      user.city !== '' &&
-      user.shirt_size !== '' &&
-      user.pant_size !== '' &&
-      user.shoe_size !== ''
-      // user.photo_path
-    ){
-      setIsPersonalInformation(true);
-    }else{
-      setIsPersonalInformation(false);
-    }
-  };
-
+  const handleOpenModal = () => setOpenModalCreateEmployee(true);
+  const handleCloseModal = () => setOpenModalCreateEmployee(false);
   //-------------------- handleSubmits ----------------------//
   const handleSubmitEmployee = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -145,7 +105,6 @@ function useNewEmployee(){
   },[]);
 
   useEffect(() => {
-    handleIsPersonalInformation();
     console.log('validando inputs')
   },[handleSubmitPersonalInformation]);
 
@@ -161,7 +120,6 @@ function useNewEmployee(){
     handleCedi,
     // disableds forms
     isCreatedEmployee,
-    handleIsCreatedEmployee,
     isPersonalInformation,
     // form submit
     handleSubmitEmployee,
@@ -171,6 +129,10 @@ function useNewEmployee(){
     handleSocioDemographicProfile,
     handleDocuments,
     handleNewEmployee,
+    // modal open
+    openModalCreateEmployee,
+    handleOpenModal,
+    handleCloseModal,
   };
 };
 

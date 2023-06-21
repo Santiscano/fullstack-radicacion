@@ -13,6 +13,7 @@ export type Employee = {
   users_lastname: string;
   users_name: string;
   users_phone: string;
+  users_cellphone: string;
   users_providers_expiration_date?: string;
   users_providers_paydays?: number;
   sedes_name?: string;
@@ -27,7 +28,7 @@ export type Employee = {
   arl_emergency:string;
   rh: string;
   academic_level: string;
-  birthdate: string;
+  birthdate: string | null;
   gender: string;
   civil_status: string;
   city: string;
@@ -99,9 +100,11 @@ const initialState: Employee = {
   users_lastname: '',
   users_address: '',
   users_phone: '',
+  users_cellphone:'',
   users_email: '',
   users_identification: '',
   users_identification_type: '',
+  users_status: '',
   // personal information
   compensation_fund: '',
   pension: '',
