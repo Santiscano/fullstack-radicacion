@@ -16,7 +16,8 @@ import SociodemographicProfile from "./components/TabsPanel/SociodemographicProf
 
 interface Props {}
 const NewEmployee: FC<Props> = () => {
-  const { showValue, handleShowValue, progress, buffer, handleNewEmployee } = useNewEmployee();
+  const { showValue, handleShowValue, progress, buffer, handleNewEmployee,
+    isCreatedEmployee, isPersonalInformation } = useNewEmployee();
 
   return (
     <div className="layout">
@@ -53,8 +54,8 @@ const NewEmployee: FC<Props> = () => {
                   variant="scrollable"
                 >
                   <Tab label="Crear Empleado" {...a11yProps(0)} />
-                  <Tab label="Información Personal" {...a11yProps(1)} />
-                  <Tab label="Contratación" {...a11yProps(2)} />
+                  <Tab label="Información Personal" {...a11yProps(1)} disabled={!isCreatedEmployee} />
+                  <Tab label="Contratación" {...a11yProps(2)} disabled={!isPersonalInformation}/>
                   <Tab label="Información Contacto de Emergencia" {...a11yProps(3)} />
                   <Tab label="Información Sociodemográfica" {...a11yProps(4)} />
                   <Tab label="Cargar Documentos" {...a11yProps(5)} />

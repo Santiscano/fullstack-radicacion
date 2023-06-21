@@ -10,7 +10,6 @@ import { session } from "../../components/tools/SesionSettings";
 import { useUserSession } from "../../redux/Redux-actions/useUserSession";
 import { validateUserFirebase } from "../../services/Firebase.routes";
 import useContextProvider from "./../../Context/GeneralValuesContext";
-import "./admin.css";
 import NavBar from "./components/NavBar";
 import SideBar from "./components/SideBar";
 

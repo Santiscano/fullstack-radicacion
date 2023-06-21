@@ -7,18 +7,22 @@ import { useNavigate } from "react-router-dom";
 import allRoutes from "../../../services/allRoutes";
 import useContextProvider from "../../../Context/GeneralValuesContext";
 import { useEmployee } from "../../../redux/Redux-actions/useEmployee";
+import { useAppSelector } from "../../../redux/hooks/useStore";
 
 function useNewEmployee(){
   //-------------------- var --------------------------------//
+  const { handleMessageSnackbar } = useContextProvider();
+  const user = useAppSelector((state) => state.employeesSlice);
   const [showValue, setShowValue] = useState(0);
   const [progress, setProgress] = useState<number>(0/6) // value bar progress
   const [buffer, setBuffer] = useState<number>(1/6) //buffer progress
   const [cedi, setCedi] = useState<any>();
-  const { handleMessageSnackbar } = useContextProvider()
+  const [isCreatedEmployee, setIsCreatedEmployee] = useState(false);
+  const [isPersonalInformation, setIsPersonalInformation] = useState(false);
   //-------------------- methods ----------------------------//
   const navigate = useNavigate();
   const { changeTitleSection } = useDataGlobal();
-  const { addEmployee } = useEmployee()
+  const { addEmployee, setUsersIdentification } = useEmployee()
 
   const changeToForm = (numberProgress:number, numberBuffer:number ):void => {
     setProgress(numberProgress); setBuffer(numberBuffer);
@@ -34,6 +38,48 @@ function useNewEmployee(){
     setShowValue(newValue);
   };
 
+  const handleIsCreatedEmployee = () => {
+    if(
+      user.sedes_name !== '' &&
+      // user.users_identification !== '' &&
+      // user.users_identification_type !== '' &&
+      // user.users_name !== '' &&
+      // user.users_lastname !== '' &&
+      // user.users_address !== '' &&
+      // user.users_phone !== '' &&
+      user.users_email !== ''
+    ){
+      setIsCreatedEmployee(true)
+    } else {
+      setIsCreatedEmployee(false)
+    }
+  }
+  const handleIsPersonalInformation = () => {
+    if(
+      isCreatedEmployee === true &&
+      user.compensation_fund !== '' &&
+      user.pension !== '' &&
+      user.layoffs !== '' &&
+      user.eps !== '' &&
+      user.arl !== '' &&
+      user.medical_emergency !== '' &&
+      user.arl_emergency !== '' &&
+      user.rh !== '' &&
+      user.academic_level !== '' &&
+      user.birthdate !== '' &&
+      user.gender !== '' &&
+      user.civil_status !== '' &&
+      user.city !== '' &&
+      user.shirt_size !== '' &&
+      user.pant_size !== '' &&
+      user.shoe_size !== ''
+      // user.photo_path
+    ){
+      setIsPersonalInformation(true);
+    }else{
+      setIsPersonalInformation(false);
+    }
+  };
 
   //-------------------- handleSubmits ----------------------//
   const handleSubmitEmployee = (event: FormEvent<HTMLFormElement>) => {
@@ -42,36 +88,7 @@ function useNewEmployee(){
     // VALUE INPUTS
     const idroles = 11;
 
-
-    // establecer en redux
-    // @ts-ignore
-    addEmployee({ sedes_name, users_name, users_lastname, users_address, users_phone, users_email, users_identification, users_identification_type })
-
-    // @ts-ignore
-    console.log('formData: ', {idsedes, users_name, users_lastname, users_address, users_phone, users_email, idroles, users_identification_type, users_identification});
-    // poner esto dentro del then
-    console.log('paso', progress);
-
-    // axios.post(allRoutes.api.users.createUser,{
-    //   idroles, idsedes, users_identification_type, users_identification, users_name, users_lastname, users_address, users_phone, users_email
-    // },getHeader())
-    //   .then((res) =>{
-    //     console.log('res',res);
-    //     handleMessageSnackbar("success", res.data.message)
-    //     changeToForm(1/6, 2/6);
-    //   })
-    //   .catch((err) => {
-    //     console.log('err: ', err);
-    //     handleMessageSnackbar("error", err.response.data.message);
-    //     // @ts-ignore
-    //     const message = err.response.data.message
-    //     if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
-    //       remove("accessToken");
-    //       navigate("/login");
-    //     }
-    //   })
-
-    // form.reset();
+    console.log('create employee')
   };
 
   const handleSubmitPersonalInformation = (event: FormEvent<HTMLFormElement>) => {
@@ -127,6 +144,11 @@ function useNewEmployee(){
     };
   },[]);
 
+  useEffect(() => {
+    handleIsPersonalInformation();
+    console.log('validando inputs')
+  },[handleSubmitPersonalInformation]);
+
   return {
     // tabs
     showValue,
@@ -137,6 +159,10 @@ function useNewEmployee(){
     // states & handles
     cedi,
     handleCedi,
+    // disableds forms
+    isCreatedEmployee,
+    handleIsCreatedEmployee,
+    isPersonalInformation,
     // form submit
     handleSubmitEmployee,
     handleSubmitPersonalInformation,

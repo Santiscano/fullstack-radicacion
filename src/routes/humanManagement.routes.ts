@@ -9,7 +9,7 @@ import { validateApikey } from '../middleware/manage.apikey';
 
 const humanManagement = Router();
 
-humanManagement.get("/getEmployees", decodeToken, validateApikey, getEmployees);
+humanManagement.get("/getEmployees", getEmployees);
 humanManagement.get("/getEmployeeById/:idusers",decodeToken, validateApikey, getEmployeeById );
 humanManagement.post("postEmployee",decodeToken, validateApikey, );
 humanManagement.put("putEmployee",decodeToken, validateApikey, );
