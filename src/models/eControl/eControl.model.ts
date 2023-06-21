@@ -1,14 +1,14 @@
 import fs from 'fs';
-import { connection } from '../config/database/db';
-import { uploadFile } from '../config/gcp/storage';
-import { editPDF } from '../utilities/PDF/editPDF';
-import { pdfBase64 } from '../utilities/PDF/upload/pdfBase64.utilities';
-import { postFileEcontrolModel } from './files.model';
-import { postFilePathModel } from './file_path.model';
-import { eControl } from '../interfaces/eControl.interface';
-import { FileEcontrol, FilesType } from '../interfaces/files.interface';
-import { FilePath } from '../interfaces/file_path.interface';
-import { genRegistered } from '../utilities/generate_file_registered.controller';
+import { connection } from '../../config/database/db';
+import { uploadFile } from '../../config/gcp/storage';
+import { editPDF } from '../../utilities/PDF/editPDF';
+import { pdfBase64 } from '../../utilities/PDF/upload/pdfBase64.utilities';
+import { postFileEcontrolModel } from '../files.model';
+import { postFilePathModel } from '../file_path.model';
+import { eControl } from '../../interfaces/eControl.interface';
+import { FileEcontrol, FilesType } from '../../interfaces/files.interface';
+import { FilePath } from '../../interfaces/file_path.interface';
+import { genRegistered } from '../../utilities/generate_file_registered.controller';
 
 
 // CONEXIÓN OPERATIVA ECONTROL / GESTIÓN ADMINISTRATIVA

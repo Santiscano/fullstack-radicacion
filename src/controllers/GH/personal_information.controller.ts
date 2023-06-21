@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
-import { apiKeyValidate } from '../utilities/apiKeyValidate.utilities';
-import { errorMessage, success, unauthorized, uncompleted, unsuccessfully } from '../utilities/responses.utilities';
-import { postPersonalInformationModel, putPersonalInformationModel, deletePersonalInformationModel } from '../models/personal_information.model';
-import { missingData } from '../utilities/missingData.utilities';
-import { getAllRowTable } from '../utilities/SQL/countTable.utilities';
+import { apiKeyValidate } from '../../utilities/apiKeyValidate.utilities';
+import { errorMessage, success, unauthorized, uncompleted, unsuccessfully } from '../../utilities/responses.utilities';
+import { postPersonalInformationModel, putPersonalInformationModel, deletePersonalInformationModel } from '../../models/GH/personal_information.model';
+import { missingData } from '../../utilities/missingData.utilities';
+import { getAllRowTable } from '../../utilities/SQL/countTable.utilities';
 
 // TRAER INFORMACIÓN PERSONAL
 export const getPersonalInformation = async (req: Request, res: Response) => {
