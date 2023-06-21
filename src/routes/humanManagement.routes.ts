@@ -9,11 +9,11 @@ import { validateApikey } from '../middleware/manage.apikey';
 
 const humanManagement = Router();
 
-humanManagement.get("/getEmployees", validateApikey, getEmployees);
-humanManagement.get("/getEmployeeById/:idusers", validateApikey, getEmployeeById );
-humanManagement.post("postEmployee",decodeToken, validateApikey, );
-humanManagement.put("putEmployee",decodeToken, validateApikey, );
-humanManagement.delete("deleteEmployee",decodeToken, validateApikey, );
+humanManagement.get("/getEmployees", getEmployees);
+humanManagement.get("/getEmployeeById/:idusers", getEmployeeById );
+humanManagement.post("/postEmployee", );
+humanManagement.put("/putEmployee", );
+humanManagement.delete("/deleteEmployee", );
 
 
 //POSITION

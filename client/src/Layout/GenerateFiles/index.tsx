@@ -296,6 +296,11 @@ function GenerateFiles() {
       );
       console.log("addFileResponse: ", addFileResponse);
 
+      // si no hay data entregar mensaje
+      // if(!addFileResponse?.data.data){
+        // console.log('entro');
+        // handleMessageSnackbar('error', addFileResponse?.data.message)
+      // }
       //muestro input file y textarea
       if (addFileResponse?.data.data[0]) {
         setStatusFileResponse(true);
@@ -697,7 +702,6 @@ function GenerateFiles() {
                         />
                         <button
                           className="button button--flex mt-4 relative top-12"
-                          // type='submit'
                         >
                           Adjuntar Archivos
                         </button>
@@ -705,7 +709,7 @@ function GenerateFiles() {
                       <textarea
                         name="Comentario"
                         id="comentary"
-                        placeholder="Es necesario dejar alguna observacion"
+                        placeholder="deja un comentario opcional"
                         className="border-neutral-300 border-2 resize-none division--containers"
                         required
                         value={comments}

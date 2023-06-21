@@ -6,6 +6,7 @@ import dataGlobalSlice from "./Redux-reducer/dataGlobalSlice"; // titulo navbar
 import modalUserViewSlice from "./Redux-reducer/modalUserViewSlice"; //usuario a mostrar en modal
 import changeStateFileSlice from "./Redux-reducer/changeStateFileSlice"; // opciones cambio de estados
 import employeesSlice from "./Redux-reducer/employeesSlice"; //empleado que se crea en seccion GH
+
 export const store = configureStore({
   reducer: {
     userSession,

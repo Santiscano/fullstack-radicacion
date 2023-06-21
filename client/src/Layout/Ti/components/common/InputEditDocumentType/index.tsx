@@ -19,6 +19,7 @@ const Selecting = styled(FormControl)({
     },
   },
 });
+
 export default function InputEditDocumentType(props: any) {
   const user = useAppSelector((state) => state.modalUserViewSlice);
   const { setidentificationType } = useModalUserView();

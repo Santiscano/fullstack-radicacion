@@ -2,6 +2,8 @@ import { GridColDef } from "@mui/x-data-grid";
 import { formattedAmount } from "../Utilities/formatted.utility";
 import { width } from "@mui/system";
 import ButtonModalUsersTable from "../Layout/Ti/components/common/ButtonModalUsersTable";
+import { Avatar, Stack, Typography } from "@mui/material";
+import avatarIcon from '../assets/images/avatars/avatar_1.jpg';
 
 // const columns = () => {}
 export const columnsEdit: GridColDef[] = [
@@ -536,4 +538,22 @@ export const columnsProvider: GridColDef[] = [
     headerName: "Estado Proveedor",
     width: 130,
   },
+];
+export const columnsEmployee = [
+  {
+    field: "users_name",
+    headerName: "Nombre Usuario",
+    width: 170,
+    renderCell: (cellValues: any) => {
+      console.log('cellValues: ', cellValues);
+      const { users_name, avatarUrl } = cellValues.row;
+      return (
+        <Stack direction="row" alignItems="center" spacing={2}>
+          <Avatar alt={users_name} src={avatarIcon} />
+          <Typography variant="h6" noWrap>{users_name}</Typography>
+        </Stack>
+      )
+    },
+  },
+
 ];

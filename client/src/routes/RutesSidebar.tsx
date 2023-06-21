@@ -82,6 +82,11 @@ export default {
         icon: <PersonAddAlt1OutlinedIcon sx={color} />,
       },
       {
+        name: "test crear",
+        url: "/dashboard/test",
+        icon: <GroupsOutlinedIcon sx={color} />,
+      },
+      {
         name: "Todos los Empleados",
         url: "/dashboard/todos-los-empleados",
         icon: <GroupsOutlinedIcon sx={color} />,

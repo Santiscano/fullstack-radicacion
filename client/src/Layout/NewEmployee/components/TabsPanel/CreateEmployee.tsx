@@ -1,18 +1,23 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { Box, Typography } from "@mui/material";
 import TextFieldOutlined from "../../../../components/common/TextFieldOutline";
 import useNewEmployee from "../../hooks/useNewEmployee";
-import InputSelectDocTypeFormData from "../../../../components/common/InputSelectDocTypeFormData";
-import InputOutlinedFormData from "../../../../components/common/InputOutlinedFormData";
 import InputSelectCediName from "../Inputs/InputSelectCediName";
 import InputSelectTypeDocument from "../Inputs/InputSelectTypeDocument";
 import { useAppSelector } from "../../../../redux/hooks/useStore";
 import { useEmployee } from "../../../../redux/Redux-actions/useEmployee";
 
 const CreateEmployee:FC = () => {
-  const { handleSubmitEmployee } = useNewEmployee();
+  const { handleSubmitEmployee, handleIsCreatedEmployee, isCreatedEmployee } = useNewEmployee();
   const user = useAppSelector((state) => state.employeesSlice);
   const { setUsersIdentification, setUsersName, setUsersLastName, setUsersAddress, setUsersPhone, setUsersEmail } = useEmployee();
+
+  useEffect(() => {
+    handleIsCreatedEmployee()
+    console.log('validando inputs');
+    console.log(isCreatedEmployee);
+  },[handleSubmitEmployee])
+
   return (
     <>
       <Box
@@ -22,9 +27,6 @@ const CreateEmployee:FC = () => {
           justifyContent: "center",
         }}
       >
-        {/* <Typography variant="h4" component="h4" sx={{ fontWeight: "bold" }}>
-          CREAR EMPLEADO
-        </Typography> */}
       </Box>
       <form onSubmit={handleSubmitEmployee}>
         <div className="md:flex md:flex-wrap">
@@ -52,7 +54,7 @@ const CreateEmployee:FC = () => {
           </article>
         </div>
         <div className="md:flex md:flex-wrap">
-          <article className="md:w-1/2">
+          <article className="md:w-1/2 font">
             <InputSelectTypeDocument
               type={"text"}
               title={"Tipo de Documento"}

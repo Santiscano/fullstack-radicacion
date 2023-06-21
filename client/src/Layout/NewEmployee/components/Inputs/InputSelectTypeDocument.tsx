@@ -47,8 +47,11 @@ export default function InputEditDocumentType(props: any) {
 
   useEffect(() => {
     handleReadDocumentType();
-    setValue(user.users_identification_type);
   }, []);
+
+  useEffect(() => {
+    setValue(user.users_identification_type);
+  },[user])
 
   return (
     <div>
