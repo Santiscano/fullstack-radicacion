@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 const WebViewer = () => {
-  const [url, setUrl] = useState<string>('https://storage.googleapis.com/digitalizacion-enviexpress-bucket/grupoEmpresarial/solucionesEnviexpress/misionVisionPolitica.pdf');
+  const [url, setUrl] = useState<string>('https://docs.google.com/document/d/1LvteW--LvV5B52u06nnd1NxqPFJRLHkoX1O0Qo4BbaI/edit#toolbar=0');
 
   return (
     <>
