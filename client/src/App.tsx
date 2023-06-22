@@ -37,6 +37,7 @@ import WithAuthentication from "./Middlewares/WithAuthentication";
 import { WithRoleAllowedComponent } from "./Middlewares/WithRoleAllowed";
 import BussinessGroup from "./modules/Global/BussinessGroup";
 import WebViewer from "./Layout/WebViewer";
+import ViewConstructor from "./Layout/ViewConstructor";
 // import NewEmployeeTest from "./Layout/NewEmployee";
 
 function App() {
@@ -146,6 +147,7 @@ function App() {
                 <Route path="mover-elementos-mouse" element={<MoveElement/>} />
                 <Route path="qr" element={<QRCodeComponent/>}/>
                 <Route path="excel" element={<WebViewer/>}/>
+                <Route path="vista-en-construccion" element={<ViewConstructor/>}/>
               </Route>
 
             </Route>

@@ -8,6 +8,7 @@ import General from '../StepView/General';
 import Contratación from '../StepView/Contratación';
 import PersonalInformation from '../StepView/PersonalInformation';
 import SociodemographicProfile from '../StepView/SociodemographicProfile';
+import Identification from '../StepView/Identification';
 
 const style = {
   position: "absolute" as "absolute",
@@ -106,7 +107,7 @@ const EditEmployee: FC = () => {
                   </Button>
                 )} */}
                 <Button onClick={handleNext}>
-                  {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+                  {activeStep === steps.length - 1 ? 'Finalizar' : 'Siguiente'}
                 </Button>
               </Box>
               {/* list steeps */}
@@ -114,7 +115,7 @@ const EditEmployee: FC = () => {
               {activeStep == 1 &&(<Contratación/>)}
               {activeStep == 2 &&(<PersonalInformation/>)}
               {activeStep == 3 &&(<SociodemographicProfile/>)}
-              {/* {activeStep == 4 &&(</>)} */}
+              {activeStep == 4 &&(<Identification/>)}
               {/* {activeStep == 5 &&(</>)} */}
               {/* {activeStep == 6 &&(</>)} */}
               {/* {activeStep == 7 &&(</>)} */}
@@ -130,7 +131,7 @@ const EditEmployee: FC = () => {
                   onClick={handleBack}
                   sx={{ mr: 1 }}
                 >
-                  Back
+                  Anterior
                 </Button>
                 <Box sx={{ flex: '1 1 auto' }} />
                 {/* {isStepOptional(activeStep) && (
@@ -139,7 +140,7 @@ const EditEmployee: FC = () => {
                   </Button>
                 )} */}
                 <Button onClick={handleNext}>
-                  {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+                  {activeStep === steps.length - 1 ? 'Finalizar' : 'Siguiente'}
                 </Button>
               </Box>
             </>
