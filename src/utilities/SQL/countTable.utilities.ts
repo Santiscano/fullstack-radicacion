@@ -3,19 +3,6 @@ import { RowDataPacket, OkPacket, ResultSetHeader, FieldPacket } from 'mysql2/pr
 
 type SQLResposne = [OkPacket | ResultSetHeader | RowDataPacket[] | RowDataPacket[][] | OkPacket[], FieldPacket[]]
 
-
-// TRAER UNA FILA DE LA TABLA
-export const getOneRowTable = async (table: string, attribute: string, value: string | number ) => {
-    const [ data ]: SQLResposne = await connection.query(`SELECT * FROM ${ table } WHERE ${ attribute } = ?`, [ value ]);
-    return data
-};
-
-// TRAER TODA LA INFORMACIÓN DE LA TABLA
-export const getAllRowTable = async ( table: string ) => {
-    const [ data ]: SQLResposne  = await connection.query(`SELECT * FROM ${ table };`);
-    return data;
-};
-
 // CONTADOR DE INFORMACIÓN DE LA TALBLA
 export const countTable = async( table: string, attribute: string, value: string | number): Promise<number> => {
     const [ validate ]: SQLResposne = await connection.query(`
