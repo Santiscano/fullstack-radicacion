@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { genRegistered } from '../utilities/generate_file_registered.controller';
 import { missingData } from '../utilities/missingData.utilities';
 import { apiKeyValidate } from '../utilities/apiKeyValidate.utilities';
-import { success, unauthorized, uncompleted, unsuccessfully } from '../utilities/responses.utilities';
+import { errorMessage, success, unauthorized, uncompleted, unsuccessfully } from '../utilities/responses.utilities';
 import { getFilesModel, postFileModel, putFileModel, deleteFileModel } from '../models/files.model';
 
 // GENERAR UN NUMERO DE RADICADO
@@ -36,7 +36,9 @@ export const postFile = async (req: Request, res: Response) => {
         if(apiKeyValidate(api_key)) return res.status(401).json(unauthorized());
         if(missingData(data).error) return res.status(422).json(uncompleted(missingData(data).missing));
         const info = await postFileModel(data);
-        return res.status(200).json(success(info.data, info.message));
+        info.data
+            ? res.status(200).json(success(info.data))
+            : res.status(422).json(errorMessage(info.message!));
     } catch (error) {
         return res.status(512).json(unsuccessfully(error));
     };

@@ -40,12 +40,8 @@ export default function InputSelectStateFile(props: any) {
           </MenuItem>
 
           {props.items.map((item: any, index: any) => (
-            <MenuItem
-              key={index}
-              value={item.value}
-              sx={{ m: 1, minWidth: 300 }}
-            >
-              {item.name}
+            <MenuItem key={index} value={item} sx={{ m: 1, minWidth: 300 }}>
+              {item}
             </MenuItem>
           ))}
         </Select>

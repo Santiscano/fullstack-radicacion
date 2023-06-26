@@ -23,6 +23,7 @@ function TextFieldOutlined({
   iconEnd,
   defaultValue,
   name,
+  maxLength,
 }: any) {
   let inputProps = {};
   if (type == "number") {
@@ -50,6 +51,9 @@ function TextFieldOutlined({
       color={"primary"}
       autoComplete={"off"}
       InputProps={{
+        inputProps: {
+          maxLength: maxLength,
+        },
         readOnly: readOnly,
         startAdornment: iconStart ? (
           <InputAdornment position="start"> {iconStart} </InputAdornment>
@@ -57,6 +61,7 @@ function TextFieldOutlined({
         endAdornment: iconEnd ? (
           <InputAdornment position="end"> {iconEnd} </InputAdornment>
         ) : null,
+
       }}
     />
   );

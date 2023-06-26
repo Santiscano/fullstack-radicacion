@@ -26,6 +26,30 @@ export const optionCediType = [
   'PROPIA',
   'NACIONAL',
 ];
+export const optionWorkingModality = [
+  'PRESENCIAL',
+  'TRABAJO EN CASA',
+  'REMOTO',
+];
+export const optionHomeTenure = [
+  'PROPIA',
+  'ARRENDADA',
+  'FAMILIAR'
+];
+export const optionTypeTransport = [
+  'CAMINANDO',
+  'BICICLETA',
+  'MOTO',
+  'TRANSPORTE PUBLICO',
+  'VEHICULO PARTICULAR PROPIO'
+];
+export const optionSportFrequency = [
+  'OCASIONAL',
+  'MENSUAL',
+  'SEMENAL',
+  'DIARIO',
+  'NINGUNO'
+];
 export const optionsActivity = [
   {name:'APROBAR', value:2 },
   {name:'RECHAZAR', value:3 },

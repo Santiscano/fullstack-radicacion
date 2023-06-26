@@ -6,7 +6,7 @@ import { simplisticsPortafolio } from '../controllers/simplistics/simplistics_ap
 const routerSimplistics = Router();
 
 // INFORMACIÓN PERSONAL
-routerSimplistics.get('/simplisticsPortafolio/:tipoDoc', simplisticsPortafolio);
+routerSimplistics.get('/simplisticsPortafolio/:tipoDoc/:pag', simplisticsPortafolio);
 
 // Exportando el router
 export default routerSimplistics;

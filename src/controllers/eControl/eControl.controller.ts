@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { apiKeyValidate } from '../../utilities/apiKeyValidate.utilities';
 import { success, unauthorized, uncompleted, unsuccessfully } from '../../utilities/responses.utilities';
-import {eControlOperativoModel } from '../../models/eControl.model';
+import {eControlOperativoModel } from '../../models/eControl/eControl.model';
 import { missingData } from '../../utilities/missingData.utilities';
 import { eControl } from '../../interfaces/eControl.interface';
 import { Logs, writeLog } from '../../utilities/logs.utilities';

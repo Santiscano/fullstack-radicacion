@@ -7,18 +7,22 @@ import { useNavigate } from "react-router-dom";
 import allRoutes from "../../../services/allRoutes";
 import useContextProvider from "../../../Context/GeneralValuesContext";
 import { useEmployee } from "../../../redux/Redux-actions/useEmployee";
+import { useAppSelector } from "../../../redux/hooks/useStore";
 
 function useNewEmployee(){
   //-------------------- var --------------------------------//
+  const { handleMessageSnackbar } = useContextProvider();
+  const user = useAppSelector((state) => state.employeesSlice);
   const [showValue, setShowValue] = useState(0);
   const [progress, setProgress] = useState<number>(0/6) // value bar progress
   const [buffer, setBuffer] = useState<number>(1/6) //buffer progress
   const [cedi, setCedi] = useState<any>();
-  const { handleMessageSnackbar } = useContextProvider()
+  const [isCreatedEmployee, setIsCreatedEmployee] = useState(false);
+  const [isPersonalInformation, setIsPersonalInformation] = useState(false);
   //-------------------- methods ----------------------------//
   const navigate = useNavigate();
   const { changeTitleSection } = useDataGlobal();
-  const { addEmployee } = useEmployee()
+  const { addEmployee, setUsersIdentification } = useEmployee()
 
   const changeToForm = (numberProgress:number, numberBuffer:number ):void => {
     setProgress(numberProgress); setBuffer(numberBuffer);
@@ -34,57 +38,59 @@ function useNewEmployee(){
     setShowValue(newValue);
   };
 
+  const handleIsCreatedEmployee = () => {
+    if(
+      user.sedes_name !== '' &&
+      // user.users_identification !== '' &&
+      // user.users_identification_type !== '' &&
+      // user.users_name !== '' &&
+      // user.users_lastname !== '' &&
+      // user.users_address !== '' &&
+      // user.users_phone !== '' &&
+      user.users_email !== ''
+    ){
+      setIsCreatedEmployee(true)
+    } else {
+      setIsCreatedEmployee(false)
+    }
+  }
+  const handleIsPersonalInformation = () => {
+    if(
+      isCreatedEmployee === true &&
+      user.compensation_fund !== '' &&
+      user.pension !== '' &&
+      user.layoffs !== '' &&
+      user.eps !== '' &&
+      user.arl !== '' &&
+      user.medical_emergency !== '' &&
+      user.arl_emergency !== '' &&
+      user.rh !== '' &&
+      user.academic_level !== '' &&
+      user.birthdate !== '' &&
+      user.gender !== '' &&
+      user.civil_status !== '' &&
+      user.city !== '' &&
+      user.shirt_size !== '' &&
+      user.pant_size !== '' &&
+      user.shoe_size !== ''
+      // user.photo_path
+    ){
+      setIsPersonalInformation(true);
+    }else{
+      setIsPersonalInformation(false);
+    }
+  };
 
   //-------------------- handleSubmits ----------------------//
   const handleSubmitEmployee = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // create formData
-    const form = event.target as HTMLFormElement
-    const formData = new FormData(form);
 
     // VALUE INPUTS
     const idroles = 11;
-    const sedes_name = formData.get("cedi")?.toString();
-    const users_name = formData.get("name")?.toString();
-    const users_lastname = formData.get("lastname")?.toString();
-    const users_address = formData.get("address")?.toString();
-    const users_phone = formData.get("phone")?.toString();
-    const users_email = formData.get("email")?.toString();
-    const users_identification_type = formData.get("identification_type")?.toString();
-    const users_identification = formData.get("identification")?.toString();
 
-    const idsedes = cedi?.idsedes;
-
-    // establecer en redux
-    // @ts-ignore
-    addEmployee({ sedes_name, users_name, users_lastname, users_address, users_phone, users_email, users_identification, users_identification_type })
-
-    // @ts-ignore
-    console.log('formData: ', {idsedes, users_name, users_lastname, users_address, users_phone, users_email, idroles, users_identification_type, users_identification});
-    // poner esto dentro del then
-    console.log('paso', progress);
-
-    // axios.post(allRoutes.api.users.createUser,{
-    //   idroles, idsedes, users_identification_type, users_identification, users_name, users_lastname, users_address, users_phone, users_email
-    // },getHeader())
-    //   .then((res) =>{
-    //     console.log('res',res);
-    //     handleMessageSnackbar("success", res.data.message)
-    //     changeToForm(1/6, 2/6);
-    //   })
-    //   .catch((err) => {
-    //     console.log('err: ', err);
-    //     handleMessageSnackbar("error", err.response.data.message);
-    //     // @ts-ignore
-    //     const message = err.response.data.message
-    //     if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
-    //       remove("accessToken");
-    //       navigate("/login");
-    //     }
-    //   })
-
-    // form.reset();
+    console.log('create employee')
   };
+
   const handleSubmitPersonalInformation = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     // crear formData
@@ -92,6 +98,7 @@ function useNewEmployee(){
     const formData = new FormData(form);
     changeToForm(2/6, 3/6);
   };
+
   const handleSubmitHiring = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     // crear formData
@@ -99,6 +106,7 @@ function useNewEmployee(){
     const formData = new FormData(form);
     changeToForm(3/6, 4/6);
   };
+
   const handleEmergencyContact = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     // crear formData
@@ -106,6 +114,7 @@ function useNewEmployee(){
     const formData = new FormData(form);
     changeToForm(4/6, 5/6)
   };
+
   const handleSocioDemographicProfile = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     // crear formData
@@ -113,6 +122,7 @@ function useNewEmployee(){
     const formData = new FormData(form);
     changeToForm(5/6, 1)
   };
+
   const handleDocuments = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     // crear formData
@@ -120,6 +130,7 @@ function useNewEmployee(){
     const formData = new FormData(form);
     changeToForm(1,1);
   };
+
   const handleNewEmployee =(event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     // limpiar todo
@@ -133,6 +144,11 @@ function useNewEmployee(){
     };
   },[]);
 
+  useEffect(() => {
+    handleIsPersonalInformation();
+    console.log('validando inputs')
+  },[handleSubmitPersonalInformation]);
+
   return {
     // tabs
     showValue,
@@ -143,6 +159,10 @@ function useNewEmployee(){
     // states & handles
     cedi,
     handleCedi,
+    // disableds forms
+    isCreatedEmployee,
+    handleIsCreatedEmployee,
+    isPersonalInformation,
     // form submit
     handleSubmitEmployee,
     handleSubmitPersonalInformation,
@@ -155,3 +175,58 @@ function useNewEmployee(){
 };
 
 export default useNewEmployee;
+
+
+
+
+
+// const handleSubmitEmployee = (event: FormEvent<HTMLFormElement>) => {
+//   event.preventDefault();
+//   // create formData
+//   const form = event.target as HTMLFormElement
+//   const formData = new FormData(form);
+//   console.log('formData: ', formData);
+
+//   // VALUE INPUTS
+//   const idroles = 11;
+//   const sedes_name = formData.get("cedi")?.toString();
+//   const users_name = formData.get("name")?.toString();
+//   const users_lastname = formData.get("lastname")?.toString();
+//   const users_address = formData.get("address")?.toString();
+//   const users_phone = formData.get("phone")?.toString();
+//   const users_email = formData.get("email")?.toString();
+//   const users_identification_type = formData.get("identification_type")?.toString();
+//   const users_identification = formData.get("identification")?.toString();
+
+//   const idsedes = cedi?.idsedes;
+
+//   // establecer en redux
+//   // @ts-ignore
+//   addEmployee({ sedes_name, users_name, users_lastname, users_address, users_phone, users_email, users_identification, users_identification_type })
+
+//   // @ts-ignore
+//   console.log('formData: ', {idsedes, users_name, users_lastname, users_address, users_phone, users_email, idroles, users_identification_type, users_identification});
+//   // poner esto dentro del then
+//   console.log('paso', progress);
+
+  // axios.post(allRoutes.api.users.createUser,{
+  //   idroles, idsedes, users_identification_type, users_identification, users_name, users_lastname, users_address, users_phone, users_email
+  // },getHeader())
+  //   .then((res) =>{
+  //     console.log('res',res);
+  //     handleMessageSnackbar("success", res.data.message)
+  //     changeToForm(1/6, 2/6);
+  //   })
+  //   .catch((err) => {
+  //     console.log('err: ', err);
+  //     handleMessageSnackbar("error", err.response.data.message);
+  //     // @ts-ignore
+  //     const message = err.response.data.message
+  //     if( message == "TOKEN_EXPIRED" || message == "INVALID_TOKEN_ACCESS"){
+  //       remove("accessToken");
+  //       navigate("/login");
+  //     }
+  //   })
+
+  // form.reset();
+// };

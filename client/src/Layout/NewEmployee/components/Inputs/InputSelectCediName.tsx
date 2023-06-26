@@ -12,7 +12,6 @@ import { getHeader, remove } from "../../../../components/tools/SesionSettings";
 import useContextProvider from "../../../../Context/GeneralValuesContext";
 import allRoutes from "../../../../services/allRoutes";
 
-
 const Selecting = styled(FormControl)({
   "& .MuiOutlinedInput-root": {
     "&:hover fieldset": {
@@ -73,9 +72,11 @@ const InputSelectCediName:FC<Props> = (props) => {
 
   useEffect(() => {
     handleGetCedis();
-    setvalue(user.sedes_name);
-    // console.log('user.sedes_name: ', user.sedes_name);
   },[])
+
+  useEffect(() => {
+    setvalue(user.sedes_name);
+  },[user])
 
 
   return (

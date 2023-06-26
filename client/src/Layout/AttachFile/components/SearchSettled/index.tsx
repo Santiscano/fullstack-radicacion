@@ -33,6 +33,7 @@ function SearchSettled({
     try {
       const resSettleds = await GetAllSettled(remove,navigate);
       if(resSettleds?.status == 200){
+        console.log('headers', resSettleds.headers);
         console.log("Settleds: ", resSettleds?.data.data);
         const elements = resSettleds?.data.data;
         const rows = [];

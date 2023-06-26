@@ -17,9 +17,6 @@ import { getAllRegisteredFile, getIdentificationByType, getTypeIdentification, r
 import { getTrackings, getTrackingRegistered, getTrackingAccountType } from '../controllers/tracking.controller';
 import { uploadFileDocument } from '../controllers/upload/googleBucket.controller';
 
-// HUMAN MANAGEMENT ROUTES
-import humanManagement from './humanManagement.routes';
-
 // MIDDLEWARE TOKEN
 import { decodeToken } from '../middleware/manage.token';
 

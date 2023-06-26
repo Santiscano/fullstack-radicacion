@@ -13,6 +13,7 @@ import TopicOutlinedIcon from "@mui/icons-material/TopicOutlined";
 import { get, roles } from "../components/tools/SesionSettings";
 import MouseOutlinedIcon from '@mui/icons-material/MouseOutlined';
 import QrCode2Icon from '@mui/icons-material/QrCode2';
+import TextSnippetRoundedIcon from '@mui/icons-material/TextSnippetRounded';
 
 const color = { color: "#293184" };
 
@@ -81,6 +82,11 @@ export default {
         icon: <PersonAddAlt1OutlinedIcon sx={color} />,
       },
       {
+        name: "test crear",
+        url: "/dashboard/test",
+        icon: <GroupsOutlinedIcon sx={color} />,
+      },
+      {
         name: "Todos los Empleados",
         url: "/dashboard/todos-los-empleados",
         icon: <GroupsOutlinedIcon sx={color} />,
@@ -106,6 +112,11 @@ export default {
         name: "Generar Codigo QR",
         url: "/dashboard/qr",
         icon: <QrCode2Icon sx={color} />,
+      },
+      {
+        name: "Web Viewer",
+        url: "/dashboard/excel",
+        icon: <TextSnippetRoundedIcon/>,
       },
     ],
   },

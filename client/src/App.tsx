@@ -36,6 +36,8 @@ import NotAuthentication from "./Middlewares/NotAuthentication";
 import WithAuthentication from "./Middlewares/WithAuthentication";
 import { WithRoleAllowedComponent } from "./Middlewares/WithRoleAllowed";
 import BussinessGroup from "./modules/Global/BussinessGroup";
+import WebViewer from "./Layout/WebViewer";
+import NewEmployeeTest from "./Layout/NewEmployee/Test";
 
 function App() {
   return (
@@ -123,6 +125,7 @@ function App() {
                 }
               >
                 <Route path="nuevo-empleado" element={<NewEmployee />} />
+                <Route path="test" element={<NewEmployeeTest/>} />
                 <Route path="todos-los-empleados" element={<AllEmployees />} />
                 <Route
                   path="adjuntar-documentos-empleado"
@@ -142,6 +145,7 @@ function App() {
               >
                 <Route path="mover-elementos-mouse" element={<MoveElement/>} />
                 <Route path="qr" element={<QRCodeComponent/>}/>
+                <Route path="excel" element={<WebViewer/>}/>
               </Route>
 
             </Route>

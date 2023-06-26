@@ -33,7 +33,7 @@ import { formattedAmount } from "../../Utilities/formatted.utility";
 import InputSelectOnlyValue from "../../components/common/InputSelectOnlyValue";
 import ModalSuccess from "../../components/common/ModalSuccess";
 import SearchUser from "../../components/common/SearchUser";
-import { get, remove, roles } from "../../components/tools/SesionSettings";
+import { get, remove, roles, usersResponsibleFor } from "../../components/tools/SesionSettings";
 import { AllCedis, CedisIdName } from "../../interfaces/Cedis";
 import { createFilePath } from "../../services/FilesPath.routes";
 import InputSelectCedi from "./components/InputSelectCedi";
@@ -283,7 +283,7 @@ function GenerateFiles() {
         idUser,
         settledNumber,
         price,
-        invoiceType == 'OPERATIVO' ? 9 : redirectTo,
+        invoiceType == 'OPERATIVO' ? usersResponsibleFor.usuarioContableDeAdministrativos : redirectTo,
         // @ts-ignore
         cedi.idsedes,
         invoiceType,
@@ -296,6 +296,11 @@ function GenerateFiles() {
       );
       console.log("addFileResponse: ", addFileResponse);
 
+      // si no hay data entregar mensaje
+      // if(!addFileResponse?.data.data){
+        // console.log('entro');
+        // handleMessageSnackbar('error', addFileResponse?.data.message)
+      // }
       //muestro input file y textarea
       if (addFileResponse?.data.data[0]) {
         setStatusFileResponse(true);
@@ -697,7 +702,6 @@ function GenerateFiles() {
                         />
                         <button
                           className="button button--flex mt-4 relative top-12"
-                          // type='submit'
                         >
                           Adjuntar Archivos
                         </button>
@@ -705,7 +709,7 @@ function GenerateFiles() {
                       <textarea
                         name="Comentario"
                         id="comentary"
-                        placeholder="Es necesario dejar alguna observacion"
+                        placeholder="deja un comentario opcional"
                         className="border-neutral-300 border-2 resize-none division--containers"
                         required
                         value={comments}

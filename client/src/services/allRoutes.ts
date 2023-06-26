@@ -1,7 +1,7 @@
 const host = import.meta.env.VITE_BASE_URL;
+const GH = "gh";
 
 export default {
-  host: host,
   api: {
     roles: {
       get: `${host}/getRoles`,
@@ -112,12 +112,12 @@ export default {
       deletePersonalInformation: `${host}/deletePersonalInformation`,
     },
     humanManagement: {
-      getEmployees: `${host}/getEmployees`,
-      getByIdEmployee:`${host}/getEmployeeById`,
-      getDebouncedEmployee:`${host}/gh/employeeFilter`,
-      createEmployee:`${host}/postEmployee`,
-      updateEmployee:`${host}/putEmployee`,
-      deleteEmployee:`${host}/deleteEmployee`,
+      getEmployees: `${host}/${GH}/getEmployees`,
+      getByIdEmployee:`${host}/${GH}/getEmployeeById`,
+      getDebouncedEmployee:`${host}/${GH}/employeeFilter`,
+      createEmployee:`${host}/${GH}/postEmployee`,
+      updateEmployee:`${host}/${GH}/putEmployee`,
+      deleteEmployee:`${host}/${GH}/deleteEmployee`,
     },
   },
 };

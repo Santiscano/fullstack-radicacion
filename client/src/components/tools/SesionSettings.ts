@@ -27,6 +27,11 @@ export const stateFile = Object.freeze({
   Anulado: 11,
 });
 
+export const usersResponsibleFor = Object.freeze({
+  usuarioContableDeAdministrativos : 9,
+  usuarioContableDeOperativos : 10,
+})
+
 export function set(key:string, item:string): void {
   sessionStorage.setItem(key, item);
 }

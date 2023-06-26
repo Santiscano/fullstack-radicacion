@@ -1,16 +1,16 @@
 import { Request, Response } from 'express';
-import { apiKeyValidate } from '../utilities/apiKeyValidate.utilities';
-import { errorMessage, success, unauthorized, uncompleted, unsuccessfully } from '../utilities/responses.utilities';
-import { postPersonalInformationModel, putPersonalInformationModel, deletePersonalInformationModel } from '../models/personal_information.model';
-import { missingData } from '../utilities/missingData.utilities';
-import { getAllRowTable } from '../utilities/SQL/countTable.utilities';
+import { apiKeyValidate } from '../../utilities/apiKeyValidate.utilities';
+import { errorMessage, success, unauthorized, uncompleted, unsuccessfully } from '../../utilities/responses.utilities';
+import { postPersonalInformationModel, putPersonalInformationModel, deletePersonalInformationModel } from '../../models/GH/personal_information.model';
+import { missingData } from '../../utilities/missingData.utilities';
+import { getAllRowsTable } from '../../utilities/SQL/getTable.utilities';
 
 // TRAER INFORMACIÓN PERSONAL
 export const getPersonalInformation = async (req: Request, res: Response) => {
     const { api_key } = req.headers;
     try {
         if (apiKeyValidate(api_key)) return res.status(401).json(unauthorized());
-        return res.status(200).json(success(await getAllRowTable("personal_information")));
+        return res.status(200).json(success(await getAllRowsTable("personal_information")));
     } catch (error) {
         return res.status(512).json(unsuccessfully(error));
     };
