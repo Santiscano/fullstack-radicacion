@@ -248,7 +248,62 @@ export const useEmployee = () => {
   const setProfileWhatAllergic = (profile_what_allergic:string) => {
     dispatch(setEmployee({profile_what_allergic}))
   }
-
+  // -------------------------------------------------------------------------------//
+  const setCvDocument = (e:any) => {
+    dispatch(setEmployee({cv_document: e.target.files[0]}))
+    console.log('test',e.target.files[0])
+  };
+  const setDocumentTypeDocument = (e:any) => {
+    dispatch(setEmployee({document_type_document: e.target.files[0]}))
+  }
+  // const setdriveing_license_document = (:string) => {
+  //   dispatch(setEmployee({}))
+  // }
+  // const setmilitary_card_document = (:string) => {
+  //   dispatch(setEmployee({}))
+  // }
+  // const setvehicle_documents = (:string) => {
+  //   dispatch(setEmployee({}))
+  // }
+  // const setnotary_document = (:string) => {
+  //   dispatch(setEmployee({}))
+  // }
+  // const setbachelor_document = (:string) => {
+  //   dispatch(setEmployee({}))
+  // }
+  // const settechnique_document = (:string) => {
+  //   dispatch(setEmployee({}))
+  // }
+  // const settechnology_document = (:string) => {
+  //   dispatch(setEmployee({}))
+  // }
+  // const setprofessional_document = (:string) => {
+  //   dispatch(setEmployee({}))
+  // }
+  // const setpostgraduate_document = (:string) => {
+  //   dispatch(setEmployee({}))
+  // }
+  // const setbank_certificate_document = (:string) => {
+  //   dispatch(setEmployee({}))
+  // }
+  // const setpersonal_reference_document = (:string) => {
+  //   dispatch(setEmployee({}))
+  // }
+  // const setacademic_reference_document = (:string) => {
+  //   dispatch(setEmployee({}))
+  // }
+  // const setwork_reference_document = (:string) => {
+  //   dispatch(setEmployee({}))
+  // }
+  // const setemployment_work_reference = (:string) => {
+  //   dispatch(setEmployee({}))
+  // }
+  // const setemployment_academic_reference = (:string) => {
+  //   dispatch(setEmployee({}))
+  // }
+  // const setemployment_personal_academic = (:string) => {
+  //   dispatch(setEmployee({}))
+  // }
 
   return {
     addEmployee,
@@ -334,5 +389,8 @@ export const useEmployee = () => {
     setProfileWhatMedicationTake,
     setProfileAllergic,
     setProfileWhatAllergic,
+    // file link
+    setCvDocument,
+    setDocumentTypeDocument,
   };
 };

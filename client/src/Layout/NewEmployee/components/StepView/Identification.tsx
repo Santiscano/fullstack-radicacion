@@ -20,16 +20,41 @@ import referenceWork from '../../../../assets/svgs/referenceJob.svg';
 import verificWork from '../../../../assets/svgs/verificJob.svg';
 import verificPersonal from '../../../../assets/svgs/verificPersonal.svg';
 import verificAcademic from '../../../../assets/svgs/verificAcademic.svg';
+import { useEmployee } from "../../../../redux/Redux-actions/useEmployee";
 //
 const Identification = () => {
   const employee = useAppSelector((state) => state.employeesSlice);
+  const { setCvDocument } = useEmployee();
+  const handleChange = () => {};
+
+  // hoja de vida
   const [cvPath, setCvPath] = useState("");
   const [cvName, setCvName] = useState("cvSanti.pdf");
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleCV = (e: ChangeEvent<HTMLInputElement>) => {
     // @ts-ignore
     setCvPath(e.target.files[0]);
     const fileNameEvent = e.target.value.replace(/^.*\\/, ""); // renombrar archivo
     setCvName(fileNameEvent);
+    setCvDocument(fileNameEvent);
+  };
+
+  // documento de identidad
+  const [diPath, setDiPath] = useState("");
+  const [diName, setdiName] = useState("cvSanti.pdf");
+  const handleDi = (e: ChangeEvent<HTMLInputElement>) => {
+    // @ts-ignore
+    setDiPath(e.target.files[0]);
+    const fileNameEvent = e.target.value.replace(/^.*\\/, ""); // renombrar archivo
+    setdiName(typeof fileNameEvent);
+  };
+  // licencia de conduccion
+  const [lcPath, setLcPath] = useState("");
+  const [lcName, setLcName] = useState("cvSanti.pdf");
+  const handleLc = (e: ChangeEvent<HTMLInputElement>) => {
+    // @ts-ignore
+    setLcPath(e.target.files[0]);
+    const fileNameEvent = e.target.value.replace(/^.*\\/, ""); // renombrar archivo
+    setLcName(typeof fileNameEvent);
   };
   return (
     <>
@@ -41,7 +66,7 @@ const Identification = () => {
                 {" "}
                 Hoja De Vida{" "}
               </label>
-              <input type="file" className="hidden" onChange={handleChange} />
+              <input type="file" className="hidden" onChange={handleCV} />
               <div className="flex cursor-pointer">
                 <img src={cv} width="100px" />
                 <span className="flex items-center"> {cvName} </span>
@@ -54,10 +79,10 @@ const Identification = () => {
                 {" "}
                 Documento De Identidad{" "}
               </label>
-              <input type="file" className="hidden" onChange={handleChange} />
+              <input type="file" className="hidden" onChange={handleDi} />
               <div className="flex cursor-pointer">
                 <img src={doc} width="100px" />
-                <span className="flex items-center"> {cvName} </span>
+                <span className="flex items-center"> {diPath} </span>
               </div>
             </label>
           </article>
@@ -67,10 +92,10 @@ const Identification = () => {
                 {" "}
                 Licencia De Conduccion{" "}
               </label>
-              <input type="file" className="hidden" onChange={handleChange} />
+              <input type="file" className="hidden" onChange={handleLc} />
               <div className="flex cursor-pointer">
                 <img src={license} width="100px" />
-                <span className="flex items-center"> {cvName} </span>
+                <span className="flex items-center"> {lcName} </span>
               </div>
             </label>
           </article>

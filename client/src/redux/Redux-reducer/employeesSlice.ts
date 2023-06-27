@@ -88,6 +88,25 @@ export type Employee = {
   profile_what_medication_take : string,
   profile_allergic : string,
   profile_what_allergic : string,
+  // files upload
+  cv_document: string;
+  document_type_document: string;
+  driveing_license_document: string;
+  military_card_document: string;
+  vehicle_documents: string;
+  notary_document:string;
+  bachelor_document:string;
+  technique_document: string;
+  technology_document: string;
+  professional_document:string;
+  postgraduate_document:string;
+  bank_certificate_document:string;
+  personal_reference_document:string;
+  academic_reference_document:string;
+  work_reference_document:string;
+  employment_work_reference :string;
+  employment_academic_reference: string;
+  employment_personal_academic: string;
 };
 
 const initialState: Employee = {
@@ -175,6 +194,25 @@ const initialState: Employee = {
   profile_what_medication_take : '',
   profile_allergic : '',
   profile_what_allergic : '',
+  // file upload
+  cv_document: '',
+  document_type_document: '',
+  driveing_license_document: '',
+  military_card_document: '',
+  vehicle_documents: '',
+  notary_document:'',
+  bachelor_document:'',
+  technique_document: '',
+  technology_document: '',
+  professional_document:'',
+  postgraduate_document:'',
+  bank_certificate_document:'',
+  personal_reference_document:'',
+  academic_reference_document:'',
+  work_reference_document:'',
+  employment_work_reference :'',
+  employment_academic_reference: '',
+  employment_personal_academic: '',
 };
 
 export const employeesSlice = createSlice({

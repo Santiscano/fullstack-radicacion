@@ -17,6 +17,9 @@ import LogoDevOutlinedIcon from '@mui/icons-material/LogoDevOutlined';
 import { Collapse } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
+import FindInPageOutlinedIcon from '@mui/icons-material/FindInPageOutlined';
+import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined';
+import SupervisorAccountOutlinedIcon from '@mui/icons-material/SupervisorAccountOutlined';
 import { Link, useNavigate } from "react-router-dom";
 import { WithRoleAllowedRoutes } from "../../../../Middlewares/WithRoleAllowed";
 import working from "../../../../assets/icons/data-analysis-case-study.png";
@@ -56,6 +59,9 @@ function index(props: any) {
 
   const [openFiles, setOpenFiles] = useState(false);
   const handleOpenPending = () => setOpenFiles(!openFiles);
+
+  const [openReporter, setOpenReporter] = useState(false);
+  const handleOpenReporter = () => setOpenReporter(!openReporter);
 
   const [openDG, setOpenDG] = useState(false);
   const handleOpenDG = () => setOpenDG(!openDG);
@@ -109,7 +115,7 @@ function index(props: any) {
             <List>
               {rutero.online.settling.map((list, index) => (
                 <ListItem key={index} disablePadding>
-                  <ListItemButton onClick={() => handleRouteValidate(list)}>
+                  <ListItemButton onClick={() => handleRouteValidate(list)} sx={{ml: 4}}>
                     <ListItemIcon>{list.icon}</ListItemIcon>
                     <ListItemText primary={list.name} />
                   </ListItemButton>
@@ -121,7 +127,7 @@ function index(props: any) {
         {/* <Divider /> */}
       </WithRoleAllowedRoutes>
 
-      {/* archivos */}
+      {/* mis archivos */}
       <WithRoleAllowedRoutes allowedRolesList={optionsViewsFiles}>
         <List component="div" disablePadding>
           <ListItemButton onClick={handleOpenPending}>
@@ -135,7 +141,7 @@ function index(props: any) {
             {rutero.online.files.map((list, index) => (
               <ListItem key={index} disablePadding>
                 <ListItemButton
-                  // sx={{ pl: 4 }}
+                  sx={{ pl: 4 }}
                   onClick={() => navigate(`${list.url}`)}
                 >
                   <ListItemIcon>{list.icon}</ListItemIcon>
@@ -173,8 +179,41 @@ function index(props: any) {
             </ListItem>
           ))}
         </List>
-        <Divider />
       </WithRoleAllowedRoutes>
+
+      {/* Reporteros */}
+      <List>
+        <ListItemButton onClick={handleOpenReporter}>
+          <ListItemIcon>
+            <FindInPageOutlinedIcon sx={{ color: color }} />
+          </ListItemIcon>
+          <ListItemText primary="Reportero" />
+          {openReporter ? <ExpandLess /> : <ExpandMore />}
+        </ListItemButton>
+
+        <Collapse in={openReporter} timeout="auto" unmountOnExit>
+          <List>
+            <ListItem disablePadding>
+              <ListItemButton sx={{ml: 4}} onClick={() => navigate('/dashboard/reporter-operative')}>
+                <ListItemIcon><LocalShippingOutlinedIcon sx={{ color: color }}/></ListItemIcon>
+                <ListItemText primary='Operativas'/>
+              </ListItemButton>
+            </ListItem>
+
+            <WithRoleAllowedRoutes allowedRolesList={optionsViewsNotAuditors}>
+              <ListItem disablePadding>
+                <ListItemButton sx={{ml: 4}} onClick={() => navigate('/dashboard/reporter-admin')}>
+                  <ListItemIcon><SupervisorAccountOutlinedIcon sx={{ color: color }}/></ListItemIcon>
+                  <ListItemText primary='Administrativas'/>
+                </ListItemButton>
+              </ListItem>
+            </WithRoleAllowedRoutes>
+
+          </List>
+        </Collapse>
+
+        <Divider />
+      </List>
 
       {/* Administracion */}
       <WithRoleAllowedRoutes allowedRolesList={optionsViewsTI}>
