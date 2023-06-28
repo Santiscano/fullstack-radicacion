@@ -7,12 +7,6 @@ import { TabPanel, a11yProps } from "../../components/tools/MultiViewPanel";
 import useNewEmployee from "./hooks/useNewEmployee";
 // componets employee
 import Debounced from "../../components/common/Debounced";
-import CreateEmployee from "./components/TabsPanel/CreateEmployee";
-import Documents from "./components/TabsPanel/Documents";
-import EmergencyContact from "./components/TabsPanel/EmergencyContact";
-import Hiring from "./components/TabsPanel/Hiring";
-import PersonalInformation from "./components/TabsPanel/PersonalInformation";
-import SociodemographicProfile from "./components/TabsPanel/SociodemographicProfile";
 
 interface Props {}
 const NewEmployee: FC<Props> = () => {
@@ -64,27 +58,21 @@ const NewEmployee: FC<Props> = () => {
               </Box>
 
               <TabPanel value={showValue} index={0}>
-                <CreateEmployee />
               </TabPanel>
 
               <TabPanel value={showValue} index={1}>
-                <PersonalInformation />
               </TabPanel>
 
               <TabPanel value={showValue} index={2}>
-                <Hiring />
               </TabPanel>
 
               <TabPanel value={showValue} index={3}>
-                <EmergencyContact />
               </TabPanel>
 
               <TabPanel value={showValue} index={4}>
-                <SociodemographicProfile />
               </TabPanel>
 
               <TabPanel value={showValue} index={5}>
-                <Documents />
               </TabPanel>
               <TabPanel value={showValue} index={6}>
                 <>

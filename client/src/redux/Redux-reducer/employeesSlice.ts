@@ -106,7 +106,62 @@ export type Employee = {
   work_reference_document:string;
   employment_work_reference :string;
   employment_academic_reference: string;
-  employment_personal_academic: string;
+  employment_personal_reference: string;
+  // hiring
+  work_contract: string;
+  another_if: string;
+  confidentiality_agreement: string;
+  auth_owner_information: string;
+  siplaft_query: string;
+  job_description: string;
+  induction:string;
+  apprentice_cover_letter: string;
+  human_management_concept:string;
+  home_visit:string;
+  fingerprint_registration: string;
+  // health safety at work
+  medical_examination_admission: string;
+  periodic_medical_examination: string;
+  disabilities: string;
+  permit_request:string;
+  endowment: string;
+  performance_evaluation:string;
+  delivery_work_tools:string;
+  // beneficiary
+  marriage_certificate:string;
+  beneficiary_identity_card:string;
+  childrens_civil_registry:string;
+  childrens_identity_card:string;
+  childrens_study_certificate:string;
+  // membership
+  social_security_payment:string;
+  eps_certificate: string;
+  eps_affiliation_certificate: string;
+  fp_certificate: string;
+  affiliation_certificate_compensation_box: string;
+  layyoffs_certificate: string;
+  arl_affiliation_certificate:string;
+  // social benefit
+  premium_services:string;
+  vacation:string;
+  severance_withdrawal_request:string;
+  proof_of_severance_pay:string;
+  // withdrawal
+  letter_of_resignation:string;
+  letter_of_acceptance:string;
+  contract_termination:string;
+  letter_withdrawal_medical_examination:string;
+  withdrawal_medical_examination:string;
+  final_settlement:string;
+  eps_withdrawal :string;
+  layoffs_withdrawal :string;
+  arl_withdrawal :string;
+  compensation_box_withdrawal :string;
+  delivery_work_tool:string;
+  // deductions
+  dp:string;
+  order:string;
+  payroll_deduction_authorization_events:string;
 };
 
 const initialState: Employee = {
@@ -211,8 +266,63 @@ const initialState: Employee = {
   academic_reference_document:'',
   work_reference_document:'',
   employment_work_reference :'',
+  employment_personal_reference: '',
   employment_academic_reference: '',
-  employment_personal_academic: '',
+  // hiring
+  work_contract: '',
+  another_if: '',
+  confidentiality_agreement: '',
+  auth_owner_information: '',
+  siplaft_query: '',
+  job_description: '',
+  induction: '',
+  apprentice_cover_letter: '',
+  human_management_concept: '',
+  home_visit: '',
+  fingerprint_registration: '',
+  // health safety at work
+  medical_examination_admission:  '',
+  periodic_medical_examination:  '',
+  disabilities:  '',
+  permit_request: '',
+  endowment:  '',
+  performance_evaluation: '',
+  delivery_work_tools: '',
+  // beneficiary
+  marriage_certificate: '',
+  beneficiary_identity_card: '',
+  childrens_civil_registry: '',
+  childrens_identity_card: '',
+  childrens_study_certificate: '',
+  // membership
+  social_security_payment: '',
+  eps_certificate:  '',
+  eps_affiliation_certificate:  '',
+  fp_certificate:  '',
+  affiliation_certificate_compensation_box:  '',
+  layyoffs_certificate:  '',
+  arl_affiliation_certificate: '',
+  // social benefit
+  premium_services: '',
+  vacation: '',
+  severance_withdrawal_request: '',
+  proof_of_severance_pay: '',
+  // withdrawal
+  letter_of_resignation: '',
+  letter_of_acceptance: '',
+  contract_termination: '',
+  letter_withdrawal_medical_examination: '',
+  withdrawal_medical_examination: '',
+  final_settlement: '',
+  eps_withdrawal : '',
+  layoffs_withdrawal : '',
+  arl_withdrawal : '',
+  compensation_box_withdrawal : '',
+  delivery_work_tool: '',
+  // deductions
+  dp: '',
+  order: '',
+  payroll_deduction_authorization_events: '',
 };
 
 export const employeesSlice = createSlice({
