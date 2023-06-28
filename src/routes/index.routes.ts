@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import path from 'path';
 
 // Importando controladores de las rutas
 import { getRoles, postRol, putRol, deleteRol, getRolesNotAdminProvider, getRolProvider, getIdRol, getRolesName } from '../controllers/roles.controller';
@@ -13,7 +14,7 @@ import { getCostCenter, getCostCenterById, postCostCenter, deleteCostCenter } fr
 import { getFilesPath, postChargeFilePath, postFilePath, deleteFilePath } from '../controllers/files_path.controller';
 import { createUser, logIn, validateUser, changePassword } from '../controllers/firebase/firebase.controller'
 import { showTable, fileShowTable, pendingTable, historyTable } from '../controllers/showTable.controller';
-import { getAllRegisteredFile, getIdentificationByType, getTypeIdentification, registeredFilter, accountTypeFilter, actionFilter, usersFilterToNextAuditor, usersFilterReturnAuditor } from '../controllers/filters.controller';
+import { getAllRegisteredFile, getIdentificationByType, getTypeIdentification, registeredFilter, accountTypeFilter, actionFilter, usersFilterToNextAuditor, usersFilterReturnAuditor, pendingReport, finishedReport } from '../controllers/filters.controller';
 import { getTrackings, getTrackingRegistered, getTrackingAccountType } from '../controllers/tracking.controller';
 import { uploadFileDocument } from '../controllers/upload/googleBucket.controller';
 
@@ -119,11 +120,17 @@ router.post('/accountTypeFilter', accountTypeFilter);                  // Filtro
 router.post('/actionFilter', actionFilter);                            // Filtro de los estados de archivo según rol usuario
 router.post('/usersFilterToNextAuditor', usersFilterToNextAuditor);    // Filtro de siguiente asignado según rol usuario
 router.get('/usersFilterReturnAuditor', usersFilterReturnAuditor);    // Filtro de lista de auditores o gerente
+router.get('/pendingReport', pendingReport);                            // Reportero Pendiente
+router.get('/finishedReport', finishedReport);                          // Reportero Finalizados
 
 // API routes
 router.get('/routerApi', routerApi);                                                // Traer las rutas que tiene el sistema
 
-
+//RUTA PARA ACCEDER A LOS ARCHIVOS DEL SERVIDOR
+router.get("/archivos/:archivo", (req, res)=>{
+    const {archivo} = req.params
+    res.sendFile(path.join(__dirname, `../../temp/${archivo}`))
+});
 
 // Exportando el router
 export default router;
