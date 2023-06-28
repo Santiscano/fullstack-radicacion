@@ -4,7 +4,6 @@ import { success, unsuccessfully, unauthorized, uncompleted, errorMessage } from
 import { simplisticsConnection } from '../../config/database/simplistics_DB';
 import { getIdSedesModel } from '../../models/sedes.model';
 import { apiKeyValidate } from '../../utilities/apiKeyValidate.utilities';
-import { getAllRowTable } from '../../utilities/SQL/countTable.utilities';
 
 export const simplisticsPortafolio = async (req: Request, res: Response) => {
     const { tipoDoc, pag } = req.params;
