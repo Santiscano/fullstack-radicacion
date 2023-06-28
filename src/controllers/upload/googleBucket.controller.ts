@@ -24,15 +24,17 @@ export const uploadFileDocument = async (req: Request, res: Response) => {
         upload(req, res, async (error) => {
             if (error) return res.send({error: true, message: "FILE_UPLOAD_FAILED"});
             if (req.file) {
+                const partes: string[] = req.file.originalname.split(".");
+                const extension: string = partes[partes.length - 1].trim();
                 const ruta: string = req.file.filename;
                 // NOMBRE DEL ARCHIVO EN EL BUCKET
                 const destino: string = `${file[0].files_registered}-${filePathCount[0].contador + 1}`;
                 const pathPDF: string = req.file.path;
-                const pathFile: string = `https://storage.cloud.google.com/${process.env.BUCKET_NAME}/${process.env.BUCKET_ASSIGN}/${files_type}/${destino}.pdf?authuser=3`
+                const pathFile: string = `https://storage.cloud.google.com/${process.env.BUCKET_NAME}/${process.env.BUCKET_ASSIGN}/${files_type}/${destino}.${extension}?authuser=3`
                 // EDITAR PDF (AGREGAR RADICADO)
                 await editPDF(pathPDF, pathPDF, destino);
                 // CARGAR EL PDF AL BUCKET
-                await uploadFile(ruta, `${process.env.BUCKET_ASSIGN}/${files_type}/${destino}.pdf`);
+                await uploadFile(ruta, `${process.env.BUCKET_ASSIGN}/${files_type}/${destino}.${extension}`);
                 // ELIMINAR ARCHIVO DEL SERVIDOR
                 fs.unlinkSync(pathPDF);
                 return res.status(200).json({error: false, fileName: destino, pathFile, message});

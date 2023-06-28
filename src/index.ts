@@ -91,6 +91,12 @@ app.get("*", (req, res)=>{
     res.sendFile(path.join(__dirname, '../client/dist/index.html'))
 });
 
+//RUTA PARA ACCEDER A LOS ARCHIVOS DEL SERVIDOR
+// router.get("/archivos/:archivo", (req, res)=>{
+//     const {archivo} = req.params
+//     res.sendFile(path.join(__dirname, `../temp/${archivo}`))
+// });
+
 // INICIAR EL SERVIDOR http://
 app.listen(app.get("port"), () => {
     console.log(`Server started at ${process.env.URL_LOCAL}:${app.get("port")}`);
