@@ -14,6 +14,7 @@ import { get, roles } from "../components/tools/SesionSettings";
 import MouseOutlinedIcon from '@mui/icons-material/MouseOutlined';
 import QrCode2Icon from '@mui/icons-material/QrCode2';
 import TextSnippetRoundedIcon from '@mui/icons-material/TextSnippetRounded';
+import ConstructionOutlinedIcon from '@mui/icons-material/ConstructionOutlined';
 
 const color = { color: "#293184" };
 
@@ -117,6 +118,11 @@ export default {
         name: "Web Viewer",
         url: "/dashboard/excel",
         icon: <TextSnippetRoundedIcon/>,
+      },
+      {
+        name: "vista en construccion",
+        url: "/dashboard/vista-en-construccion",
+        icon: <ConstructionOutlinedIcon/>,
       },
     ],
   },

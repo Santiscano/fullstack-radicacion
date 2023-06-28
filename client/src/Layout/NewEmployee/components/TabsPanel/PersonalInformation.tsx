@@ -138,17 +138,7 @@ const PersonalInformation = () => {
               setValue={setAcademicLevel}
             />
           </article>
-          <article className="md:w-1/2">
-            <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-              Cumpleaños
-            </label>
-            <TextFieldOutlined
-              type={"text"}
-              label="DD/MM"
-              value={user.birthdate}
-              setValue={setBirthdate}
-            />
-          </article>
+
         </div>
         <div className="md:flex md:flex-wrap">
           <article className="md:w-1/2">

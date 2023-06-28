@@ -1,4 +1,4 @@
-import { IconButton, Tooltip, styled } from "@mui/material";
+import { IconButton, Tooltip, Typography, styled } from "@mui/material";
 import Box from "@mui/material/Box";
 import RefreshIcon from '@mui/icons-material/Refresh';
 import {
@@ -111,6 +111,12 @@ const UsersTables = () => {
                     <Tooltip title="Actualizar Tabla">
                       <IconButton onClick={handleUpdateDataUsers}>
                         <RefreshIcon style={{color: "black"}}/>
+                        <Typography
+                          variant="subtitle2"
+                          sx={{color:"#000", marginLeft: "12px"}}
+                        >
+                          Recargar
+                        </Typography>
                       </IconButton>
                     </Tooltip>
                   </GridToolbarContainer>

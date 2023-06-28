@@ -3,7 +3,6 @@ import { Box, Divider, Modal } from "@mui/material";
 import "animate.css";
 import { FC } from "react";
 import useContextProvider from "../../../../Context/GeneralValuesContext";
-import { formateData } from "../../../../Utilities/formatted.utility";
 import Button from "../../../../components/common/Button";
 import TextFieldOutlined from "../../../../components/common/TextFieldOutline";
 import { useModalUserView } from "../../../../redux/Redux-actions/useModalUserView";
@@ -11,10 +10,7 @@ import { useAppSelector } from "../../../../redux/hooks/useStore";
 import useSubmit from "../../Hooks/useSubmit";
 import InputEditCedi from "../common/InputEditCedi";
 import InputEditDocumentType from "../common/InputEditDocumentType";
-import InputSelectRol from "../../../../components/common/InputSelectRol";
-import InputSelectCedi from "../../../../components/common/InputSelectCedi";
 import InputEditRol from "../common/InputEditRol";
-import InputSelectDocType from "../../../../components/common/InputSelectDocType";
 
 const style = {
   position: "absolute" as "absolute",
@@ -30,13 +26,20 @@ const style = {
   p: 4,
 };
 
-interface Props {};
+interface Props {}
 
 const EditUserForm: FC<Props> = () => {
   const { openModalAuth, handleOpenModalAuth } = useContextProvider();
   const user = useAppSelector((state) => state.modalUserViewSlice);
   const { handleSubmitUpdateUser, handleSubmitInactiveUser } = useSubmit();
-  const { setUsersIdentification, setUsersName, setUsersLastName, setUsersAddress, setUsersPhone, setUsersEmail  } = useModalUserView()
+  const {
+    setUsersIdentification,
+    setUsersName,
+    setUsersLastName,
+    setUsersAddress,
+    setUsersPhone,
+    setUsersEmail,
+  } = useModalUserView();
   return (
     <>
       <Modal
@@ -91,7 +94,7 @@ const EditUserForm: FC<Props> = () => {
               </article>
               <article className="md:w-1/2">
                 <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                    Numero de documento
+                  Numero de documento
                 </label>
                 <TextFieldOutlined
                   type={"number"}
@@ -156,17 +159,28 @@ const EditUserForm: FC<Props> = () => {
               </article>
             </div>
             <div className="flex justify-between">
-              <Button name="Actualizar"/>
-              { user.users_status == "ACTIVO"
-                ? <button className="button button--flex mt-4 bg-[red]" onClick={handleSubmitInactiveUser}>Inactivar Usuario</button>
-                : <button className="button button--flex mt-4 bg-[geen]" onClick={handleSubmitInactiveUser}>Activar Usuario</button>
-              }
+              <Button name="Actualizar" />
+              {user.users_status == "ACTIVO" ? (
+                <button
+                  className="button button--flex mt-4 bg-[red]"
+                  onClick={handleSubmitInactiveUser}
+                >
+                  Inactivar Usuario
+                </button>
+              ) : (
+                <button
+                  className="button button--flex mt-4 bg-[geen]"
+                  onClick={handleSubmitInactiveUser}
+                >
+                  Activar Usuario
+                </button>
+              )}
             </div>
           </form>
         </Box>
       </Modal>
     </>
-  )
-}
+  );
+};
 
-export default EditUserForm
+export default EditUserForm;

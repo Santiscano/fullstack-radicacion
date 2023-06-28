@@ -36,8 +36,14 @@ export const useEmployee = () => {
   const setUsersPhone = (users_phone:string) => {
     dispatch(setEmployee({users_phone}))
   };
+  const setUsersCellphone = (users_cellphone:string) => {
+    dispatch(setEmployee({users_cellphone}))
+  };
   const setUsersEmail = (users_email:string) => {
     dispatch(setEmployee({users_email}))
+  };
+  const setUsersStatus = (event: ChangeEvent<HTMLInputElement>) => {
+    dispatch(setEmployee({users_status: event.target.value}))
   };
 
   // --------------personal information--------//
@@ -62,20 +68,20 @@ export const useEmployee = () => {
   const setArlEmergency = (arl_emergency:string) => {
     dispatch(setEmployee({arl_emergency}))
   };
-  const setRh = (rh:string) => {
-    dispatch(setEmployee({rh}))
+  const setRh = (event:ChangeEvent<HTMLInputElement>) => {
+    dispatch(setEmployee({rh: event.target.value}));
   };
-  const setAcademicLevel = (academic_level:string) => {
-    dispatch(setEmployee({academic_level}))
+  const setAcademicLevel = (event:ChangeEvent<HTMLInputElement>) => {
+    dispatch(setEmployee({academic_level: event.target.value}))
   };
   const setBirthdate = (birthdate:string) => {
     dispatch(setEmployee({birthdate}))
   };
-  const setGender = (gender:string) => {
-    dispatch(setEmployee({gender}))
+  const setGender = (event:ChangeEvent<HTMLInputElement>) => {
+    dispatch(setEmployee({gender:event.target.value}))
   };
-  const setCivilStatus = (civil_status:string) => {
-    dispatch(setEmployee({civil_status}))
+  const setCivilStatus = (event:ChangeEvent<HTMLInputElement>) => {
+    dispatch(setEmployee({civil_status:event.target.value}))
   };
   const setCity = (city:string) => {
     dispatch(setEmployee({city}))
@@ -99,8 +105,8 @@ export const useEmployee = () => {
   const setPositionName = (position_name:string) => {
     dispatch(setEmployee({position_name}))
   };
-  const setCompanyName = (company_name:string) => {
-    dispatch(setEmployee({company_name}))
+  const setCompanyName = (event:ChangeEvent<HTMLInputElement>) => {
+    dispatch(setEmployee({company_name: event.target.value}))
   };
   const setCompanyAddress = (company_address:string) => {
     dispatch(setEmployee({company_address}))
@@ -255,7 +261,9 @@ export const useEmployee = () => {
     setUsersLastName,
     setUsersAddress,
     setUsersPhone,
+    setUsersCellphone,
     setUsersEmail,
+    setUsersStatus,
     // personal information
     setCompensationFund,
     setPension,

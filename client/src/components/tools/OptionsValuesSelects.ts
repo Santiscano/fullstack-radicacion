@@ -50,6 +50,51 @@ export const optionSportFrequency = [
   'DIARIO',
   'NINGUNO'
 ];
+export const optionIsActive = [
+  'ACTIVO',
+  'INACTIVO',
+];
+export const optionCediHiring = [
+  'MEDELLÍN',
+  'BOGOTÁ',
+  'CALI',
+  'BARRANQUILLA',
+  'LD',
+  'HERMECO'
+];
+export const optionRH = [
+  'A+',
+  'A-',
+  'B+',
+  'B-',
+  'AB+',
+  'AB-',
+  'O+',
+  'O-'
+];
+export const optionCivilStatus = [
+  'SOLTERO',
+  'UNION LIBRE',
+  'CASADO',
+  'DIVORCIADO',
+  'VIUDO'
+];
+export const optionGenero = [
+  'HOMBRE',
+  'MUJER'
+];
+export const optionAcademicLevel = [
+  'SIN ESTUDIOS',
+  'PRIMARIA',
+  'BACHILLER',
+  'TECNICO',
+  'TECNOLOGO',
+  'PREGRADO',
+  'POST-GRADO',
+  'MAESTRIA',
+  'DOCTORADO',
+  'POST-DOCTORADO',
+];
 export const optionsActivity = [
   {name:'APROBAR', value:2 },
   {name:'RECHAZAR', value:3 },
