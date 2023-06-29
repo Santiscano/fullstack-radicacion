@@ -19,15 +19,15 @@ import { decodeToken } from './middleware/manage.token';
 const app = express();
 
 // RUTAS SSL
-const privateKey = fs.readFileSync(`${process.env.SSL_PRIVATE_KEY}`, 'utf8')
-const certificate  = fs.readFileSync(`${process.env.SSL_CERTIFICATE}`, 'utf8')
+// const privateKey = fs.readFileSync(`${process.env.SSL_PRIVATE_KEY}`, 'utf8')
+// const certificate  = fs.readFileSync(`${process.env.SSL_CERTIFICATE}`, 'utf8')
 
-const credentials = {
-    key: privateKey,
-    cert: certificate
-};
+// const credentials = {
+//     key: privateKey,
+//     cert: certificate
+// };
 
-const httpsServer = https.createServer(credentials, app);
+// const httpsServer = https.createServer(credentials, app);
 
 // DOCUMENTACIÓN SWAGGER 
 const swaggerSpec = {
@@ -93,11 +93,11 @@ app.get("*", (req, res)=>{
 
 
 // INICIAR EL SERVIDOR http://
-// app.listen(app.get("port"), () => {
-//     console.log(`Server started at ${process.env.URL_LOCAL}`);
-// });
+app.listen(app.get("port"), () => {
+    console.log(`Server started at ${process.env.URL_LOCAL}`);
+});
 
 // INICIAR EL SERVIDOR https://
-httpsServer.listen( 443, () => {
-    console.log(`Server started at ${process.env.URL_SERVER}`);
-});
+// httpsServer.listen( 443, () => {
+//     console.log(`Server started at ${process.env.URL_SERVER}`);
+// });

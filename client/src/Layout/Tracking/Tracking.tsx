@@ -69,11 +69,6 @@ const Tracking:FC = () => {
   const {
     showValue,
     handleChange,
-    // document,
-    // onType,
-    // onNumber,
-    // handleTrackingBySettled,
-    // handleTrackingByDocument,
   } = useAttachFile();
 
   const {
