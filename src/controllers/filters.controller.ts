@@ -231,26 +231,25 @@ export const finishedReport = async (req: Request, res: Response) => {
                 .status(422)
                 .json(uncompleted(missingData({ type, startDate, endDate }).missing));
         const data: any = await finishedReportModel(type, startDate, endDate);
-        // return res.status(200).json(success(data))
         const datos = data.map((resultado: any) => Object.values(resultado));
         const link = ExportExcel(
             datos,
             [
-                "Razón Social",
-                "Tipo de Identificación",
-                "Número de Identificación",
+                "RADICADO",
+                "FECHA INGRESO",
+                "TIPO DE CUENTA",
+                "NUMERO DE CUENTA",
+                "DOCUMENTO",
+                "RAZÓN SOCIAL",
+                "VALOR",
+                "CENTRO DE COSTO",
+                "TESORERIA",
                 "CEDI",
-                "Tipo de Documento",
-                "Radicado",
-                "Centro de Costos",
-                "Precio",
-                "Tipo de Cuenta",
-                "Número de Cuenta",
-                "Estado Actual",
-                "Responsable Actual",
-                "Rol del Responsable",
-                "Fecha de Ingreso",
-                "Nombre Radico"
+                "TIPO DE FACTURA",
+                "ESTADO ACTUAL",
+                "RESPONSABLE ACTUAL",
+                "ROL DEL RESPONSABLE",
+                "APROBÓ"
             ],
             "reporteFinalizados"
         );
