@@ -39,6 +39,7 @@ export const uploadFileDocument = async (req: Request, res: Response) => {
                 fs.unlinkSync(pathPDF);
                 return res.status(200).json({error: false, fileName: destino, pathFile, message});
             };
+            return res.status(202).json({error: false, message: "No has cargado ningún documento"}); 
         });
     } catch (error) {
         return res.status(512).json(unsuccessfully(error));
