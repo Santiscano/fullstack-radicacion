@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import { missingData } from "../utilities/missingData.utilities";
 import { apiKeyValidate } from "../utilities/apiKeyValidate.utilities";
+import { firstCapitalLetter } from "../utilities/firstCapitalLetter";
+import moment from 'moment-timezone'
 import {
     errorMessage,
     success,
@@ -186,27 +188,31 @@ export const pendingReport = async (req: Request, res: Response) => {
                 .status(422)
                 .json(uncompleted(missingData({ type }).missing));
         const data: any = await pendingReportModel(type);
+        // return res.json(data)
         const datos = data.map((resultado: any) => Object.values(resultado));
+        const info = moment.tz(new Date(), "America/Bogota").format();
+        
+        const date = info.substring(0,10).replace(/-/g, "_");
+        console.log(date);
         const link = ExportExcel(
             datos,
             [
-                "Razón Social",
-                "Tipo de Identificación",
-                "Número de Identificación",
+                "RADICADO",
+                "FECHA INGRESO",
+                "TIPO DE CUENTA",
+                "NUMERO DE CUENTA",
+                "DOCUMENTO",
+                "RAZÓN SOCIAL",
+                "VALOR",
+                "CENTRO DE COSTO",
                 "CEDI",
-                "Tipo de Documento",
-                "Radicado",
-                "Centro de Costos",
-                "Precio",
-                "Tipo de Cuenta",
-                "Número de Cuenta",
-                "Estado Actual",
-                "Responsable Actual",
-                "Rol del Responsable",
-                "Fecha de Ingreso",
-                "Nombre Radico"
+                "TIPO DE FACTURA",
+                "ESTADO ACTUAL",
+                "RESPONSABLE ACTUAL",
+                "ROL DEL RESPONSABLE",
+                "RADICÓ"
             ],
-            "reportePendientes"
+            `${date}_reportePendientes${firstCapitalLetter(type)}`
         );
         return res.status(200).json(success(link));
     } catch (error) {
