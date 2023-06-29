@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FormEvent, useState } from 'react'
+import { ChangeEvent, FormEvent, useState } from 'react'
 import { useAppSelector } from '../../../../redux/hooks/useStore';
 import { useEmployee } from '../../../../redux/Redux-actions/useEmployee';
 // images

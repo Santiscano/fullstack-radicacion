@@ -2,29 +2,27 @@ import { ChangeEvent, FormEvent, useState } from 'react';
 import { useAppSelector } from '../../../../redux/hooks/useStore';
 import { useEmployee } from '../../../../redux/Redux-actions/useEmployee';
 
-const Beneficiary = () => {
+const SocialBenefit = () => {
   const employee = useAppSelector((state) => state.employeesSlice);
-  const { setMarriageCertificate, setBeneficiaryIdentityCard, setChildrensCivilRegistry,
-    setChildrensIdentityCard, setChildrensStudyCertificate} = useEmployee();
+  const { setPremiumServices, setVacation, setSeveranceWithdrawalRequest, setProofOfSeverancePay} = useEmployee();
 
-  // Partida de Matrimonio
+  // Prima de servicios
   const [ctPath, setCtPath] = useState("");
   const handleCt = (e: ChangeEvent<HTMLInputElement>) => {
     // @ts-ignore
     setCtPath(e.target.files[0]);
     const fileNameEvent = e.target.value.replace(/^.*\\/, ""); // renombrar archivo
-    setMarriageCertificate(fileNameEvent);
+    setPremiumServices(fileNameEvent);
   };
-  // cedula del beneficiario
-  // copia registro civil hijos
-  // copia tarjeta identidad hijos
-  // certificado de estudios hijos
+  // Vacaciones
+  // Solicitud retiro de cesantias
+  //  Comprobante de consignacion de cesantías
 
   return (
     <div>
-      beneficiario
+      social
     </div>
   )
 }
 
-export default Beneficiary
+export default SocialBenefit
