@@ -283,7 +283,7 @@ function GenerateFiles() {
         idUser,
         settledNumber,
         price,
-        invoiceType == 'OPERATIVO' ? usersResponsibleFor.usuarioContableDeAdministrativos : redirectTo,
+        invoiceType == 'OPERATIVO' ? usersResponsibleFor.usuarioContableDeOperativos : redirectTo,
         // @ts-ignore
         cedi.idsedes,
         invoiceType,
