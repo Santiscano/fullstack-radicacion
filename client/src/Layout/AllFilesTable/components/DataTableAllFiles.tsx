@@ -128,6 +128,16 @@ export default function DataTableAllFiles({ row }: any) {
             },
             pagination: { pageSize: 25 },
           }}
+          localeText={{
+            noRowsLabel: "No se ha encontrado datos.",
+            noResultsOverlayLabel: "No se ha encontrado ningún resultado",
+            toolbarColumns: "Columnas",
+            toolbarColumnsLabel: "Seleccionar columnas",
+            toolbarFilters: "Filtros",
+            toolbarFiltersLabel: "Ver filtros",
+            toolbarFiltersTooltipHide: "Quitar filtros",
+            toolbarFiltersTooltipShow: "Ver filtros",
+          }}
         />
       </Box>
       {openModalAuth && (

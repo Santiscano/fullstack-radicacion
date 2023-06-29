@@ -95,6 +95,8 @@ export default {
     tables: {
       allFiles: `${host}/showTable`,
       pending: `${host}/pendingTable`,
+      operative: `${host}/operativeShowTable`,
+      administrative: `${host}/operativeShowTable`,
       history: `${host}/historyTable`,
     },
     searchingFile: {

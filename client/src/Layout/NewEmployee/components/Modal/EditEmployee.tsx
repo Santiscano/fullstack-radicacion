@@ -9,6 +9,13 @@ import Contratación from '../StepView/Contratación';
 import PersonalInformation from '../StepView/PersonalInformation';
 import SociodemographicProfile from '../StepView/SociodemographicProfile';
 import Identification from '../StepView/Identification';
+import Hiring from '../StepView/Hiring';
+import HealthSafetyWork from '../StepView/HealthSafetyWork';
+import Beneficiary from '../StepView/Beneficiary';
+import Membership from '../StepView/Membership';
+import SocialBenefit from '../StepView/SocialBenefit';
+import Withdrawal from '../StepView/Withdrawal';
+import Deductions from '../StepView/Deductions';
 
 const style = {
   position: "absolute" as "absolute",
@@ -116,12 +123,13 @@ const EditEmployee: FC = () => {
               {activeStep == 2 &&(<PersonalInformation/>)}
               {activeStep == 3 &&(<SociodemographicProfile/>)}
               {activeStep == 4 &&(<Identification/>)}
-              {/* {activeStep == 5 &&(</>)} */}
-              {/* {activeStep == 6 &&(</>)} */}
-              {/* {activeStep == 7 &&(</>)} */}
-              {/* {activeStep == 8 &&(</>)} */}
-              {/* {activeStep == 9 &&(</>)} */}
-              {/* {activeStep == 10 &&(</>)} */}
+              {activeStep == 5 &&(<Hiring/>)}
+              {activeStep == 6 &&(<HealthSafetyWork/>)}
+              {activeStep == 7 &&(<Beneficiary/>)}
+              {activeStep == 8 &&(<Membership/>)}
+              {activeStep == 9 &&(<SocialBenefit/>)}
+              {activeStep == 10 &&(<Withdrawal/>)}
+              {activeStep == 10 &&(<Deductions/>)}
 
               {/* butons next - prev */}
               <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>

@@ -4,6 +4,7 @@ companyFiles/
 temp/
 keys/
 logs/
+Commands/
 
 # dotenv environment variables file
 .env

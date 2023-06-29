@@ -102,6 +102,7 @@ const Debounced: FC<Props> = ({
     setAnchorEl(null);
     setSearch(`${option.users_name} ${option.users_lastname}`);
     console.log('capturado', option);
+    // @ts-ignore
     addEmployee(option)
   };
 

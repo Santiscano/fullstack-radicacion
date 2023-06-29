@@ -1,4 +1,4 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore, Middleware, MiddlewareArray } from "@reduxjs/toolkit";
 
 // Slices
 import userSession from "./Redux-reducer/userSessionSlice";  //usuario en sesion

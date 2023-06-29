@@ -42,6 +42,15 @@ export const showTableAllFiles = async () => {
   }
 };
 
+export const operativeShowTable = async () => {
+  try {
+    const table = await axios.post(Routes.api.tables.operative, {
+      idroles: Number(get("idroles"))
+    }, getHeader());
+    return table;
+  } catch(error) {}
+};
+
 export const showTableHistory = async () => {
   try{
     const history = await axios.post(Routes.api.tables.history,{
