@@ -176,7 +176,7 @@ export const usersFilterToNextAuditorModel = async (
             `
         SELECT users.*, roles.roles FROM users
             JOIN roles ON users.idroles = roles.idroles
-                WHERE idroles = ?`,
+                WHERE users.idroles = ?`,
             7
         );
         dataResult = dataInfo;
@@ -186,7 +186,7 @@ export const usersFilterToNextAuditorModel = async (
             `
         SELECT users.*, roles.roles FROM users
             JOIN roles ON users.idroles = roles.idroles
-                WHERE idroles = ?`,
+                WHERE users.idroles = ?`,
             8
         );
         dataResult = dataInfo;
@@ -196,7 +196,7 @@ export const usersFilterToNextAuditorModel = async (
             `
         SELECT users.*, roles.roles FROM users
             JOIN roles ON users.idroles = roles.idroles
-                WHERE idroles = ?`,
+                WHERE users.idroles = ?`,
             10
         );
         dataResult = dataInfo;
