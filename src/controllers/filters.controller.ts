@@ -188,12 +188,14 @@ export const pendingReport = async (req: Request, res: Response) => {
                 .status(422)
                 .json(uncompleted(missingData({ type }).missing));
         const data: any = await pendingReportModel(type);
-        // return res.json(data)
-        const datos = data.map((resultado: any) => Object.values(resultado));
-        const info = moment.tz(new Date(), "America/Bogota").format();
         
+        if(data[0] === undefined) return res.status(417).json(errorMessage(`No hay archivos Pendientes en el sistema.`))
+        
+        const datos = data.map((resultado: any) => Object.values(resultado));
+        
+        const info = moment.tz(new Date(), "America/Bogota").format();
         const date = info.substring(0,10).replace(/-/g, "_");
-        console.log(date);
+
         const link = ExportExcel(
             datos,
             [
@@ -231,7 +233,12 @@ export const finishedReport = async (req: Request, res: Response) => {
                 .status(422)
                 .json(uncompleted(missingData({ type, startDate, endDate }).missing));
         const data: any = await finishedReportModel(type, startDate, endDate);
+        if(data[0] === undefined) return res.status(417).json(errorMessage(`No hay archivos Finalizados entre ${startDate} - ${endDate}.`))
         const datos = data.map((resultado: any) => Object.values(resultado));
+        
+        const info = moment.tz(new Date(), "America/Bogota").format();
+        const date = info.substring(0,10).replace(/-/g, "_");
+
         const link = ExportExcel(
             datos,
             [
@@ -243,15 +250,14 @@ export const finishedReport = async (req: Request, res: Response) => {
                 "RAZÓN SOCIAL",
                 "VALOR",
                 "CENTRO DE COSTO",
-                "TESORERIA",
+                "CODIGO DE EGRESO",
                 "CEDI",
                 "TIPO DE FACTURA",
-                "ESTADO ACTUAL",
-                "RESPONSABLE ACTUAL",
+                "ESTADO",
+                "RESPONSABLE DE FINALIZAR",
                 "ROL DEL RESPONSABLE",
-                "APROBÓ"
             ],
-            "reporteFinalizados"
+            `${date}_reporteFinalizados${firstCapitalLetter(type)}`
         );
         return res.status(200).json(success(link));
     } catch (error) {
