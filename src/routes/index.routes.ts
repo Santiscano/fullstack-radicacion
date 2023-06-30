@@ -18,6 +18,8 @@ import { getAllRegisteredFile, getIdentificationByType, getTypeIdentification, r
 import { getTrackings, getTrackingRegistered, getTrackingAccountType } from '../controllers/tracking.controller';
 import { uploadFileDocument } from '../controllers/upload/googleBucket.controller';
 
+import { deleteBackendDocuments } from '../controllers/delete_backend_documents';
+
 // MIDDLEWARE TOKEN
 import { decodeToken } from '../middleware/manage.token';
 
@@ -122,6 +124,10 @@ router.post('/usersFilterToNextAuditor', usersFilterToNextAuditor);    // Filtro
 router.get('/usersFilterReturnAuditor', usersFilterReturnAuditor);    // Filtro de lista de auditores o gerente
 router.post('/pendingReport', pendingReport);                            // Reportero Pendiente
 router.post('/finishedReport', finishedReport);                          // Reportero Finalizados
+
+
+// ELIMINAR DOCUMENTOS DEL BACKEND
+router.post("/deleteBackendDocuments", deleteBackendDocuments)
 
 // API routes
 router.get('/routerApi', routerApi);                                                // Traer las rutas que tiene el sistema

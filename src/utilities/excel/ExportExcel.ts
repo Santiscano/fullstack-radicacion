@@ -45,7 +45,7 @@ export const ExportExcel = (datos: any, headers: string[], name: string) => {
     });
 
     workbook.xlsx.writeFile(filePath);
-    return `${process.env.URL_LOCAL}/archivos/${fullname}`;
+    return `${process.env.URL_EXCEL}/archivos/${fullname}`;
 };
 
 // COMO UTILIZAR EL METODO "ExportExcel"
