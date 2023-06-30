@@ -38,7 +38,7 @@ import { WithRoleAllowedComponent } from "./Middlewares/WithRoleAllowed";
 import BussinessGroup from "./modules/Global/BussinessGroup";
 import WebViewer from "./Layout/WebViewer";
 import ViewConstructor from "./Layout/ViewConstructor";
-import ReporterAdmin from "./Layout/ReporterAdmin";
+import Reporter from "./Layout/Reporter";
 import ReporterOperative from "./Layout/ReporterOperative";
 // import NewEmployeeTest from "./Layout/NewEmployee";
 
@@ -104,7 +104,7 @@ function App() {
 
               {/* reporter */}
               <Route element={<WithRoleAllowedComponent allowedRolesList={optionsViewsNotAuditors}/>}>
-                <Route path="reporter-admin" element={<ReporterAdmin/>}/>
+                <Route path="reporter-admin" element={<Reporter/>}/>
               </Route>
               <Route path="reporter-operative" element={<ReporterOperative/>}/>
 

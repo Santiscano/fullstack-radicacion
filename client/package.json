@@ -30,6 +30,7 @@
     "react-qr-code": "^2.0.11",
     "react-redux": "^8.0.5",
     "react-router-dom": "6.8.0",
+    "react-tailwindcss-datepicker": "^1.6.3",
     "sass": "^1.58.0",
     "usb": "^2.9.0"
   },
