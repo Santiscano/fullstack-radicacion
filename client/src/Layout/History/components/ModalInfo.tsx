@@ -33,6 +33,7 @@ const ModalInfo = () => {
   const user = useAppSelector((state) => state.modalUserViewSlice);
   const navigate = useNavigate();
 
+  // consulta para pdf segun usuario
   const handleListFilesPDF = async () => {
     axios
       .post(
@@ -54,7 +55,7 @@ const ModalInfo = () => {
           remove("accessToken");
           navigate("/login");
         }
-      })
+    })
   };
 
   useEffect(() => {

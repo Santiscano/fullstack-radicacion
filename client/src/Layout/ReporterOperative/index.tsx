@@ -8,70 +8,84 @@ import { addDays } from 'date-fns';
 import axios from 'axios';
 import { getHeader } from '../../components/tools/SesionSettings';
 import useCatch from '../../hooks/useCatch';
+import allRoutes from '../../services/allRoutes';
 
 const ReporterOperative = () => {
   const { handleCatch } = useCatch();
   const [start, setStart] = useState('');
   const [end, setEnd] = useState('');
-
   const [adminShowValue, setAdminShowValue] = useState(0);
-  const handleChangeAdmin = (e: React.SyntheticEvent, newValue: number) => { setAdminShowValue(newValue) };
-
-  const [operativeShowValue, setOperativeShowValue] = useState(0);
-  const handleChangeOperative = (e: React.SyntheticEvent, newValue: number) => { setOperativeShowValue(newValue) };
-
+  const handleChangeTabs = (e: React.SyntheticEvent, newValue: number) => { setAdminShowValue(newValue) };
   const [selectionRange, setSelectionRange] = useState([
     {
       startDate: new Date(),
       endDate: addDays(new Date(), -7),
       key: 'admin'
     }
-  ])
-
+  ]);
   const handleSelectAdmin = (ranges:any) => {
     const start = ranges.admin.startDate.toISOString();
     const end = ranges.admin.endDate.toISOString();
     setStart(start);
     setEnd(end);
     setSelectionRange([ranges.admin]);
-  }
+  };
+  const handleSubmitFinishAdmin = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    axios.post(allRoutes.api.reporter.finishedReport,{
+      type: "ADMINISTRATIVO",
+      startDate: start,
+      endDate: end,
+    },getHeader())
+      .then((res)=> {})
+      .catch((error:Error) => {
+        console.log('ERROR', error);
+        handleCatch(error)
+      });
+  };
+  // ----------------operative-------------------//
+  const [startOp, setStartOp] = useState('');
+  const [endOp, setEndOp] = useState('');
+  const [operativeShowValue, setOperativeShowValue] = useState(0);
+  const handleChangeOperative = (e: React.SyntheticEvent, newValue: number) => { setOperativeShowValue(newValue) };
+  const [selectionRangeOp, setSelectionRangeOp] = useState([
+    {
+      startDate: new Date(),
+      endDate: addDays(new Date(), -7),
+      key: 'operative'
+    }
+  ]);
+  const handleSelectOperative = (ranges:any) => {
+    const start = ranges.operative.startDate.toISOString();
+    const end = ranges.operative.endDate.toISOString();
+    setStartOp(start);
+    setEndOp(end);
+    setSelectionRangeOp([ranges.operative]);
+  };
+  const handleSubmitFinishOperative = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    axios.post(allRoutes.api.reporter.finishedReport,{
+      type: "OPERATIVO",
+      startDate: startOp,
+      endDate: endOp,
+    },getHeader())
+      .then((res)=> {})
+      .catch((error:Error) => {
+        console.log('ERROR', error);
+        handleCatch(error)
+      });
+  };
+  // --------------------pending----------------------//
+  const handleSubmitPending = (event: FormEvent<HTMLFormElement>, type: string) => {
+    event.preventDefault();
+    axios.post(allRoutes.api.reporter.pendingReport,{ type },getHeader())
+      .then((res)=> {})
+      .catch((error:Error) => {
+        console.log('ERROR', error);
+        handleCatch(error)
+      });
+  };
 
-  const handleSubmitPending = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    axios.post('',{},getHeader())
-      .then(()=> {})
-      .catch((error:Error) => {
-        console.log('ERROR', error);
-        handleCatch(error)
-      });
-  };
-  const handleSubmitFinish = (event: FormEvent<HTMLFormElement>, type:string) => {
-    event.preventDefault();
-    axios.post('',{},getHeader())
-      .then(()=> {})
-      .catch((error:Error) => {
-        console.log('ERROR', error);
-        handleCatch(error)
-      });
-  };
-  const handleSubmitOperativePending = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    axios.post('',{},getHeader())
-      .then(()=> {})
-      .catch((error:Error) => {
-        console.log('ERROR', error);
-        handleCatch(error)
-      });
-  };
-  const handleSubmitOperativeFinish = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    axios.post('',{},getHeader())
-      .then(()=> {})
-      .catch((error:Error) => {
-        console.log('ERROR', error);
-        handleCatch(error)
-      });
-  };
 
   return (
     <Stack
@@ -89,7 +103,7 @@ const ReporterOperative = () => {
           <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
             <Tabs
               value={adminShowValue}
-              onChange={handleChangeAdmin}
+              onChange={handleChangeTabs}
               aria-label="Reportero"
               variant="scrollable"
             >
@@ -99,12 +113,13 @@ const ReporterOperative = () => {
           </Box>
           <TabPanel value={adminShowValue} index={0}>
             <Box>
-
+              <form onSubmit={(event) => handleSubmitPending(event, 'ADMINISTRATIVO' )}>
+                <button className='button button--flex'>DESCARGAR EXCEL</button>
+              </form>
             </Box>
           </TabPanel>
           <TabPanel value={adminShowValue} index={1}>
             <Box>
-              {/* date range */}
               <DateRange
                 onChange={handleSelectAdmin}
                 ranges={selectionRange}
@@ -113,7 +128,7 @@ const ReporterOperative = () => {
                 editableDateInputs={true}
                 direction="horizontal"
               />
-              <form onSubmit={(event) => handleSubmitFinish(event, 'hola' )}>
+              <form onSubmit={handleSubmitFinishAdmin}>
                 <button className='button button--flex'> DESCARGAR EXCEL</button>
               </form>
             </Box>
@@ -137,12 +152,24 @@ const ReporterOperative = () => {
           </Box>
           <TabPanel value={operativeShowValue} index={0}>
             <Box>
-
+              <form onSubmit={(event) => handleSubmitPending(event, 'OPERATIVO' )}>
+                <button className='button button--flex'> DESCARGAR EXCEL</button>
+              </form>
             </Box>
           </TabPanel>
           <TabPanel value={operativeShowValue} index={1}>
             <Box>
-
+              <DateRange
+                onChange={handleSelectOperative}
+                ranges={selectionRangeOp}
+                moveRangeOnFirstSelection={false}
+                months={2}
+                editableDateInputs={true}
+                direction="horizontal"
+              />
+              <form onSubmit={handleSubmitFinishOperative}>
+                <button className='button button--flex'> DESCARGAR EXCEL</button>
+              </form>
             </Box>
           </TabPanel>
         </Box>

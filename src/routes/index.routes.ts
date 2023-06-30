@@ -120,8 +120,8 @@ router.post('/accountTypeFilter', accountTypeFilter);                  // Filtro
 router.post('/actionFilter', actionFilter);                            // Filtro de los estados de archivo según rol usuario
 router.post('/usersFilterToNextAuditor', usersFilterToNextAuditor);    // Filtro de siguiente asignado según rol usuario
 router.get('/usersFilterReturnAuditor', usersFilterReturnAuditor);    // Filtro de lista de auditores o gerente
-router.get('/pendingReport', pendingReport);                            // Reportero Pendiente
-router.get('/finishedReport', finishedReport);                          // Reportero Finalizados
+router.post('/pendingReport', pendingReport);                            // Reportero Pendiente
+router.post('/finishedReport', finishedReport);                          // Reportero Finalizados
 
 // API routes
 router.get('/routerApi', routerApi);                                                // Traer las rutas que tiene el sistema
