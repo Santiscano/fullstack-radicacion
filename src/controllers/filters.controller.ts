@@ -188,12 +188,14 @@ export const pendingReport = async (req: Request, res: Response) => {
                 .status(422)
                 .json(uncompleted(missingData({ type }).missing));
         const data: any = await pendingReportModel(type);
-        // return res.json(data)
-        const datos = data.map((resultado: any) => Object.values(resultado));
-        const info = moment.tz(new Date(), "America/Bogota").format();
         
+        if(data[0] === undefined) return res.status(417).json(errorMessage(`No hay archivos Pendientes en el sistema.`))
+        
+        const datos = data.map((resultado: any) => Object.values(resultado));
+        
+        const info = moment.tz(new Date(), "America/Bogota").format();
         const date = info.substring(0,10).replace(/-/g, "_");
-        console.log(date);
+
         const link = ExportExcel(
             datos,
             [
@@ -231,28 +233,31 @@ export const finishedReport = async (req: Request, res: Response) => {
                 .status(422)
                 .json(uncompleted(missingData({ type, startDate, endDate }).missing));
         const data: any = await finishedReportModel(type, startDate, endDate);
-        // return res.status(200).json(success(data))
+        if(data[0] === undefined) return res.status(417).json(errorMessage(`No hay archivos Finalizados entre ${startDate} - ${endDate}.`))
         const datos = data.map((resultado: any) => Object.values(resultado));
+        
+        const info = moment.tz(new Date(), "America/Bogota").format();
+        const date = info.substring(0,10).replace(/-/g, "_");
+
         const link = ExportExcel(
             datos,
             [
-                "Razón Social",
-                "Tipo de Identificación",
-                "Número de Identificación",
+                "RADICADO",
+                "FECHA INGRESO",
+                "TIPO DE CUENTA",
+                "NUMERO DE CUENTA",
+                "DOCUMENTO",
+                "RAZÓN SOCIAL",
+                "VALOR",
+                "CENTRO DE COSTO",
+                "CODIGO DE EGRESO",
                 "CEDI",
-                "Tipo de Documento",
-                "Radicado",
-                "Centro de Costos",
-                "Precio",
-                "Tipo de Cuenta",
-                "Número de Cuenta",
-                "Estado Actual",
-                "Responsable Actual",
-                "Rol del Responsable",
-                "Fecha de Ingreso",
-                "Nombre Radico"
+                "TIPO DE FACTURA",
+                "ESTADO",
+                "RESPONSABLE DE FINALIZAR",
+                "ROL DEL RESPONSABLE",
             ],
-            "reporteFinalizados"
+            `${date}_reporteFinalizados${firstCapitalLetter(type)}`
         );
         return res.status(200).json(success(link));
     } catch (error) {
