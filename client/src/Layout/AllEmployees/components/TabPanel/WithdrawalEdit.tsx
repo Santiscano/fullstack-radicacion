@@ -2,7 +2,7 @@ import { ChangeEvent, FormEvent, useState } from 'react';
 import { useAppSelector } from '../../../../redux/hooks/useStore';
 import { useEmployee } from '../../../../redux/Redux-actions/useEmployee';
 
-const Withdrawal = () => {
+const WithdrawalEdit = () => {
   const employee = useAppSelector((state) => state.employeesSlice);
   const { setLetterOfResignation, setLetterOfAcceptance, setContractTermination, setLetterWithdrawalMedicalExamination,
     setWithdrawalMedicalExamination, setFinalSettlement, setEpsWithdrawal, setLayoffsWithdrawal,
@@ -34,4 +34,4 @@ const Withdrawal = () => {
   )
 }
 
-export default Withdrawal
+export default WithdrawalEdit

@@ -21,6 +21,8 @@ import verificWork from '../../../../assets/svgs/verificJob.svg';
 import verificPersonal from '../../../../assets/svgs/verificPersonal.svg';
 import verificAcademic from '../../../../assets/svgs/verificAcademic.svg';
 import { useEmployee } from "../../../../redux/Redux-actions/useEmployee";
+import axios from "axios";
+import { getHeaderMultipart } from "../../../../components/tools/SesionSettings";
 //
 const Identification = () => {
   // imports globals
@@ -28,147 +30,116 @@ const Identification = () => {
   const { setCvName, setdiName, setLcName, setLmName, setDvName, setDnpvName, setDbName, setTName, setTecName, setProfName,setPosgName,
     setCbName,setRpName, setRaName, setRlName, setVrlName, setVrpName, setVraName } = useEmployee();
 
+  // form Data
+  const [data, setData] = useState(new FormData())
+
   // hoja de vida
-  const [cvPath, setCvPath] = useState("");
   const handleCV = (e: ChangeEvent<HTMLInputElement>) => {
-    // @ts-ignore
-    setCvPath(e.target.files[0]);
+    data.append('cv', e.target.files![0])
+    console.log(data);
     const fileNameEvent = e.target.value.replace(/^.*\\/, ""); // renombrar archivo
     setCvName(fileNameEvent);
   };
   // documento de identidad
-  const [diPath, setDiPath] = useState("");
   const handleDi = (e: ChangeEvent<HTMLInputElement>) => {
-    // @ts-ignore
-    setDiPath(e.target.files[0]);
+    data.append('di',e.target.files![0]);
+    console.log(data);
     const fileNameEvent = e.target.value.replace(/^.*\\/, ""); // renombrar archivo
     setdiName(fileNameEvent);
   };
   // licencia de conduccion
-  const [lcPath, setLcPath] = useState("");
   const handleLc = (e: ChangeEvent<HTMLInputElement>) => {
-    // @ts-ignore
-    setLcPath(e.target.files[0]);
+    data.append('lc',e.target.files![0]);
     const fileNameEvent = e.target.value.replace(/^.*\\/, ""); // renombrar archivo
     setLcName(fileNameEvent);
   };
   // Libreta Militar
-  const [lmPath, setLmPath] = useState("");
   const handleLm = (e: ChangeEvent<HTMLInputElement>) => {
-    // @ts-ignore
-    setLmPath(e.target.files[0]);
+    data.append('lm',e.target.files![0]);
     const fileNameEvent = e.target.value.replace(/^.*\\/, ""); // renombrar archivo
     setLmName(fileNameEvent);
   };
   // Documentos Vehiculo
-  const [dvPath, setDvPath] = useState("");
   const handleDv = (e: ChangeEvent<HTMLInputElement>) => {
-    // @ts-ignore
-    setDvPath(e.target.files[0]);
+    data.append('dv',e.target.files![0]);
     const fileNameEvent = e.target.value.replace(/^.*\\/, ""); // renombrar archivo
     setDvName(fileNameEvent);
   };
   // Documento Notario Propietario Vehiculo
-  const [dnpvPath, setDnpvPath] = useState("");
   const handleDnpv = (e: ChangeEvent<HTMLInputElement>) => {
-    // @ts-ignore
-    setDnpvPath(e.target.files[0]);
+    data.append('dnpv',e.target.files![0]);
     const fileNameEvent = e.target.value.replace(/^.*\\/, ""); // renombrar archivo
     setDnpvName(fileNameEvent);
   };
   // Documento Bachiller
-  const [dbPath, setDbPath] = useState("");
   const handleDb = (e: ChangeEvent<HTMLInputElement>) => {
-    // @ts-ignore
-    setDbPath(e.target.files[0]);
+    data.append('db',e.target.files![0]);
     const fileNameEvent = e.target.value.replace(/^.*\\/, ""); // renombrar archivo
     setDbName(fileNameEvent);
   };
   // Tecnica
-  const [tPath, setTPath] = useState("");
   const handleT = (e: ChangeEvent<HTMLInputElement>) => {
-    // @ts-ignore
-    setTPath(e.target.files[0]);
+    data.append('t',e.target.files![0]);
     const fileNameEvent = e.target.value.replace(/^.*\\/, ""); // renombrar archivo
     setTName(fileNameEvent);
   };
   // Tecnologia
-  const [tecPath, setTecPath] = useState("");
   const handleTec = (e: ChangeEvent<HTMLInputElement>) => {
-    // @ts-ignore
-    setTecPath(e.target.files[0]);
+    data.append('tec',e.target.files![0]);
     const fileNameEvent = e.target.value.replace(/^.*\\/, ""); // renombrar archivo
     setTecName(fileNameEvent);
   };
   // Profesional
-  const [ProfPath, setProfPath] = useState("");
   const handleProf = (e: ChangeEvent<HTMLInputElement>) => {
-    // @ts-ignore
-    setProfPath(e.target.files[0]);
+    data.append('pro',e.target.files![0]);
     const fileNameEvent = e.target.value.replace(/^.*\\/, ""); // renombrar archivo
     setProfName(fileNameEvent);
   };
   // posgrado
-  const [posgPath, setPosgPath] = useState("");
   const handlePosg = (e: ChangeEvent<HTMLInputElement>) => {
-    // @ts-ignore
-    setPosgPath(e.target.files[0]);
+    data.append('pos',e.target.files![0]);
     const fileNameEvent = e.target.value.replace(/^.*\\/, ""); // renombrar archivo
     setPosgName(fileNameEvent);
   };
   // Certificado Bancario
-  const [cbPath, setCbPath] = useState("");
   const handleCb = (e: ChangeEvent<HTMLInputElement>) => {
-    // @ts-ignore
-    setCbPath(e.target.files[0]);
+    data.append('cb',e.target.files![0]);
     const fileNameEvent = e.target.value.replace(/^.*\\/, ""); // renombrar archivo
     setCbName(fileNameEvent);
   };
   // Referencia Personal
-  const [rpPath, setRpPath] = useState("");
   const handleRp = (e: ChangeEvent<HTMLInputElement>) => {
-    // @ts-ignore
-    setRpPath(e.target.files[0]);
+    data.append('rp',e.target.files![0]);
     const fileNameEvent = e.target.value.replace(/^.*\\/, ""); // renombrar archivo
     setRpName(fileNameEvent);
   };
   // Referencia Academica
-  const [raPath, setRaPath] = useState("");
   const handleRa = (e: ChangeEvent<HTMLInputElement>) => {
-    // @ts-ignore
-    setRaPath(e.target.files[0]);
+    data.append('ra',e.target.files![0]);
     const fileNameEvent = e.target.value.replace(/^.*\\/, ""); // renombrar archivo
     setRaName(fileNameEvent);
   };
   // Referencias Laborales
-  const [rlPath, setRlPath] = useState("");
   const handleRl = (e: ChangeEvent<HTMLInputElement>) => {
-    // @ts-ignore
-    setRlPath(e.target.files[0]);
+    data.append('rl',e.target.files![0]);
     const fileNameEvent = e.target.value.replace(/^.*\\/, ""); // renombrar archivo
     setRlName(fileNameEvent);
   };
   // Verificacion de referencias laborales
-  const [vrlPath, setVrlPath] = useState("");
   const handleVrl = (e: ChangeEvent<HTMLInputElement>) => {
-    // @ts-ignore
-    setVrlPath(e.target.files[0]);
+    data.append('vrl',e.target.files![0]);
     const fileNameEvent = e.target.value.replace(/^.*\\/, ""); // renombrar archivo
     setVrlName(fileNameEvent);
   };
   // verificacion de referencias personales
-  const [vrpPath, setVrpPath] = useState("");
   const handleVrp = (e: ChangeEvent<HTMLInputElement>) => {
-    // @ts-ignore
-    setVrpPath(e.target.files[0]);
+    data.append('vrp',e.target.files![0]);
     const fileNameEvent = e.target.value.replace(/^.*\\/, ""); // renombrar archivo
     setVrpName(fileNameEvent);
   };
   // verificacion de referencias academicas
-  const [vraPath, setVraPath] = useState("");
   const handleVra = (e: ChangeEvent<HTMLInputElement>) => {
-    // @ts-ignore
-    setVraPath(e.target.files[0]);
+    data.append('vra',e.target.files![0]);
     const fileNameEvent = e.target.value.replace(/^.*\\/, ""); // renombrar archivo
     setVraName(fileNameEvent);
   };
@@ -176,6 +147,9 @@ const Identification = () => {
   // ----------------------submit-----------------------//
   const handleSubmit = (e:FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    data.append('test', "test")
+    console.log(data);
+    // axios.post("route", data, getHeaderMultipart())
   };
 
   return (
@@ -187,7 +161,7 @@ const Identification = () => {
               <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
                 Hoja De Vida <strong className="text-red-600">*</strong>
               </label>
-              <input type="file" className="hidden" onChange={handleCV} />
+              <input type="file" className="hidden" onChange={handleCV} required/>
               <div className="flex cursor-pointer">
                 <img src={cv} width="100px" />
                 <span className="flex items-center"> {employee.cv_document} </span>
@@ -409,6 +383,10 @@ const Identification = () => {
             </label>
           </article>
         </div>
+        <button
+          type="submit"
+          className="button button--flex bg-[#037543]"
+        >cargar</button>
       </form>
     </>
   );

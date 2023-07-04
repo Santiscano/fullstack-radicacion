@@ -26,17 +26,24 @@ const Reporter = () => {
     // @ts-ignore
     setAdmin(newValue);
   };
-  const handleSubmitAdmin = () => {
-    axios.post(allRoutes.api.reporter.finishedReport,{
-      type: "ADMINISTRATIVO",
-      startDate:admin.startDate,
-      endDate:admin.endDate,
-    },getHeader())
-      .then((res)=> window.location.href = res?.data.data)
-      .catch((error:Error) => {
-        console.log('ERROR', error);
-        handleCatch(error)
-      });
+  const handleSubmitAdmin = async () => {
+    try{
+      const response = await axios.post(allRoutes.api.reporter.finishedReport,{
+        type: "ADMINISTRATIVO",
+        startDate:admin.startDate,
+        endDate:admin.endDate,
+      },getHeader())
+      console.log('response?.data?.data: ', response?.data.data);
+      window.location.href = response?.data.data;
+      setTimeout(() => {
+        axios.post(allRoutes.api.reporter.deleteBackendDocuments,{
+          pathFile: response?.data.data
+        },getHeader())
+      }, 8000)
+    } catch(error){
+      console.log('ERROR', error);
+      handleCatch(error)
+    }
   };
   // --------------------operativo----------------------//
   const [operative, setOperative] = useState({
@@ -48,28 +55,40 @@ const Reporter = () => {
     // @ts-ignore
     setOperative(newValue);
   };
-  const handleSubmitOperative = () => {
-    axios.post(allRoutes.api.reporter.finishedReport,{
-      type: "OPERATIVO",
-      startDate: operative.startDate,
-      endDate: operative.endDate,
-    },getHeader())
-      .then((res)=> window.location.href = res?.data.data)
-      .catch((error:Error) => {
-        console.log('ERROR', error);
-        handleCatch(error)
-      });
+  const handleSubmitOperative = async () => {
+    try{
+      const response = await axios.post(allRoutes.api.reporter.finishedReport,{
+        type: "OPERATIVO",
+        startDate: operative.startDate,
+        endDate: operative.endDate,
+      },getHeader())
+      console.log('response?.data?.data: ', response?.data.data);
+      window.location.href = response?.data.data;
+      setTimeout(() => {
+        axios.post(allRoutes.api.reporter.deleteBackendDocuments,{
+          pathFile: response?.data.data
+        },getHeader())
+      }, 8000)
+    }catch(error){
+      console.log('ERROR', error);
+      handleCatch(error)
+    }
   };
   // --------------------pending----------------------//
-  const handleSubmitPending = (type: string) => {
-    axios.post(allRoutes.api.reporter.pendingReport,{ type },getHeader())
-      .then((res)=> {
-        window.location.href = res?.data.data
-      })
-      .catch((error) => {
-        console.log('ERROR', error);
-        handleCatch(error);
-      });
+  const handleSubmitPending = async (type: string) => {
+    try{
+      const response = await axios.post(allRoutes.api.reporter.pendingReport,{ type },getHeader());
+      console.log('response?.data?.data: ', response?.data.data);
+      window.location.href = response?.data.data;
+      setTimeout(() => {
+        axios.post(allRoutes.api.reporter.deleteBackendDocuments,{
+          pathFile: response?.data.data
+        }, getHeader())
+      }, 8000)
+    }catch(error){
+      console.log("error", error);
+      handleCatch(error)
+    }
   };
 
 
@@ -110,7 +129,7 @@ const Reporter = () => {
                   value={admin}
                   onChange={handleAdminChange}
                   maxDate={new Date()}
-
+                  popoverDirection="down"
                 />
                 <button className='button button--flex bg-[#037543]' onClick={handleSubmitAdmin}>
                   DESCARGAR EXCEL

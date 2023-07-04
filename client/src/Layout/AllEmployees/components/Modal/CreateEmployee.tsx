@@ -15,8 +15,8 @@ import HealthSafetyWork from '../StepView/HealthSafetyWork';
 import Beneficiary from '../StepView/Beneficiary';
 import Membership from '../StepView/Membership';
 import SocialBenefit from '../StepView/SocialBenefit';
-import Withdrawal from '../StepView/Withdrawal';
-import Deductions from '../StepView/Deductions';
+import Withdrawal from '../TabPanel/WithdrawalEdit';
+import Deductions from '../TabPanel/DeductionsEdit';
 
 
 const style = {

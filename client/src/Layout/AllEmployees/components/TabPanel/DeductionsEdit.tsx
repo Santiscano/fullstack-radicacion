@@ -2,7 +2,7 @@ import { ChangeEvent, FormEvent, useState } from 'react';
 import { useAppSelector } from '../../../../redux/hooks/useStore';
 import { useEmployee } from '../../../../redux/Redux-actions/useEmployee';
 
-const Deductions = () => {
+const DeductionsEdit = () => {
   const employee = useAppSelector((state) => state.employeesSlice);
   const { setDp, setOrder, setPayrollDeductionAuthorizationEvents, } = useEmployee();
 
@@ -24,4 +24,4 @@ const Deductions = () => {
   )
 }
 
-export default Deductions
+export default DeductionsEdit

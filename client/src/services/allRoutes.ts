@@ -107,7 +107,8 @@ export default {
     },
     reporter: {
       pendingReport: `${host}/pendingReport`,
-      finishedReport: `${host}/finishedReport`
+      finishedReport: `${host}/finishedReport`,
+      deleteBackendDocuments: `${host}/deleteBackendDocuments`
     },
   },
   sig:{

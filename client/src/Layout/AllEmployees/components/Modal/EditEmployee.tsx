@@ -8,14 +8,14 @@ import General from '../StepView/General';
 import Contratación from '../StepView/Contratación';
 import PersonalInformation from '../StepView/PersonalInformation';
 import SociodemographicProfile from '../StepView/SociodemographicProfile';
-import Identification from '../StepView/Identification';
-import Hiring from '../StepView/Hiring';
-import HealthSafetyWork from '../StepView/HealthSafetyWork';
-import Beneficiary from '../StepView/Beneficiary';
-import Membership from '../StepView/Membership';
-import SocialBenefit from '../StepView/SocialBenefit';
-import Withdrawal from '../StepView/Withdrawal';
-import Deductions from '../StepView/Deductions';
+import IdentificationEdit from '../TabPanel/IdentificationEdit';
+import HiringEdit from '../TabPanel/HiringEdit';
+import HealthSafetyWorkEdit from '../TabPanel/HealthSafetyWorkEdit';
+import BeneficiaryEdit from '../TabPanel/BeneficiaryEdit';
+import MembershipEdit from '../TabPanel/MembershipEdit';
+import SocialBenefitEdit from '../TabPanel/SocialBenefitEdit';
+import WithdrawalEdit from '../TabPanel/WithdrawalEdit';
+import DeductionsEdit from '../TabPanel/DeductionsEdit';
 import { TabPanel, a11yProps } from '../../../../components/tools/MultiViewPanel';
 
 const style = {
@@ -120,28 +120,28 @@ const EditEmployee: FC = () => {
                 <SociodemographicProfile/>
               </TabPanel>
               <TabPanel value={showValue} index={4}>
-                <Identification/>
+                <IdentificationEdit/>
               </TabPanel>
               <TabPanel value={showValue} index={4}>
-                <Hiring/>
+                <HiringEdit/>
               </TabPanel>
               <TabPanel value={showValue} index={4}>
-                <HealthSafetyWork/>
+                <HealthSafetyWorkEdit/>
               </TabPanel>
               <TabPanel value={showValue} index={4}>
-                <Beneficiary/>
+                <BeneficiaryEdit/>
               </TabPanel>
               <TabPanel value={showValue} index={4}>
-                <Membership/>
+                <MembershipEdit/>
               </TabPanel>
               <TabPanel value={showValue} index={4}>
-                <SocialBenefit/>
+                <SocialBenefitEdit/>
               </TabPanel>
               <TabPanel value={showValue} index={4}>
-                <Withdrawal/>
+                <WithdrawalEdit/>
               </TabPanel>
               <TabPanel value={showValue} index={4}>
-                <Deductions/>
+                <DeductionsEdit/>
               </TabPanel>
             </Box>
 
