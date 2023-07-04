@@ -121,7 +121,7 @@ const Hiring = () => {
           <article className="md:w-1/3">
             <label className="block">
               <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                Contrato de trabajo
+                Contrato de trabajo<strong className="text-red-600">*</strong>
               </label>
               <input type="file" className="hidden" onChange={handleCt} />
               <div className="flex cursor-pointer">
@@ -133,7 +133,7 @@ const Hiring = () => {
           <article className="md:w-1/3">
             <label className="block">
               <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                Otro Si
+                Otro Si<strong className="text-red-600">*</strong>
               </label>
               <input type="file" className="hidden" onChange={handleOs} />
               <div className="flex cursor-pointer">
@@ -145,7 +145,7 @@ const Hiring = () => {
           <article className="md:w-1/3">
             <label className="block">
               <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                Acuerdo Confidencialidad
+                Acuerdo Confidencialidad<strong className="text-red-600">*</strong>
               </label>
               <input type="file" className="hidden" onChange={handleAc} />
               <div className="flex cursor-pointer">
@@ -159,7 +159,7 @@ const Hiring = () => {
           <article className="md:w-1/3">
             <label className="block">
               <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                Autorización como titular de la información
+                Autorización como titular de la información<strong className="text-red-600">*</strong>
               </label>
               <input type="file" className="hidden" onChange={handleAti} />
               <div className="flex cursor-pointer">
@@ -171,7 +171,7 @@ const Hiring = () => {
           <article className="md:w-1/3">
             <label className="block">
               <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                Consulta de Siplaft
+                Consulta de Siplaft<strong className="text-red-600">*</strong>
               </label>
               <input type="file" className="hidden" onChange={handleCs} />
               <div className="flex cursor-pointer">
@@ -183,7 +183,7 @@ const Hiring = () => {
           <article className="md:w-1/3">
             <label className="block">
               <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                Descripción de cargo
+                Descripción de cargo<strong className="text-red-600">*</strong>
               </label>
               <input type="file" className="hidden" onChange={handleDc} />
               <div className="flex cursor-pointer">
@@ -197,7 +197,7 @@ const Hiring = () => {
           <article className="md:w-1/3">
             <label className="block">
               <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                Inducción
+                Inducción<strong className="text-red-600">*</strong>
               </label>
               <input type="file" className="hidden" onChange={handleInduction} />
               <div className="flex cursor-pointer">
@@ -209,7 +209,7 @@ const Hiring = () => {
           <article className="md:w-1/3">
             <label className="block">
               <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-              Carta de presentación Aprendiz
+              Carta de presentación Aprendiz<strong className="text-red-600">*</strong>
               </label>
               <input type="file" className="hidden" onChange={handleCpa} />
               <div className="flex cursor-pointer">
@@ -221,7 +221,7 @@ const Hiring = () => {
           <article className="md:w-1/3">
             <label className="block">
               <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                Concepto gestión humana
+                Concepto gestión humana<strong className="text-red-600">*</strong>
               </label>
               <input type="file" className="hidden" onChange={handleCgh} />
               <div className="flex cursor-pointer">
@@ -235,7 +235,7 @@ const Hiring = () => {
           <article className="md:w-1/3">
             <label className="block">
               <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                Visita domiciliaria
+                Visita domiciliaria<strong className="text-red-600">*</strong>
               </label>
               <input type="file" className="hidden" onChange={handleVd} />
               <div className="flex cursor-pointer">
@@ -247,7 +247,7 @@ const Hiring = () => {
           <article className="md:w-1/3">
             <label className="block">
               <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                Registro de huellas dactilares
+                Registro de huellas dactilares<strong className="text-red-600">*</strong>
               </label>
               <input type="file" className="hidden" onChange={handleRhd} />
               <div className="flex cursor-pointer">

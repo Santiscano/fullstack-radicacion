@@ -108,6 +108,7 @@ const General:FC = () => {
               <DemoContainer components={['DatePicker']}
                 sx={{
                   "& .MuiOutlinedInput-root": {
+                    borderColor: "#2759cd",
                     "&:hover fieldset": {
                       borderColor: "#2759cd",
                     }},

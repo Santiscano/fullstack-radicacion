@@ -185,8 +185,7 @@ const Identification = () => {
           <article className="md:w-1/3">
             <label className="block">
               <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                {" "}
-                Hoja De Vida{" "}
+                Hoja De Vida <strong className="text-red-600">*</strong>
               </label>
               <input type="file" className="hidden" onChange={handleCV} />
               <div className="flex cursor-pointer">
@@ -198,8 +197,7 @@ const Identification = () => {
           <article className="md:w-1/3">
             <label className="block">
               <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                {" "}
-                Documento De Identidad{" "}
+                Documento De Identidad
               </label>
               <input type="file" className="hidden" onChange={handleDi} />
               <div className="flex cursor-pointer">
@@ -211,8 +209,7 @@ const Identification = () => {
           <article className="md:w-1/3">
             <label className="block">
               <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                {" "}
-                Licencia De Conduccion{" "}
+                Licencia De Conduccion<strong className="text-red-600">*</strong>
               </label>
               <input type="file" className="hidden" onChange={handleLc} />
               <div className="flex cursor-pointer">
@@ -226,8 +223,7 @@ const Identification = () => {
           <article className="md:w-1/3">
             <label className="block">
               <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                {" "}
-                Libreta Militar{" "}
+                Libreta Militar
               </label>
               <input type="file" className="hidden" onChange={handleLm} />
               <div className="flex cursor-pointer">
@@ -239,8 +235,7 @@ const Identification = () => {
           <article className="md:w-1/3">
             <label className="block">
               <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                {" "}
-                Documentos Vehiculo{" "}
+                Documentos Vehiculo<strong className="text-red-600">*</strong>
               </label>
               <input type="file" className="hidden" onChange={handleDv} />
               <div className="flex cursor-pointer">
@@ -252,8 +247,7 @@ const Identification = () => {
           <article className="md:w-1/3">
             <label className="block">
               <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                {" "}
-                Documento Notario Propietario Vehiculo{" "}
+                Documento Notario Propietario Vehiculo<strong className="text-red-600">*</strong>
               </label>
               <input type="file" className="hidden" onChange={handleDnpv} />
               <div className="flex cursor-pointer">
@@ -267,8 +261,7 @@ const Identification = () => {
           <article className="md:w-1/3">
             <label className="block">
               <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                {" "}
-                Documento Bachiller{" "}
+                Documento Bachiller
               </label>
               <input type="file" className="hidden" onChange={handleDb} />
               <div className="flex cursor-pointer">
@@ -280,8 +273,7 @@ const Identification = () => {
           <article className="md:w-1/3">
             <label className="block">
               <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                {" "}
-                Tecnica{" "}
+                Tecnica
               </label>
               <input type="file" className="hidden" onChange={handleT} />
               <div className="flex cursor-pointer">
@@ -293,8 +285,7 @@ const Identification = () => {
           <article className="md:w-1/3">
             <label className="block">
               <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                {" "}
-                Tecnologia{" "}
+                Tecnologia
               </label>
               <input type="file" className="hidden" onChange={handleTec} />
               <div className="flex cursor-pointer">
@@ -308,8 +299,7 @@ const Identification = () => {
           <article className="md:w-1/3">
             <label className="block">
               <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                {" "}
-                Profesional{" "}
+                Profesional
               </label>
               <input type="file" className="hidden" onChange={handleProf} />
               <div className="flex cursor-pointer">
@@ -321,8 +311,7 @@ const Identification = () => {
           <article className="md:w-1/3">
             <label className="block">
               <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                {" "}
-                posgrado{" "}
+                posgrado
               </label>
               <input type="file" className="hidden" onChange={handlePosg} />
               <div className="flex cursor-pointer">
@@ -334,8 +323,7 @@ const Identification = () => {
           <article className="md:w-1/3">
             <label className="block">
               <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                {" "}
-                Certificado Bancario{" "}
+                Certificado Bancario<strong className="text-red-600">*</strong>
               </label>
               <input type="file" className="hidden" onChange={handleCb} />
               <div className="flex cursor-pointer">
@@ -349,8 +337,7 @@ const Identification = () => {
           <article className="md:w-1/3">
             <label className="block">
               <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                {" "}
-                Referencia personal{" "}
+                Referencia personal
               </label>
               <input type="file" className="hidden" onChange={handleRp} />
               <div className="flex cursor-pointer">
@@ -362,8 +349,7 @@ const Identification = () => {
           <article className="md:w-1/3">
             <label className="block">
               <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                {" "}
-                Referencia Academica{" "}
+                Referencia Academica
               </label>
               <input type="file" className="hidden" onChange={handleRa} />
               <div className="flex cursor-pointer">
@@ -375,8 +361,7 @@ const Identification = () => {
           <article className="md:w-1/3">
             <label className="block">
               <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                {" "}
-                Referencias Laborales{" "}
+                Referencias Laborales
               </label>
               <input type="file" className="hidden" onChange={handleRl} />
               <div className="flex cursor-pointer">
@@ -390,8 +375,7 @@ const Identification = () => {
           <article className="md:w-1/3">
             <label className="block">
               <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                {" "}
-                Verificación de Referencias Laborares{" "}
+                Verificación de Referencias Laborares
               </label>
               <input type="file" className="hidden" onChange={handleVrl} />
               <div className="flex cursor-pointer">
@@ -403,8 +387,7 @@ const Identification = () => {
           <article className="md:w-1/3">
             <label className="block">
               <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                {" "}
-                Verificación de referencias personales{" "}
+                Verificación de referencias personales
               </label>
               <input type="file" className="hidden" onChange={handleVrp} />
               <div className="flex cursor-pointer">
@@ -416,8 +399,7 @@ const Identification = () => {
           <article className="md:w-1/3">
             <label className="block">
               <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-                {" "}
-                Verificación de Referencias Academicas{" "}
+                Verificación de Referencias Academicas
               </label>
               <input type="file" className="hidden" onChange={handleVra} />
               <div className="flex cursor-pointer">

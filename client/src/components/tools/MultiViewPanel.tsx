@@ -1,6 +1,7 @@
 import Box from "@mui/material/Box";
 import { TabPanelProps } from "../../interfaces/TabPanel";
 import Typography from "@mui/material/Typography";
+import { width } from '@mui/system';
 
 export function TabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
@@ -10,6 +11,7 @@ export function TabPanel(props: TabPanelProps) {
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
+      className="w-full"
       {...other}
     >
       {value === index && (

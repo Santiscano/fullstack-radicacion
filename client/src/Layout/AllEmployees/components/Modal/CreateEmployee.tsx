@@ -1,8 +1,22 @@
-import { Box, Divider, Modal, Step, StepLabel, Stepper } from "@mui/material";
-import { FC, useEffect, useState } from "react";
 import "animate.css";
+import { FC, useEffect } from 'react'
+import { Box, Button, Divider, Modal, Step, StepLabel, Stepper, Tooltip, Typography } from "@mui/material";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
-import useStepper from "../../../../hooks/useStepper";
+import useContextProvider from '../../../../Context/GeneralValuesContext';
+import { useAppSelector } from '../../../../redux/hooks/useStore';
+import useStepper from '../../../../hooks/useStepper';
+import General from '../StepView/General';
+import Contratación from '../StepView/Contratación';
+import PersonalInformation from '../StepView/PersonalInformation';
+import SociodemographicProfile from '../StepView/SociodemographicProfile';
+import Identification from '../StepView/Identification';
+import Hiring from '../StepView/Hiring';
+import HealthSafetyWork from '../StepView/HealthSafetyWork';
+import Beneficiary from '../StepView/Beneficiary';
+import Membership from '../StepView/Membership';
+import SocialBenefit from '../StepView/SocialBenefit';
+import Withdrawal from '../StepView/Withdrawal';
+import Deductions from '../StepView/Deductions';
 
 
 const style = {
@@ -27,23 +41,31 @@ interface Props {
 }
 
 const CreateEmployee:FC<Props> = ({ open, close }) => {
-  const { steps, setSteps, activeStep, isStepSkipped, handleBack, handleNext, handleReset,
+  const { openModalAuth, handleOpenModalAuth } = useContextProvider();
+  const user = useAppSelector((state) => state.employeesSlice);
+  const { steps, setSteps, activeStep, isStepSkipped, isStepOptional, handleBack, handleNext, handleReset,
   handleSkip } = useStepper();
+
+  useEffect(() => {
+    setSteps(['GENERAL','CONTRATACIÓN','DATOS PERSONALES','PERFIL SOCIODEMOGRAFICO',
+    'IDENTIFICACIÓN','CONTRATACIÓN','SEGURIDAD Y SALUD EN EL TRABAJO','BENEFICIARIOS',
+    'AFILIACIÓN','PRESTACIÓN SOCIAL','RETIRO','DEDUCCIONES'])
+  },[])
+
   return (
     <Modal
       open={open}
       onClose={close}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
-      className="animate__animated animate__fadeIn"
     >
       <Box sx={style}>
         <div className="flex justify-between items-center">
-          <h3 className="p-2.5 text-3xl font-bold mb-3">Editar Empleado</h3>
+          <h3 className="p-2.5 text-3xl font-bold mb-3">Crear Empleado</h3>
           {/* @ts-ignore */}
           <button className="cursor-pointer text-sm" onClick={close}>
-              <CloseOutlinedIcon />
-            </button>
+            <CloseOutlinedIcon />
+          </button>
         </div>
         <Divider />
 
@@ -68,6 +90,65 @@ const CreateEmployee:FC<Props> = ({ open, close }) => {
               );
             })}
           </Stepper>
+
+          {activeStep === steps.length ? (
+            <>
+              <Typography sx={{ mt: 2, mb: 1 }}>
+                Haz finalizado la creacion del empleado, Ahora puedes verlo en la tabla de todos los empleados.
+              </Typography>
+              <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+                <Box sx={{ flex: '1 1 auto' }} />
+                <Button onClick={handleReset}>Reset</Button>
+              </Box>
+            </>
+          ) : (
+            <>
+              {/* butons next - prev */}
+              <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+                <Button
+                  color="inherit"
+                  disabled={activeStep === 0}
+                  onClick={handleBack}
+                  sx={{ mr: 1 }}
+                >
+                  Atrás
+                </Button>
+                <Box sx={{ flex: '1 1 auto' }} />
+                <Button onClick={handleNext}>
+                  {activeStep === steps.length - 1 ? 'Finalizar' : 'Siguiente'}
+                </Button>
+              </Box>
+              {/* list steeps */}
+              {activeStep == 0 &&(<General/>)}
+              {activeStep == 1 &&(<Contratación/>)}
+              {activeStep == 2 &&(<PersonalInformation/>)}
+              {activeStep == 3 &&(<SociodemographicProfile/>)}
+              {activeStep == 4 &&(<Identification/>)}
+              {activeStep == 5 &&(<Hiring/>)}
+              {activeStep == 6 &&(<HealthSafetyWork/>)}
+              {activeStep == 7 &&(<Beneficiary/>)}
+              {activeStep == 8 &&(<Membership/>)}
+              {activeStep == 9 &&(<SocialBenefit/>)}
+              {activeStep == 10 &&(<Withdrawal/>)}
+              {activeStep == 10 &&(<Deductions/>)}
+
+              {/* butons next - prev */}
+              <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+                <Button
+                  color="inherit"
+                  disabled={activeStep === 0}
+                  onClick={handleBack}
+                  sx={{ mr: 1 }}
+                >
+                  Anterior
+                </Button>
+                <Box sx={{ flex: '1 1 auto' }} />
+                <Button onClick={handleNext}>
+                  {activeStep === steps.length - 1 ? 'Finalizar' : 'Siguiente'}
+                </Button>
+              </Box>
+            </>
+          )}
         </Box>
       </Box>
     </Modal>

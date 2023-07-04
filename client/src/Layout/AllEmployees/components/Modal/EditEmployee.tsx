@@ -1,5 +1,5 @@
-import { FC, useEffect } from 'react'
-import { Box, Button, Divider, Modal, Step, StepLabel, Stepper, Tooltip, Typography } from "@mui/material";
+import { FC, SyntheticEvent, useEffect, useState } from 'react'
+import { Box, Button, Divider, Modal, Step, StepLabel, Stepper, Tab, Tabs, Tooltip, Typography } from "@mui/material";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import useContextProvider from '../../../../Context/GeneralValuesContext';
 import { useAppSelector } from '../../../../redux/hooks/useStore';
@@ -16,14 +16,15 @@ import Membership from '../StepView/Membership';
 import SocialBenefit from '../StepView/SocialBenefit';
 import Withdrawal from '../StepView/Withdrawal';
 import Deductions from '../StepView/Deductions';
+import { TabPanel, a11yProps } from '../../../../components/tools/MultiViewPanel';
 
 const style = {
   position: "absolute" as "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: "90vw",
-  height: "90vh",
+  width: "93vw",
+  height: "93vh",
   overflow: "scroll",
   bgcolor: "background.paper",
   borderRadius: "5px",
@@ -38,13 +39,11 @@ const EditEmployee: FC = () => {
     handleNext, handleReset, handleSkip } = useStepper();
   const listContracts = [{id:1, contract: "tercero"}, {id:2, contract: "tiempo indefinido"}]
 
-
-  useEffect(() => {
-    setSteps(['GENERAL','CONTRATACIÓN','DATOS PERSONALES','PERFIL SOCIODEMOGRAFICO',
-    'IDENTIFICACIÓN','CONTRATACIÓN','SEGURIDAD Y SALUD EN EL TRABAJO','BENEFICIARIOS',
-    'AFILIACIÓN','PRESTACIÓN SOCIAL','RETIRO','DEDUCCIONES'])
-  },[])
-
+  // view options
+  const [showValue, setShowValue] = useState(0);
+  const handleChange = (e: SyntheticEvent, newValue: number) => {
+    setShowValue(newValue);
+  };
   return (
     <>
       <Modal
@@ -52,20 +51,23 @@ const EditEmployee: FC = () => {
         onClose={handleOpenModalAuth}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
-        className="animate__animated animate__fadeIn"
       >
         <Box sx={style}>
           <div className="flex justify-between items-center">
-            <div className='flex flex-row'>
+            <div className='flex flex-row items-center'>
               <h3 className="p-2.5 text-3xl font-bold mb-3">Editar Empleado</h3>
               {listContracts.map(contract => (
-                <Tooltip
-                  key={contract.id}
-                  title={contract.contract}
-                  placement='top'
-                >
-                  <Button>{contract.id}</Button>
-                </Tooltip>
+                <>
+                  <Tooltip
+                    key={contract.id}
+                    title={contract.contract}
+                    placement='top'
+                    sx={{borderRadius: "50px", width:"10px", height:"40px", alignItems:"center"}}
+                  >
+                    <Button>{contract.id}</Button>
+                  </Tooltip>
+                  <Divider orientation="vertical" flexItem sx={{height:"60px"}}/>
+                </>
               ))}
             </div>
             <CloseOutlinedIcon
@@ -74,6 +76,76 @@ const EditEmployee: FC = () => {
             />
           </div>
           <Divider />
+
+          {/* tabs vertical */}
+          <Box sx={{ width: "100%", flexDirection:"row" }}>
+            <Box sx={{
+              flexGrow: 1,
+              bgcolor: 'background.paper',
+              display: 'flex',
+              height: "auto"
+            }}>
+              <Tabs
+                orientation="vertical"
+                variant="scrollable"
+                value={showValue}
+                onChange={handleChange}
+                aria-label="Area TI"
+                sx={{ borderRight:1, borderColor:'divider', width:"200px"}}
+              >
+                <Tab label="GENERAL" {...a11yProps(0)}/>
+                <Tab label="CONTRATACIÓN" {...a11yProps(1)}/>
+                <Tab label="DATOS PERSONALES" {...a11yProps(2)}/>
+                <Tab label="PERFIL SOCIODEMOGRAFICO" {...a11yProps(2)}/>
+                <Tab label="IDENTIFICACIÓN" {...a11yProps(2)}/>
+                <Tab label="CONTRATACIÓN" {...a11yProps(2)}/>
+                <Tab label="SEGURIDAD Y SALUD EN EL TRABAJO" {...a11yProps(2)}/>
+                <Tab label="BENEFICIARIOS" {...a11yProps(2)}/>
+                <Tab label="AFILIACIÓN" {...a11yProps(2)}/>
+                <Tab label="PRESTACIÓN SOCIAL" {...a11yProps(2)}/>
+                <Tab label="RETIRO" {...a11yProps(2)}/>
+                <Tab label="DEDUCCIONES" {...a11yProps(2)}/>
+              </Tabs>
+
+              <TabPanel value={showValue} index={0}>
+                <General/>
+              </TabPanel>
+              <TabPanel value={showValue} index={1}>
+                <Contratación/>
+              </TabPanel>
+              <TabPanel value={showValue} index={2}>
+                <PersonalInformation/>
+              </TabPanel>
+              <TabPanel value={showValue} index={3}>
+                <SociodemographicProfile/>
+              </TabPanel>
+              <TabPanel value={showValue} index={4}>
+                <Identification/>
+              </TabPanel>
+              <TabPanel value={showValue} index={4}>
+                <Hiring/>
+              </TabPanel>
+              <TabPanel value={showValue} index={4}>
+                <HealthSafetyWork/>
+              </TabPanel>
+              <TabPanel value={showValue} index={4}>
+                <Beneficiary/>
+              </TabPanel>
+              <TabPanel value={showValue} index={4}>
+                <Membership/>
+              </TabPanel>
+              <TabPanel value={showValue} index={4}>
+                <SocialBenefit/>
+              </TabPanel>
+              <TabPanel value={showValue} index={4}>
+                <Withdrawal/>
+              </TabPanel>
+              <TabPanel value={showValue} index={4}>
+                <Deductions/>
+              </TabPanel>
+            </Box>
+
+          </Box>
 
           {/* Steep panel */}
           <Box sx={{ width: "100%" }}>
@@ -97,74 +169,6 @@ const EditEmployee: FC = () => {
               })}
             </Stepper>
 
-            {activeStep === steps.length ? (
-            <>
-              <Typography sx={{ mt: 2, mb: 1 }}>
-                All steps completed - you&apos;re finished
-              </Typography>
-              <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-                <Box sx={{ flex: '1 1 auto' }} />
-                <Button onClick={handleReset}>Reset</Button>
-              </Box>
-            </>
-            ) : (
-            <>
-              {/* butons next - prev */}
-              <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-                <Button
-                  color="inherit"
-                  disabled={activeStep === 0}
-                  onClick={handleBack}
-                  sx={{ mr: 1 }}
-                >
-                  Back
-                </Button>
-                <Box sx={{ flex: '1 1 auto' }} />
-                {/* {isStepOptional(activeStep) && (
-                  <Button color="inherit" onClick={handleSkip} sx={{ mr: 1 }}>
-                    Skip
-                  </Button>
-                )} */}
-                <Button onClick={handleNext}>
-                  {activeStep === steps.length - 1 ? 'Finalizar' : 'Siguiente'}
-                </Button>
-              </Box>
-              {/* list steeps */}
-              {activeStep == 0 &&(<General/>)}
-              {activeStep == 1 &&(<Contratación/>)}
-              {activeStep == 2 &&(<PersonalInformation/>)}
-              {activeStep == 3 &&(<SociodemographicProfile/>)}
-              {activeStep == 4 &&(<Identification/>)}
-              {activeStep == 5 &&(<Hiring/>)}
-              {activeStep == 6 &&(<HealthSafetyWork/>)}
-              {activeStep == 7 &&(<Beneficiary/>)}
-              {activeStep == 8 &&(<Membership/>)}
-              {activeStep == 9 &&(<SocialBenefit/>)}
-              {activeStep == 10 &&(<Withdrawal/>)}
-              {activeStep == 10 &&(<Deductions/>)}
-
-              {/* butons next - prev */}
-              <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-                <Button
-                  color="inherit"
-                  disabled={activeStep === 0}
-                  onClick={handleBack}
-                  sx={{ mr: 1 }}
-                >
-                  Anterior
-                </Button>
-                <Box sx={{ flex: '1 1 auto' }} />
-                {/* {isStepOptional(activeStep) && (
-                  <Button color="inherit" onClick={handleSkip} sx={{ mr: 1 }}>
-                    Skip
-                  </Button>
-                )} */}
-                <Button onClick={handleNext}>
-                  {activeStep === steps.length - 1 ? 'Finalizar' : 'Siguiente'}
-                </Button>
-              </Box>
-            </>
-            )}
           </Box>
         </Box>
       </Modal>

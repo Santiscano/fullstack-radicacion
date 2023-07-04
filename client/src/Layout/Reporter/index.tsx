@@ -5,8 +5,9 @@ import { DateValueType } from 'react-tailwindcss-datepicker/dist/types';
 import { TabPanel, a11yProps } from '../../components/tools/MultiViewPanel';
 import axios from 'axios';
 import allRoutes from '../../services/allRoutes';
-import { getHeader } from '../../components/tools/SesionSettings';
+import { get, getHeader } from '../../components/tools/SesionSettings';
 import useCatch from '../../hooks/useCatch';
+import { optionsViewsNotAuditors } from '../../components/tools/OptionsValuesSelects';
 
 const Reporter = () => {
   const { handleCatch } = useCatch();
@@ -79,43 +80,46 @@ const Reporter = () => {
       alignItems="center"
       justifyContent="space-evenly"
       spacing={2}
-      sx={{height:"auto"}}
+      sx={{height:"auto", padding: "17px"}}
     >
-      <Grid item xs={6} className='p-12 bg-white max-w-xl rounded-3xl'>
-        <h2 className='text-2xl font-bold text-center'>ADMINISTRATIVO</h2>
-        <Box sx={{ with: "100%" }}>
-          <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-            <Tabs
-              value={adminShowValue}
-              onChange={handleChangeTabs}
-              aria-label="Reportero"
-              variant="scrollable"
-            >
-              <Tab label="PENDIENTES" {...a11yProps(0)}/>
-              <Tab label="FINALIZADOS" {...a11yProps(1)} />
-            </Tabs>
-          </Box>
-          <TabPanel value={adminShowValue} index={0}>
-            <Box>
-              <button className='button button--flex' onClick={() => handleSubmitPending('ADMINISTRATIVO')}> DESCARGAR EXCEL </button>
+      { optionsViewsNotAuditors.includes(Number(get("idroles"))) &&
+      (
+        <Grid item xs={6} className='p-12 bg-white max-w-xl rounded-3xl'>
+          <h2 className='text-2xl font-bold text-center'>ADMINISTRATIVO</h2>
+          <Box sx={{ with: "100%" }}>
+            <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+              <Tabs
+                value={adminShowValue}
+                onChange={handleChangeTabs}
+                aria-label="Reportero"
+                variant="scrollable"
+              >
+                <Tab label="PENDIENTES" {...a11yProps(0)}/>
+                <Tab label="FINALIZADOS" {...a11yProps(1)} />
+              </Tabs>
             </Box>
-          </TabPanel>
-          <TabPanel value={adminShowValue} index={1}>
-            <Box>
-              <Datepicker
-                primaryColor={"sky"}
-                value={admin}
-                onChange={handleAdminChange}
-                maxDate={new Date()}
+            <TabPanel value={adminShowValue} index={0}>
+              <Box>
+                <button className='button button--flex bg-[#037543]' onClick={() => handleSubmitPending('ADMINISTRATIVO')}> DESCARGAR EXCEL </button>
+              </Box>
+            </TabPanel>
+            <TabPanel value={adminShowValue} index={1}>
+              <Box>
+                <Datepicker
+                  primaryColor={"sky"}
+                  value={admin}
+                  onChange={handleAdminChange}
+                  maxDate={new Date()}
 
-              />
-              <button className='button button--flex' onClick={handleSubmitAdmin}>
-                DESCARGAR EXCEL
-              </button>
-            </Box>
-          </TabPanel>
-        </Box>
-      </Grid>
+                />
+                <button className='button button--flex bg-[#037543]' onClick={handleSubmitAdmin}>
+                  DESCARGAR EXCEL
+                </button>
+              </Box>
+            </TabPanel>
+          </Box>
+        </Grid>
+      )}
 
       <Grid item xs={6} className='p-12 bg-white rounded-3xl'>
         <h2 className='text-2xl font-bold text-center'>OPERATIVO</h2>
@@ -133,7 +137,7 @@ const Reporter = () => {
           </Box>
           <TabPanel value={operativeShowValue} index={0}>
             <Box>
-              <button className='button button--flex' onClick={() => handleSubmitPending('OPERATIVO')}> DESCARGAR EXCEL </button>
+              <button className='button button--flex bg-[#037543]' onClick={() => handleSubmitPending('OPERATIVO')}> DESCARGAR EXCEL </button>
             </Box>
           </TabPanel>
           <TabPanel value={operativeShowValue} index={1}>
@@ -144,9 +148,8 @@ const Reporter = () => {
                 onChange={handleOperativeChange}
                 maxDate={new Date()}
                 popoverDirection="down"
-                placeholder={'seleccione rango de fechas'}
               />
-              <button className='button button--flex' onClick={handleSubmitOperative}>DESCARGAR EXCEL</button>
+              <button className='button button--flex bg-[#037543]' onClick={handleSubmitOperative}>DESCARGAR EXCEL</button>
             </Box>
           </TabPanel>
         </Box>

@@ -330,11 +330,10 @@ export const employeesSlice = createSlice({
   initialState,
   reducers: {
     setEmployee(state, action) {
-      const newState = {...state, ...action.payload}
-      return newState;
+      return {...state, ...action.payload}
     },
     setRemoveEmployee(state){
-      state = initialState;
+      return {...initialState}
     },
   },
 });

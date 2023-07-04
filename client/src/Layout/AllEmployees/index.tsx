@@ -20,7 +20,6 @@ import { useEmployee } from "../../redux/Redux-actions/useEmployee";
 import EditEmployee from "./components/Modal/EditEmployee";
 import CreateEmployee from "./components/Modal/CreateEmployee";
 import useNewEmployee from "./hooks/useNewEmployee";
-
 const steps = [
   "Crear Empleado",
   "Información Personal",
@@ -67,7 +66,7 @@ export default function NewEmployeeTest() {
   const [skipped, setSkipped] = useState(new Set<number>());
   const [rows, setRows] = useState<any>([]);
   const { openModalAuth, handleOpenModalAuth } = useContextProvider();
-  const { addEmployee } = useEmployee();
+  const { addEmployee, removeEmployee } = useEmployee();
   const { openModalCreateEmployee, handleCloseModal, handleOpenModal } = useNewEmployee();
 
   const handleGetEmployees = async () => {
@@ -84,6 +83,12 @@ export default function NewEmployeeTest() {
     console.log('params: ', params);
     addEmployee(params.row);
     handleOpenModalAuth();
+  };
+
+  const handleNewEmployee = () => {
+    console.log('remove redux employee')
+    removeEmployee();
+    handleOpenModal();
   };
 
   useEffect(() => {
@@ -105,8 +110,8 @@ export default function NewEmployeeTest() {
             <label className="block ml-4 text-base font-semibold dark:text-white">
               Empleados
             </label>
-            <button className="button button--flex" onClick={handleOpenModal}>
-              Nuevo Usuario
+            <button className="button button--flex" onClick={handleNewEmployee}>
+              Nuevo Empleado
             </button>
           </div>
           <Box sx={{ height: "83%", width: "97%", margin: "auto" }}>
