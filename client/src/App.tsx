@@ -132,12 +132,11 @@ function App() {
               >
                 <Route path="todos-los-empleados" element={<AllEmployees />} />
                 {/* <Route path="test" element={<NewEmployeeTest/>} /> */}
-                <Route path="todos-los-empleados" element={<AllEmployees />} />
-                <Route
+                {/* <Route
                   path="adjuntar-documentos-empleado"
                   element={<AttachEmployeeDocuments />}
-                />
-                <Route path="buscar-empleado" element={<SearchEmployee />} />
+                /> */}
+                {/* <Route path="buscar-empleado" element={<SearchEmployee />} /> */}
               </Route>
 
               {/* modulo de desarrollo */}

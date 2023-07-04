@@ -1,5 +1,5 @@
 import { FC, useEffect } from 'react'
-import { Box, Button, Divider, Modal, Step, StepLabel, Stepper, Typography } from "@mui/material";
+import { Box, Button, Divider, Modal, Step, StepLabel, Stepper, Tooltip, Typography } from "@mui/material";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import useContextProvider from '../../../../Context/GeneralValuesContext';
 import { useAppSelector } from '../../../../redux/hooks/useStore';
@@ -36,6 +36,7 @@ const EditEmployee: FC = () => {
   const user = useAppSelector((state) => state.employeesSlice);
   const { steps, setSteps, activeStep, isStepSkipped, isStepOptional, handleBack,
     handleNext, handleReset, handleSkip } = useStepper();
+  const listContracts = [{id:1, contract: "tercero"}, {id:2, contract: "tiempo indefinido"}]
 
 
   useEffect(() => {
@@ -55,7 +56,18 @@ const EditEmployee: FC = () => {
       >
         <Box sx={style}>
           <div className="flex justify-between items-center">
-            <h3 className="p-2.5 text-3xl font-bold mb-3">Editar Empleado</h3>
+            <div className='flex flex-row'>
+              <h3 className="p-2.5 text-3xl font-bold mb-3">Editar Empleado</h3>
+              {listContracts.map(contract => (
+                <Tooltip
+                  key={contract.id}
+                  title={contract.contract}
+                  placement='top'
+                >
+                  <Button>{contract.id}</Button>
+                </Tooltip>
+              ))}
+            </div>
             <CloseOutlinedIcon
               onClick={handleOpenModalAuth}
               style={{ fontSize: "35px", cursor: "pointer" }}
