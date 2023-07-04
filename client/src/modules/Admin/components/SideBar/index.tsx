@@ -46,9 +46,6 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   backgroundColor: "#e4e4e7",
 }));
 
-// ROLES
-const rolTI = true;
-
 function index(props: any) {
   const theme = useTheme();
   const navigate = useNavigate();
@@ -182,38 +179,16 @@ function index(props: any) {
       </WithRoleAllowedRoutes>
 
       {/* Reporteros */}
-      <List>
-        <ListItemButton onClick={handleOpenReporter}>
-          <ListItemIcon>
-            <FindInPageOutlinedIcon sx={{ color: color }} />
-          </ListItemIcon>
-          <ListItemText primary="Reportero" />
-          {openReporter ? <ExpandLess /> : <ExpandMore />}
-        </ListItemButton>
-
-        <Collapse in={openReporter} timeout="auto" unmountOnExit>
-          <List>
-            <ListItem disablePadding>
-              <ListItemButton sx={{ml: 4}} onClick={() => navigate('/dashboard/reporter-operative')}>
-                <ListItemIcon><LocalShippingOutlinedIcon sx={{ color: color }}/></ListItemIcon>
-                <ListItemText primary='Operativas'/>
-              </ListItemButton>
-            </ListItem>
-
-            <WithRoleAllowedRoutes allowedRolesList={optionsViewsNotAuditors}>
-              <ListItem disablePadding>
-                <ListItemButton sx={{ml: 4}} onClick={() => navigate('/dashboard/reporter-admin')}>
-                  <ListItemIcon><SupervisorAccountOutlinedIcon sx={{ color: color }}/></ListItemIcon>
-                  <ListItemText primary='Administrativas'/>
-                </ListItemButton>
-              </ListItem>
-            </WithRoleAllowedRoutes>
-
-          </List>
-        </Collapse>
-
-        <Divider />
-      </List>
+      <WithRoleAllowedRoutes allowedRolesList={optionsViewsNotAuditors}>
+        <List>
+          <ListItem disablePadding>
+            <ListItemButton onClick={() => navigate('/dashboard/reporter')}>
+              <ListItemIcon><FindInPageOutlinedIcon sx={{ color: color }} /></ListItemIcon>
+              <ListItemText primary='Reportero'/>
+            </ListItemButton>
+          </ListItem>
+        </List>
+      </WithRoleAllowedRoutes>
 
       {/* Administracion */}
       <WithRoleAllowedRoutes allowedRolesList={optionsViewsTI}>

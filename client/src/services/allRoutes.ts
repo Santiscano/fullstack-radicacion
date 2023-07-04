@@ -105,6 +105,10 @@ export default {
       getAllSettled: `${host}/getAllRegisteredFile`,
       getDocumentTypes: `${host}/getIdentificationByType`,
     },
+    reporter: {
+      pendingReport: `${host}/pendingReport`,
+      finishedReport: `${host}/finishedReport`
+    },
   },
   sig:{
     personalInformation: {

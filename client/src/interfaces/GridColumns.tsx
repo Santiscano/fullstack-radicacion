@@ -369,43 +369,6 @@ export const columnsAllFiles: GridColDef[] = [
     headerName: "Estado del Usuario",
     width: 70,
   },
-  // {
-  //   field: "action",
-  //   headerName: "Acciones",
-  //   width: 90,
-  //   filterable: false,
-    // renderCell: (cellValues: any) => ButtonModalAllFiles(cellValues),
-    // renderCell: (cellValues: any) => {
-    //   return (
-    //     <>
-    //       <Button
-    //         component="button"
-    //         variant="contained"
-    //         size="small"
-    //         style={{ marginLeft: 1 }}
-    //         onKeyDown={(event: React.KeyboardEvent) => {
-    //           if (event.key === " ") {
-    //             // Prevent key navigation when focus is on button
-    //             event.stopPropagation();
-    //           }
-    //         }}
-    //         onClick={(event) => {
-    //           console.log("result: ", event, cellValues);
-    //         }}
-    //       >
-    //         ver valores
-    //       </Button>
-    //       <ModalInfoFile
-    //         key={}
-    //         open={openModalAuth}
-    //         close={handleOpenModalAuth}
-    //         valueFile={params.row}
-    //       />
-    //     </>
-    //   );
-    // },
-    // renderCell: ButtonOpenModalEdit,
-  // },
 ];
 export const columnsCenterCosts = [
   {

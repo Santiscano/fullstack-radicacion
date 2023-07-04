@@ -78,30 +78,30 @@ export default {
     ],
     humanManagement: [
       {
-        name: "Crear Empleados",
-        url: "/dashboard/nuevo-empleado",
+        name: "Todos los empleados",
+        url: "/dashboard/todos-los-empleados",
         icon: <PersonAddAlt1OutlinedIcon sx={color} />,
       },
-      {
-        name: "test crear",
-        url: "/dashboard/test",
-        icon: <GroupsOutlinedIcon sx={color} />,
-      },
-      {
-        name: "Todos los Empleados",
-        url: "/dashboard/todos-los-empleados",
-        icon: <GroupsOutlinedIcon sx={color} />,
-      },
-      {
-        name: "Adjuntar Documentos Empleado",
-        url: "/dashboard/adjuntar-documentos-empleado",
-        icon: <PostAddRoundedIcon sx={color} />,
-      },
-      {
-        name: "Filtrar Empleado",
-        url: "/dashboard/buscar-empleado",
-        icon: <SearchRoundedIcon sx={color} />,
-      },
+      // {
+      //   name: "test crear",
+      //   url: "/dashboard/test",
+      //   icon: <GroupsOutlinedIcon sx={color} />,
+      // },
+      // {
+      //   name: "Todos los Empleados",
+      //   url: "/dashboard/todos-los-empleados",
+      //   icon: <GroupsOutlinedIcon sx={color} />,
+      // },
+      // {
+      //   name: "Adjuntar Documentos Empleado",
+      //   url: "/dashboard/adjuntar-documentos-empleado",
+      //   icon: <PostAddRoundedIcon sx={color} />,
+      // },
+      // {
+      //   name: "Filtrar Empleado",
+      //   url: "/dashboard/buscar-empleado",
+      //   icon: <SearchRoundedIcon sx={color} />,
+      // },
     ],
     dev: [
       {

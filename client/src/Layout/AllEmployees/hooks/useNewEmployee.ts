@@ -98,7 +98,7 @@ function useNewEmployee(){
   };
 
   useEffect(() => {
-    changeTitleSection("CREAR EMPLEADO");
+    changeTitleSection("TABLA EMPLEADOS");
     return () => {
       changeTitleSection("");
     };
