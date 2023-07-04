@@ -15,7 +15,6 @@ import AllEmployees from "./Layout/AllEmployees";
 import AllFilesTable from "./Layout/AllFilesTable";
 import AttachEmployeeDocuments from "./Layout/AttachEmployeeDocuments";
 import Home from "./Layout/Home/index";
-import NewEmployee from "./Layout/NewEmployee";
 import PendingFilesTable from "./Layout/PendingFilesTable/index";
 import SearchEmployee from "./Layout/SearchEmployee";
 import History from "./Layout/History";
@@ -39,7 +38,6 @@ import BussinessGroup from "./modules/Global/BussinessGroup";
 import WebViewer from "./Layout/WebViewer";
 import ViewConstructor from "./Layout/ViewConstructor";
 import Reporter from "./Layout/Reporter";
-import ReporterOperative from "./Layout/ReporterOperative";
 // import NewEmployeeTest from "./Layout/NewEmployee";
 
 function App() {
@@ -104,9 +102,8 @@ function App() {
 
               {/* reporter */}
               <Route element={<WithRoleAllowedComponent allowedRolesList={optionsViewsNotAuditors}/>}>
-                <Route path="reporter-admin" element={<Reporter/>}/>
+                <Route path="reporter" element={<Reporter/>}/>
               </Route>
-              <Route path="reporter-operative" element={<ReporterOperative/>}/>
 
               {/* admin */}
               <Route
@@ -133,7 +130,7 @@ function App() {
                   />
                 }
               >
-                <Route path="nuevo-empleado" element={<NewEmployee />} />
+                <Route path="todos-los-empleados" element={<AllEmployees />} />
                 {/* <Route path="test" element={<NewEmployeeTest/>} /> */}
                 <Route path="todos-los-empleados" element={<AllEmployees />} />
                 <Route
