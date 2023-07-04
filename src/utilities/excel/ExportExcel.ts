@@ -3,7 +3,7 @@ import fs from "fs";
 import path from "path";
 import ExcelJS from "exceljs";
 
-export const ExportExcel = (datos: any, headers: string[], name: string) => {
+export const ExportExcel = async (datos: any, headers: string[], name: string) => {
     const storageFolder = path.join(__dirname, "../../../temp/");
     if (!fs.existsSync(storageFolder)) {
         fs.mkdirSync(storageFolder);
@@ -44,7 +44,7 @@ export const ExportExcel = (datos: any, headers: string[], name: string) => {
         }
     });
 
-    workbook.xlsx.writeFile(filePath);
+    await workbook.xlsx.writeFile(filePath);
     return `${process.env.URL_EXCEL}/archivos/${fullname}`;
 };
 
