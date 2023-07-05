@@ -31,7 +31,7 @@ const Identification = () => {
     setCbName,setRpName, setRaName, setRlName, setVrlName, setVrpName, setVraName } = useEmployee();
 
   // form Data
-  const [data, setData] = useState(new FormData())
+  const [data, setData] = useState<FormData>(new FormData());
 
   // hoja de vida
   const handleCV = (e: ChangeEvent<HTMLInputElement>) => {
