@@ -10,6 +10,7 @@ import useCatch from '../../hooks/useCatch';
 import { optionsViewsNotAuditors } from '../../components/tools/OptionsValuesSelects';
 
 const Reporter = () => {
+  const timeDelete = 4000;
   const { handleCatch } = useCatch();
   // tabs
   const [adminShowValue, setAdminShowValue] = useState(0);
@@ -39,7 +40,7 @@ const Reporter = () => {
         axios.post(allRoutes.api.reporter.deleteBackendDocuments,{
           pathFile: response?.data.data
         },getHeader())
-      }, 8000)
+      }, timeDelete)
     } catch(error){
       console.log('ERROR', error);
       handleCatch(error)
@@ -68,7 +69,7 @@ const Reporter = () => {
         axios.post(allRoutes.api.reporter.deleteBackendDocuments,{
           pathFile: response?.data.data
         },getHeader())
-      }, 8000)
+      }, timeDelete)
     }catch(error){
       console.log('ERROR', error);
       handleCatch(error)
@@ -84,7 +85,7 @@ const Reporter = () => {
         axios.post(allRoutes.api.reporter.deleteBackendDocuments,{
           pathFile: response?.data.data
         }, getHeader())
-      }, 8000)
+      }, timeDelete)
     }catch(error){
       console.log("error", error);
       handleCatch(error)

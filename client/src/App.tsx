@@ -101,9 +101,7 @@ function App() {
               </Route>
 
               {/* reporter */}
-              <Route element={<WithRoleAllowedComponent allowedRolesList={optionsViewsNotAuditors}/>}>
-                <Route path="reporter" element={<Reporter/>}/>
-              </Route>
+              <Route path="reporter" element={<Reporter/>}/>
 
               {/* admin */}
               <Route
