@@ -179,16 +179,14 @@ function index(props: any) {
       </WithRoleAllowedRoutes>
 
       {/* Reporteros */}
-      <WithRoleAllowedRoutes allowedRolesList={optionsViewsNotAuditors}>
-        <List>
-          <ListItem disablePadding>
-            <ListItemButton onClick={() => navigate('/dashboard/reporter')}>
-              <ListItemIcon><FindInPageOutlinedIcon sx={{ color: color }} /></ListItemIcon>
-              <ListItemText primary='Reportero'/>
-            </ListItemButton>
-          </ListItem>
-        </List>
-      </WithRoleAllowedRoutes>
+      <List>
+        <ListItem disablePadding>
+          <ListItemButton onClick={() => navigate('/dashboard/reporter')}>
+            <ListItemIcon><FindInPageOutlinedIcon sx={{ color: color }} /></ListItemIcon>
+            <ListItemText primary='Reportero'/>
+          </ListItemButton>
+        </ListItem>
+      </List>
 
       {/* Administracion */}
       <WithRoleAllowedRoutes allowedRolesList={optionsViewsTI}>
