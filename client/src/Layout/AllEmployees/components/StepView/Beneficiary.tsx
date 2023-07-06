@@ -2,7 +2,11 @@ import { ChangeEvent, FormEvent, useState } from 'react';
 import { useAppSelector } from '../../../../redux/hooks/useStore';
 import { useEmployee } from '../../../../redux/Redux-actions/useEmployee';
 // image
-import work_contract from "../../../../assets/svgs/work_contract.svg";
+import marriage_certificate from "../../../../assets/svgs/marriage_certificate.svg";
+import beneficiary_identity_card from "../../../../assets/svgs/beneficiary_identity_card.svg";
+import childrens_civil_registry from "../../../../assets/svgs/childrens_civil_registry.svg";
+import childrens_identity_card from "../../../../assets/svgs/childrens_identity_card.svg";
+import childrens_study_certificate from "../../../../assets/svgs/childrens_study_certificate.svg";
 
 const Beneficiary = () => {
   const employee = useAppSelector((state) => state.employeesSlice);
@@ -60,7 +64,7 @@ const Beneficiary = () => {
             </label>
             <input type="file" className="hidden" onChange={handlePm} />
             <div className="flex cursor-pointer">
-              <img src={work_contract} width="100px" />
+              <img src={marriage_certificate} width="100px" />
               <span className="flex items-center"> {employee.marriage_certificate} </span>
             </div>
           </label>
@@ -72,7 +76,7 @@ const Beneficiary = () => {
             </label>
             <input type="file" className="hidden" onChange={handleCb} />
             <div className="flex cursor-pointer">
-              <img src={work_contract} width="100px" />
+              <img src={beneficiary_identity_card} width="100px" />
               <span className="flex items-center"> {employee.beneficiary_identity_card} </span>
             </div>
           </label>
@@ -84,7 +88,7 @@ const Beneficiary = () => {
             </label>
             <input type="file" className="hidden" onChange={handleCrch} />
             <div className="flex cursor-pointer">
-              <img src={work_contract} width="100px" />
+              <img src={childrens_civil_registry} width="100px" />
               <span className="flex items-center"> {employee.childrens_civil_registry} </span>
             </div>
           </label>
@@ -98,7 +102,7 @@ const Beneficiary = () => {
             </label>
             <input type="file" className="hidden" onChange={handleCtih} />
             <div className="flex cursor-pointer">
-              <img src={work_contract} width="100px" />
+              <img src={childrens_identity_card} width="100px" />
               <span className="flex items-center"> {employee.childrens_identity_card} </span>
             </div>
           </label>
@@ -110,12 +114,16 @@ const Beneficiary = () => {
             </label>
             <input type="file" className="hidden" onChange={handleCeh} />
             <div className="flex cursor-pointer">
-              <img src={work_contract} width="100px" />
+              <img src={childrens_study_certificate} width="100px" />
               <span className="flex items-center"> {employee.childrens_study_certificate} </span>
             </div>
           </label>
         </article>
       </div>
+      <button
+          type="submit"
+          className="button button--flex bg-[#037543]"
+        >cargar</button>
     </form>
   )
 }

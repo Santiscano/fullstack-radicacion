@@ -2,7 +2,13 @@ import { ChangeEvent, FormEvent, useState } from 'react';
 import { useAppSelector } from '../../../../redux/hooks/useStore';
 import { useEmployee } from '../../../../redux/Redux-actions/useEmployee';
 // images
-import work_contract from "../../../../assets/svgs/work_contract.svg";
+import medical_examination_admission from "../../../../assets/svgs/medical_examination_admission.svg";
+import periodic_medical_examination from "../../../../assets/svgs/periodic_medical_examination.svg";
+import disabilities from "../../../../assets/svgs/disabilities.svg";
+import permit_request from "../../../../assets/svgs/permit_request.svg";
+import endowment from "../../../../assets/svgs/endowment.svg";
+import performance_evaluation from "../../../../assets/svgs/performance_evaluation.svg";
+import delivery_work_tools from "../../../../assets/svgs/delivery_work_tools.svg";
 
 
 const HealthSafetyWork = () => {
@@ -75,7 +81,7 @@ const HealthSafetyWork = () => {
             </label>
             <input type="file" className="hidden" onChange={handleEmi} />
             <div className="flex cursor-pointer">
-              <img src={work_contract} width="100px" />
+              <img src={medical_examination_admission} width="100px" />
               <span className="flex items-center"> {employee.medical_examination_admission} </span>
             </div>
           </label>
@@ -87,7 +93,7 @@ const HealthSafetyWork = () => {
             </label>
             <input type="file" className="hidden" onChange={handleEmp} />
             <div className="flex cursor-pointer">
-              <img src={work_contract} width="100px" />
+              <img src={periodic_medical_examination} width="100px" />
               <span className="flex items-center"> {employee.periodic_medical_examination} </span>
             </div>
           </label>
@@ -99,7 +105,7 @@ const HealthSafetyWork = () => {
             </label>
             <input type="file" className="hidden" onChange={handleIncap} />
             <div className="flex cursor-pointer">
-              <img src={work_contract} width="100px" />
+              <img src={disabilities} width="100px" />
               <span className="flex items-center"> {employee.disabilities} </span>
             </div>
           </label>
@@ -113,7 +119,7 @@ const HealthSafetyWork = () => {
             </label>
             <input type="file" className="hidden" onChange={handleSp} />
             <div className="flex cursor-pointer">
-              <img src={work_contract} width="100px" />
+              <img src={permit_request} width="100px" />
               <span className="flex items-center"> {employee.permit_request} </span>
             </div>
           </label>
@@ -125,7 +131,7 @@ const HealthSafetyWork = () => {
             </label>
             <input type="file" className="hidden" onChange={handleDot} />
             <div className="flex cursor-pointer">
-              <img src={work_contract} width="100px" />
+              <img src={endowment} width="100px" />
               <span className="flex items-center"> {employee.endowment} </span>
             </div>
           </label>
@@ -137,7 +143,7 @@ const HealthSafetyWork = () => {
             </label>
             <input type="file" className="hidden" onChange={handleEd} />
             <div className="flex cursor-pointer">
-              <img src={work_contract} width="100px" />
+              <img src={performance_evaluation} width="100px" />
               <span className="flex items-center"> {employee.performance_evaluation} </span>
             </div>
           </label>
@@ -151,12 +157,16 @@ const HealthSafetyWork = () => {
             </label>
             <input type="file" className="hidden" onChange={handleEht} />
             <div className="flex cursor-pointer">
-              <img src={work_contract} width="100px" />
+              <img src={delivery_work_tools} width="100px" />
               <span className="flex items-center"> {employee.delivery_work_tools} </span>
             </div>
           </label>
         </article>
       </div>
+      <button
+          type="submit"
+          className="button button--flex bg-[#037543]"
+        >cargar</button>
     </form>
   )
 }

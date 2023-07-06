@@ -2,7 +2,9 @@ import { ChangeEvent, FormEvent, useState } from 'react';
 import { useAppSelector } from '../../../../redux/hooks/useStore';
 import { useEmployee } from '../../../../redux/Redux-actions/useEmployee';
 // images
-import work_contract from "../../../../assets/svgs/work_contract.svg";
+import dp from "../../../../assets/svgs/dp.svg";
+import order from "../../../../assets/svgs/order.svg";
+import payroll_deduction_authorization_events from "../../../../assets/svgs/payroll_deduction_authorization_events.svg";
 
 const DeductionsEdit = () => {
   const employee = useAppSelector((state) => state.employeesSlice);
@@ -45,7 +47,7 @@ const DeductionsEdit = () => {
             </label>
             <input type="file" className="hidden" onChange={handledp} />
             <div className="flex cursor-pointer">
-              <img src={work_contract} width="100px" />
+              <img src={dp} width="100px" />
               <span className="flex items-center"> {employee.dp} </span>
             </div>
           </label>
@@ -57,7 +59,7 @@ const DeductionsEdit = () => {
             </label>
             <input type="file" className="hidden" onChange={handleLib} />
             <div className="flex cursor-pointer">
-              <img src={work_contract} width="100px" />
+              <img src={order} width="100px" />
               <span className="flex items-center"> {employee.order} </span>
             </div>
           </label>
@@ -69,12 +71,16 @@ const DeductionsEdit = () => {
             </label>
             <input type="file" className="hidden" onChange={handleAdne} />
             <div className="flex cursor-pointer">
-              <img src={work_contract} width="100px" />
+              <img src={payroll_deduction_authorization_events} width="100px" />
               <span className="flex items-center"> {employee.payroll_deduction_authorization_events} </span>
             </div>
           </label>
         </article>
       </div>
+      <button
+          type="submit"
+          className="button button--flex bg-[#037543]"
+        >cargar</button>
     </form>
   )
 }

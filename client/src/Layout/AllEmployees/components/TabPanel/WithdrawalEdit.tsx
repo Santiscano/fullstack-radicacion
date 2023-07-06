@@ -2,7 +2,17 @@ import { ChangeEvent, FormEvent, useState } from 'react';
 import { useAppSelector } from '../../../../redux/hooks/useStore';
 import { useEmployee } from '../../../../redux/Redux-actions/useEmployee';
 // images
-import work_contract from "../../../../assets/svgs/work_contract.svg";
+import delivery_work_tool from "../../../../assets/svgs/delivery_work_tool.svg";
+import compensation_box_withdrawal from "../../../../assets/svgs/compensation_box_withdrawal.svg";
+import letter_of_resignation from "../../../../assets/svgs/letter_of_resignation.svg";
+import letter_of_acceptance from "../../../../assets/svgs/letter_of_acceptance.svg";
+import contract_termination from "../../../../assets/svgs/contract_termination.svg";
+import letter_withdrawal_medical_examination from "../../../../assets/svgs/letter_withdrawal_medical_examination.svg";
+import withdrawal_medical_examination from "../../../../assets/svgs/withdrawal_medical_examination.svg";
+import final_settlement from "../../../../assets/svgs/final_settlement.svg";
+import eps_withdrawal from "../../../../assets/svgs/eps_withdrawal.svg";
+import layoffs_withdrawal from "../../../../assets/svgs/layoffs_withdrawal.svg";
+import arl_withdrawal from "../../../../assets/svgs/arl_withdrawal.svg";
 
 const WithdrawalEdit = () => {
   const employee = useAppSelector((state) => state.employeesSlice);
@@ -103,7 +113,7 @@ const WithdrawalEdit = () => {
             </label>
             <input type="file" className="hidden" onChange={handleCr} />
             <div className="flex cursor-pointer">
-              <img src={work_contract} width="100px" />
+              <img src={letter_of_resignation} width="100px" />
               <span className="flex items-center"> {employee.letter_of_resignation} </span>
             </div>
           </label>
@@ -115,7 +125,7 @@ const WithdrawalEdit = () => {
             </label>
             <input type="file" className="hidden" onChange={handleCa} />
             <div className="flex cursor-pointer">
-              <img src={work_contract} width="100px" />
+              <img src={letter_of_acceptance} width="100px" />
               <span className="flex items-center"> {employee.letter_of_acceptance} </span>
             </div>
           </label>
@@ -127,7 +137,7 @@ const WithdrawalEdit = () => {
             </label>
             <input type="file" className="hidden" onChange={handleTc} />
             <div className="flex cursor-pointer">
-              <img src={work_contract} width="100px" />
+              <img src={contract_termination} width="100px" />
               <span className="flex items-center"> {employee.contract_termination} </span>
             </div>
           </label>
@@ -141,7 +151,7 @@ const WithdrawalEdit = () => {
             </label>
             <input type="file" className="hidden" onChange={handleCemr} />
             <div className="flex cursor-pointer">
-              <img src={work_contract} width="100px" />
+              <img src={letter_withdrawal_medical_examination} width="100px" />
               <span className="flex items-center"> {employee.letter_withdrawal_medical_examination} </span>
             </div>
           </label>
@@ -153,7 +163,7 @@ const WithdrawalEdit = () => {
             </label>
             <input type="file" className="hidden" onChange={handleEmr} />
             <div className="flex cursor-pointer">
-              <img src={work_contract} width="100px" />
+              <img src={withdrawal_medical_examination} width="100px" />
               <span className="flex items-center"> {employee.withdrawal_medical_examination} </span>
             </div>
           </label>
@@ -165,7 +175,7 @@ const WithdrawalEdit = () => {
             </label>
             <input type="file" className="hidden" onChange={handleLd} />
             <div className="flex cursor-pointer">
-              <img src={work_contract} width="100px" />
+              <img src={final_settlement} width="100px" />
               <span className="flex items-center"> {employee.final_settlement} </span>
             </div>
           </label>
@@ -179,7 +189,7 @@ const WithdrawalEdit = () => {
             </label>
             <input type="file" className="hidden" onChange={handleReps} />
             <div className="flex cursor-pointer">
-              <img src={work_contract} width="100px" />
+              <img src={eps_withdrawal} width="100px" />
               <span className="flex items-center"> {employee.eps_withdrawal} </span>
             </div>
           </label>
@@ -191,7 +201,7 @@ const WithdrawalEdit = () => {
             </label>
             <input type="file" className="hidden" onChange={handleRc} />
             <div className="flex cursor-pointer">
-              <img src={work_contract} width="100px" />
+              <img src={layoffs_withdrawal} width="100px" />
               <span className="flex items-center"> {employee.layoffs_withdrawal} </span>
             </div>
           </label>
@@ -203,7 +213,7 @@ const WithdrawalEdit = () => {
             </label>
             <input type="file" className="hidden" onChange={handleRarl} />
             <div className="flex cursor-pointer">
-              <img src={work_contract} width="100px" />
+              <img src={arl_withdrawal} width="100px" />
               <span className="flex items-center"> {employee.arl_withdrawal} </span>
             </div>
           </label>
@@ -217,7 +227,7 @@ const WithdrawalEdit = () => {
             </label>
             <input type="file" className="hidden" onChange={handleRcc} />
             <div className="flex cursor-pointer">
-              <img src={work_contract} width="100px" />
+              <img src={compensation_box_withdrawal} width="100px" />
               <span className="flex items-center"> {employee.compensation_box_withdrawal} </span>
             </div>
           </label>
@@ -229,12 +239,16 @@ const WithdrawalEdit = () => {
             </label>
             <input type="file" className="hidden" onChange={handleEht} />
             <div className="flex cursor-pointer">
-              <img src={work_contract} width="100px" />
+              <img src={delivery_work_tool} width="100px" />
               <span className="flex items-center"> {employee.delivery_work_tool} </span>
             </div>
           </label>
         </article>
       </div>
+      <button
+          type="submit"
+          className="button button--flex bg-[#037543]"
+        >cargar</button>
     </form>
   )
 }

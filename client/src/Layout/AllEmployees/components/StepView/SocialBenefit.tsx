@@ -2,7 +2,10 @@ import { ChangeEvent, FormEvent, useState } from 'react';
 import { useAppSelector } from '../../../../redux/hooks/useStore';
 import { useEmployee } from '../../../../redux/Redux-actions/useEmployee';
 // images
-import work_contract from "../../../../assets/svgs/work_contract.svg";
+import premium_services from "../../../../assets/svgs/premium_services.svg";
+import vacation from "../../../../assets/svgs/vacation.svg";
+import severance_withdrawal_request from "../../../../assets/svgs/severance_withdrawal_request.svg";
+import proof_of_severance_pay from "../../../../assets/svgs/proof_of_severance_pay.svg";
 
 
 const SocialBenefit = () => {
@@ -54,7 +57,7 @@ const SocialBenefit = () => {
             </label>
             <input type="file" className="hidden" onChange={handlePs} />
             <div className="flex cursor-pointer">
-              <img src={work_contract} width="100px" />
+              <img src={premium_services} width="100px" />
               <span className="flex items-center"> {employee.premium_services} </span>
             </div>
           </label>
@@ -66,7 +69,7 @@ const SocialBenefit = () => {
             </label>
             <input type="file" className="hidden" onChange={handleVac} />
             <div className="flex cursor-pointer">
-              <img src={work_contract} width="100px" />
+              <img src={vacation} width="100px" />
               <span className="flex items-center"> {employee.vacation} </span>
             </div>
           </label>
@@ -78,7 +81,7 @@ const SocialBenefit = () => {
             </label>
             <input type="file" className="hidden" onChange={handleSrc} />
             <div className="flex cursor-pointer">
-              <img src={work_contract} width="100px" />
+              <img src={severance_withdrawal_request} width="100px" />
               <span className="flex items-center"> {employee.severance_withdrawal_request} </span>
             </div>
           </label>
@@ -92,12 +95,16 @@ const SocialBenefit = () => {
             </label>
             <input type="file" className="hidden" onChange={handleCcc} />
             <div className="flex cursor-pointer">
-              <img src={work_contract} width="100px" />
+              <img src={proof_of_severance_pay} width="100px" />
               <span className="flex items-center"> {employee.proof_of_severance_pay} </span>
             </div>
           </label>
         </article>
       </div>
+      <button
+          type="submit"
+          className="button button--flex bg-[#037543]"
+        >cargar</button>
     </form>
   )
 }
