@@ -19,6 +19,7 @@ export type Employee = {
   sedes_name?: string;
   users_status?: string;
   // personal information
+  residence_municipality:string;
   compensation_fund: string;
   pension: string;
   layoffs: string;
@@ -180,6 +181,7 @@ const initialState: Employee = {
   users_identification_type: '',
   users_status: '',
   // personal information
+  residence_municipality:'',
   compensation_fund: '',
   pension: '',
   layoffs: '',

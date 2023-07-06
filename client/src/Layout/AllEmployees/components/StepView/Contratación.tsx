@@ -3,8 +3,15 @@ import { useAppSelector } from "../../../../redux/hooks/useStore";
 import TextFieldOutlined from "../../../../components/common/TextFieldOutline";
 import InputSelect from "../../../../components/common/InputSelect";
 import { optionCediHiring } from "../../../../components/tools/OptionsValuesSelects";
+import { optionIsActive } from "../../../../components/tools/OptionsValuesSelects"
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { useState } from "react";
 
 const Contratación = () => {
+  const [locale, setlocale] = useState("es");
   const user = useAppSelector((state) => state.employeesSlice);
   const {
     setHiringEntryDate,
@@ -20,6 +27,7 @@ const Contratación = () => {
     setArl,
     setHiringCostCenter,
     setCompanyName,
+    setUsersStatus
   } = useEmployee();
   return (
     <>
@@ -29,16 +37,29 @@ const Contratación = () => {
             <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
               Fecha De Ingreso Contratación
             </label>
-            <TextFieldOutlined
-              type={"text"}
-              label="Fecha De Ingreso Contratación"
-              value={user.hiring_entry_Date}
-              setValue={setHiringEntryDate}
-            />
+            <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={locale}>
+              <DemoContainer components={['DatePicker']}
+                sx={{
+                  "& .MuiFormControl-root": {
+                    width:"100%",
+                    borderColor: "#2759cd",
+                    "&:hover fieldset": {
+                      borderColor: "#2759cd",
+                    }},
+                  width:"100%",
+                }}
+              >
+                <DatePicker
+                  value={user.hiring_entry_Date}
+                  // @ts-ignore
+                  onChange={setHiringEntryDate}
+                />
+              </DemoContainer>
+            </LocalizationProvider>
           </article>
           <article className="md:w-1/2">
             <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-              Nombre Posición Laboral
+              Cargo Laboral
             </label>
             <TextFieldOutlined
               type={"text"}
@@ -62,13 +83,13 @@ const Contratación = () => {
           </article>
           <article className="md:w-1/2">
             <InputSelect
-              label="Estado"
-              title="Estado"
-              placeholder="Estado"
+              label="CEDI"
+              title="CEDI"
+              placeholder="CEDI"
               required
               value={user.company_name}
               onChange={setCompanyName}
-              itemDefault="selecciona Estado"
+              itemDefault="selecciona CEDI"
               items={optionCediHiring}
             />
           </article>
@@ -179,6 +200,18 @@ const Contratación = () => {
               label="Centro De Costos De Contratación"
               value={user.hiring_cost_center}
               setValue={setHiringCostCenter}
+            />
+          </article>
+          <article className="md:w-1/2">
+            <InputSelect
+              label="Estado"
+              title="Estado"
+              placeholder="Estado"
+              required
+              value={user.users_status}
+              onChange={setUsersStatus}
+              itemDefault="selecciona Estado"
+              items={optionIsActive}
             />
           </article>
         </div>

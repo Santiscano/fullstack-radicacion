@@ -7,6 +7,7 @@ import { useAppSelector } from "../../../../redux/hooks/useStore";
 const PersonalInformation = () => {
   const user = useAppSelector((state) => state.employeesSlice);
   const {
+    setResidenceMunicipality,
     setUsersAddress,
     setRh,
     setCivilStatus,
@@ -30,7 +31,7 @@ const PersonalInformation = () => {
         <div className="md:flex md:flex-wrap">
           <article className="md:w-1/2">
             <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
-              Dirección
+              Dirección de residencia
             </label>
             <TextFieldOutlined
               type={"text"}
@@ -40,6 +41,20 @@ const PersonalInformation = () => {
               required
             />
           </article>
+          <article className="md:w-1/2">
+            <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
+              Municipio de residencia
+            </label>
+            <TextFieldOutlined
+              type={"text"}
+              label={"Municipio Ubicacion"}
+              value={user.residence_municipality}
+              setValue={setResidenceMunicipality}
+              required
+            />
+          </article>
+        </div>
+        <div className="md:flex md:flex-wrap">
           <article className="md:w-1/2">
             <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
               Telefono
@@ -52,8 +67,6 @@ const PersonalInformation = () => {
               required
             />
           </article>
-        </div>
-        <div className="md:flex md:flex-wrap">
           <article className="md:w-1/2">
             <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
               Celular
@@ -66,6 +79,8 @@ const PersonalInformation = () => {
               required
             />
           </article>
+        </div>
+        <div className="md:flex md:flex-wrap">
           <article className="md:w-1/2">
             <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
               Correo Electronico
@@ -76,6 +91,18 @@ const PersonalInformation = () => {
               value={user.users_email}
               setValue={setUsersEmail}
               required
+            />
+          </article>
+          <article className="md:w-1/2">
+            <InputSelect
+              label="Genero"
+              title="Genero"
+              placeholder="Genero"
+              required
+              value={user.gender}
+              onChange={setGender}
+              itemDefault="selecciona un estado"
+              items={optionCivilStatus}
             />
           </article>
         </div>
@@ -108,18 +135,6 @@ const PersonalInformation = () => {
         <div className="md:flex md:flex-wrap">
           <article className="md:w-1/2">
             <InputSelect
-              label="Genero"
-              title="Genero"
-              placeholder="Genero"
-              required
-              value={user.gender}
-              onChange={setGender}
-              itemDefault="selecciona un estado"
-              items={optionCivilStatus}
-            />
-          </article>
-          <article className="md:w-1/2">
-            <InputSelect
               label="Nivel Academico"
               title="Nivel Academico"
               placeholder="Nivel Academico"
@@ -130,8 +145,6 @@ const PersonalInformation = () => {
               items={optionAcademicLevel}
             />
           </article>
-        </div>
-        <div className="md:flex md:flex-wrap">
           <article className="md:w-1/2">
             <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
               Nombre Contacto De Emergencia
@@ -143,6 +156,8 @@ const PersonalInformation = () => {
               setValue={setEmergencyContactName}
             />
           </article>
+        </div>
+        <div className="md:flex md:flex-wrap">
           <article className="md:w-1/2">
             <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
               Apellidos Contacto De Emergencia
@@ -154,8 +169,6 @@ const PersonalInformation = () => {
               setValue={setEmergencyContactLastname}
             />
           </article>
-        </div>
-        <div className="md:flex md:flex-wrap">
           <article className="md:w-1/2">
             <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
               Relación Contacto De Emergencia
@@ -167,6 +180,8 @@ const PersonalInformation = () => {
               setValue={setEmergencyContactRelationship}
             />
           </article>
+        </div>
+        <div className="md:flex md:flex-wrap">
           <article className="md:w-1/2">
             <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
               Numero Telefonico Contacto De Emergencia
@@ -179,8 +194,6 @@ const PersonalInformation = () => {
               setValue={setEmergencyContactPhone}
             />
           </article>
-        </div>
-        <div className="md:flex md:flex-wrap">
           <article className="md:w-1/2">
             <label className="block my-2 mx-2 mt-4 text-base font-semibold dark:text-white">
               Numero Celular Contacto De Emergencia
@@ -218,8 +231,6 @@ const PersonalInformation = () => {
             />
           </article>
         </div>
-        <div className="md:flex md:flex-wrap"></div>
-        <div className="md:flex md:flex-wrap"></div>
       </form>
     </>
   );

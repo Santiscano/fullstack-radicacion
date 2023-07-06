@@ -51,6 +51,9 @@ export const useEmployee = () => {
   };
 
   // --------------personal information--------//
+  const setResidenceMunicipality = (residence_municipality:string) => {
+    dispatch(setEmployee({ residence_municipality }))
+  };
   const setCompensationFund = (compensation_fund: string) => {
     dispatch(setEmployee({ compensation_fund }));
   };
@@ -480,6 +483,7 @@ export const useEmployee = () => {
     setUsersEmail,
     setUsersStatus,
     // personal information
+    setResidenceMunicipality,
     setCompensationFund,
     setPension,
     setLayoffs,

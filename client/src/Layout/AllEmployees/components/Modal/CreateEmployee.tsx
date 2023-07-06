@@ -61,7 +61,11 @@ const CreateEmployee:FC<Props> = ({ open, close }) => {
     >
       <Box sx={style}>
         <div className="flex justify-between items-center">
-          <h3 className="p-2.5 text-3xl font-bold mb-3">Crear Empleado</h3>
+          <h3 className="p-2.5 text-3xl font-bold mb-3">
+            Crear Empleado
+            {user.users_name && ` - ${user.users_name.toUpperCase()} ${user.users_lastname.toUpperCase()}`}
+            {user.users_identification && ` : ${user.users_identification}`}
+          </h3>
           {/* @ts-ignore */}
           <button className="cursor-pointer text-sm" onClick={close}>
             <CloseOutlinedIcon />
@@ -130,7 +134,7 @@ const CreateEmployee:FC<Props> = ({ open, close }) => {
               {activeStep == 8 &&(<Membership/>)}
               {activeStep == 9 &&(<SocialBenefit/>)}
               {activeStep == 10 &&(<Withdrawal/>)}
-              {activeStep == 10 &&(<Deductions/>)}
+              {activeStep == 11 &&(<Deductions/>)}
 
               {/* butons next - prev */}
               <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>

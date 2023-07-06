@@ -23,96 +23,88 @@ const Hiring = () => {
     setHomeVisit, setFingerprintRegistration } = useEmployee();
 
   // Contrato de trabajo
-  const [ctPath, setCtPath] = useState("");
+  const [ctPath, setCtPath] = useState<File | null>();
   const handleCt = (e: ChangeEvent<HTMLInputElement>) => {
-    // @ts-ignore
-    setCtPath(e.target.files[0]);
+    setCtPath(e.target.files![0]);
+    console.log('ctPath: ', ctPath);
     const fileNameEvent = e.target.value.replace(/^.*\\/, ""); // renombrar archivo
     setWorkContract(fileNameEvent);
   };
   // Otro Si
-  const [osPath, setOsPath] = useState("");
+  const [osPath, setOsPath] = useState<File | null>();
   const handleOs = (e: ChangeEvent<HTMLInputElement>) => {
-    // @ts-ignore
-    setOsPath(e.target.files[0]);
+    setOsPath(e.target.files![0]);
     const fileNameEvent = e.target.value.replace(/^.*\\/, ""); // renombrar archivo
     setAnotherIf(fileNameEvent);
   };
   // Acuerdo Confidencialidad
-  const [acPath, setAcPath] = useState("");
+  const [acPath, setAcPath] = useState<File | null>();
   const handleAc = (e: ChangeEvent<HTMLInputElement>) => {
-    // @ts-ignore
-    setAcPath(e.target.files[0]);
+    setAcPath(e.target.files![0]);
     const fileNameEvent = e.target.value.replace(/^.*\\/, ""); // renombrar archivo
     setConfidentialityAgreement(fileNameEvent);
   };
   // Autorización como titular de la información
-  const [atiPath, setAtiPath] = useState("");
+  const [atiPath, setAtiPath] = useState<File | null>();
   const handleAti = (e: ChangeEvent<HTMLInputElement>) => {
-    // @ts-ignore
-    setAtiPath(e.target.files[0]);
+    setAtiPath(e.target.files![0]);
     const fileNameEvent = e.target.value.replace(/^.*\\/, ""); // renombrar archivo
     seAuthOwnerInformation(fileNameEvent);
   };
   // Consulta de Siplaft
-  const [csPath, setCsPath] = useState("");
+  const [csPath, setCsPath] = useState<File | null>();
   const handleCs = (e: ChangeEvent<HTMLInputElement>) => {
-    // @ts-ignore
-    setCsPath(e.target.files[0]);
+    setCsPath(e.target.files![0]);
     const fileNameEvent = e.target.value.replace(/^.*\\/, ""); // renombrar archivo
     setSinplaftQuery(fileNameEvent);
   };
   // Descripcion Cargo
-  const [dcPath, setDcPath] = useState("");
+  const [dcPath, setDcPath] = useState<File | null>();
   const handleDc = (e: ChangeEvent<HTMLInputElement>) => {
-    // @ts-ignore
-    setDcPath(e.target.files[0]);
+    setDcPath(e.target.files![0]);
     const fileNameEvent = e.target.value.replace(/^.*\\/, ""); // renombrar archivo
     setJobDescription(fileNameEvent);
   };
   // Inducción
-  const [inductionPath, setInductionPath] = useState("");
+  const [inductionPath, setInductionPath] = useState<File | null>();
   const handleInduction = (e: ChangeEvent<HTMLInputElement>) => {
-    // @ts-ignore
-    setInductionPath(e.target.files[0]);
+    setInductionPath(e.target.files![0]);
     const fileNameEvent = e.target.value.replace(/^.*\\/, ""); // renombrar archivo
     setInduction(fileNameEvent);
   };
   // Carta de presentación Aprendiz
-  const [cpaPath, setCpaPath] = useState("");
+  const [cpaPath, setCpaPath] = useState<File | null>();
   const handleCpa = (e: ChangeEvent<HTMLInputElement>) => {
-    // @ts-ignore
-    setCpaPath(e.target.files[0]);
+    setCpaPath(e.target.files![0]);
     const fileNameEvent = e.target.value.replace(/^.*\\/, ""); // renombrar archivo
     seApprentiteCoverLetter(fileNameEvent);
   };
   // Concepto gestión humana
-  const [cghPath, setCghPath] = useState("");
+  const [cghPath, setCghPath] = useState<File | null>();
   const handleCgh = (e: ChangeEvent<HTMLInputElement>) => {
-    // @ts-ignore
-    setCghPath(e.target.files[0]);
+    setCghPath(e.target.files![0]);
     const fileNameEvent = e.target.value.replace(/^.*\\/, ""); // renombrar archivo
     setHumanManagementConcept(fileNameEvent);
   };
   // Visita domiciliaria
-  const [vdPath, setVdPath] = useState("");
+  const [vdPath, setVdPath] = useState<File | null>();
   const handleVd = (e: ChangeEvent<HTMLInputElement>) => {
-    // @ts-ignore
-    setVdPath(e.target.files[0]);
+    setVdPath(e.target.files![0]);
     const fileNameEvent = e.target.value.replace(/^.*\\/, ""); // renombrar archivo
     setHomeVisit(fileNameEvent);
   };
   // Registro de huellas dactilares
-  const [rhdPath, setRhdPath] = useState("");
+  const [rhdPath, setRhdPath] = useState<File | null>();
   const handleRhd = (e: ChangeEvent<HTMLInputElement>) => {
-    // @ts-ignore
-    setRhdPath(e.target.files[0]);
+    setRhdPath(e.target.files![0]);
     const fileNameEvent = e.target.value.replace(/^.*\\/, ""); // renombrar archivo
     setFingerprintRegistration(fileNameEvent);
   };
 
+  // ----------------------submit-----------------------//
   const handleSubmit = (e:FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    console.log('ctPath: ', ctPath);
   };
   return (
     <>
@@ -257,6 +249,10 @@ const Hiring = () => {
             </label>
           </article>
         </div>
+        <button
+          type="submit"
+          className="button button--flex bg-[#037543]"
+        >cargar</button>
       </form>
     </>
   )

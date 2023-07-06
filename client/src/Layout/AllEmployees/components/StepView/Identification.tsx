@@ -30,125 +30,159 @@ const Identification = () => {
   const { setCvName, setdiName, setLcName, setLmName, setDvName, setDnpvName, setDbName, setTName, setTecName, setProfName,setPosgName,
     setCbName,setRpName, setRaName, setRlName, setVrlName, setVrpName, setVraName } = useEmployee();
 
-  // form Data
-  const [data, setData] = useState<FormData>(new FormData());
-
   // hoja de vida
+  const [cvPath, setCvPath] = useState<File | null>();
   const handleCV = (e: ChangeEvent<HTMLInputElement>) => {
-    data.append('cv', e.target.files![0])
-    console.log(data);
+    setCvPath(e.target.files![0]);
+    console.log("cdpath",cvPath);
     const fileNameEvent = e.target.value.replace(/^.*\\/, ""); // renombrar archivo
     setCvName(fileNameEvent);
   };
   // documento de identidad
+  const [diPath, setDiPath] = useState<File | null>();
   const handleDi = (e: ChangeEvent<HTMLInputElement>) => {
-    data.append('di',e.target.files![0]);
-    console.log(data);
+    setDiPath(e.target.files![0]);
+    console.log('diPath: ', diPath);
     const fileNameEvent = e.target.value.replace(/^.*\\/, ""); // renombrar archivo
     setdiName(fileNameEvent);
   };
   // licencia de conduccion
+  const [lcPath, setLcPath] = useState<File | null>();
   const handleLc = (e: ChangeEvent<HTMLInputElement>) => {
-    data.append('lc',e.target.files![0]);
+    setLcPath(e.target.files![0]);
+    console.log('lcPath: ', lcPath);
     const fileNameEvent = e.target.value.replace(/^.*\\/, ""); // renombrar archivo
     setLcName(fileNameEvent);
   };
   // Libreta Militar
+  const [lmPath, setLmPath] = useState<File | null>();
   const handleLm = (e: ChangeEvent<HTMLInputElement>) => {
-    data.append('lm',e.target.files![0]);
+    setLmPath(e.target.files![0]);
+    console.log('lmPath: ', lmPath);
     const fileNameEvent = e.target.value.replace(/^.*\\/, ""); // renombrar archivo
     setLmName(fileNameEvent);
   };
   // Documentos Vehiculo
+  const [dvPath, setDvPath] = useState<File | null>();
   const handleDv = (e: ChangeEvent<HTMLInputElement>) => {
-    data.append('dv',e.target.files![0]);
+    setDvPath(e.target.files![0]);
+    console.log('dvPath: ', dvPath);
     const fileNameEvent = e.target.value.replace(/^.*\\/, ""); // renombrar archivo
     setDvName(fileNameEvent);
   };
   // Documento Notario Propietario Vehiculo
+  const [dnpvPath, setDnpvPath] = useState<File | null>();
   const handleDnpv = (e: ChangeEvent<HTMLInputElement>) => {
-    data.append('dnpv',e.target.files![0]);
+    setDnpvPath(e.target.files![0]);
+    console.log('dnpvPath: ', dnpvPath);
     const fileNameEvent = e.target.value.replace(/^.*\\/, ""); // renombrar archivo
     setDnpvName(fileNameEvent);
   };
   // Documento Bachiller
+  const [dbPath, setDbPath] = useState<File | null>();
   const handleDb = (e: ChangeEvent<HTMLInputElement>) => {
-    data.append('db',e.target.files![0]);
+    setDbPath(e.target.files![0]);
+    console.log('dbPath: ', dbPath);
     const fileNameEvent = e.target.value.replace(/^.*\\/, ""); // renombrar archivo
     setDbName(fileNameEvent);
   };
   // Tecnica
+  const [tPath, setTPath] = useState<File | null>();
   const handleT = (e: ChangeEvent<HTMLInputElement>) => {
-    data.append('t',e.target.files![0]);
+    setTPath(e.target.files![0]);
+    console.log('tPath: ', tPath);
     const fileNameEvent = e.target.value.replace(/^.*\\/, ""); // renombrar archivo
     setTName(fileNameEvent);
   };
   // Tecnologia
+  const [tecPath, setTecPath] = useState<File | null>();
   const handleTec = (e: ChangeEvent<HTMLInputElement>) => {
-    data.append('tec',e.target.files![0]);
+    setTecPath(e.target.files![0]);
+    console.log('tecPath: ', tecPath);
     const fileNameEvent = e.target.value.replace(/^.*\\/, ""); // renombrar archivo
     setTecName(fileNameEvent);
   };
   // Profesional
+  const [ProfPath, setProfPath] = useState<File | null>();
   const handleProf = (e: ChangeEvent<HTMLInputElement>) => {
-    data.append('pro',e.target.files![0]);
+    setProfPath(e.target.files![0]);
+    console.log('ProfPath: ', ProfPath);
     const fileNameEvent = e.target.value.replace(/^.*\\/, ""); // renombrar archivo
     setProfName(fileNameEvent);
   };
   // posgrado
+  const [posgPath, setPosgPath] = useState<File | null>();
   const handlePosg = (e: ChangeEvent<HTMLInputElement>) => {
-    data.append('pos',e.target.files![0]);
+    setPosgPath(e.target.files![0]);
+    console.log('posgPath: ', posgPath);
     const fileNameEvent = e.target.value.replace(/^.*\\/, ""); // renombrar archivo
     setPosgName(fileNameEvent);
   };
   // Certificado Bancario
+  const [cbPath, setCbPath] = useState<File | null>();
   const handleCb = (e: ChangeEvent<HTMLInputElement>) => {
-    data.append('cb',e.target.files![0]);
+    setCbPath(e.target.files![0]);
+    console.log('cbPath: ', cbPath);
     const fileNameEvent = e.target.value.replace(/^.*\\/, ""); // renombrar archivo
     setCbName(fileNameEvent);
   };
   // Referencia Personal
+  const [rpPath, setRpPath] = useState<File | null>();
   const handleRp = (e: ChangeEvent<HTMLInputElement>) => {
-    data.append('rp',e.target.files![0]);
+    setRpPath(e.target.files![0]);
+    console.log('rpPath: ', rpPath);
     const fileNameEvent = e.target.value.replace(/^.*\\/, ""); // renombrar archivo
     setRpName(fileNameEvent);
   };
   // Referencia Academica
+  const [raPath, setRaPath] = useState<File | null>();
   const handleRa = (e: ChangeEvent<HTMLInputElement>) => {
-    data.append('ra',e.target.files![0]);
+    setRaPath(e.target.files![0]);
+    console.log('raPath: ', raPath);
     const fileNameEvent = e.target.value.replace(/^.*\\/, ""); // renombrar archivo
     setRaName(fileNameEvent);
   };
   // Referencias Laborales
+  const [rlPath, setRlPath] = useState<File | null>();
   const handleRl = (e: ChangeEvent<HTMLInputElement>) => {
-    data.append('rl',e.target.files![0]);
+    setRlPath(e.target.files![0]);
+    console.log('rlPath: ', rlPath);
     const fileNameEvent = e.target.value.replace(/^.*\\/, ""); // renombrar archivo
     setRlName(fileNameEvent);
   };
   // Verificacion de referencias laborales
+  const [vrlPath, setVrlPath] = useState<File | null>();
   const handleVrl = (e: ChangeEvent<HTMLInputElement>) => {
-    data.append('vrl',e.target.files![0]);
+    setVrlPath(e.target.files![0]);
+    console.log('vrlPath: ', vrlPath);
     const fileNameEvent = e.target.value.replace(/^.*\\/, ""); // renombrar archivo
     setVrlName(fileNameEvent);
   };
   // verificacion de referencias personales
+  const [vrpPath, setVrpPath] = useState<File | null>();
   const handleVrp = (e: ChangeEvent<HTMLInputElement>) => {
-    data.append('vrp',e.target.files![0]);
+    setVrpPath(e.target.files![0]);
+    console.log('vrpPath: ', vrpPath);
     const fileNameEvent = e.target.value.replace(/^.*\\/, ""); // renombrar archivo
     setVrpName(fileNameEvent);
   };
   // verificacion de referencias academicas
+  const [vraPath, setVraPath] = useState<File | null>();
   const handleVra = (e: ChangeEvent<HTMLInputElement>) => {
-    data.append('vra',e.target.files![0]);
+    setVraPath(e.target.files![0]);
+    console.log('vraPath: ', vraPath);
     const fileNameEvent = e.target.value.replace(/^.*\\/, ""); // renombrar archivo
     setVraName(fileNameEvent);
   };
 
   // ----------------------submit-----------------------//
-  const handleSubmit = (e:FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    data.append('test', "test")
-    console.log(data);
+    // console.log('object')
+    // console.log(cvPath);
+    // console.log(diPath);
+    // console.log(lcPath);
+    // console.log(lmPath);
     // axios.post("route", data, getHeaderMultipart())
   };
 
