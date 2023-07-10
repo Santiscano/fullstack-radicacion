@@ -132,9 +132,9 @@ const CreateEmployee:FC<Props> = ({ open, close }) => {
               {activeStep == 6 &&(<HealthSafetyWork/>)}
               {activeStep == 7 &&(<Beneficiary/>)}
               {activeStep == 8 &&(<Membership/>)}
-              {/* {activeStep == 9 &&(<SocialBenefit/>)} */}
-              {/* {activeStep == 10 &&(<Withdrawal/>)} */}
-              {/* {activeStep == 11 &&(<Deductions/>)} */}
+              {activeStep == 9 &&(<SocialBenefit/>)}
+              {activeStep == 10 &&(<Withdrawal/>)}
+              {activeStep == 11 &&(<Deductions/>)}
 
               {/* butons next - prev */}
               <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>

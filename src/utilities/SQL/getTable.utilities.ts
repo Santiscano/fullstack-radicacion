@@ -6,8 +6,10 @@ type SQLResposne = [OkPacket | ResultSetHeader | RowDataPacket[] | RowDataPacket
 
 // TRAER UNA FILA DE LA TABLA
 export const getOneRowTable = async (table: string, attribute: string, value: string | number ) => {
-    const [ data ]: SQLResposne = await connection.query(`SELECT * FROM ${ table } WHERE ${ attribute } = ?`, [ value ]);
-    return data;
+    console.log('value', value)
+    const [ data ]: SQLResposne = await connection.query(`SELECT * FROM ${ table } WHERE ${ attribute } = ?`, value);
+    // @ts-ignore
+    return data.shift();
 };
 
 // TRAER TODA LA INFORMACIÓN DE LA TABLA

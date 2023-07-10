@@ -1,5 +1,6 @@
 import { Router } from 'express';
-import { getEmployeeById, getEmployees } from '../controllers/GH/users.controller';
+// import { getEmployeeById, getEmployees } from '../controllers/GH/users.controller';
+import { getEmployees, getByIdEmployees, postEmployees, putEmployees, deleteEmployees } from '../controllers/GH/Employees.controller';
 import { employeeFilter } from '../controllers/GH/filter.controller';
 import { getAllPosition, postPosition, deletePosition } from "../controllers/GH/position.controller"
 import { getPersonalInformation, postPersonalInformation, putPersonalInformation, deletePersonalInformation } from '../controllers/GH/personal_information.controller';
@@ -10,12 +11,11 @@ import { validateApikey } from '../middleware/manage.apikey';
 
 const humanManagement = Router();
 
-
 humanManagement.get("/getEmployees", getEmployees);
-humanManagement.get("/getEmployeeById/:idusers", getEmployeeById );
-humanManagement.post("/postEmployee", );
-humanManagement.put("/putEmployee", );
-humanManagement.delete("/deleteEmployee", );
+humanManagement.get("/getEmployeeById/:id", getByIdEmployees );
+humanManagement.post("/postEmployee", postEmployees);
+humanManagement.put("/putEmployee", putEmployees);
+humanManagement.delete("/deleteEmployee", deleteEmployees);
 
 // INFORMACIÓN PERSONAL
 humanManagement.get('/getPersonalInformation', getPersonalInformation);                   // TRAER TODA LA INFORMACIÓN PERSONAL
