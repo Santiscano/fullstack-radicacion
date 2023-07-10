@@ -1,100 +1,72 @@
-import { Request, Response } from 'express';
-import { apiKeyValidate } from '../../utilities/apiKeyValidate.utilities';
-import { errorMessage, success, unauthorized, uncompleted, unsuccessfully } from '../../utilities/responses.utilities';
-import { postPersonalInformationModel, putPersonalInformationModel, deletePersonalInformationModel } from '../../models/GH/personal_information.model';
+import { Request, Response} from 'express';
 import { missingData } from '../../utilities/missingData.utilities';
-import { getAllRowsTable } from '../../utilities/SQL/getTable.utilities';
+import { errorMessage, success, uncompleted, unsuccessfully } from '../../utilities/responses.utilities';
+import { postPersonalInformationModel,  putPersonalInformationModel } from '../../models/GH/personal_information.model';
+import { TypePersonalInformation } from '../../interfaces/GH/personal_information.interface';
+import { getOneRowTable, getAllRowsTable } from '../../utilities/SQL/getTable.utilities';
+import { deleteRowTable } from '../../utilities/SQL/deleteTable.utilities';
 
-// TRAER INFORMACIÓN PERSONAL
+// TRAER TODOS LOS DATOS
 export const getPersonalInformation = async (req: Request, res: Response) => {
-    const { api_key } = req.headers;
-    try {
-        if (apiKeyValidate(api_key)) return res.status(401).json(unauthorized());
+    try{
         return res.status(200).json(success(await getAllRowsTable("personal_information")));
-    } catch (error) {
-        return res.status(512).json(unsuccessfully(error));
-    };
+    } catch(err) {
+        return res.status(512).json(unsuccessfully(err))
+    }
 };
 
-// CREAR INFORMACIÓN PERSONAL DE UN USUARIO
-export const postPersonalInformation = async (req:Request, res:Response) => {
-    const { api_key } = req.headers;
-    const { 
-        idusers, 
-        personal_information_family_compensation_fund, 
-        personal_information_pension, 
-        personal_information_layoffs, 
-        personal_information_eps, 
-        personal_information_arl, 
-        personal_information_medical_emergency, 
-        personal_information_arl_emergency, 
-        personal_information_rh, 
-        personal_information_academic_level, 
-        personal_information_birthdate, 
-        personal_information_gender, 
-        personal_information_civil_status, 
-        personal_information_city, 
-        personal_information_shirt_size, 
-        personal_information_pant_size, 
-        personal_information_shoe_size 
-    } = req.body;
-    const data = { idusers, personal_information_family_compensation_fund, personal_information_pension, personal_information_layoffs, personal_information_eps, personal_information_arl, personal_information_medical_emergency, personal_information_arl_emergency, personal_information_rh, personal_information_academic_level, personal_information_birthdate, personal_information_gender, personal_information_civil_status, personal_information_city, personal_information_shirt_size, personal_information_pant_size, personal_information_shoe_size }
-    try {
-        if (apiKeyValidate(api_key)) return res.status(401).json(unauthorized());
-        if (missingData(data).error) return res.status(422).json(uncompleted(missingData(data).missing));
-        const info = await postPersonalInformationModel(data);
-        info.data 
-            ? res.status(200).json(success(info.data))
-            : res.status(200).json(errorMessage(info.message!));
-    } catch (error) {
-        return res.status(512).json(unsuccessfully(error));
-    };
+// TRAER SEGUN ID
+export const getByIdPersonalInformation = async (req: Request, res: Response) => {
+    try{
+        // @ts-ignore
+        const dataById: any = await getOneRowTable("personal_information", "idpersonal_information", req.params.id);
+        console.log('dataById: ', dataById);
+        dataById.data
+            ? res.status(200).json(success(dataById.data, dataById.message))
+            : res.status(417).json(errorMessage(dataById.message));
+    } catch(err) {
+        return res.status(512).json(unsuccessfully(err))
+    }
 };
 
-// EDITAR LA INFORMACIÓN PERSONAL DE UN USUARIO
+// CREAR DATOS 
+export const postPersonalInformation = async (req: Request, res: Response) => {
+    const { idhiring, personal_information_residence_address, personal_information_residence_city, personal_information_phone, personal_information_cellphone, personal_information_email, personal_information_civil_status, personal_information_gender, personal_information_academic_level, personal_information_medical_emergency, personal_information_arl_emergency } = req.body;
+    const validate:TypePersonalInformation = { idhiring, personal_information_residence_address, personal_information_residence_city, personal_information_phone, personal_information_cellphone, personal_information_email, personal_information_civil_status, personal_information_gender, personal_information_academic_level, personal_information_medical_emergency, personal_information_arl_emergency };
+    const data:TypePersonalInformation = { idhiring, personal_information_residence_address, personal_information_residence_city, personal_information_phone, personal_information_cellphone, personal_information_email, personal_information_civil_status, personal_information_gender, personal_information_academic_level, personal_information_medical_emergency, personal_information_arl_emergency };
+    try{
+        const missing = missingData(validate);
+        if(missing.error) return res.status(422).json(uncompleted(missing.missing));
+        const postData = await postPersonalInformationModel(data);
+        postData.data
+            ? res.status(200).json(success(postData.data, postData.message))
+            : res.status(417).json(errorMessage(postData.message))
+    } catch(err) {
+        return res.status(512).json(unsuccessfully(err))
+    }
+};
+    
+// ACTUALIZAR DATOS 
 export const putPersonalInformation = async (req: Request, res: Response) => {
-    const { api_key } = req.headers;
-    const { 
-        idusers, 
-        personal_information_family_compensation_fund, 
-        personal_information_pension, 
-        personal_information_layoffs, 
-        personal_information_eps, 
-        personal_information_arl, 
-        personal_information_medical_emergency, 
-        personal_information_arl_emergency, 
-        personal_information_rh, 
-        personal_information_academic_level, 
-        personal_information_birthdate, 
-        personal_information_gender, 
-        personal_information_civil_status, 
-        personal_information_city, 
-        personal_information_shirt_size, 
-        personal_information_pant_size, 
-        personal_information_shoe_size 
-    } = req.body;
-    const data = { idusers, personal_information_family_compensation_fund, personal_information_pension, personal_information_layoffs, personal_information_eps, personal_information_arl, personal_information_medical_emergency, personal_information_arl_emergency, personal_information_rh, personal_information_academic_level, personal_information_birthdate, personal_information_gender, personal_information_civil_status, personal_information_city, personal_information_shirt_size, personal_information_pant_size, personal_information_shoe_size }
-    try {
-        if (apiKeyValidate(api_key)) return res.status(401).json(unauthorized());
-        if (missingData(data).error) return res.status(422).json(uncompleted(missingData(data).missing));
-        const info = await putPersonalInformationModel(data);
-        info.data
-            ? res.status(200).json(success(info.data, info.message))
-            : res.status(200).json(errorMessage(info.message!))
-    } catch (error) {
-        return res.status(512).json(unsuccessfully(error));
-    };
+    const { idpersonal_information, idhiring, personal_information_residence_address, personal_information_residence_city, personal_information_phone, personal_information_cellphone, personal_information_email, personal_information_civil_status, personal_information_gender, personal_information_academic_level, personal_information_medical_emergency, personal_information_arl_emergency }= req.body;
+    const data:TypePersonalInformation = { idpersonal_information, idhiring, personal_information_residence_address, personal_information_residence_city, personal_information_phone, personal_information_cellphone, personal_information_email, personal_information_civil_status, personal_information_gender, personal_information_academic_level, personal_information_medical_emergency, personal_information_arl_emergency };
+    try{
+        const missing = missingData(data);
+        if(missing.error) return res.status(422).json(uncompleted(missing.missing));
+        const putData = await putPersonalInformationModel(data);
+        putData.data
+            ? res.status(200).json(success(putData.data, putData.message))
+            : res.status(417).json(errorMessage(putData.message));
+    } catch(err) {
+        return res.status(512).json(unsuccessfully(err))
+    }
 };
-
-// ELIMINAR LA INFORMACIÓN PERSONAL DE UN USUARIO
+    
+// ELIMINAR DATOS 
 export const deletePersonalInformation = async (req: Request, res: Response) => {
-    const { api_key } = req.headers;
-    const { idusers } = req.body;
-    try {
-        if (apiKeyValidate(api_key)) return res.status(401).json(unauthorized());
-        if (missingData({idusers}).error) return res.status(422).json(uncompleted(missingData({idusers}).missing));
-        return res.status(200).json(success(undefined, (await deletePersonalInformationModel(idusers)).message));
-    } catch (error) {
-        return res.status(512).json(unsuccessfully(error));
-    };
+    try{
+        return res.status(200).json(success(undefined, (await deleteRowTable("personal_information", "idpersonal_information", req.params.id)).message));
+    } catch(err) {
+        return res.status(512).json(unsuccessfully(err))
+    }
 };

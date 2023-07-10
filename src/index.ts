@@ -77,7 +77,7 @@ app.set("port", process.env.LOCAL_PORT || 3000);
 app.use('/', router);
 app.use('/sig/', routerSig);
 app.use('/eControl/', routerEControl);
-router.use('/gh/', humanManagement);
+router.use('/gh', humanManagement);
 
 // SIMPLISTICS ROUTES
 router.use('/luci/', routerSimplistics);   
