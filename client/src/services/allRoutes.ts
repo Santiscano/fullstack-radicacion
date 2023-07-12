@@ -136,6 +136,7 @@ export default {
       personalInformation: {},
       positionCompany: {},
       usersFolders: {},
+
     },
   },
 };

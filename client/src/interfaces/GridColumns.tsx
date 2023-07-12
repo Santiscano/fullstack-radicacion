@@ -569,11 +569,11 @@ export const columnsEmployee = [
       return (
         <Button
           variant="contained"
-          color="error"
-          disabled
+          color="warning"
+          // disabled
           // disabled={valor en true para desabilitar}
         >
-          Aprobado
+          Aprobar
         </Button>
       )
     },

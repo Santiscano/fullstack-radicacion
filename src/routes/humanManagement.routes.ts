@@ -68,13 +68,13 @@ humanManagement.get("/getHiringById/:id", getByIdHiring);
 humanManagement.post("/postHiring", postHiring);
 humanManagement.put("/putHiring", putHiring);
 humanManagement.delete("/deleteHiring/:id", deleteHiring);
-// PERSONAL_INFORMATION --
+// PERSONAL_INFORMATION 
 humanManagement.get('/getPersonalInformation', getPersonalInformation);                   // TRAER TODA LA INFORMACIÓN PERSONAL
 humanManagement.get('/getPersonalInformationById/:id', getByIdPersonalInformation);                   // TRAER TODA LA INFORMACIÓN PERSONAL
 humanManagement.post('/postPersonalInformation/', postPersonalInformation);                // CREAR LA INFORMACIÓN PERSONAL SEGÚN UN USUARIO
 humanManagement.put('/putPersonalInformation', putPersonalInformation);                   // EDITAR LA INFORMACIÓN PERSONAL SEGÚN UN USUARIO
 humanManagement.delete('/deletePersonalInformation/:id', deletePersonalInformation);            // ELIMINAR LA INFORMACIÓN PERSONAL DE UN USUARIO
-// POSITION_COMPANY --
+// POSITION_COMPANY
 humanManagement.get("/getPositions", getPositionCompany);
 humanManagement.get("/getPositionById/:id", getByIdPositionCompany);
 humanManagement.post("/postPosition", postPositionCompany);
@@ -86,5 +86,7 @@ humanManagement.get("/getUserFolderById/:id", getByIdUsersFolders);
 humanManagement.post("/postUserFolder", postUsersFolders);
 humanManagement.put("/putUserFolder", putUsersFolders);
 humanManagement.delete("/deleteUserFolder/:id", deleteUsersFolders);
+
+// 
 
 export default humanManagement;

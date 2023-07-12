@@ -30,9 +30,9 @@ export const getByIdHiring = async (req: Request, res: Response) => {
 
 // CREAR DATOS 
 export const postHiring = async (req: Request, res: Response) => {
-    const { idemployees, idposition_company, idcompanys, hiring_entry_date, hiring_departure_date, hiring_salary, hiring_cost_center, hiring_eps, hiring_pension, hiring_family_compensation_fund, hiring_layoffs, hiring_arl, hiring_shirt_size, hiring_pant_size, hiring_shoe_size, hiring_status, hiring_revision } = req.body;
-    const validate:TypeHiring = { idemployees, idposition_company, idcompanys, hiring_entry_date, hiring_departure_date, hiring_salary, hiring_cost_center, hiring_eps, hiring_pension, hiring_family_compensation_fund, hiring_layoffs, hiring_arl, hiring_shirt_size, hiring_pant_size, hiring_shoe_size, hiring_status, hiring_revision };
-    const data:TypeHiring = { idemployees, idposition_company, idcompanys, hiring_entry_date, hiring_departure_date, hiring_salary, hiring_cost_center, hiring_eps, hiring_pension, hiring_family_compensation_fund, hiring_layoffs, hiring_arl, hiring_shirt_size, hiring_pant_size, hiring_shoe_size, hiring_status, hiring_revision };
+    const { idemployees, idposition_company, idcompanys, hiring_entry_date, hiring_departure_date, hiring_salary, hiring_cost_center, hiring_eps, hiring_pension, hiring_family_compensation_fund, hiring_layoffs, hiring_arl, hiring_shirt_size, hiring_pant_size, hiring_shoe_size, hiring_status, hiring_revision_entry, hiring_revision_departure } = req.body;
+    const validate:TypeHiring = { idemployees, idposition_company, idcompanys, hiring_entry_date, hiring_departure_date, hiring_salary, hiring_cost_center, hiring_eps, hiring_pension, hiring_family_compensation_fund, hiring_layoffs, hiring_arl, hiring_shirt_size, hiring_pant_size, hiring_shoe_size };
+    const data:TypeHiring = { idemployees, idposition_company, idcompanys, hiring_entry_date, hiring_departure_date, hiring_salary, hiring_cost_center, hiring_eps, hiring_pension, hiring_family_compensation_fund, hiring_layoffs, hiring_arl, hiring_shirt_size, hiring_pant_size, hiring_shoe_size, hiring_status, hiring_revision_entry, hiring_revision_departure };
     try{
         const missing = missingData(validate);
         if(missing.error) return res.status(422).json(uncompleted(missing.missing));
@@ -47,10 +47,11 @@ export const postHiring = async (req: Request, res: Response) => {
     
 // ACTUALIZAR DATOS 
 export const putHiring = async (req: Request, res: Response) => {
-    const { idhiring, idemployees, idposition_company, idcompanys, hiring_entry_date, hiring_departure_date, hiring_salary, hiring_cost_center, hiring_eps, hiring_pension, hiring_family_compensation_fund, hiring_layoffs, hiring_arl, hiring_shirt_size, hiring_pant_size, hiring_shoe_size, hiring_status, hiring_revision }= req.body;
-    const data:TypeHiring = { idhiring, idemployees, idposition_company, idcompanys, hiring_entry_date, hiring_departure_date, hiring_salary, hiring_cost_center, hiring_eps, hiring_pension, hiring_family_compensation_fund, hiring_layoffs, hiring_arl, hiring_shirt_size, hiring_pant_size, hiring_shoe_size, hiring_status, hiring_revision };
+    const { idhiring, idemployees, idposition_company, idcompanys, hiring_entry_date, hiring_departure_date, hiring_salary, hiring_cost_center, hiring_eps, hiring_pension, hiring_family_compensation_fund, hiring_layoffs, hiring_arl, hiring_shirt_size, hiring_pant_size, hiring_shoe_size, hiring_status, hiring_revision_entry }= req.body;
+    const validate:TypeHiring = { idemployees, idposition_company, idcompanys, hiring_entry_date, hiring_salary, hiring_cost_center, hiring_eps, hiring_pension, hiring_family_compensation_fund, hiring_layoffs, hiring_arl, hiring_shirt_size, hiring_pant_size, hiring_shoe_size };
+    const data:TypeHiring = { idhiring, idemployees, idposition_company, idcompanys, hiring_entry_date, hiring_departure_date, hiring_salary, hiring_cost_center, hiring_eps, hiring_pension, hiring_family_compensation_fund, hiring_layoffs, hiring_arl, hiring_shirt_size, hiring_pant_size, hiring_shoe_size, hiring_status, hiring_revision_entry };
     try{
-        const missing = missingData(data);
+        const missing = missingData(validate);
         if(missing.error) return res.status(422).json(uncompleted(missing.missing));
         const putData = await putHiringModel(data);
         putData.data
