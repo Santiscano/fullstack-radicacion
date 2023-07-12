@@ -1,8 +1,8 @@
 import { GridColDef } from "@mui/x-data-grid";
-import { formattedAmount } from "../Utilities/formatted.utility";
+import { formattedAmount, AgeToBirthday } from "../Utilities/formatted.utility";
 import { width } from "@mui/system";
 import ButtonModalUsersTable from "../Layout/Ti/components/common/ButtonModalUsersTable";
-import { Avatar, Stack, Typography } from "@mui/material";
+import { Avatar, Button, Stack, Typography } from "@mui/material";
 import avatarIcon from '../assets/images/avatars/avatar_1.jpg';
 
 // const columns = () => {}
@@ -504,19 +504,94 @@ export const columnsProvider: GridColDef[] = [
 ];
 export const columnsEmployee = [
   {
-    field: "users_name",
-    headerName: "Nombre Usuario",
-    width: 170,
+    field: "employees_photo_path",
+    headerName: "Foto",
+    width: 70,
     renderCell: (cellValues: any) => {
-      console.log('cellValues: ', cellValues);
-      const { users_name, avatarUrl } = cellValues.row;
+      const { employees_photo_path, employees_name,  } = cellValues.row;
       return (
         <Stack direction="row" alignItems="center" spacing={2}>
-          <Avatar alt={users_name} src={avatarIcon} />
-          <Typography variant="h6" noWrap>{users_name}</Typography>
+          <Avatar alt={employees_name} src={employees_photo_path !== null ? employees_photo_path : avatarIcon} />
         </Stack>
       )
     },
   },
-
+  {
+    field: "employees_name",
+    headerName: "Nombres",
+    width: 120,
+  },
+  {
+    field: "employees_lastname",
+    headerName: "Apellidos",
+    width: 120,
+  },
+  {
+    field: "employees_identification_type",
+    headerName: "Tipo Documento",
+    width: 160,
+  },
+  {
+    field: "employees_identification",
+    headerName: "Numero Documento",
+    width: 140,
+  },
+  {
+    field: "employees_rh",
+    headerName: "RH",
+    width: 85,
+  },
+  {
+    field: "employees_birthdate_date",
+    headerName: "Edad",
+    width: 85,
+    valueFormatter : (params:any) => AgeToBirthday(params.value)
+  },
+  {
+    field: "hiring_status",
+    filterable: false,
+    headerName: "Estado",
+    renderCell: (cellValues: any) => {
+      // const { hiring_status } = cellValues.row;
+      const hiring_status = "ACTIVO"
+      return (
+        <Button variant="contained" color={hiring_status === "ACTIVO" ? "success" : "error"}>
+          {hiring_status}
+        </Button>
+      )
+    },
+  },
+  {
+    field: "aut",
+    headerName: "Auditoria",
+    renderCell: (cellValues:any) => {
+      const {} = cellValues.row;
+      return (
+        <Button
+          variant="contained"
+          color="error"
+          disabled
+          // disabled={valor en true para desabilitar}
+        >
+          Aprobado
+        </Button>
+      )
+    },
+  },
+  {
+    field: "out",
+    headerName: "Retirar",
+    renderCell: (cellValues: any) => {
+      const {} = cellValues.row;
+      return (
+        <Button
+          variant="contained"
+          color="error"
+          // onClick={funcion que saque modal y pida confirmacion, y la confirmacion debe convertir este botton en nuevo contrato}
+        >
+          Retiro
+        </Button>
+      )
+    },
+  },
 ];

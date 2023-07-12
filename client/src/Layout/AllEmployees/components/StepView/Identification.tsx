@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useState, FC } from "react";
 import { useAppSelector } from "../../../../redux/hooks/useStore";
 import PersonIcon from "@mui/icons-material/Person";
 // images
@@ -24,7 +24,7 @@ import { useEmployee } from "../../../../redux/Redux-actions/useEmployee";
 import axios from "axios";
 import { getHeaderMultipart } from "../../../../components/tools/SesionSettings";
 //
-const Identification = () => {
+const Identification: FC<{handleNext:()=>void}> = ({handleNext}) => {
   // imports globals
   const employee = useAppSelector((state) => state.employeesSlice);
   const { setCvName, setdiName, setLcName, setLmName, setDvName, setDnpvName, setDbName, setTName, setTecName, setProfName,setPosgName,

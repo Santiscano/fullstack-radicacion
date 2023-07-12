@@ -1,3 +1,4 @@
+import { FC, useState } from "react";
 import { useEmployee } from "../../../../redux/Redux-actions/useEmployee";
 import { useAppSelector } from "../../../../redux/hooks/useStore";
 import TextFieldOutlined from "../../../../components/common/TextFieldOutline";
@@ -8,9 +9,8 @@ import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { useState } from "react";
 
-const Contratación = () => {
+const Contratación: FC<{handleNext:()=>void}> = ({handleNext}) => {
   const [locale, setlocale] = useState("es");
   const user = useAppSelector((state) => state.employeesSlice);
   const {

@@ -9,7 +9,7 @@ import { optionAcademicLevel, optionCivilStatus, optionRH } from "../../../../co
 import useNewEmployee from "../../hooks/useNewEmployee";
 
 
-const SociodemographicProfile: FC = () => {
+const SociodemographicProfile: FC<{handleNext:()=>void}> = ({handleNext}) => {
   const user = useAppSelector((state) => state.employeesSlice);
   const {  } = useNewEmployee();
   const { setProfilePlaceBirth, setProfileTransportationHelp, setProfileConnectivityHelp, setProfileOthersContractsCompany,

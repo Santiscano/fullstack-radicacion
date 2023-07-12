@@ -1,3 +1,5 @@
+import { differenceInYears, parseISO } from 'date-fns';
+
 /**
  * metodo para formatear los numeros a dinero "COP"
  * @param amount numero a formatear
@@ -116,3 +118,29 @@ export const dividerURL = (url:any) => {
     return capturedString;
   }
 }
+
+/**
+ * toma la fecha de nacimiento y da su edad actual, necesita la libreria date-fns
+ * @returns age
+ */
+export const  AgeToBirthdayWithFNS = (birthDate:string) => {
+  const dateNow = new Date();
+  const dateBirthDay = parseISO(birthDate);
+  const age = differenceInYears(dateNow, dateBirthDay);
+  console.log('age: ', age);
+  return age;
+};
+
+export const AgeToBirthday = (birthDate:string) => {
+  const dateNow = new Date();
+  const dateBirthDay = new Date(birthDate);
+
+  let age = dateNow.getFullYear() - dateBirthDay.getFullYear();
+  const currentMonth = dateNow.getMonth();
+  const birthMonth = dateBirthDay.getMonth();
+
+  if (currentMonth < birthMonth || (currentMonth === birthMonth && dateNow.getDate() < dateBirthDay.getDate())) {
+    age--;
+  }
+  return `${age} años`;
+};

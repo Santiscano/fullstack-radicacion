@@ -107,34 +107,19 @@ const CreateEmployee:FC<Props> = ({ open, close }) => {
             </>
           ) : (
             <>
-              {/* butons next - prev */}
-              <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-                <Button
-                  color="inherit"
-                  disabled={activeStep === 0}
-                  onClick={handleBack}
-                  sx={{ mr: 1 }}
-                >
-                  Atrás
-                </Button>
-                <Box sx={{ flex: '1 1 auto' }} />
-                <Button onClick={handleNext}>
-                  {activeStep === steps.length - 1 ? 'Finalizar' : 'Siguiente'}
-                </Button>
-              </Box>
               {/* list steeps */}
-              {activeStep == 0 &&(<General/>)}
-              {activeStep == 1 &&(<Contratación/>)}
-              {activeStep == 2 &&(<PersonalInformation/>)}
-              {activeStep == 3 &&(<SociodemographicProfile/>)}
-              {activeStep == 4 &&(<Identification/>)}
-              {activeStep == 5 &&(<Hiring/>)}
-              {activeStep == 6 &&(<HealthSafetyWork/>)}
-              {activeStep == 7 &&(<Beneficiary/>)}
-              {activeStep == 8 &&(<Membership/>)}
-              {activeStep == 9 &&(<SocialBenefit/>)}
-              {activeStep == 10 &&(<Withdrawal/>)}
-              {activeStep == 11 &&(<Deductions/>)}
+              {activeStep == 0 &&(<General handleNext={handleNext}/>)}
+              {activeStep == 1 &&(<Contratación handleNext={handleNext}/>)}
+              {activeStep == 2 &&(<PersonalInformation handleNext={handleNext}/>)}
+              {activeStep == 3 &&(<SociodemographicProfile handleNext={handleNext}/>)}
+              {activeStep == 4 &&(<Identification handleNext={handleNext}/>)}
+              {/* {activeStep == 5 &&(<Hiring/>)} */}
+              {/* {activeStep == 6 &&(<HealthSafetyWork/>)} */}
+              {/* {activeStep == 7 &&(<Beneficiary/>)} */}
+              {/* {activeStep == 8 &&(<Membership/>)} */}
+              {/* {activeStep == 9 &&(<SocialBenefit/>)} */}
+              {/* {activeStep == 10 &&(<Withdrawal/>)} */}
+              {/* {activeStep == 11 &&(<Deductions/>)} */}
 
               {/* butons next - prev */}
               <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>

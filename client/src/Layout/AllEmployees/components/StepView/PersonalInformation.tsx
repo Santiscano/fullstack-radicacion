@@ -1,10 +1,11 @@
+import { FC } from "react";
 import InputSelect from "../../../../components/common/InputSelect";
 import TextFieldOutlined from "../../../../components/common/TextFieldOutline";
 import { optionAcademicLevel, optionCivilStatus, optionRH } from "../../../../components/tools/OptionsValuesSelects";
 import { useEmployee } from "../../../../redux/Redux-actions/useEmployee";
 import { useAppSelector } from "../../../../redux/hooks/useStore";
 
-const PersonalInformation = () => {
+const PersonalInformation: FC<{handleNext:()=>void}> = ({handleNext}) => {
   const user = useAppSelector((state) => state.employeesSlice);
   const {
     setResidenceMunicipality,

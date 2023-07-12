@@ -70,7 +70,8 @@ export default function NewEmployeeTest() {
   const { openModalCreateEmployee, handleCloseModal, handleOpenModal } = useNewEmployee();
 
   const handleGetEmployees = async () => {
-    const res = await axios.get(allRoutes.sig.humanManagement.getEmployees, getHeader());
+    const res = await axios.get(allRoutes.sig.humanManagement.employees.getEmployees, getHeader());
+    console.log('res: ', res);
     setRows(res.data.data);
   };
 
@@ -117,7 +118,8 @@ export default function NewEmployeeTest() {
           <Box sx={{ height: "83%", width: "97%", margin: "auto" }}>
             <DataGrid
               rows={rows}
-              getRowId={(row) => row.idusers}
+              getRowId={(row) => row.idemployees}
+              // @ts-ignore
               columns={columnsEmployee}
               onRowDoubleClick={handleView}
               rowsPerPageOptions={[5, 10, 25, 50, 100]}
