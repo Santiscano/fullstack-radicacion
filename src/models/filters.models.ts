@@ -250,7 +250,7 @@ export const pendingReportModel = async (type: string) => {
         LEFT JOIN files_states FS ON FS.idfiles_states = F.idfiles_states
 WHERE
     F.files_type = ?
-    AND F.idfiles_states <> 6
+    AND F.idfiles_states <> 6 AND F.idfiles_states <> 8 AND F.idfiles_states <> 11 
     AND T.idfiles_states = 1;`,
         [type]
     );
